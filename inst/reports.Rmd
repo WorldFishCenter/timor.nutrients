@@ -1,0 +1,94 @@
+---
+title: "reports"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE)
+```
+
+```{r, include=FALSE}
+# libraries
+library(ggplot2)
+library(magrittr)
+library(tidytext)
+
+setwd("../..")
+pars <- peskas.timor.data.pipeline::read_config()
+
+# get data
+  public_files <- 
+    c("timor_aggregated", "timor_trips", "timor_catch", "timor_taxa_aggregated") %>% 
+    purrr::map(., ~ peskas.timor.data.pipeline::cloud_object_name(
+      prefix = .x,   
+      version = "latest",
+      extension = "rds",
+      provider = pars$public_storage$google$key,
+      options = pars$public_storage$google$options
+      )) %>%
+    do.call("rbind", .) %>%
+    as.character() %>%
+    unique() %>%
+    purrr::walk(.,
+                peskas.timor.data.pipeline::download_cloud_file,
+                provider = pars$public_storage$google$key,
+                options = pars$public_storage$google$options
+                )
+  
+taxa_aggregated <- readRDS(list.files(pattern = "taxa_aggregated"))
+aggregated <- readRDS(list.files(pattern = "timor_aggregated"))
+trips <- readRDS(list.files(pattern = "timor_trips"))
+catch <- readRDS(list.files(pattern = "timor_catch"))
+metadata <- peskas.timor.data.pipeline::get_preprocessed_metadata(pars)
+nutrient_table <- peskas.timor.data.pipeline::get_nutrients_table(pars) 
+
+catch_types <- readRDS(list.files(pattern = "metadata"))$catch_types %>%
+  dplyr::filter(!catch_name_en %in% c("Herring", "Unknown", "Surgeonfish")) %>% # remove duplicates
+  dplyr::select(
+    "catch_taxon" = interagency_code,
+    "Taxonomic rank (family)" = catch_family,
+    "Common name" = catch_name_en
+  )
+
+file.remove(c(public_files,
+              list.files(pattern = "metadata"),
+              list.files(pattern = "merged"),
+              list.files(pattern = "rfish")))
+
+catch <-
+  catch_types %>%
+  dplyr::select(catch_taxon,
+    comm_name = "Common name"
+  ) %>%
+  dplyr::right_join(catch, by = "catch_taxon") %>%
+  dplyr::ungroup()
+
+# palettes
+year_palette <- rev(c("#bda639", "#1b5767", "#629a9b", "#c51f5d", "#92684d"))
+catch_use_palette <- rev(c("#9f8985", "#87bdbc", "#dbdbc9"))
+
+# help functions
+label_date <- function(x) {
+  format(x, "%b") %>%
+    stringr::str_replace("Jan", paste0("Jan\n", format(x, "%Y")))
+}
+
+# useful data
+temp_range <- paste(zoo::as.yearmon(min(aggregated$month$date_bin_start, na.rm = TRUE)),
+  zoo::as.yearmon(max(aggregated$month$date_bin_start, na.rm = TRUE)),
+  sep = " - "
+)
+
+total_value <- sum(trips$landing_value, na.rm = TRUE)
+total_weight <- sum(catch$weight, na.rm = TRUE)
+
+
+RDI_Protein <- pars$metadata$nutrients$RDI$name$protein
+RDI_VitaminA <- pars$metadata$nutrients$RDI$name$vitaminA
+RDI_Calcium <- pars$metadata$nutrients$RDI$name$calcium
+RDI_Selenium <- pars$metadata$nutrients$RDI$name$selenium
+RDI_Zinc <- pars$metadata$nutrients$RDI$name$zinc
+RDI_Iron <- pars$metadata$nutrients$RDI$name$iron
+RDI_Omega <- pars$metadata$nutrients$RDI$name$omega3
+
+```
