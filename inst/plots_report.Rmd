@@ -1,0 +1,53 @@
+---
+title: "Modelling scenarios for nutrient-sensitive fisheries management"
+date: "Last compiled on `r Sys.time()`"
+mainfont: Montserrat
+geometry: "left=3cm,right=3cm,top=2cm,bottom=2cm"
+output:
+  bookdown::pdf_book:
+    latex_engine: lualatex
+    toc: yes
+    toc_depth: 2
+    number_sections: true
+  bookdown::epub_book:
+    number_sections: true
+    toc: true
+  bookdown::gitbook:
+    lib_dir: assets
+    split_by: section
+    config:
+      toolbar:
+        position: static
+      download: ["plots_report.pdf", "plots_report.epub"]
+header-includes: 
+  - \usepackage{float} 
+  - \floatplacement{figure}{H}
+  - \usepackage{leading}
+  - \leading{16pt}
+  - \definecolor{myblue}{RGB}{68,117,151}
+  - \let\counterwithout\relax
+  - \let\counterwithin\relax
+  - \usepackage{chngcntr}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE)
+```
+
+```{r, include=FALSE}
+# libraries
+library(ggplot2)
+library(magrittr)
+library(tidytext)
+
+catch <- Timor.nutrients::catch
+trips <- Timor.nutrients::trips
+```
+
+```{r echo=FALSE, fig.height=4, fig.width=10, message=FALSE, warning=FALSE, out.height="100%",out.width="100%"}
+
+plot(catch$weight,type="l")
+
+```
+
+
