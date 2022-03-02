@@ -1,3 +1,8 @@
+## Authentication
+auth/*
+.env*
+
+## R & Rstudio
 .Rproj.user
 .Rhistory
 .RData

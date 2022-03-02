@@ -1,0 +1,8 @@
+default:
+  storage:
+    google:
+      key: gcs
+      options:
+        project: peskas
+        bucket: public-timor
+        service_account_key: !expr readLines("auth/gcp-sa-peskas_ingestion-key.json")
