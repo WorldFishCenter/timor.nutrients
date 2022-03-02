@@ -206,15 +206,22 @@ download_cloud_file <- function(name, provider, options, file = name){
 }
 
 get_file <- function(prefix){
+
+  if(prefix == "metadata-tables_preprocessed"){
+    options = pars$storage$google$options
+  } else {
+    options = pars$public_storage$google$options
+  }
+
   filename <- cloud_object_name(
     prefix = prefix,
     provider = pars$storage$google$key,
     extension = "rds",
-    options = pars$storage$google$options,
+    options = options,
     exact_match = TRUE)
   download_cloud_file(name = filename,
                       provider = pars$storage$google$key,
-                      options = pars$storage$google$options)
+                      options = options)
 
   x <- readRDS(filename)
   file.remove(filename)
@@ -225,9 +232,11 @@ get_file <- function(prefix){
 }
 
 # Download file
-#pars <- config::get(file = "inst/golem-config.yml")
 trips <- get_file("timor_trips")
 catch <- get_file("timor_catch")
+metadata <- get_file("metadata-tables_preprocessed")
 
 usethis::use_data(trips, overwrite = TRUE)
 usethis::use_data(catch, overwrite = TRUE)
+usethis::use_data(metadata, overwrite = TRUE)
+
