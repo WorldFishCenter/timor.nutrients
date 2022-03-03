@@ -5,7 +5,6 @@ mainfont: Montserrat
 geometry: "left=3cm,right=3cm,top=2cm,bottom=2cm"
 output:
   bookdown::pdf_book:
-    latex_engine: lualatex
     toc: yes
     toc_depth: 2
     number_sections: true
@@ -39,15 +38,100 @@ knitr::opts_chunk$set(cache = FALSE)
 library(ggplot2)
 library(magrittr)
 library(tidytext)
+library(timetk)
+
 
 catch <- Timor.nutrients::catch
 trips <- Timor.nutrients::trips
+metadata <- Timor.nutrients::metadata
+
+catch_types <- metadata$catch_types %>%
+  dplyr::filter(!catch_name_en %in% c("Herring", "Unknown", "Surgeonfish")) %>% # remove duplicates
+  dplyr::select(
+    "catch_taxon" = interagency_code,
+    "Taxonomic rank (family)" = catch_family,
+    "Common name" = catch_name_en
+  )
+
+setwd("../..")
+pars <- Timor.nutrients::read_config()
+
+RDI_Protein <- pars$nutrients$RDI$protein
+RDI_VitaminA <- pars$nutrients$RDI$vitaminA
+RDI_Calcium <- pars$nutrients$RDI$calcium
+RDI_Selenium <- pars$nutrients$RDI$selenium
+RDI_Zinc <- pars$nutrients$RDI$zinc
+RDI_Iron <- pars$nutrients$RDI$iron
+RDI_Omega <- pars$nutrients$RDI$omega3
 ```
 
-```{r echo=FALSE, fig.height=4, fig.width=10, message=FALSE, warning=FALSE, out.height="100%",out.width="100%"}
 
-plot(catch$weight,type="l")
+# Data pipeline
 
+```{r, echo=FALSE, message=FALSE, warning=FALSE, out.height="80px",fig.align='left'}
+knitr::include_graphics(system.file("pipeline.png", package = "Timor.nutrients"))
 ```
 
+# Nutrients seasonality
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6}
+landings <-
+  trips %>%
+  dplyr::select(trip_id,landing_date,landing_catch,reporting_region,habitat,n_gleaners) %>%
+  tidyr::unnest(landing_catch, keep_empty = TRUE) %>%
+  tidyr::unnest(length_frequency, keep_empty = TRUE) %>%
+  dplyr::filter(weight > 0 & landing_date >= "2019-01-01" & landing_date < lubridate::floor_date(Sys.Date() - 30)) %>%
+  dplyr::select(-c(catch_purpose,length_type,length,individuals)) %>% 
+    dplyr::rename(
+    Selenium = .data$Selenium_mu,
+    Zinc = .data$Zinc_mu,
+    Calcium = .data$Calcium_mu,
+    Iron = .data$Iron_mu,
+    "Vitamin A"= .data$Vitamin_A_mu,
+    "Omega-3" = .data$Omega_3_mu,
+    Protein = .data$Protein_mu)
+
+
+# no-nutrients groups: c("GZP", "OCZ", "PEZ", "CRA", "SLV", "COZ", "CUX")
+
+landings_tot <-
+  landings %>%
+  dplyr::group_by(trip_id) %>%
+  dplyr::summarise(
+    landing_date = dplyr::first(.data$landing_date),
+    reporting_region = dplyr::first(.data$reporting_region),
+    habitat = dplyr::first(.data$habitat),
+    weight = sum(weight, na.rm = TRUE),
+    dplyr::across(c(.data$Selenium:.data$`Vitamin A`), ~ sum(.x))
+  ) %>%
+  dplyr::ungroup()
+
+
+landings_tot %>%
+  dplyr::select(landing_date,trip_id, reporting_region, weight : `Vitamin A`) %>%
+  dplyr::filter(!is.na(reporting_region)) %>%
+  dplyr::group_by(reporting_region, landing_date) %>%
+  dplyr::summarise(n_landings = dplyr::n(),
+                   weight = (sum(weight,na.rm=TRUE)/1000 / n_landings),
+                   dplyr::across(c(.data$Selenium:.data$`Vitamin A`), ~ sum(.x, na.rm=TRUE) / n_landings)) %>% 
+  dplyr::filter(!is.na(reporting_region)) %>%
+  dplyr::group_by(reporting_region, landing_date) %>%
+  dplyr::summarise(n_landings = dplyr::n(),
+                   weight = (sum(weight,na.rm=TRUE)/1000 / n_landings),
+                   dplyr::across(c(.data$Selenium:.data$`Vitamin A`), ~ sum(.x, na.rm=TRUE) / n_landings)) %>%
+  timetk::summarise_by_time(.date_var = landing_date,
+                            .by = "1 month",
+                            .type = "floor",
+                            .week_start = 1,
+                            weight = median(weight, na.rm=TRUE),
+                            dplyr::across(c(.data$Selenium:.data$`Vitamin A`), ~ sum(.x, na.rm=TRUE))) %>% 
+  dplyr::select(-weight) %>% 
+  tidyr::pivot_longer(-c(reporting_region,landing_date)) %>% 
+  ggplot(aes(as.factor(lubridate::month(landing_date)), value))+
+  facet_wrap(.~name,ncol=3,scales="free")+
+  geom_boxplot(alpha=0.4, fill = "#406372")+
+  theme_minimal(8)+
+  labs(x="month", y="")
+
+```
 
