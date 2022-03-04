@@ -39,6 +39,7 @@ library(ggplot2)
 library(magrittr)
 library(tidytext)
 library(timetk)
+library(wesanderson)
 
 
 catch <- Timor.nutrients::catch
@@ -63,8 +64,26 @@ RDI_Selenium <- pars$nutrients$RDI$selenium
 RDI_Zinc <- pars$nutrients$RDI$zinc
 RDI_Iron <- pars$nutrients$RDI$iron
 RDI_Omega <- pars$nutrients$RDI$omega3
-```
 
+label_date <- function(x) {
+  format(x, "%b") %>%
+    stringr::str_replace("Jan", paste0("Jan\n", format(x, "%Y")))
+}
+
+add_units <- function(x){
+  x %>% 
+    dplyr::rename("Selenium (g)" = Selenium,
+                  "Zinc (g)" = Zinc,
+                  "Protein (g)" = Protein,
+                  "Omega-3 (g)" = "Omega-3",
+                  "Calcium (g)" = Calcium,
+                  "Iron (g)" = Iron,
+                  "Vitamin A (g)" = "Vitamin A",
+                  "Weight (Kg)" = weight)
+}
+
+top_taxa <- c("CLP", "CJX", "SDX", "BEN", "TUN", "EMP", "FLY", "SNA", "RAX", "CGX", "GZP")
+```
 
 # Data pipeline
 
@@ -72,30 +91,26 @@ RDI_Omega <- pars$nutrients$RDI$omega3
 knitr::include_graphics(system.file("pipeline.png", package = "Timor.nutrients"))
 ```
 
-# Nutrients seasonality
+# Data summary
+## Regions' temporal coverage
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6}
 landings <-
   trips %>%
-  dplyr::select(trip_id,landing_date,landing_catch,reporting_region,habitat,n_gleaners) %>%
+  dplyr::select(trip_id, landing_date, landing_catch, reporting_region, habitat, n_gleaners) %>%
   tidyr::unnest(landing_catch, keep_empty = TRUE) %>%
   tidyr::unnest(length_frequency, keep_empty = TRUE) %>%
-  dplyr::filter(weight > 0 & landing_date >= "2019-01-01" & landing_date < lubridate::floor_date(Sys.Date() - 30)) %>%
-  dplyr::select(-c(catch_purpose,length_type,length,individuals)) %>% 
-    dplyr::rename(
+  dplyr::select(-c(catch_purpose, length_type, length, individuals)) %>%
+  dplyr::rename(
     Selenium = .data$Selenium_mu,
     Zinc = .data$Zinc_mu,
     Calcium = .data$Calcium_mu,
     Iron = .data$Iron_mu,
-    "Vitamin A"= .data$Vitamin_A_mu,
+    "Vitamin A" = .data$Vitamin_A_mu,
     "Omega-3" = .data$Omega_3_mu,
-    Protein = .data$Protein_mu)
-
-
-# no-nutrients groups: c("GZP", "OCZ", "PEZ", "CRA", "SLV", "COZ", "CUX")
-
-landings_tot <-
-  landings %>%
+    Protein = .data$Protein_mu
+  ) %>%
+  # summarise by IDs
   dplyr::group_by(trip_id) %>%
   dplyr::summarise(
     landing_date = dplyr::first(.data$landing_date),
@@ -107,31 +122,138 @@ landings_tot <-
   dplyr::ungroup()
 
 
-landings_tot %>%
-  dplyr::select(landing_date,trip_id, reporting_region, weight : `Vitamin A`) %>%
+landings_day <-
+  landings %>%
+  dplyr::select(landing_date, trip_id, reporting_region, weight:`Vitamin A`) %>%
   dplyr::filter(!is.na(reporting_region)) %>%
   dplyr::group_by(reporting_region, landing_date) %>%
-  dplyr::summarise(n_landings = dplyr::n(),
-                   weight = (sum(weight,na.rm=TRUE)/1000 / n_landings),
-                   dplyr::across(c(.data$Selenium:.data$`Vitamin A`), ~ sum(.x, na.rm=TRUE) / n_landings)) %>% 
-  dplyr::filter(!is.na(reporting_region)) %>%
-  dplyr::group_by(reporting_region, landing_date) %>%
-  dplyr::summarise(n_landings = dplyr::n(),
-                   weight = (sum(weight,na.rm=TRUE)/1000 / n_landings),
-                   dplyr::across(c(.data$Selenium:.data$`Vitamin A`), ~ sum(.x, na.rm=TRUE) / n_landings)) %>%
-  timetk::summarise_by_time(.date_var = landing_date,
-                            .by = "1 month",
-                            .type = "floor",
-                            .week_start = 1,
-                            weight = median(weight, na.rm=TRUE),
-                            dplyr::across(c(.data$Selenium:.data$`Vitamin A`), ~ sum(.x, na.rm=TRUE))) %>% 
-  dplyr::select(-weight) %>% 
-  tidyr::pivot_longer(-c(reporting_region,landing_date)) %>% 
-  ggplot(aes(as.factor(lubridate::month(landing_date)), value))+
-  facet_wrap(.~name,ncol=3,scales="free")+
-  geom_boxplot(alpha=0.4, fill = "#406372")+
-  theme_minimal(8)+
-  labs(x="month", y="")
+  dplyr::summarise(
+    n_landings = dplyr::n(),
+    weight = (sum(weight, na.rm = TRUE) / 1000),
+    dplyr::across(c(.data$Selenium:.data$`Vitamin A`), ~ sum(.x, na.rm = TRUE))
+  )
 
+date_ref <- tidyr::tibble(landing_date = seq(min(landings_day$landing_date), max(landings_day$landing_date), by = 'days'))
+
+series_obs <- 
+  landings_day %>%
+  dplyr::select(landing_date,reporting_region,Selenium) %>%
+  tidyr::pivot_longer(-c(landing_date,reporting_region)) %>%
+  dplyr::group_by(reporting_region) %>%
+  tk_summary_diagnostics(landing_date) %>%
+  dplyr::arrange(dplyr::desc(n.obs)) %>%
+  dplyr::select(reporting_region, n.obs, start)
+
+landings_day %>% 
+  dplyr::group_by(reporting_region) %>% 
+  dplyr::select(reporting_region,landing_date,Selenium) %>%
+  tidyr::pivot_wider(names_from = reporting_region, values_from = Selenium) %>% 
+  dplyr::full_join(date_ref, by ="landing_date") %>% 
+  tidyr::pivot_longer(-landing_date) %>% 
+    dplyr::mutate(pres=ifelse(is.na(value),"Missing","Present")) %>%
+    ggplot(data = .,aes(landing_date, name))+
+    theme_minimal()+
+    geom_tile(aes(fill = pres))+
+    scale_y_discrete(expand=c(0,0), limits = rev(series_obs$reporting_region))+
+    scale_fill_manual(values = c("#cfe5f0", "#127db4"))+
+    scale_x_date(date_breaks = "3 month", minor_breaks = NULL, labels = label_date,
+               limits = c(as.Date("2017-07-01"),Sys.Date() - 31)) +
+    theme(legend.position = "top",
+          legend.title = element_blank(),
+          panel.border=element_blank())+
+    labs(x="year",
+         y="",
+         title = "")
 ```
 
+Atauro, Bobonaro, Bacau and Covalima are the most complete. I'll filter the following analyses on these 4 municipalities and consider the period Jun 2019 - Feb 2022.
+
+# Nutrients seasonality
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6}
+regions = c("Atauro","Bobonaro", "Baucau", "Covalima")
+start = "2019-06-01"
+end = "2022-03-01"
+max_weight <- 300
+
+landings_day %>%
+  add_units() %>% 
+  dplyr::filter(reporting_region %in% regions & `Weight (Kg)` < max_weight) %>% 
+  filter_by_time(landing_date, .start_date = start, .end_date = end) %>% 
+  timetk::summarise_by_time(
+    .date_var = landing_date,
+    .by = "1 month",
+    .type = "floor",
+    .week_start = 1,
+    `Weight (Kg)` = sum(`Weight (Kg)`, na.rm = TRUE),
+    n_landings = sum(n_landings, na.rm = TRUE),
+    dplyr::across(c(.data$`Selenium (g)`:.data$`Vitamin A (g)`), ~ sum(.x, na.rm = TRUE))
+  ) %>%
+  dplyr::mutate(`Weight (Kg)` = `Weight (Kg)`/n_landings,
+                dplyr::across(c(.data$`Selenium (g)`:.data$`Vitamin A (g)`), ~ .x/n_landings)) %>% 
+  dplyr::select(-c(n_landings)) %>%
+  tidyr::pivot_longer(-c(reporting_region, landing_date)) %>%
+  ggplot(aes(as.factor(lubridate::month(landing_date)), value, color=reporting_region)) +
+  facet_wrap(. ~ factor(name,levels=c("Weight (Kg)","Protein (g)","Omega-3 (g)","Calcium (g)","Iron (g)","Zinc (g)","Selenium (g)","Vitamin A (g)"))
+             , ncol = 3, scales = "free") +
+  geom_boxplot(alpha = 0.4) +
+  theme_minimal(8) +
+  labs(x = "month", y = "", color ="Municipality")+
+  theme(legend.position = "top")+
+  scale_color_brewer(palette="Set1")
+```
+
+There is something strange with Baucau values. That something to focus on. At the moment leave it apart and continue with other municipalities
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6}
+regions = c("Atauro","Bobonaro", "Covalima")
+
+landings_day %>%
+  add_units() %>% 
+  dplyr::filter(reporting_region %in% regions & `Weight (Kg)` < max_weight) %>% 
+  filter_by_time(landing_date, .start_date = start, .end_date = end) %>% 
+  timetk::summarise_by_time(
+    .date_var = landing_date,
+    .by = "1 month",
+    .type = "floor",
+    .week_start = 1,
+    `Weight (Kg)` = sum(`Weight (Kg)`, na.rm = TRUE),
+    n_landings = sum(n_landings, na.rm = TRUE),
+    dplyr::across(c(.data$`Selenium (g)`:.data$`Vitamin A (g)`), ~ sum(.x, na.rm = TRUE))
+  ) %>%
+  dplyr::mutate(`Weight (Kg)` = `Weight (Kg)`/n_landings,
+                dplyr::across(c(.data$`Selenium (g)`:.data$`Vitamin A (g)`), ~ .x/n_landings)) %>% 
+  dplyr::select(-c(n_landings)) %>%
+  tidyr::pivot_longer(-c(reporting_region, landing_date)) %>%
+  ggplot(aes(as.factor(lubridate::month(landing_date)), value, color=reporting_region)) +
+  facet_wrap(. ~ factor(name,levels=c("Weight (Kg)","Protein (g)","Omega-3 (g)","Calcium (g)","Iron (g)","Zinc (g)","Selenium (g)","Vitamin A (g)"))
+             , ncol = 3, scales = "free") +
+  geom_boxplot(alpha = 0.4) +
+  theme_minimal(8) +
+  labs(x = "month", y = "", color ="Municipality")+
+  theme(legend.position = "top")+
+  scale_color_brewer(palette="Set1")
+```
+
+\pagebreak
+
+# Catch composition
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=11}
+dplyr::left_join(catch, trips, by = "trip_id") %>% 
+  filter_by_time(landing_date, .start_date = start, .end_date = end) %>% 
+  dplyr::filter(catch_taxon %in% top_taxa & reporting_region %in% regions) %>% 
+  dplyr::select(reporting_region,catch_taxon,weight) %>% 
+  dplyr::group_by(reporting_region, catch_taxon) %>% 
+  dplyr::summarise(weight = sum(weight, na.rm = T)/1000000) %>% 
+  dplyr::left_join(catch_types, by="catch_taxon") %>% 
+  ggplot(aes(reorder_within(`Common name`, weight, reporting_region),weight, fill = reporting_region))+
+  facet_wrap(.~reporting_region, scales = "free")+
+  geom_col()+
+  coord_flip()+
+  tidytext::scale_x_reordered()+
+  theme_minimal(12)+
+  scale_fill_brewer(palette="Set1")+
+  theme(legend.position = "none")+
+  labs(x="", y="Aggregated weight (tons)", fill ="Municipality")
+```
