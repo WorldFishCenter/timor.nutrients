@@ -5,6 +5,7 @@ mainfont: Montserrat
 geometry: "left=3cm,right=3cm,top=2cm,bottom=2cm"
 output:
   bookdown::pdf_book:
+    latex_engine: lualatex
     toc: yes
     toc_depth: 2
     number_sections: true
@@ -92,9 +93,12 @@ knitr::include_graphics(system.file("pipeline.png", package = "Timor.nutrients")
 ```
 
 # Data summary
+
 ## Regions' temporal coverage
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6}
+(ref:missing) Temporal coverage of each municipality on a daily scale.
+
+```{r missings, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6, fig.cap='(ref:missing)'}
 landings <-
   trips %>%
   dplyr::select(trip_id, landing_date, landing_catch, reporting_region, habitat, n_gleaners) %>%
@@ -170,7 +174,11 @@ Atauro, Bobonaro, Bacau and Covalima are the most complete. I'll filter the foll
 
 # Nutrients seasonality
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6}
+Let's start visualizing seasonal patterns in total weight and nutrients:
+
+(ref:seasonal) Seasonal distribution of catch weight and nutrients. The values are normalized on the number of trips of each municipality indicating the average monthly yield independently from the sample size.
+
+```{r seasonal, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6,fig.cap='(ref:seasonal)'}
 regions = c("Atauro","Bobonaro", "Baucau", "Covalima")
 start = "2019-06-01"
 end = "2022-03-01"
@@ -203,9 +211,11 @@ landings_day %>%
   scale_color_brewer(palette="Set1")
 ```
 
-There is something strange with Baucau values. That something to focus on. At the moment leave it apart and continue with other municipalities
+There is something strange with Baucau values. That something to focus on. At the moment leave it apart and continue with other municipalities.
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6}
+(ref:seasonal-2) Seasonal distribution of catch weight and nutrients. The values are normalized on the number of trips of each municipality indicating the average monthly yield independently from the sample size.
+
+```{r seasonal-2, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6, fig.cap='(ref:seasonal-2)'}
 regions = c("Atauro","Bobonaro", "Covalima")
 
 landings_day %>%
@@ -239,7 +249,9 @@ landings_day %>%
 
 # Catch composition
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=11}
+(ref:composition) Aggregated stock of the 10 most important species in each municipality.
+
+```{r composition, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=11, fig.cap='(ref:composition)'}
 dplyr::left_join(catch, trips, by = "trip_id") %>% 
   filter_by_time(landing_date, .start_date = start, .end_date = end) %>% 
   dplyr::filter(catch_taxon %in% top_taxa & reporting_region %in% regions) %>% 
@@ -256,4 +268,31 @@ dplyr::left_join(catch, trips, by = "trip_id") %>%
   scale_fill_brewer(palette="Set1")+
   theme(legend.position = "none")+
   labs(x="", y="Aggregated weight (tons)", fill ="Municipality")
+```
+
+(ref:taxa) Interannual distribution of weekly aggregated values of the 10 most important species.
+
+```{r taxa, echo=FALSE, message=FALSE, warning=FALSE, fig.height=7, fig.width=11, fig.cap='(ref:taxa)'}
+dplyr::left_join(catch, trips, by = "trip_id") %>% 
+  filter_by_time(landing_date, .start_date = start, .end_date = end) %>% 
+  dplyr::filter(catch_taxon %in% top_taxa & reporting_region %in% regions & weight >0) %>% 
+  dplyr::select(landing_date,reporting_region,catch_taxon,weight) %>% 
+  dplyr::left_join(catch_types, by="catch_taxon") %>% 
+  dplyr::select(landing_date,reporting_region,`Common name`,weight) %>% 
+  dplyr::group_by(reporting_region,`Common name`, landing_date) %>% 
+  timetk::summarise_by_time(
+    .date_var = landing_date,
+    .by = "week",
+    .type = "floor",
+    .week_start = 1,
+    `Weight (Kg)` = (sum(weight, na.rm = TRUE)/1000)
+  ) %>%
+  ggplot(aes(landing_date,`Weight (Kg)`,color=reporting_region))+
+  geom_line(size=0.1)+
+  geom_point(size=0.3)+
+  facet_wrap(.~`Common name`,ncol=3,scales="free_y")+
+  theme_minimal(13)+
+  scale_color_brewer(palette="Set1")+
+  theme(legend.position = "top")+
+  labs(x="Date", color ="Municipality")
 ```
