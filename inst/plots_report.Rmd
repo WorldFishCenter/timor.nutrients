@@ -96,7 +96,7 @@ knitr::include_graphics(system.file("pipeline.png", package = "Timor.nutrients")
 
 ## Regions' temporal coverage
 
-(ref:missing) Temporal coverage of each municipality on a daily scale.
+(ref:missing) Temporal coverage of each municipality on the aggregated daily scale.
 
 ```{r missings, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6, fig.cap='(ref:missing)'}
 landings <-
@@ -176,7 +176,7 @@ Atauro, Bobonaro, Bacau and Covalima are the most complete. I'll filter the foll
 
 Let's start visualizing seasonal patterns in total weight and nutrients:
 
-(ref:seasonal) Seasonal distribution of catch weight and nutrients. The values are normalized on the number of trips of each municipality indicating the average monthly yield independently from the sample size.
+(ref:seasonal) Seasonal distribution of catch weight and nutrients. The values are normalized on the number of trips of each municipality highlighting the average monthly yield independently from the sample size.
 
 ```{r seasonal, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6,fig.cap='(ref:seasonal)'}
 regions = c("Atauro","Bobonaro", "Baucau", "Covalima")
@@ -213,7 +213,7 @@ landings_day %>%
 
 There is something strange with Baucau values. That something to focus on. At the moment leave it apart and continue with other municipalities.
 
-(ref:seasonal-2) Seasonal distribution of catch weight and nutrients. The values are normalized on the number of trips of each municipality indicating the average monthly yield independently from the sample size.
+(ref:seasonal-2) Seasonal distribution of catch weight and nutrients. The values are normalized on the number of trips of each municipality highlighting the average monthly yield independently from the sample size.
 
 ```{r seasonal-2, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=6, fig.cap='(ref:seasonal-2)'}
 regions = c("Atauro","Bobonaro", "Covalima")
@@ -245,6 +245,8 @@ landings_day %>%
   scale_color_brewer(palette="Set1")
 ```
 
+What is (are) the driver (drivers ) of the seasonal differences we see between municipalities? One could be differences in taxa composition.
+
 \pagebreak
 
 # Catch composition
@@ -269,6 +271,8 @@ dplyr::left_join(catch, trips, by = "trip_id") %>%
   theme(legend.position = "none")+
   labs(x="", y="Aggregated weight (tons)", fill ="Municipality")
 ```
+
+The composition of the most representative taxa is heterogeneous among the municipalities. In particular, Atauro seems to be quite different from the others.
 
 (ref:taxa) Interannual distribution of weekly aggregated values of the 10 most important species.
 
