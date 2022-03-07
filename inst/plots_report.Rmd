@@ -28,6 +28,8 @@ header-includes:
   - \let\counterwithout\relax
   - \let\counterwithin\relax
   - \usepackage{chngcntr}
+  - \usepackage{caption}
+  - \captionsetup[figure]{font=footnotesize}
 ---
 
 ```{r setup, include=FALSE}
@@ -88,7 +90,9 @@ top_taxa <- c("CLP", "CJX", "SDX", "BEN", "TUN", "EMP", "FLY", "SNA", "RAX", "CG
 
 # Data pipeline
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, out.height="80px",fig.align='left'}
+(ref:pipeline) The main steps of Peskas' data workflow (see <https://github.com/WorldFishCenter/peskas.timor.data.pipeline> for more details). The initial raw data consist of the KOBO landing surveys and GPS tracks provided by Pelagic Data Systems. The landing surveys undergo a preprocessing step in which we extract further information from the data, primarily the catches' weight and the nutritional yield for each catch. Both the landing surveys and the PDS data are subjected to a validation process involving the cleaning and removal of outliers. Validated data is modelled to return the national estimates of catch prices, weight and nutrient yield. Finally, data are organized to be shared.
+
+```{r pipeline, echo=FALSE, message=FALSE, warning=FALSE, out.height="150px",fig.align='center', fig.cap='(ref:pipeline)'}
 knitr::include_graphics(system.file("pipeline.png", package = "Timor.nutrients"))
 ```
 

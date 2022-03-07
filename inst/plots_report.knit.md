@@ -1,6 +1,6 @@
 ---
 title: "Modelling scenarios for nutrient-sensitive fisheries management"
-date: "Last compiled on 2022-03-06 16:49:15"
+date: "Last compiled on 2022-03-07 18:57:00"
 mainfont: Montserrat
 geometry: "left=3cm,right=3cm,top=2cm,bottom=2cm"
 output:
@@ -28,6 +28,8 @@ header-includes:
   - \let\counterwithout\relax
   - \let\counterwithin\relax
   - \usepackage{chngcntr}
+  - \usepackage{caption}
+  - \captionsetup[figure]{font=footnotesize}
 ---
 
 
@@ -36,7 +38,12 @@ header-includes:
 
 # Data pipeline
 
-<img src="/Users/lore/My Drive/WorldFish/Timor.nutrients/inst/pipeline.png" width="2232" height="80px" style="display: block; margin: auto auto auto 0;" />
+(ref:pipeline) The main steps of Peskas' data workflow (see <https://github.com/WorldFishCenter/peskas.timor.data.pipeline> for more details). The initial raw data consist of the KOBO landing surveys and GPS tracks provided by Pelagic Data Systems. The landing surveys undergo a preprocessing step in which we extract further information from the data, primarily the catches' weight and the nutritional yield for each catch. Both the landing surveys and the PDS data are subjected to a validation process involving the cleaning and removal of outliers. Validated data is modelled to return the national estimates of catch prices, weight and nutrient yield. Finally, data are organized to be shared.
+
+<div class="figure" style="text-align: center">
+<img src="/Users/lore/My Drive/WorldFish/Timor.nutrients/inst/pipeline.png" alt="(ref:pipeline)" width="2016" height="150px" />
+<p class="caption">(\#fig:pipeline)(ref:pipeline)</p>
+</div>
 
 # Data summary
 
