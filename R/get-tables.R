@@ -38,7 +38,20 @@ get_nutrients_table <- function(pars, summarise = TRUE, convert = TRUE) {
       dplyr::summarise_all(stats::median, na.rm = TRUE)
   }
 
-  nutrients_tab
+  nutrients_tab %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(ID = digest::digest(
+      paste(interagency_code,
+            Selenium_mu,
+            sep = "_"
+      ),
+      algo = "md5"
+    )) %>%
+    dplyr::group_by(ID) %>%
+    dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::first(.x))) %>%
+    dplyr::select(-ID) %>%
+    dplyr::ungroup()
+
 }
 
 get_rfish_table <- function(pars) {

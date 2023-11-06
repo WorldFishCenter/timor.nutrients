@@ -1,5 +1,5 @@
 ---
-title: "Timor Nutrients"
+title: "Modelling scenarios for nutrient-sensitive fisheries management"
 author: "Lore"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -7,7 +7,6 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-description: "Nutrient paper analyses"
 ---
 
 <!--chapter:end:index.Rmd-->

@@ -1,10 +1,9 @@
-fig:nice-fig
-tab:nice-tab
-prerequisites
+fig:unnamed-chunk-30
 intro
-literature
-methods
-math-example
+nutritional-and-weight-estimation-in-fish-catches
+add-plot-explanations
+chapter2
+chapter3
 applications
 example-one
 example-two

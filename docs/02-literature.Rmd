@@ -1,3 +1,28 @@
-# Literature
+# Highlight statistics {#chapter2}
 
-Here is a review of existing methods.
+The table summarizes the main statistics on nutrient supply for each region. Below is a description of each column:
+
+-   **MUNICIPALITY (POPULATION)**: Municipality and number of people \> 5 years old in 2022.
+
+-   **COASTLINE EXTENSION**: Municipality coastline extension in Km.
+
+-   **NUTRIENT**: Nutrient of reference
+
+-   **ANNUAL SUPPLY**: Aggregated annual value in kg. These values represent municipal-level estimates based on the number of fishing boats recorded in the 2021 Timor-Leste boat census, average number of fishing trips per boat and average landing weight values for each fish group.
+
+-   **ANNUAL SUPPLY PER KM**: It describes the annual supply of each nutrient standardized on the coastline length, that is: $\frac{Annual\ supply\ (kg)}{Coastline\ extension\ (km)}$
+
+-   **N. PEOPLE SUPPLIED DAILY**: It describes the number of people meeting the nutrient' RNI for each municipality. RNI values used are the following:
+
+    | Selenium | Zinc   | Protein | Total -3 PUFA | Calcium | Iron   | Vitamin-A |
+    |----------|--------|---------|---------------|---------|--------|-----------|
+    | 0.000026 | 0.0049 | 46      | 2.939         | 1       | 0.0294 | 0.0005    |
+
+The 20% of RNIs values was take as reference in consideration of the fact that [an 'adequate diet' is expected to comprise 5 food group](https://www.fao.org/documents/card/en/c/cc4576en). RNIs were then converted from grams to kg (dividing by 1000) and the requirements was calculated as: $\frac{Anuual\ supply\ (kg)}{(RNI\times 0.20) \ / 1000} /365$
+
+-   **POPULATION MEETING RNI REQUIREMENTS**: Percentage of the population meeting the RNI requirements in each municipality: $\frac{Number\ of\ people\ supplied\ daily}{Municipality\ population} \times 100$
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+color_pal <- c("#f5fcdf", "#f2fbd2", "#c9ecb4", "#93d3ab", "#35b0ab")
+Timor.nutrients::generate_summary_table(use_20 = TRUE)
+```

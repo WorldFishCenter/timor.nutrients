@@ -1,25 +1,57 @@
-# Introduction {#intro}
+# Data {#intro}
 
-You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods).
+## Nutritional and weight estimation in fish catches
 
-Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
+The total estimated catch weight is determined by the number of individuals and the length range of each catch. Specifically, during the initial phase of the Peskas project (July 2017 - April 2019), the standard length measurement used was the fork length (FL), which later changed to the total length (TL) in the subsequent and current version of the project. We utilized the API service offered by the FishBase database to incorporate length-to-length and length-to-weight conversion tables, using information from survey landings to calculate the weight in grams based on the following formula:
 
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
+W = a × L\^b
+
+Here, W represents the weight in grams, L is the total length (TL) in centimeters, and a and b are the conversion parameters obtained from FishBase for each fish species.
+
+The FishBase database provides length-to-length and length-to-weight relationships for over 5,000 fish species. Typically, there are multiple records for the parameters a and b for each species. Since the length measurements in Peskas' first version pertained to FL, we initially standardized all length measurements to TL using the FishBase length-to-length conversion tables. Subsequently, we applied the TL-to-weight conversion tables to estimate the weights.
+
+The FishBase length-to-weight conversion tables offer species-level taxonomic resolution. To derive a singular length-to-weight relationship for each fish group, we calculated the median values of parameters a and b for all species within a particular fish group. To ensure relevance to the region of interest, we refined the species list using FAO country codes (<https://www.fao.org/countryprofiles/iso3list/en/>) pertinent to Timor-Leste and Indonesia (country codes 626 and 360, respectively). For instance, to ascertain the weight of a catch categorized under the fish group labeled ECN (representing the Echeneidae family), we first identified the species within ECN documented in Timor-Leste and Indonesia. After this, we computed the average values of the parameters a and b for the identified species, which in this case were Echeneis naucrates and Remora remora (as illustrated in the figure below).
+
+To address the scarcity of measured nutrient values for fish, which are typically limited to a few species and countries. To overcome this data limitation, MacNeil et al. developed a Bayesian hierarchical model that leverages both phylogenetic information and trait-based information to predict concentrations of seven essential nutrients: calcium, iron, omega-3 fatty acids, protein, selenium, vitamin A, and zinc for both marine and inland fish species globally (see Hicks et al. 2019). For each catch, the nutritional yield was calculated by combining the validated weight estimates for each fish group with the modelled nutrient concentrations. Specifically, we used the highest posterior predictive density values for each of the seven nutrients, which can be found in the repository (<https://github.com/mamacneil/NutrientFishbase>). For non-fish groups---including octopuses, squids, cockles, shrimps, crabs, and lobsters---nutritional yield information was not available in the NutrientFishbase repository models. We retrieved the necessary data for these groups from the [Global food composition database](https://www.fao.org/documents/card/en/c/I8542EN/), using the same methodological approach as for the fish groups to estimate their nutritional content. To represent the nutrient concentration associated with each fish group, we used the median value as a summarizing metric.
+
+```{r echo=FALSE, fig.height=4, fig.width=8, message=FALSE, warning=FALSE, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
+setwd("../..")
+pars <- read_config()
+
+ntab <- get_nutrients_table(pars, summarise = FALSE, convert = FALSE)
+ntab %>%
+  tidyr::pivot_longer(-interagency_code) %>%
+  dplyr::group_by(interagency_code, name) %>%
+  dplyr::summarise(
+    mean = mean(value, na.rm = TRUE),
+    median = median(value, na.rm = TRUE),
+    sd = sd(value, na.rm = TRUE),
+    n = dplyr::n()
+  ) %>%
+  dplyr::mutate(
+    se = sd / sqrt(n),
+    ic = se * qt((1 - 0.05) / 2 + .5, n - 1)
+  ) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(
+    name = as.factor(name),
+    interagency_code = tidytext::reorder_within(interagency_code, mean, name)
+  ) %>%
+  dplyr::filter(!is.na(mean)) %>%
+  ggplot(aes(mean, interagency_code)) +
+  theme_minimal() +
+  geom_line(color = "#447597") +
+  geom_point(color = "#447597") +
+  geom_area(fill = "#447597", alpha = 0.15) +
+  geom_pointrange(
+    aes(xmin = mean - ic, xmax = mean + ic),
+    size = 0.1,
+    position = position_dodge(0.1),
+    color = "#447597"
+  ) +
+  facet_wrap(. ~ name, scales = "free", ncol = 7) +
+  tidytext::scale_y_reordered() +
+  coord_cartesian(xlim = c(0, NA), expand = FALSE)
 ```
 
-Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
-
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(iris, 20), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
-```
-
-You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].
-
-```{r}
-head(nutrients_table)
-```
+## Add plot explanations

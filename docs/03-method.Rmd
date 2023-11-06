@@ -1,23 +1,26 @@
-# Methods
+# Methods {#chapter3}
 
-We describe our methods in this chapter.
+```{r}
+catch_groups_name <- 
+  Timor.nutrients::catch_groups %>% 
+  dplyr::select(grouped_taxa = interagency_code,
+                catch_name)
 
-Math can be added in body using usual syntax like this 
+nutrients_table %>% 
+  dplyr::left_join(catch_groups_name) %>% 
+  dplyr::select(catch_name, Selenium_mu:Vitamin_A_mu) %>% 
+  rename_nutrients_mu() %>% 
+  tidyr::pivot_longer(-catch_name, names_to = "nutrient") %>% 
+  dplyr::filter(!nutrient == "selenium" & !catch_name %in% "Other") %>% 
+  dplyr::left_join(RDI_tab) %>% 
+  dplyr::mutate(rdi = (value / conv_factor) * 100) %>% 
+  dplyr::group_by(catch_name) %>% 
+  dplyr::mutate(tot = sum(rdi)) %>% 
+  ggplot(aes(rdi, reorder(catch_name, rdi), fill = nutrient))+
+  theme_minimal()+
+  geom_col()+
+  scale_fill_viridis_d(direction = - 1)
 
-## math example
 
-$p$ is unknown but expected to be around 1/3. Standard error will be approximated
 
-$$
-SE = \sqrt(\frac{p(1-p)}{n}) \approx \sqrt{\frac{1/3 (1 - 1/3)} {300}} = 0.027
-$$
-
-You can also use math in footnotes like this^[where we mention $p = \frac{a}{b}$].
-
-We will approximate standard error to 0.027[^longnote]
-
-[^longnote]: $p$ is unknown but expected to be around 1/3. Standard error will be approximated
-
-    $$
-    SE = \sqrt(\frac{p(1-p)}{n}) \approx \sqrt{\frac{1/3 (1 - 1/3)} {300}} = 0.027
-    $$
+```

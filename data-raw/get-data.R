@@ -18,14 +18,18 @@ timor_population <-
   dplyr::add_row(region = "All", population = sum(.$population)) %>%
   dplyr::ungroup()
 
-# Download file
+catch_groups <-
+  readr::read_csv(system.file("catch_groups.csv", package = "Timor.nutrients")) %>%
+  dplyr::select(interagency_code, family, catch_name)
+
 nutrients_table <-
-  get_nutrients_table(pars, summarise = TRUE) %>%
+  get_nutrients_table(pars, convert = TRUE, summarise = TRUE) %>%
   dplyr::rename(grouped_taxa = interagency_code) %>%
   dplyr::mutate_at(
     dplyr::vars(Selenium_mu:Vitamin_A_mu),
     ~ tidyr::replace_na(., median(., na.rm = TRUE))
   )
+
 
 region_stats <-
   readr::read_rds(system.file("estimations_kg_10_2023.rds", package = "Timor.nutrients")) %>%
@@ -70,6 +74,7 @@ kobo_trips <-
 
 ##
 usethis::use_data(RDI_tab, overwrite = TRUE)
+usethis::use_data(catch_groups, overwrite = TRUE)
 usethis::use_data(timor_population, overwrite = TRUE)
 usethis::use_data(nutrients_table, overwrite = TRUE)
 usethis::use_data(region_stats, overwrite = TRUE)
