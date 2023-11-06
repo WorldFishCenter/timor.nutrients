@@ -1,0 +1,516 @@
+﻿food_id,ISSCAAP,integragency_code,food_name,habitat,food_state,protein(g),calcium(mg),iron(mg),zinc(mg),selenium(mcg),vitaminA(mcg),omega3(g)
+91001,12,TLN,"Nile tilapia, fillet, raw (n.s.)",,r,18.3,15,0.8,0.44,24,1,0.19
+91067,12,TLN,"Nile tilapia, fillet, steamed (n.s.)",,c,21.1,17,0.7,0.51,25,1,0.22
+91128,12,TLN,"Nile tilapia, fillet, boiled in recipe (n.s.)",,c,21.1,17,0.9,0.51,28,1,0.22
+91189,12,TLN,"Nile tilapia, fillet, grilled (n.s.)",,c,23.2,18,0.8,0.56,30,1,0.24
+91002,12,TLN,"Nile tilapia, farmed, fillet, raw (n.s.)",F,r,18.1,15,0.8,0.45,24,1,0.1
+91068,12,TLN,"Nile tilapia, farmed, fillet, steamed (n.s.)",F,c,20.9,17,0.8,0.52,25,1,0.11
+91129,12,TLN,"Nile tilapia, farmed, fillet, boiled in recipe (n.s.)",F,c,20.9,17,0.9,0.52,28,1,0.11
+91190,12,TLN,"Nile tilapia, farmed, fillet, grilled (n.s.)",F,c,23,18,0.9,0.57,30,1,0.12
+91003,12,TLN,"Nile tilapia, farmed, fillet w/o skin, raw (China)",F,r,17.5,13,0.2,0.33,23,1,0.05
+91069,12,TLN,"Nile tilapia, farmed, fillet w/o skin, steamed (China)",F,c,20.1,15,0.2,0.38,24,1,0.05
+91130,12,TLN,"Nile tilapia, farmed, fillet w/o skin, boiled in recipe (China)",F,c,20.1,15,0.2,0.38,26,1,0.05
+91191,12,TLN,"Nile tilapia, farmed, fillet w/o skin, grilled (China)",F,c,22.1,17,0.2,0.42,29,1,0.06
+91004,12,TLN,"Nile tilapia, dressed w/ head, raw (Bangladesh)",,r,19.5,108,1,1.04,39,10,
+91070,12,TLN,"Nile tilapia, dressed w/ head, steamed (Bangladesh)",,c,22.4,124,0.9,1.2,40,10,
+91131,12,TLN,"Nile tilapia, dressed w/ head, boiled in recipe (Bangladesh)",,c,22.4,124,1.1,1.2,45,10,
+91192,12,TLN,"Nile tilapia, dressed w/ head, grilled (Bangladesh)",,c,24.7,136,1,1.32,49,11,
+91005,12,TLN,"Nile tilapia, wild, fillet w/ bones, raw (Africa)",W,r,16.3,883,3,7,24,1,0.28
+91071,12,TLN,"Nile tilapia, wild, fillet w/ bones, steamed (Africa)",W,c,18.8,1010,2.8,8.05,25,1,0.33
+91132,12,TLN,"Nile tilapia, wild, fillet w/ bones, boiled in recipe (Africa)",W,c,18.8,1010,3.4,8.05,28,1,0.33
+91193,12,TLN,"Nile tilapia, wild, fillet w/ bones, grilled (Africa)",W,c,20.7,1120,3.2,8.86,30,1,0.37
+91006,12,TLN,"Nile tilapia, wild, dorsal muscle w/o skin, raw",,r,19.9,15,0.1,0.47,24,1,0.1
+91072,12,TLN,"Nile tilapia, wild, dorsal muscle w/o skin, steamed",,c,22.9,17,0.1,0.54,25,1,0.11
+91133,12,TLN,"Nile tilapia, wild, dorsal muscle w/o skin, boiled in recipe ",,c,22.9,17,0.1,0.54,28,1,0.11
+91194,12,TLN,"Nile tilapia, wild, dorsal muscle w/o skin, grilled",,c,25.2,18,0.1,0.59,30,1,0.12
+91007,13,CTO,"Torpedo-shaped catfishes, raw",,r,17.3,23,0.7,0.66,38,9,
+91073,13,CTO,"Torpedo-shaped catfishes, boiled",,c,20.9,28,0.7,0.8,41,10,
+91134,13,CTO,"Torpedo-shaped catfishes, boiled in recipe",,c,20.9,28,0.9,0.8,46,10,
+91195,13,CTO,"Torpedo-shaped catfishes, baked",,c,23.1,31,0.8,0.88,51,11,
+91008,13,CBT,"Philippine catfish, whole, raw",,r,16.8,59,0.8,0.68,32,44,0.35
+91074,13,CBT,"Philippine catfish, whole, boiled♦",,c,20.2,71,0.8,0.81,35,48,0.43
+91135,13,CBT,"Philippine catfish, whole, boiled in recipe",,c,20.2,71,1,0.81,39,48,0.43
+91196,13,CBT,"Philippine catfish, whole, baked",,c,22.4,78,0.9,0.9,43,53,0.48
+91009,13,CLZ,"North African catfish, fillet, raw (n.s.)",,r,17.8,23,0.5,1.07,38,9,0.42
+91075,13,CLZ,"North African catfish, fillet, boiled♦ (n.s.)",,c,21.5,28,0.5,1.29,41,10,0.5
+91136,13,CLZ,"North African catfish, fillet, boiled in recipe (n.s.)",,c,21.5,28,0.7,1.29,46,10,0.5
+91197,13,CLZ,"North African catfish, fillet, baked (n.s.)",,c,23.8,31,0.6,1.43,51,11,0.56
+91010,13,CLZ,"North African catfish, wild, fillet w/ bones, raw",,r,18,832,3,8,38,9,0.68
+91076,13,CLZ,"North African catfish, wild, fillet w/ bones, boiled♦",,c,21.7,1000,2.9,9.64,41,10,0.83
+91137,13,CLZ,"North African catfish, wild, fillet w/ bones, boiled in recipe",,c,21.7,1000,3.6,9.64,46,10,0.83
+91198,13,CLZ,"North African catfish, wild, fillet w/ bones, baked",,c,24,1110,3.4,10.7,51,11,0.92
+91011,13,CLZ,"North African catfish, wild, fillet, raw",,r,18,23,0.54,1.07,38,9,0.68
+91077,13,CLZ,"North African catfish, wild, fillet, boiled♦",,c,21.7,28,0.5,1.29,41,10,0.83
+91138,13,CLZ,"North African catfish, wild, fillet, boiled in recipe",,c,21.7,28,0.7,1.29,46,10,0.83
+91199,13,CLZ,"North African catfish, wild, fillet, baked",,c,24,31,0.6,1.43,51,11,0.92
+91012,13,CMC,"Bighead catfish, fillet, raw (ASEAN)",,r,18.1,20,0.5,0.2,38,9,0.12
+91078,13,CMC,"Bighead catfish, fillet, boiled♦ (ASEAN)",,c,21.8,24,0.5,0.24,41,10,0.15
+91139,13,CMC,"Bighead catfish, fillet, boiled in recipe (ASEAN)",,c,21.8,24,0.7,0.24,46,10,0.15
+91200,13,CMC,"Bighead catfish, fillet, baked (ASEAN)",,c,24.2,27,0.6,0.27,51,11,0.17
+91013,13,CMC,"Bighead catfish, fillet w/ skin, raw (ASEAN)",,r,18.1,20,0.5,0.2,38,9,0.08
+91079,13,CMC,"Bighead catfish, fillet w/ skin, boiled♦ (ASEAN)",,c,21.8,24,0.5,0.24,41,10,0.1
+91140,13,CMC,"Bighead catfish, fillet w/ skin, boiled in recipe (ASEAN)",,c,21.8,24,0.7,0.24,46,10,0.1
+91201,13,CMC,"Bighead catfish, fillet w/ skin, baked (ASEAN)",,c,24.2,27,0.6,0.27,51,11,0.11
+91014,13,FPI,"Northern pike, fillet w/o skin, raw (n.s.)",,r,18.4,27,0.2,0.82,25,12,0.21
+91080,13,FPI,"Northern pike, fillet w/o skin, boiled♦ (n.s.)",,c,22.1,32,0.2,0.99,27,13,0.26
+91141,13,FPI,"Northern pike, fillet w/o skin, boiled in recipe (n.s.)",,c,22.1,32,0.2,0.99,30,13,0.26
+91202,13,FPI,"Northern pike, fillet w/o skin, baked (n.s.)",,c,24.5,36,0.2,1.09,33,14,0.29
+91015,13,FPI,"Northern pike, wild, fillet w/o skin, raw (Europe)",W,r,18.9,26,0.1,0.81,13,12,0.18
+91081,13,FPI,"Northern pike, wild, fillet w/o skin, boiled♦ (Europe)",W,c,22.8,31,0.1,0.98,14,13,0.22
+91142,13,FPI,"Northern pike, wild, fillet w/o skin, boiled in recipe (Europe)",W,c,22.8,31,0.2,0.98,15,13,0.22
+91203,13,FPI,"Northern pike, wild, fillet w/o skin, baked (Europe)",W,c,25.3,35,0.2,1.08,17,14,0.25
+91016,13,FPI,"Northern pike, wild, fillet w/o skin, raw (North America)",W,r,17.9,28,0.3,0.83,50,12,0.13
+91082,13,FPI,"Northern pike, wild, fillet w/o skin, boiled♦ (North America)",W,c,21.6,34,0.3,1,54,13,0.17
+91143,13,FPI,"Northern pike, wild, fillet w/o skin, boiled in recipe (North America)",W,c,21.6,34,0.3,1,60,13,0.17
+91204,13,FPI,"Northern pike, wild, fillet w/o skin, baked (North America)",W,c,23.9,37,0.3,1.11,67,14,0.19
+91017,13,ITP,"Catfish, channel, fillet, raw (n.s.)",,r,15.6,20,0.8,0.83,10,8,0.36
+91083,13,ITP,"Catfish, channel, fillet, boiled♦ (n.s.)",,c,18.8,24,0.8,1,11,8,0.34
+91144,13,ITP,"Catfish, channel, fillet, boiled in recipe (n.s.)",,c,18.8,24,1,1,13,8,0.44
+91205,13,ITP,"Catfish, channel, fillet, baked (n.s.)",,c,20.9,26,1,1.1,14,9,0.33
+91018,13,ITP,"Catfish, channel, farmed, fillet, raw (USA)",F,r,15.7,20,1,0.89,8.2,8,0.1
+91084,13,ITP,"Catfish, channel, farmed, fillet, boiled♦ (USA)",F,c,18.9,24,0.9,1.07,8.9,8,0.09
+91145,13,ITP,"Catfish, channel, farmed, fillet, boiled in recipe (USA)",F,c,18.9,24,1.2,1.07,10,8,0.12
+91206,13,ITP,"Catfish, channel, farmed, fillet, baked (USA)",F,c,20.9,26,1.1,1.19,11,9,0.09
+91019,13,ITP,"Catfish, channel, farmed, fillet, raw, (previously frozen) (USA)",F,r,15.4,10,1,1.07,8.2,8,0.09
+91085,13,ITP,"Catfish, channel, farmed, fillet, boiled♦, (previously frozen) (USA)",F,c,18.6,12,0.9,1.29,8.9,8,0.11
+91146,13,ITP,"Catfish, channel, farmed, fillet, boiled in recipe, (previously frozen) (USA)",F,c,18.6,12,1.2,1.29,10,8,0.11
+91207,13,ITP,"Catfish, channel, farmed, fillet, baked, (previously frozen) (USA)",F,c,20.5,13,1.1,1.42,11,9,0.12
+91020,13,ITP,"Catfish, channel, wild, fillet, raw (USA)",W,r,16.3,21,0.3,0.51,13,15,0.41
+91086,13,ITP,"Catfish, channel, wild, fillet, boiled♦ (USA)",W,c,19.6,25,0.3,0.61,14,16,0.5
+91147,13,ITP,"Catfish, channel, wild, fillet, boiled in recipe (USA)",W,c,19.6,25,0.4,0.61,15,16,0.5
+91208,13,ITP,"Catfish, channel, wild, fillet, baked (USA)",W,c,21.7,27,0.3,0.68,17,18,0.55
+91021,13,PGS,"Striped catfish, fillet, raw (n.s.)",F,r,14.7,14,0.1,0.27,13,11,0.07
+91087,13,PGS,"Striped catfish, fillet, boiled♦ (n.s.)",F,c,17.8,17,0.1,0.33,15,12,0.08
+91148,13,PGS,"Striped catfish, fillet, boiled in recipe (n.s.)",F,c,17.8,17,0.2,0.33,16,12,0.08
+91209,13,PGS,"Striped catfish, fillet, baked (n.s.)",F,c,19.7,19,0.2,0.36,18,13,0.09
+91022,13,PGS,"Striped catfish, farmed, fillet w/o skin, raw, (previously frozen) (Vietnam)",F,r,14.6,16,0.1,0.28,13,11,0.05
+91088,13,PGS,"Striped catfish, farmed, fillet w/o skin, boiled♦ (previously frozen) (Vietnam)",F,c,17.6,19,0.1,0.34,15,12,0.06
+91149,13,PGS,"Striped catfish, farmed, fillet w/o skin, boiled in recipe, (previously frozen) (Vietnam)",F,c,17.6,19,0.2,0.34,16,12,0.06
+91210,13,PGS,"Striped catfish, farmed, fillet w/o skin, baked (previously frozen) (Vietnam)",F,c,19.5,21,0.1,0.38,18,13,0.07
+91023,13,PGS,"Striped catfish, farmed, fillet w/o skin, raw, (previously frozen) (n.s.)",F,r,14.6,16,0.1,0.28,13,11,0.05
+91089,13,PGS,"Striped catfish, farmed, fillet w/o skin, boiled♦ (previously frozen) (n.s.)",F,c,17.6,19,0.1,0.34,15,12,0.06
+91150,13,PGS,"Striped catfish, farmed, fillet w/o skin, boiled in recipe, (previously frozen) (n.s.)",F,c,17.6,19,0.2,0.34,16,12,0.06
+91211,13,PGS,"Striped catfish, farmed, fillet w/o skin, baked (previously frozen) (n.s.)",F,c,19.5,21,0.1,0.38,18,13,0.07
+91024,13,PGS,"Striped catfish, whole, raw (ASEAN/Bangladesh)",,r,16.1,16,0.8,0.45,19,11,0.33
+91090,13,PGS,"Striped catfish, whole, boiled♦ (ASEAN/Bangladesh)",,c,19.4,20,0.8,0.55,21,9,0.34
+91151,13,PGS,"Striped catfish, whole, boiled in recipe (ASEAN/Bangladesh)",,c,19.4,20,0.9,0.55,23,12,0.39
+91212,13,PGS,"Striped catfish, whole, baked (ASEAN/Bangladesh)",,c,21.5,22,0.9,0.6,25,11,0.34
+91025,13,PGS,"Striped catfish, tail part, raw (Bangladesh)",,r,18.1,16,0.4,0.71,19,11,0.05
+91091,13,PGS,"Striped catfish, tail part, boiled♦ (Bangladesh)",,c,21.8,20,0.4,0.86,21,12,0.06
+91152,13,PGS,"Striped catfish, tail part, boiled in recipe (Bangladesh)",,c,21.8,20,0.4,0.86,23,12,0.06
+91213,13,PGS,"Striped catfish, tail part, baked (Bangladesh)",,c,24.2,22,0.4,0.95,25,13,0.07
+91026,23,SAL,"Atlantic salmon, fillet w/o skin, raw (n.s.)",,r,20,13,0.4,0.4,23,12,2.52
+91092,23,SAL,"Atlantic salmon, fillet w/o skin, boiled♦ (n.s.) ",,c,24.1,15,0.4,0.48,24,10,2.76
+91153,23,SAL,"Atlantic salmon, fillet w/o skin, boiled in recipe (n.s.) ",,c,24.1,15,0.4,0.48,27,13,3.04
+91214,23,SAL,"Atlantic salmon, fillet w/o skin, grilled♦ (n.s.)",,c,23.3,15,0.4,0.46,26,12,2.71
+91027,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, raw (n.s.)",F,r,19.9,12,0.3,0.37,21,9,2.59
+91093,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, boiled♦ (n.s.)",F,c,23.9,14,0.3,0.44,23,7,2.85
+91154,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, boiled in recipe (n.s.)",F,c,23.9,14,0.3,0.44,26,10,3.13
+91215,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, grilled♦ (n.s.)",F,c,23.1,14,0.3,0.43,25,8,2.79
+91028,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, raw (Norway)",F,r,19.4,10,0.3,0.39,23,9,3.07
+91094,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, boiled♦ (Norway)",F,c,23.3,12,0.3,0.46,25,7,3.13
+91155,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, boiled in recipe (Norway)",F,c,23.3,12,0.3,0.46,28,9,3.71
+91216,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, grilled♦ (Norway)",F,c,22.5,11,0.3,0.45,27,8,3.12
+91029,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, raw (Iceland)",F,r,19.9,19,0.3,0.36,21,9,2.19
+91095,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, boiled♦ (Iceland)",F,c,24,22,0.3,0.43,23,7,2.39
+91156,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, boiled in recipe (Iceland)",F,c,24,22,0.3,0.43,25,10,2.65
+91217,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, grilled♦ (Iceland)",F,c,23.1,22,0.3,0.41,24,8,2.35
+91030,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, raw (Ireland, UK)",F,r,20.4,10,0.3,0.4,18,11,3.13
+91096,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, boiled♦ (Ireland, UK)",F,c,28.9,27,0.3,0.52,25,6,3.19
+91157,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, boiled in recipe (Ireland, UK)",F,c,24.5,12,0.4,0.48,22,12,3.78
+91218,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, grilled♦ (Ireland, UK)",F,c,23.7,12,0.3,0.47,21,10,3.18
+91031,23,SAL,"Atlantic salmon, farmed, fillet w/o skin nor visible fat, raw (Chile)",F,r,20.8,6,0.4,0.42,21,9,1.23
+91097,23,SAL,"Atlantic salmon, farmed, fillet w/o skin nor visible fat, boiled♦ (Chile)",F,c,25.1,7,0.3,0.51,23,7,1.21
+91158,23,SAL,"Atlantic salmon, farmed, fillet w/o skin nor visible fat, boiled in recipe (Chile)",F,c,25.1,7,0.4,0.51,25,10,1.49
+91219,23,SAL,"Atlantic salmon, farmed, fillet w/o skin nor visible fat, grilled♦ (Chile)",F,c,24.2,7,0.4,0.49,24,8,1.22
+91032,23,SAL,"Atlantic salmon, wild, fillet w/o skin, raw (n.s.)",W,r,20.1,16,0.7,0.57,30,16,2.64
+91098,23,SAL,"Atlantic salmon, wild, fillet w/o skin, boiled♦ (n.s.)",W,c,24.2,19,0.7,0.69,32,13,2.83
+91159,23,SAL,"Atlantic salmon, wild, fillet w/o skin, boiled in recipe (n.s.)",W,c,24.2,19,0.8,0.69,36,17,3.19
+91220,23,SAL,"Atlantic salmon, wild, fillet w/o skin, grilled♦ (n.s.)",W,c,23.4,18,0.7,0.66,34,15,2.8
+91033,23,SAL,"Atlantic salmon, wild, fillet w/o skin, raw (Northeast Atlantic)",W,r,20.2,18,0.7,0.5,30,18,3.06
+91099,23,SAL,"Atlantic salmon, wild, fillet w/o skin, boiled♦ (Northeast Atlantic)",W,c,24.4,21,0.6,0.6,32,15,3.34
+91160,23,SAL,"Atlantic salmon, wild, fillet w/o skin, boiled in recipe (Northeast Atlantic)",W,c,24.4,21,0.8,0.6,36,20,3.7
+91221,23,SAL,"Atlantic salmon, wild, fillet w/o skin, grilled♦ (Northeast Atlantic)",W,c,23.5,20,0.6,0.58,34,17,3.28
+91034,23,SAL,"Atlantic salmon, wild, fillet w/o skin, raw (Northwest Atlantic)",W,r,19.8,12,0.8,0.64,27,12,1.86
+91100,23,SAL,"Atlantic salmon, wild, fillet w/o skin, boiled♦ (Northwest Atlantic)",W,c,23.9,14,0.8,0.77,29,10,1.84
+91161,23,SAL,"Atlantic salmon, wild, fillet w/o skin, boiled in recipe (Northwest Atlantic)",W,c,23.9,14,1,0.77,33,13,2.25
+91222,23,SAL,"Atlantic salmon, wild, fillet w/o skin, grilled♦ (Northwest Atlantic)",W,c,23.1,14,0.8,0.74,31,11,1.85
+91062,23,SAL,"Atlantic salmon, smoked (n.s.)",,p,22.2,13,0.4,0.43,21,11,2.21
+91063,23,SAL,"Atlantic salmon, fillet w/o skin, cold-smoked",,p,21.9,10,0.3,0.42,21,11,2.34
+91064,23,SAL,"Atlantic salmon, fillet w/o skin, hot-smoked",,p,23.6,11,0.4,0.46,24,12,2.15
+91065,23,SAL,"Atlantic salmon, wild, fillet w/o skin, cold-smoked (NE Atlantic)",W,p,22,15,0.5,0.42,21,15,1.87
+91066,23,SAL,"Atlantic salmon, farmed, fillet w/o skin, cold-smoked",F,p,21.8,8,0.2,0.42,21,6,2.38
+91035,23,TRR,"Rainbow trout, fillet, raw (n.s.) ",,r,19.2,29,0.7,0.96,17,18,
+91101,23,TRR,"Rainbow trout, fillet, boiled♦ (n.s.) ",,c,21.3,32,0.6,1.07,17,14,
+91162,23,TRR,"Rainbow trout, fillet, boiled in recipe (n.s.) ",,c,21.3,32,0.8,1.07,19,18,
+91223,23,TRR,"Rainbow trout, fillet, grilled♦ (n.s.) ",,c,24.6,37,0.8,1.24,22,19,
+91036,23,TRR,"Rainbow trout, farmed, fillet, raw (n.s.)",F,r,19.1,16,0.4,0.43,17,18,
+91102,23,TRR,"Rainbow trout, farmed, fillet, boiled♦ (n.s.)",F,c,21.3,18,0.3,0.48,17,14,
+91163,23,TRR,"Rainbow trout, farmed, fillet, boiled in recipe (n.s.)",F,c,21.3,18,0.4,0.48,19,18,
+91224,23,TRR,"Rainbow trout, farmed, fillet, grilled♦ (n.s.)",F,c,24.5,21,0.4,0.55,22,19,
+91037,23,TRR,"Rainbow trout, farmed, fillet w/o skin, raw (Germany)",F,r,19.5,16,0.4,0.43,17,18,
+91103,23,TRR,"Rainbow trout, farmed, fillet w/o skin, boiled♦ (Germany)",F,c,21.7,18,0.3,0.48,17,18,
+91164,23,TRR,"Rainbow trout, farmed, fillet w/o skin, boiled in recipe (Germany)",F,c,21.7,18,0.4,0.48,19,18,
+91225,23,TRR,"Rainbow trout, farmed, fillet w/o skin, grilled♦ (Germany)",F,c,25,21,0.4,0.55,22,21,
+91038,23,TRR,"Rainbow trout, farmed, fillet w/ skin, raw (Denmark)",F,r,18.8,16,0.4,0.43,17,19,
+91104,23,TRR,"Rainbow trout, farmed, fillet w/ skin, boiled♦ (Denmark)",F,c,20.9,18,0.3,0.48,17,15,
+91165,23,TRR,"Rainbow trout, farmed, fillet w/ skin, boiled in recipe (Denmark)",F,c,20.9,18,0.4,0.48,19,19,
+91226,23,TRR,"Rainbow trout, farmed, fillet w/ skin, grilled♦ (Denmark)",F,c,24.1,21,0.4,0.55,22,19,
+91039,23,TRR,"Rainbow trout, farmed, fillet, raw (Norway)",F,r,19.3,9,0.3,0.39,20,18,3.18
+91105,23,TRR,"Rainbow trout, farmed, fillet, boiled♦ (Norway)",F,c,21.4,10,0.3,0.43,20,14,3.35
+91166,23,TRR,"Rainbow trout, farmed, fillet, boiled in recipe (Norway)",F,c,21.4,10,0.3,0.43,22,18,3.54
+91227,23,TRR,"Rainbow trout, farmed, fillet, grilled♦ (Norway)",F,c,24.7,12,0.3,0.5,26,19,3.61
+91040,23,TRR,"Rainbow trout, farmed, fillet, raw (USA)",F,r,20.4,25,0.3,0.45,24,18,0.95
+91106,23,TRR,"Rainbow trout, farmed, fillet, boiled♦ (USA)",F,c,22.7,28,0.3,0.5,24,14,0.93
+91167,23,TRR,"Rainbow trout, farmed, fillet, boiled in recipe (USA)",F,c,22.7,28,0.3,0.5,26,18,1.06
+91228,23,TRR,"Rainbow trout, farmed, fillet, grilled♦ (USA)",F,c,26.2,32,0.3,0.58,30,19,0.9
+91041,23,TRR,"Rainbow trout, wild, fillet, raw",W,r,19.7,29,0.7,1.08,17,19,
+91107,23,TRR,"Rainbow trout, wild, fillet, boiled♦",W,c,21.9,32,0.6,1.2,17,15,
+91168,23,TRR,"Rainbow trout, wild, fillet, boiled in recipe",W,c,21.9,32,0.8,1.2,19,19,
+91229,23,TRR,"Rainbow trout, wild, fillet, grilled♦",W,c,25.3,37,0.8,1.38,22,19,
+91042,31,SOL,"Common sole, fillet, raw (n.s.)",,r,18.6,51,0.6,0.51,24,5,0.24
+91108,31,SOL,"Common sole, fillet, boiled (n.s.)",,c,22.4,62,0.6,0.61,26,5,0.3
+91169,31,SOL,"Common sole, fillet, boiled in recipe (n.s.)",,c,22.4,62,0.7,0.61,29,5,0.3
+91230,31,SOL,"Common sole, fillet, grilled♦ (n.s.)",,c,25.9,71,0.7,0.7,34,6,0.35
+91043,,SOL,"Common sole, wild, fillet, raw",W,r,18.9,23,0.4,0.42,23,5,0.17
+91109,31,SOL,"Common sole, wild, fillet, boiled",W,c,22.8,27,0.3,0.51,25,5,0.22
+91170,31,SOL,"Common sole, wild, fillet, boiled in recipe",W,c,22.8,27,0.4,0.51,28,5,0.22
+91231,31,SOL,"Common sole, wild, fillet, grilled♦",W,c,26.3,31,0.4,0.58,32,6,0.25
+91044,32,COD,"Atlantic cod, fillet, raw (n.s.)",,r,18.6,12,0.2,0.38,30,1,0.22
+91110,32,COD,"Atlantic cod, fillet, boiled♦ (n.s.)",,c,22.6,14,0.2,0.46,33,1,0.28
+91171,32,COD,"Atlantic cod, fillet, boiled in recipe (n.s.)",,c,22.6,14,0.2,0.46,37,1,0.28
+91232,32,COD,"Atlantic cod, fillet, grilled♦ (n.s.)",,c,24.8,15,0.2,0.5,40,1,0.32
+91045,32,COD,"Atlantic cod, fillet, raw (Northwest Atlantic)",,r,17.8,29,0.4,0.45,33,1,0.22
+91111,32,COD,"Atlantic cod, fillet, boiled♦ (Northwest Atlantic)",,c,21.7,35,0.4,0.55,36,1,0.28
+91172,32,COD,"Atlantic cod, fillet, boiled in recipe (Northwest Atlantic)",,c,21.7,35,0.5,0.55,40,1,0.28
+91233,32,COD,"Atlantic cod, fillet, grilled♦ (Northwest Atlantic)",,c,23.7,39,0.4,0.6,44,1,0.31
+91046,32,COD,"Atlantic cod, fillet, raw (Northeast Atlantic)",,r,18.6,10,0.2,0.37,28,1,0.22
+91112,32,COD,"Atlantic cod, fillet, boiled♦ (Northeast Atlantic)",,c,22.7,12,0.2,0.45,30,1,0.29
+91173,32,COD,"Atlantic cod, fillet, boiled in recipe (Northeast Atlantic)",,c,22.7,12,0.2,0.45,34,1,0.29
+91234,32,COD,"Atlantic cod, fillet, grilled♦ (Northeast Atlantic)",,c,24.8,14,0.2,0.5,37,1,0.32
+91047,32,COD,"Atlantic cod, wild, fillet, raw (Northeast Atlantic)",W,r,18.5,9,0.2,0.36,29,2,0.22
+91113,32,COD,"Atlantic cod, wild, fillet, boiled♦ (Northeast Atlantic)",W,c,22.6,11,0.2,0.44,32,3,0.29
+91174,32,COD,"Atlantic cod, wild, fillet, boiled in recipe (Northeast Atlantic)",W,c,22.6,11,0.2,0.44,35,3,0.29
+91235,32,COD,"Atlantic cod, wild, fillet, grilled♦ (Northeast Atlantic)",W,c,24.7,12,0.2,0.48,39,3,0.32
+91048,32,COD,"Atlantic cod, wild, fillet w/o skin, raw (Northeast Atlantic)",W,r,18.2,9,0.1,0.36,31,2,0.21
+91114,32,COD,"Atlantic cod, wild, fillet w/o skin, boiled♦ (Northeast Atlantic)",W,c,22.2,11,0.1,0.44,34,3,0.27
+91175,32,COD,"Atlantic cod, wild, fillet w/o skin, boiled in recipe (Northeast Atlantic)",W,c,22.2,11,0.2,0.44,38,3,0.27
+91236,32,COD,"Atlantic cod, wild, fillet w/o skin, grilled♦ (Northeast Atlantic)",W,c,24.3,12,0.2,0.48,41,3,0.3
+91049,32,COD,"Atlantic cod, wild, fillet w/o skin, raw (treated)",W,r,18.2,12,0.2,0.36,29,2,0.22
+91115,32,COD,"Atlantic cod, wild, fillet w/o skin, boiled♦ (treated)",W,c,22.2,15,0.2,0.44,32,3,0.29
+91176,32,COD,"Atlantic cod, wild, fillet w/o skin, boiled in recipe (treated)",W,c,22.2,15,0.2,0.44,35,3,0.29
+91237,32,COD,"Atlantic cod, wild, fillet w/o skin, grilled♦ (treated)",W,c,24.3,16,0.2,0.48,39,3,0.32
+91050,32,COD,"Atlantic cod, farmed, fillet, raw (n.s.)",F,r,19.5,12,0.15,0.43,23,1,0.35
+91116,32,COD,"Atlantic cod, farmed, fillet, boiled♦ (n.s.)",F,c,23.7,15,0.1,0.52,25,1,0.44
+91177,32,COD,"Atlantic cod, farmed, fillet, boiled in recipe (n.s.)",F,c,23.7,15,0.2,0.52,28,1,0.44
+91238,32,COD,"Atlantic cod, farmed, fillet, grilled♦ (n.s.)",F,c,25.9,16,0.2,0.57,31,1,0.48
+91051,32,COD,"Atlantic cod, farmed, fillet, raw (Norway)",F,r,19.8,14,0.2,0.44,23,1,0.33
+91117,32,COD,"Atlantic cod, farmed, fillet, boiled♦ (Norway)",F,c,24.1,17,0.2,0.54,26,1,0.41
+91178,32,COD,"Atlantic cod, farmed, fillet, boiled in recipe (Norway)",F,c,24.1,17,0.2,0.54,28,1,0.41
+91239,32,COD,"Atlantic cod, farmed, fillet, grilled♦ (Norway)",F,c,26.4,19,0.2,0.59,31,1,0.46
+91052,32,PCO,"Pacific cod, fillet, raw (n.s.)",,r,17.2,13,0.2,0.36,23,2,0.16
+91118,32,PCO,"Pacific cod, fillet, boiled♦ (n.s.)",,c,20.9,16,0.2,0.44,25,2,0.2
+91179,32,PCO,"Pacific cod, fillet, boiled in recipe (n.s.)",,c,20.9,16,0.2,0.44,28,2,0.2
+91240,32,PCO,"Pacific cod, fillet, grilled♦ (n.s.)",,c,22.9,18,0.2,0.48,31,2,0.22
+91053,32,PCO,"Pacific cod, wild, fillet, raw (Northeast Pacific)",W,r,18.3,12,0.2,0.38,23,2,0.21
+91119,32,PCO,"Pacific cod, wild, fillet, boiled♦ (Northeast Pacific)",W,c,22.3,14,0.2,0.47,25,2,0.27
+91180,32,PCO,"Pacific cod, wild, fillet, boiled in recipe (Northeast Pacific)",W,c,22.3,14,0.2,0.47,28,2,0.27
+91241,32,PCO,"Pacific cod, wild, fillet, grilled♦ (Northeast Pacific)",W,c,24.4,16,0.2,0.51,31,2,0.31
+91054,32,PCO,"Pacific cod, fillet, raw (not previously frozen)",,r,17.5,23,0.2,0.35,23,2,0.06
+91120,32,PCO,"Pacific cod, fillet, boiled♦ (not previously frozen)",,c,21.4,28,0.2,0.43,25,2,0.08
+91181,32,PCO,"Pacific cod, fillet, boiled in recipe (not previously frozen)",,c,21.4,28,0.2,0.43,28,2,0.08
+91242,32,PCO,"Pacific cod, fillet, grilled♦ (not previously frozen)",,c,23.4,31,0.2,0.47,31,2,0.09
+91055,32,PCO,"Pacific cod, fillet, raw (may have been previously frozen)",,r,15.3,8,0.2,0.31,23,2,0.12
+91121,32,PCO,"Pacific cod, fillet, boiled♦ (may have been previously frozen)",,c,18.6,10,0.2,0.38,25,2,0.14
+91182,32,PCO,"Pacific cod, fillet, boiled in recipe (may have been previously frozen)",,c,18.6,10,0.2,0.38,28,2,0.14
+91243,32,PCO,"Pacific cod, fillet, grilled♦ (may have been previously frozen)",,c,20.4,11,0.2,0.41,31,2,0.15
+91056,33,BSS,"European sea bass, fillet, raw (n.s.)",,r,20.3,23,1,0.66,21,15,0.76
+91122,33,BSS,"European sea bass, fillet, poached (n.s.)",,c,23.6,27,0.9,0.77,22,15,0.89
+91183,33,BSS,"European sea bass, fillet, boiled in recipe (n.s.)",,c,23.6,27,1.1,0.77,25,15,0.89
+91244,33,BSS,"European sea bass, fillet, baked (n.s.)",,c,27,31,1.1,0.88,29,18,1.02
+91057,33,BSS,"European sea bass, wild, fillet, raw",W,r,20.1,13,1,0.75,25,6,0.5
+91123,33,BSS,"European sea bass, wild, fillet, poached",W,c,23.4,15,0.9,0.87,26,6,0.59
+91184,33,BSS,"European sea bass, wild, fillet, boiled in recipe",W,c,23.4,15,1.1,0.87,29,6,0.59
+91245,33,BSS,"European sea bass, wild, fillet, baked",W,c,26.8,18,1.1,1,33,7,0.68
+91058,33,BSS,"European sea bass, farmed, fillet, raw",F,r,20.4,28,1,0.62,21,19,0.97
+91124,33,BSS,"European sea bass, farmed, fillet, poached",F,c,23.7,33,0.9,0.72,22,16,0.95
+91185,33,BSS,"European sea bass, farmed, fillet, boiled in recipe",F,c,23.7,33,1.1,0.72,24,20,1.14
+91246,33,BSS,"European sea bass, farmed, fillet, baked",F,c,27.2,38,1.1,0.83,27,21,0.93
+91059,37,HOM,"Atlantic horse mackerel, wild, fillet w/o skin, raw (n.s.)",W,r,18.6,40,1.1,0.41,53,4,1.22
+91125,37,HOM,"Atlantic horse mackerel, wild, fillet w/o skin, boiled♦ (n.s.)",W,c,26.6,57,1.2,0.59,69,4,1.06
+91186,37,HOM,"Atlantic horse mackerel, wild, fillet w/o skin, boiled in recipe (n.s.)",W,c,26.6,57,1.5,0.59,76,6,1.76
+91247,37,HOM,"Atlantic horse mackerel, wild, fillet w/o skin, grilled♦ (n.s.)",W,c,23.3,49,1.2,0.52,67,4,1.13
+91060,37,HOM,"Atlantic horse mackerel, wild, fatty, fillet w/o skin, raw",W,r,18,31,1.1,0.44,53,5,2.29
+91126,37,HOM,"Atlantic horse mackerel, wild, fatty, fillet w/o skin, boiled♦",W,c,25.7,44,1.3,0.63,69,5,2.53
+91187,37,HOM,"Atlantic horse mackerel, wild, fatty, fillet w/o skin, boiled in recipe",W,c,25.7,44,1.6,0.63,76,6,3.29
+91248,37,HOM,"Atlantic horse mackerel, wild, fatty, fillet w/o skin, grilled♦",W,c,22.5,38,1.2,0.55,67,5,2.43
+91061,37,HOM,"Atlantic horse mackerel, atlantic, wild, lean, fillet w/o skin, raw",W,r,19.4,20,1,0.36,53,4,0.58
+91127,37,HOM,"Atlantic horse mackerel, wild, lean, fillet w/o skin, boiled♦",W,c,27.7,29,1.1,0.51,69,5,0.85
+91188,37,HOM,"Atlantic horse mackerel, wild, lean, fillet w/o skin, boiled in recipe",W,c,27.7,29,1.4,0.51,76,5,0.85
+91249,37,HOM,"Atlantic horse mackerel, wild, lean, fillet w/o skin, grilled♦",W,c,24.2,25,1.1,0.45,67,5,0.74
+92001,41,EWA/AYS/CJF,"European/Euro-American/Oceanian crayfishes, flesh, raw (n.s.)",,r,15.5,59,2.6,1.88,41,16,
+92039,41,EWA,"European/Euro-American/Oceanian crayfishes, flesh, boiled (n.s.)",,c,16.6,63,2.2,2.02,40.1,15,
+92077,41,EWA,"European/Euro-American/Oceanian crayfishes, flesh, boiled in recipe (n.s.)",,c,16.6,63,2.8,2.02,45,15,
+92115,41,EWA,"European/Euro-American/Oceanian crayfishes, flesh, grilled♦ (n.s.)",,c,18,68,2.5,2.18,48,16,
+92002,41,EWA/AYS/CJF,"European/Euro-American/Oceanian crayfishes, wild, flesh, raw (n.s.)",W ,r,15.4,27,0.8,1.3,32,16,
+92040,41,EWA,"European/Euro-American/Oceanian crayfishes, wild, flesh, boiled",W ,c,16.6,29,0.7,1.4,31,15,
+92078,41,EWA,"European/Euro-American/Oceanian crayfishes, wild, flesh, boiled in recipe",W ,c,16.6,29,0.9,1.4,34,15,
+92116,41,EWA,"European/Euro-American/Oceanian crayfishes, wild, flesh, grilled♦",W ,c,17.9,31,0.8,1.51,37,17,
+92003,41,EWA/AYS/CJF,"European/Euro-American/Oceanian crayfishes, farmed flesh, raw",F,r,14.9,25,0.6,1.01,28,15,0.16
+92041,41,EWA,"European/Euro-American/Oceanian crayfishes, farmed flesh, boiled",F,c,16,27,0.5,1.09,27,15,0.18
+92079,41,EWA,"European/Euro-American/Oceanian crayfishes, farmed flesh, boiled in recipe",F,c,16,27,0.6,1.09,31,15,0.18
+92117,41,EWA,"European/Euro-American/Oceanian crayfishes, farmed flesh, grilled♦",F,c,17.3,29,0.5,1.17,33,16,0.2
+92004,45,PAL,"Palaemonid shrimps, flesh, raw",,r,17.7,96,1.9,2.28,31,42,0.09
+92042,45,PAL,"Palaemonid shrimps, flesh, boiled",,c,21.4,116,1.8,2.75,34,46,0.11
+92080,45,PAL,"Palaemonid shrimps, flesh, boiled in recipe",,c,21.4,116,2.2,2.75,38,46,0.11
+92118,45,PAL,"Palaemonid shrimps, flesh, grilled♦",,c,20.6,112,1.8,2.65,36,44,0.11
+92005,42,PPF,"River prawns, flesh, raw",,r,16.6,44,1.1,2.49,26,10,0.09
+92043,41,PPF,"River prawns, flesh, boiled",,c,20,53,1,3,28,10,0.12
+92081,41,PPF,"River prawns, flesh, boiled in recipe",,c,20,53,1.3,3,31,10,0.12
+92119,41,PPF,"River prawns, flesh, grilled♦",,c,19.3,51,1,2.9,30,10,0.11
+92006,42,MBM,"Monsoon river prawn, flesh, raw",,r,17.6,44,1.3,3.2,34,10,0.08
+92044,41,MBM,"Monsoon river prawn, flesh, boiled",,c,21.2,53,1.2,3.86,36,10,0.1
+92082,41,MBM,"Monsoon river prawn, flesh, boiled in recipe",,c,21.2,53,1.5,3.86,40,10,0.1
+92120,41,MBM,"Monsoon river prawn, flesh, grilled♦",,c,20.4,51,1.2,3.72,39,10,0.1
+92007,42,PRF,"Giant river prawn, flesh, raw",,r,17.8,22,0.5,1.03,26,10,0.12
+92045,41,PRF,"Giant river prawn, flesh, boiled",,c,21.4,26,0.5,1.23,28,10,0.15
+92083,41,PRF,"Giant river prawn, flesh, boiled in recipe",,c,21.4,26,0.6,1.23,31,10,0.15
+92121,41,PRF,"Giant river prawn, flesh, grilled♦",,c,20.7,25,0.5,1.19,30,10,0.15
+92008,42,CAD,"Jonah crabs/Rock crabs, flesh, raw",,r,17.6,65,0.5,4.43,45,17,
+92046,42,CAD,"Jonah crabs/Rock crabs, flesh, boiled",,c,20.2,74,0.4,5.09,47,18,
+92084,42,CAD,"Jonah crabs/Rock crabs, flesh, boiled in recipe",,c,20.2,74,0.5,5.09,52,18,
+92122,42,CAD,"Jonah crabs/Rock crabs, flesh, grilled♦",,c,20.4,75,0.5,5.15,52,18,
+92009,42,DUN,"Dungeness crab, meat, raw",,r,18.1,46,0.4,4.27,37,27,0.17
+92047,42,DUN,"Dungeness crab, flesh, boiled",,c,20.8,53,0.3,4.91,38,28,0.2
+92085,42,DUN,"Dungeness crab, flesh, boiled in recipe",,c,20.8,53,0.4,4.91,43,28,0.2
+92123,42,DUN,"Dungeness crab, flesh, grilled♦",,c,21,53,0.4,4.97,43,28,0.2
+92010,42,CRE,"Edible crab, flesh, raw (New Zealand)",,r,15.5,52,0.6,4.59,53,7,
+92048,42,CRE,"Edible crab, flesh, boiled (New Zealand)",,c,17.8,60,0.5,5.28,55,7,
+92086,42,CRE,"Edible crab, flesh, boiled in recipe (New Zealand)",,c,17.8,60,0.7,5.28,61,7,
+92124,42,CRE,"Edible crab, flesh, grilled♦ (New Zealand)",,c,18,60,0.6,5.34,62,7,
+92011,42,PCR,"Tanner crabs, flesh, raw",,r,18.5,83,2.5,2.8,35,45,0.3
+92049,42,PCR,"Tanner crabs, flesh, boiled",,c,21.3,95,2.3,3.22,36,47,0.36
+92087,42,PCR,"Tanner crabs, flesh, boiled in recipe",,c,21.3,95,2.9,3.22,40,47,0.36
+92125,42,PCR,"Tanner crabs, flesh, grilled♦",,c,21.5,97,2.5,3.26,40,47,0.37
+92012,42,SWM,"Swimming crabs, etc., flesh, raw",,r,17.2,153,1.2,3.04,57,58,
+92050,42,SWM,"Swimming crabs, etc., flesh, boiled",,c,19.7,176,1.1,3.5,59,60,
+92088,42,SWM,"Swimming crabs, etc., flesh, boiled in recipe",,c,19.7,176,1.4,3.5,66,60,
+92126,42,SWM,"Swimming crabs, etc., flesh, grilled♦",,c,20,178,1.2,3.54,67,61,
+92013,42,CRB,"Blue crab, flesh, raw",,r,15.9,92,0.7,3.54,37,58,0.24
+92051,42,CRB,"Blue crab, flesh, boiled",,c,18.3,105,0.7,4.07,39,60,0.29
+92089,42,CRB,"Blue crab, flesh, boiled in recipe",,c,18.3,105,0.9,4.07,43,60,0.29
+92127,42,CRB,"Blue crab, flesh, grilled♦",,c,18.5,106,0.7,4.12,43,61,0.3
+92014,42,SCD,"Blue swimming crab, flesh, raw",,r,19.9,120,0.4,2.45,57,58,0.18
+92052,42,SCD,"Blue swimming crab, flesh, boiled",,c,22.8,138,0.3,2.82,59,60,0.21
+92090,42,SCD,"Blue swimming crab, flesh, boiled in recipe",,c,22.8,138,0.4,2.82,66,60,0.21
+92128,42,SCD,"Blue swimming crab, flesh, grilled♦",,c,23.1,140,0.4,2.85,67,61,0.22
+92015,42,MUD,"Indo-Pacific swamp crab, flesh, raw",,r,14.7,190,1.8,3.25,55,58,
+92053,42,MUD,"Indo-Pacific swamp crab, flesh, boiled",,c,16.9,218,1.6,3.73,56,60,
+92091,42,MUD,"Indo-Pacific swamp crab, flesh, boiled in recipe",,c,16.9,218,2,3.73,63,60,
+92129,42,MUD,"Indo-Pacific swamp crab, flesh, grilled♦",,c,17.1,221,1.7,3.77,63,61,
+92016,43,NEX,"True lobsters/Lobsterettes, flesh, raw",,r,18.1,66,1.2,2.25,63,7,0.15
+92054,43,NEX,"True lobsters/Lobsterettes, flesh, boiled",,c,20.4,74,1.1,2.53,63,7,0.18
+92092,43,NEX,"True lobsters/Lobsterettes, flesh, boiled in recipe",,c,20.4,74,1.4,2.53,70,7,0.18
+92130,43,NEX,"True lobsters/Lobsterettes, flesh, grilled♦",,c,21.1,77,1.2,2.62,73,7,0.19
+92017,43,LBA,"American lobster, flesh, raw",,r,16.4,47,0.2,2.9,85,7,0.13
+92055,43,LBA,"American lobster, flesh, boiled",,c,18.4,53,0.2,3.26,86,7,0.15
+92093,43,LBA,"American lobster, flesh, boiled in recipe",,c,18.4,53,0.3,3.26,96,7,0.15
+92131,43,LBA,"American lobster, flesh, grilled♦",,c,19,55,0.2,3.37,99,7,0.16
+92018,43,LBE,"European lobster, flesh, raw",,r,18,46,0.2,2.6,56,7,0.05
+92056,43,LBE,"European lobster, flesh, boiled",,c,20.2,51,0.2,2.92,57,7,0.06
+92094,43,LBE,"European lobster, flesh, boiled in recipe",,c,20.2,51,0.2,2.92,63,7,0.06
+92132,43,LBE,"European lobster, flesh, grilled♦",,c,20.9,53,0.2,3.02,65,7,0.06
+92019,43,NEP,"Norway lobster, flesh, raw",,r,18.9,74,2.2,1.68,54,7,0.1
+92057,43,NEP,"Norway lobster, flesh, boiled",,c,21.3,83,2,1.89,55,7,0.13
+92095,43,NEP,"Norway lobster, flesh, boiled in recipe",,c,21.3,83,2.5,1.89,61,7,0.13
+92133,43,NEP,"Norway lobster, flesh, grilled♦",,c,22,86,2.2,1.96,63,7,0.13
+92020,43,VLO,"Spiny lobsters, flesh, raw",,r,19,38,1.1,3.13,45,3,
+92058,43,VLO,"Spiny lobsters, flesh, boiled",,c,21.4,42,1,3.51,45,3,
+92096,43,VLO,"Spiny lobsters, flesh, boiled in recipe",,c,21.4,42,1.2,3.51,51,3,
+92134,43,VLO,"Spiny lobsters, flesh, grilled♦",,c,22.1,44,1.1,3.63,52,3,
+92021,43,LOR,"Red rock lobster, flesh, raw",,r,21.7,40,0.3,1.93,29,2,
+92059,43,LOR,"Red rock lobster, flesh, boiled",,c,24.4,45,0.3,2.17,29,2,
+92097,43,LOR,"Red rock lobster, flesh, boiled in recipe",,c,24.4,45,0.4,2.17,32,2,
+92135,43,LOR,"Red rock lobster, flesh, grilled♦",,c,25.2,46,0.3,2.24,33,3,
+92022,44,KCX,"King crabs/Stone crabs, flesh, raw",,r,15.8,103,0.6,5.95,36,7,0.19
+92060,44,KCX,"King crabs/Stone crabs, flesh, boiled",,c,18.1,118,0.5,6.84,38,7,0.24
+92098,44,KCX,"King crabs/Stone crabs, flesh, boiled in recipe",,c,18.1,118,0.7,6.84,42,7,0.24
+92136,44,KCX,"King crabs/Stone crabs, flesh, grilled♦",,c,18.3,120,0.6,6.92,42,7,0.24
+92023,44,KCD,"Red king crab, flesh, raw",,r,15.8,103,0.6,5.95,36,7,0.19
+92061,44,KCD,"Red king crab, flesh, boiled",,c,18.1,118,0.5,6.84,38,7,0.24
+92099,44,KCD,"Red king crab, flesh, boiled in recipe",,c,18.1,118,0.7,6.84,42,7,0.24
+92137,44,KCD,"Red king crab, flesh, grilled♦",,c,18.3,120,0.6,6.92,42,7,0.24
+92024,45,CSH,"Common shrimp, flesh, raw",,r,18.5,,1.7,,41,2,0.37
+92062,45,CSH,"Common shrimp, flesh, boiled",,c,22.3,,1.6,,44,2,0.46
+92100,45,CSH,"Common shrimp, flesh, boiled in recipe",,c,22.3,,2,,49,2,0.46
+92138,45,CSH,"Common shrimp, flesh, grilled♦",,c,21.5,,1.7,,48,2,0.45
+92025,45,PAN,"Pandalus shrimps, flesh, raw",,r,17.5,21,1.1,1.53,72,,0.25
+92063,45,PAN,"Pandalus shrimps, flesh, boiled",,c,21,25,1.1,1.84,78,,0.32
+92101,45,PAN,"Pandalus shrimps, flesh, boiled in recipe",,c,21,25,1.3,1.84,86,,0.32
+92139,45,PAN,"Pandalus shrimps, flesh, grilled♦",,c,20.3,24,1.1,1.77,83,,0.31
+92026,45,PRA,"Northern prawn, flesh, raw",,r,16.4,21,0.2,1.12,23,,0.15
+92064,45,PRA,"Northern prawn, flesh, boiled",,c,19.7,25,0.2,1.35,25,,0.2
+92102,45,PRA,"Northern prawn, flesh, boiled in recipe",,c,19.7,25,0.3,1.35,28,,0.2
+92140,45,PRA,"Northern prawn, flesh, grilled♦",,c,19,24,0.2,1.3,27,,0.19
+92027,45,PEZ,"Penaeid shrimps, flesh, raw",,r,19.3,59,1.4,1.43,42,11,
+92065,45,PEZ,"Penaeid shrimps, flesh, boiled",,c,23.2,71,1.3,1.72,45,12,
+92103,45,PEZ,"Penaeid shrimps, flesh, boiled in recipe",,c,23.2,71,1.7,1.72,50,12,
+92141,45,PEZ,"Penaeid shrimps, flesh, grilled♦",,c,22.4,69,1.4,1.66,48,11,
+92028,45,ENS,"Endeavour shrimp, flesh, raw",,r,22.5,60,0.2,1.64,65,11,
+92066,45,ENS,"Endeavour shrimp, flesh, boiled",,c,27.1,72,0.2,1.98,70,12,
+92104,45,ENS,"Endeavour shrimp, flesh, boiled in recipe",,c,27.1,72,0.2,1.98,78,12,
+92142,45,ENS,"Endeavour shrimp, flesh, grilled♦",,c,26.2,69,0.2,1.91,75,11,
+92029,45,MPM,"Eastern school shrimp, flesh, raw",,r,17.8,583,2.8,1.54,25,3,
+92067,45,MPM,"Eastern school shrimp, flesh, boiled",,c,21.4,702,2.7,1.86,27,3,
+92105,45,MPM,"Eastern school shrimp, flesh, boiled in recipe",,c,21.4,702,3.3,1.86,30,3,
+92143,45,MPM,"Eastern school shrimp, flesh, grilled♦",,c,20.7,678,2.7,1.79,29,3,
+92030,45,MPN,"Speckled shrimp, flesh, raw",,r,19.8,133,1.8,1.25,42,11,
+92068,45,MPN,"Speckled shrimp, flesh, boiled",,c,23.8,160,1.7,1.51,45,12,
+92106,45,MPN,"Speckled shrimp, flesh, boiled in recipe",,c,23.8,160,2.1,1.51,50,12,
+92144,45,MPN,"Speckled shrimp, flesh, grilled♦",,c,23,154,1.8,1.45,48,11,
+92031,45,PRB,"Brown tiger prawn, flesh, raw",,r,23.4,163,0.3,1.69,29,5,
+92069,45,PRB,"Brown tiger prawn, flesh, boiled",,c,28.2,196,0.3,2.04,32,5,
+92107,45,PRB,"Brown tiger prawn, flesh, boiled in recipe",,c,28.2,196,0.3,2.04,35,5,
+92145,45,PRB,"Brown tiger prawn, flesh, grilled♦",,c,27.2,190,0.3,1.97,34,5,
+92032,45,WKP,"Western king prawn, flesh, raw",,r,23.9,45,,1.49,44,11,
+92070,45,WKP,"Western king prawn, flesh, boiled",,c,28.8,54,,1.8,47,12,
+92108,45,WKP,"Western king prawn, flesh, boiled in recipe",,c,28.8,54,,1.8,53,12,
+92146,45,WKP,"Western king prawn, flesh, grilled♦",,c,27.8,53,,1.73,51,11,
+92033,45,PBA,"Banana prawn, flesh, raw",,r,13.2,20,0.1,0.91,30,11,
+92071,45,PBA,"Banana prawn, flesh, boiled",,c,15.9,24,0.1,1.09,33,12,
+92109,45,PBA,"Banana prawn, flesh, boiled in recipe",,c,15.9,24,0.2,1.09,37,12,
+92147,45,PBA,"Banana prawn, flesh, grilled♦",,c,15.3,23,0.1,1.05,35,11,
+92034,45,GIT,"Giant tiger prawn, flesh, raw (n.s.)",,r,17.3,49,2.2,1.96,31,15,
+92072,45,GIT,"Giant tiger prawn, flesh, boiled (n.s.)",,c,20.9,59,2.1,2.37,34,16,
+92110,45,GIT,"Giant tiger prawn, flesh, boiled in recipe (n.s.)",,c,20.9,59,2.6,2.37,37,16,
+92148,45,GIT,"Giant tiger prawn, flesh, grilled♦ (n.s.)",,c,20.1,57,2.2,2.28,36,16,
+92035,45,GIT,"Giant tiger prawn, farmed, flesh, raw",F,r,17.1,26,3.1,1.73,31,15,
+92073,45,GIT,"Giant tiger prawn, farmed, flesh, boiled",F,c,20.6,31,3,2.08,34,16,
+92111,45,GIT,"Giant tiger prawn, farmed, flesh, boiled in recipe",F,c,20.6,31,3.7,2.08,37,16,
+92149,45,GIT,"Giant tiger prawn, farmed, flesh, grilled♦",F,c,19.9,30,3,2.01,36,16,
+92036,45,TIP,"Green tiger prawn, flesh, raw",,r,20.8,60,1.5,1.43,42,11,
+92074,45,TIP,"Green tiger prawn, flesh, boiled",,c,25.1,73,1.4,1.72,45,12,
+92112,45,TIP,"Green tiger prawn, flesh, boiled in recipe",,c,25.1,73,1.8,1.72,50,12,
+92150,45,TIP,"Green tiger prawn, flesh, grilled♦",,c,24.2,70,1.5,1.66,48,11,
+92037,45,PNV,"Whiteleg shrimp, flesh, raw",,r,18.2,34,1,1.32,34,11,0.16
+92075,45,PNV,"Whiteleg shrimp, flesh, boiled",,c,21.9,41,0.9,1.58,37,12,0.2
+92113,45,PNV,"Whiteleg shrimp, flesh, boiled in recipe",,c,21.9,41,1.2,1.58,41,12,0.2
+92151,45,PNV,"Whiteleg shrimp, flesh, grilled♦",,c,21.2,40,0.9,1.53,40,11,0.19
+92038,45,SHS,"Sergestid shrimps, flesh, raw",,r,18.5,376,2.7,1.11,49,54,
+92076,45,SHS,"Sergestid shrimps, flesh, boiled",,c,22.2,452,2.6,1.34,53,59,
+92114,45,SHS,"Sergestid shrimps, flesh, boiled in recipe",,c,22.2,452,3.3,1.34,59,59,
+92152,45,SHS,"Sergestid shrimps, flesh, grilled♦",,c,21.5,437,2.7,1.29,57,57,
+93001,52,ABX,"Abalones, muscle, raw",,r,17.7,31,2.6,1.01,21,11,
+93036,52,ABX,"Abalones, muscle, boiled♦",,c,28.1,49,3.3,1.6,30,15,
+93071,52,ABX,"Abalones, muscle, boiled in recipe",,c,28.1,49,4.1,1.6,33,15,
+93002,52,JTX,"Conch shells, flesh, raw",,r,23.3,271,3,4.4,,,
+93037,52,JTX,"Conch shells, flesh, boiled♦",,c,45.6,532,4.8,8.63,,,
+93072,52,JTX,"Conch shells, flesh, boiled in recipe",,c,45.6,532,5.9,8.63,,,
+93003,52,TBG,"Giant Eastern Pacific conch, flesh, raw",,r,23.6,271,3,4.4,,,
+93038,52,TBG,"Giant Eastern Pacific conch, flesh, boiled♦",,c,46.3,532,4.8,8.63,,,
+93073,52,TBG,"Giant Eastern Pacific conch, flesh, boiled in recipe",,c,46.3,532,5.9,8.63,,,
+93004,52,TBI,"Eastern Pacific fighting conch, flesh, raw",,r,23,271,3,4.4,,,
+93039,52,TBI,"Eastern Pacific fighting conch, flesh, boiled♦",,c,45.1,532,4.8,8.63,,,
+93074,52,TBI,"Eastern Pacific fighting conch, flesh, boiled in recipe",,c,45.1,532,5.9,8.63,,,
+93005,53,OYC,"Cupped oysters, flesh, raw",,r,8.89,118,3.1,11.5,37,27,
+93040,53,OYC,"Cupped oysters, flesh, steamed",,c,11.4,151,3.2,14.7,43,31,
+93075,53,OYC,"Cupped oysters, flesh, boiled in recipe",,c,11.4,151,4,14.7,48,31,
+93006,53,OYG,"Pacific cupped oyster, flesh, raw (n.s.)",,r,9.72,144,2.7,8.5,36,21,
+93041,53,OYG,"Pacific cupped oyster, flesh, steamed (n.s.)",,c,12.5,185,2.8,10.9,42,24,
+93076,53,OYG,"Pacific cupped oyster, flesh, boiled in recipe (n.s.)",,c,12.5,185,3.5,10.9,46,24,
+93007,53,OYG,"Pacific cupped oyster, farmed, flesh, raw",F,r,9.62,182,1.6,0.01,33,21,
+93042,53,OYG,"Pacific cupped oyster, farmed, flesh, steamed",F,c,12.3,234,1.6,0.02,38,24,
+93077,53,OYG,"Pacific cupped oyster, farmed, flesh, boiled in recipe",F,c,12.3,234,2,0.02,42,24,
+93008,53,OYM,"Mangrove cupped oyster, flesh, raw",,r,8.44,118,2.4,11.9,37,27,
+93043,53,OYM,"Mangrove cupped oyster, flesh, steamed",,c,10.8,151,2.5,15.2,43,31,
+93078,53,OYM,"Mangrove cupped oyster, flesh, boiled in recipe",,c,10.8,151,3.1,15.2,48,31,
+93009,53,OYA,"American cupped oyster, flesh, raw (n.s.)",,r,5.57,52,5.2,38.6,42,11,0.29
+93044,53,OYA,"American cupped oyster, flesh, steamed (n.s.)",,c,7.1,66,5.3,49.5,48,12,0.4
+93079,53,OYA,"American cupped oyster, flesh, boiled in recipe (n.s.)",,c,7.1,66,6.7,49.5,53,12,0.4
+93010,53,OYA,"American cupped oyster, flesh, farmed, raw (USA)",F,r,5.11,44,5.8,37.9,64,8,0.34
+93045,53,OYA,"American cupped oyster, flesh, farmed, steamed (USA)",F,c,6.6,56,5.9,48.6,74,9,0.46
+93080,53,OYA,"American cupped oyster, flesh, farmed, boiled in recipe (USA)",F,c,6.6,56,7.4,48.6,82,9,0.46
+93011,53,OYA,"American cupped oyster, flesh, wild, raw (USA)",W,r,5.95,59,4.6,39.3,20,13,0.22
+93046,53,OYA,"American cupped oyster, flesh,wild, steamed (USA)",W,c,7.6,76,4.7,50.4,23,15,0.3
+93081,53,OYA,"American cupped oyster, flesh,wild, boiled in recipe (USA)",W,c,7.6,76,5.9,50.4,25,15,0.3
+93012,53,OYX,"Flat oysters, flesh, raw",,r,9.42,100,6,9.47,68,46,
+93047,53,OYX,"Flat oysters, flesh, steamed",,c,12.1,128,6.2,12.1,78,53,
+93082,53,OYX,"Flat oysters, flesh, boiled in recipe",,c,12.1,128,7.7,12.1,87,53,
+93013,53,OYF,"European flat oyster, flesh, raw",,r,10.8,140,5.7,9.47,23,46,0.27
+93048,53,OYF,"European flat oyster, flesh, steamed",,c,13.8,179,5.8,12.1,27,53,0.36
+93083,53,OYF,"European flat oyster, flesh, boiled in recipe",,c,13.8,179,7.3,12.1,29,53,0.36
+93014,54,MYV,"Mytilus mussels, flesh, raw",,r,11.4,50,4.2,2.08,49,68,
+93049,54,MYV,"Mytilus mussels, flesh, boiled♦",,c,18.3,81,5.4,3.36,72,99,
+93084,54,MYV,"Mytilus mussels, flesh, boiled in recipe",,c,18.3,81,6.7,3.36,80,99,
+93015,54,MUK,"Korean mussel, flesh, raw",,r,12.4,42,2.3,1.35,49,68,0.76
+93050,54,MUK,"Korean mussel, flesh, boiled♦",,c,20,68,2.9,2.18,71,99,1.29
+93085,54,MUK,"Korean mussel, flesh, boiled in recipe",,c,20,68,3.6,2.18,79,99,1.29
+93016,54,MUS,"Blue mussel, flesh, raw",,r,11.8,39,4.4,2.19,50,68,
+93051,54,MUS,"Blue mussel, flesh, boiled♦",,c,19,63,5.7,3.53,72,99,
+93086,54,MUS,"Blue mussel, flesh, boiled in recipe",,c,19,63,7.1,3.53,80,99,
+93017,54,MSM,"Mediterranean mussel, flesh, raw (n.s.)",,r,9.57,69,2.5,2.79,49,68,0.38
+93052,54,MSM,"Mediterranean mussel, flesh, boiled♦ (n.s.)",,c,15.4,111,3.2,4.49,72,99,0.66
+93087,54,MSM,"Mediterranean mussel, flesh, boiled in recipe (n.s.)",,c,15.4,111,4,4.49,80,99,0.66
+93018,54,MSM,"Mediterranean mussel, wild, flesh, raw",W,r,10.2,88,4.2,4.6,49,68,0.37
+93053,54,MSM,"Mediterranean mussel, wild, flesh, boiled♦",W,c,16.5,142,5.4,7.42,72,99,0.64
+93088,54,MSM,"Mediterranean mussel, wild, flesh, boiled in recipe",W,c,16.5,142,6.7,7.42,80,99,0.64
+93019,54,MSM,"Mediterranean mussel, farmed, flesh, raw",F,r,8.25,60,2.5,1.88,49,68,0.4
+93054,54,MSM,"Mediterranean mussel, farmed, flesh, boiled♦",F,c,13.3,96,3.2,3.03,72,99,0.69
+93089,54,MSM,"Mediterranean mussel, farmed, flesh, boiled in recipe",F,c,13.3,96,4,3.03,80,99,0.69
+93020,54,XMS,"Perna mussel, flesh, raw",,r,13.5,46,6.8,1.58,51,55,0.65
+93055,54,XMS,"Perna mussel, flesh, boiled♦",,c,21.8,73,8.8,2.55,74,80,1.12
+93090,54,XMS,"Perna mussel, flesh, boiled in recipe",,c,21.8,73,11,2.55,82,80,1.12
+93021,54,MUZ,"New Zealand mussel, flesh, raw (New Zealand)",,r,10.7,66,3.3,1.13,51,55,0.58
+93056,54,MUZ,"New Zealand mussel, flesh, boiled♦ (New Zealand)",,c,17.2,106,4.3,1.82,74,80,1.01
+93091,54,MUZ,"New Zealand mussel, flesh, boiled in recipe (New Zealand)",,c,17.2,106,5.3,1.82,82,80,1.01
+93022,54,MSV,"Green mussel, flesh, raw",,r,9.3,25,10.3,1.623,51,55,0.23
+93057,54,MSV,"Green mussel, flesh, boiled♦",,c,15,40,13.3,2.62,74,80,0.44
+93092,54,MSV,"Green mussel, flesh, boiled in recipe",,c,15,40,16.6,2.62,82,80,0.44
+93023,55,SCX,"Scallops, flesh, raw",,r,14.9,46,1.3,1.71,23,11,
+93058,55,SCX,"Scallops, flesh, boiled",,c,29.9,91,2,3.43,41,20,
+93093,55,SCX,"Scallops, flesh, boiled in recipe",,c,29.9,91,2.5,3.43,46,20,
+93024,55,SCE,"Great Atlantic scallop, flesh, raw",,r,14.8,64,0.7,1.76,13,2,0.23
+93059,55,SCE,"Great Atlantic scallop, flesh, boiled",,c,29.6,128,1.1,3.51,23,3,0.61
+93094,55,SCE,"Great Atlantic scallop, flesh, boiled in recipe",,c,29.6,128,1.3,3.51,26,3,0.61
+93025,56,CLV,"Venus clams, flesh, raw",,r,9.2,183,6.6,1.17,110,79,
+93060,56,CLV,"Venus clams, flesh, boiled♦",,c,14.6,290,8.4,1.85,160,113,
+93095,56,CLV,"Venus clams, flesh, boiled in recipe",,c,14.6,290,10.5,1.85,180,113,
+93026,56,SVE,"Striped venus, flesh, raw",,r,9.23,223,7.7,1.26,130,79,0.46
+93061,56,SVE,"Striped venus, flesh, boiled♦",,c,14.6,354,9.7,1.99,180,113,0.8
+93096,56,SVE,"Striped venus, flesh, boiled in recipe",,c,14.6,354,12.2,1.99,200,113,0.8
+93027,57,SQZ,"Inshore squids, flesh, raw",,r,15.9,18,0.7,1.26,43,13,
+93062,57,SQZ,"Inshore squids, flesh, boiled",,c,31.2,36,1,2.47,77,23,
+93097,57,SQZ,"Inshore squids, flesh, boiled in recipe",,c,31.2,36,1.3,2.47,85,23,
+93106,57,SQZ,"Inshore squids, flesh, grilled",,c,26.1,30,0.9,2.06,71,19,
+93028,57,SQR,"European squid, flesh, raw (n.s.)",,r,16.1,13,0.3,1.19,53,13,
+93063,57,SQR,"European squid, flesh, boiled (n.s.)",,c,31.6,26,0.5,2.33,93,23,
+93098,57,SQR,"European squid, flesh, boiled in recipe (n.s.)",,c,31.6,26,0.6,2.33,100,23,
+93107,57,SQR,"European squid, flesh, grilled (n.s.)",,c,26.4,21,0.4,1.95,87,19,
+93029,57,SQR,"European squid, wild, flesh, raw (Mediterranean Sea)",W,r,16.7,13,0.3,1.19,26,13,0.81
+93064,57,SQR,"European squid, wild, flesh, boiled (Mediterranean Sea)",W,c,32.8,25,0.5,2.33,46,23,1.73
+93099,57,SQR,"European squid, wild, flesh, boiled in recipe (Mediterranean Sea)",W,c,32.8,25,0.6,2.33,52,23,1.73
+93108,57,SQR,"European squid, wild, flesh, grilled (Mediterranean Sea)",W,c,27.4,21,0.4,1.95,43,19,1.42
+93030,57,OCT,"Octopuses, etc., flesh, raw",,r,13.8,33,2.3,2.84,47,26,0.15
+93065,57,OCT,"Octopuses, etc., flesh, boiled",,c,27.1,65,3.5,5.57,83,46,0.4
+93100,57,OCT,"Octopuses, etc., flesh, boiled in recipe",,c,27.1,65,4.4,5.57,92,46,0.4
+93109,57,OCT,"Octopuses, etc., flesh, grilled",,c,22.7,54,3.1,4.66,77,38,0.31
+93031,57,OCC,"Common octopus, flesh, raw (n.s.)",,r,13.7,34,2.4,3.09,54,26,0.18
+93066,57,OCC,"Common octopus, flesh, boiled (n.s.)",,c,26.8,67,3.8,6.05,95,46,0.47
+93101,57,OCC,"Common octopus, flesh, boiled in recipe (n.s.)",,c,26.8,67,4.7,6.05,110,46,0.47
+93110,57,OCC,"Common octopus, flesh, grilled (n.s.)",,c,22.4,56,3.3,5.06,88,38,0.37
+93032,57,OCC,"Common octopus, wild, flesh, raw (Mediterranean Sea)",W,r,13.4,38,3.7,5.1,54,26,0.18
+93067,57,OCC,"Common octopus, wild, flesh, boiled (Mediterranean Sea)",W,c,26.3,74,5.8,10,95,46,0.48
+93102,57,OCC,"Common octopus, wild, flesh, boiled in recipe (Mediterranean Sea)",W,c,26.3,74,7.3,10,,46,0.48
+93111,57,OCC,"Common octopus, wild, flesh, grilled (Mediterranean Sea)",W,c,22,62,5.2,8.36,,38,0.38
+93033,57,OMZ,"Ommastrephidae squids, flesh, raw",,r,16.4,37,3.3,2.81,51,0,
+93068,57,OMZ,"Ommastrephidae squids, flesh, boiled",,c,32.2,73,5.2,5.5,90,0,
+93103,57,OMZ,"Ommastrephidae squids, flesh, boiled in recipe",,c,32.2,73,6.5,5.5,100,0,
+93112,57,OMZ,"Ommastrephidae squids, flesh, grilled",,c,26.9,61,4.6,4.6,83,0,
+93034,57,CTL,"Cuttlefish/Bobtail squids, flesh, raw",,r,16.4,35,2.1,2.05,49,22,
+93069,57,CTL,"Cuttlefish, bobtail squids, flesh, boiled",,c,32.1,69,3.3,4.02,87,39,
+93104,57,CTL,"Cuttlefish, bobtail squids, flesh, boiled in recipe",,c,32.1,69,4.1,4.02,96,39,
+93113,57,CTL,"Cuttlefish, bobtail squids, flesh, grilled",,c,26.8,58,2.9,3.36,81,32,
+93035,57,CTC,"Common cuttlefish, flesh, raw",,r,16,22,2.5,2.99,49,22,0.31
+93070,57,CTC,"Common cuttlefish, flesh, boiled",,c,31.3,44,4,5.85,87,39,0.72
+93105,57,CTC,"Common cuttlefish, flesh, boiled in recipe",,c,31.3,44,4.9,5.85,96,39,0.72
+93114,57,CTC,"Common cuttlefish, flesh, grilled",,c,26.2,37,3.5,4.89,81,32,0.58

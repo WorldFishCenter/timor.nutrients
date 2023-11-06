@@ -1,0 +1,27 @@
+---
+title: "Timor Nutrients"
+author: "Lore"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "Nutrient paper analyses"
+---
+
+<!--chapter:end:index.Rmd-->
+
+# Literature
+
+Here is a review of existing methods.
+
+<!--chapter:end:02-literature.Rmd-->
+
+# Introduction
+
+This chapter is an overview of the methods that
+we propose to solve an **important problem**.
+
+<!--chapter:end:01-intro.Rmd-->
+
