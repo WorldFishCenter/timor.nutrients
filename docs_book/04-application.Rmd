@@ -1,7 +1,62 @@
-# Applications
+# Timor SSF nutrient profiles {#chapter4}
 
-Some _significant_ applications are demonstrated in this chapter.
+Add concept and perspectives...
 
-## Example one
 
-## Example two
+```{r echo=FALSE, fig.height=5, fig.width=8, message=FALSE, warning=FALSE}
+library(ggplot2)
+df <-
+  Timor.nutrients::kobo_trips %>%
+  dplyr::ungroup() %>%
+  dplyr::select(-Selenium_mu) %>%
+  rename_nutrients_mu() %>%
+  tidyr::pivot_longer(-c(landing_id:weight), names_to = "nutrient", values_to = "kg") %>%
+  dplyr::left_join(RDI_tab, by = "nutrient") %>%
+  dplyr::mutate(
+    nutrients_kg_per_kg = kg / weight, # standardize nutrients for 1 kg of catch
+    nutrients_g_per_kg = nutrients_kg_per_kg * 1000, # convert stand nutrients in grams
+    people_rni_kg = nutrients_g_per_kg / conv_factor
+  ) %>% # get people meeting rni for 1 kg of catch
+  dplyr::select(-c(kg, conv_factor, nutrients_kg_per_kg, nutrients_g_per_kg, weight)) %>%
+  tidyr::pivot_wider(names_from = "nutrient", values_from = "people_rni_kg") %>%
+  # dplyr::filter(landing_period > "2019-01-01") %>%
+  dplyr::group_by(landing_period, habitat, gear_type, vessel_type) %>%
+  dplyr::summarise(dplyr::across(is.numeric, ~ median(.x, na.rm = T))) %>%
+  dplyr::ungroup()
+
+# factoextra::fviz_nbclust(na.omit(df)[ ,5:10], kmeans, method = "wss")
+set.seed(555)
+k2 <- kmeans(na.omit(df)[, 5:10], centers = 5, nstart = 500)
+
+factoextra::fviz_cluster(k2,
+  data = na.omit(df)[, 5:10],
+  geom = c("point"),
+  shape = 19
+) +
+  theme_minimal() +
+  scale_fill_viridis_d() +
+  scale_color_viridis_d() +
+  labs(title = "Nutrient profiles clusters") +
+  theme(legend.position = "bottom")
+```
+
+```{r echo=FALSE, fig.height=7, fig.width=6, message=FALSE, warning=FALSE}
+clusterdf <-
+  dplyr::tibble(
+    clusters = as.character(k2$cluster),
+    na.omit(df)
+  )
+
+clusterdf %>%
+  # dplyr::select(-weight) %>%
+  tidyr::pivot_longer(-c(clusters:vessel_type)) %>%
+  dplyr::group_by(clusters, name) %>%
+  dplyr::summarise(value = median(value, na.rm = T)) %>%
+  ggplot(aes(value, reorder(clusters, value), fill = name)) +
+  theme_minimal() +
+  geom_col() +
+  scale_fill_viridis_d() +
+  coord_cartesian(expand = FALSE)+
+  theme(legend.position = "bottom")+
+  labs(x = "N. individuals meeting RNI per 1kg of catch", y = "Cluster number", fill = "")
+```

@@ -1,4 +1,4 @@
-
+library(magrittr)
 we <-
   kobo_trips %>%
   dplyr::ungroup() %>%
@@ -88,8 +88,6 @@ clusterdf %>%
   coord_flip()
 
 
-clusterdf %>%
-  dplyr::filter(clusters == "4")
 
 #### discriminant factor
 
