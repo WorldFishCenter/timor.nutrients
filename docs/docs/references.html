@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Methods | Modelling scenarios for nutrient-sensitive fisheries management</title>
+  <title>References | Modelling scenarios for nutrient-sensitive fisheries management</title>
   <meta name="description" content="This book contains analyses and reports in ‘Modelling scenarios for nutrient-sensitive fisheries management’" />
   <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Methods | Modelling scenarios for nutrient-sensitive fisheries management" />
+  <meta property="og:title" content="References | Modelling scenarios for nutrient-sensitive fisheries management" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book contains analyses and reports in ‘Modelling scenarios for nutrient-sensitive fisheries management’" />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="langbart/Timor.nutrients" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Methods | Modelling scenarios for nutrient-sensitive fisheries management" />
+  <meta name="twitter:title" content="References | Modelling scenarios for nutrient-sensitive fisheries management" />
   
   <meta name="twitter:description" content="This book contains analyses and reports in ‘Modelling scenarios for nutrient-sensitive fisheries management’" />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="chapter2.html"/>
-<link rel="next" href="applications.html"/>
+<link rel="prev" href="final-words.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -177,30 +177,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="chapter3" class="section level1 hasAnchor" number="4">
-<h1><span class="header-section-number">Chapter 4</span> Methods<a href="chapter3.html#chapter3" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="chapter3.html#cb2-1" tabindex="-1"></a>catch_groups_name <span class="ot">&lt;-</span> </span>
-<span id="cb2-2"><a href="chapter3.html#cb2-2" tabindex="-1"></a>  Timor.nutrients<span class="sc">::</span>catch_groups <span class="sc">%&gt;%</span> </span>
-<span id="cb2-3"><a href="chapter3.html#cb2-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="at">grouped_taxa =</span> interagency_code,</span>
-<span id="cb2-4"><a href="chapter3.html#cb2-4" tabindex="-1"></a>                catch_name)</span>
-<span id="cb2-5"><a href="chapter3.html#cb2-5" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="chapter3.html#cb2-6" tabindex="-1"></a>nutrients_table <span class="sc">%&gt;%</span> </span>
-<span id="cb2-7"><a href="chapter3.html#cb2-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(catch_groups_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-8"><a href="chapter3.html#cb2-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(catch_name, Selenium_mu<span class="sc">:</span>Vitamin_A_mu) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-9"><a href="chapter3.html#cb2-9" tabindex="-1"></a>  <span class="fu">rename_nutrients_mu</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb2-10"><a href="chapter3.html#cb2-10" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="sc">-</span>catch_name, <span class="at">names_to =</span> <span class="st">&quot;nutrient&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-11"><a href="chapter3.html#cb2-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>nutrient <span class="sc">==</span> <span class="st">&quot;selenium&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span>catch_name <span class="sc">%in%</span> <span class="st">&quot;Other&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-12"><a href="chapter3.html#cb2-12" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(RDI_tab) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-13"><a href="chapter3.html#cb2-13" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">rdi =</span> (value <span class="sc">/</span> conv_factor) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-14"><a href="chapter3.html#cb2-14" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(catch_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-15"><a href="chapter3.html#cb2-15" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">tot =</span> <span class="fu">sum</span>(rdi)) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-16"><a href="chapter3.html#cb2-16" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(rdi, <span class="fu">reorder</span>(catch_name, rdi), <span class="at">fill =</span> nutrient))<span class="sc">+</span></span>
-<span id="cb2-17"><a href="chapter3.html#cb2-17" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
-<span id="cb2-18"><a href="chapter3.html#cb2-18" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_col</span>()<span class="sc">+</span></span>
-<span id="cb2-19"><a href="chapter3.html#cb2-19" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_fill_viridis_d</span>(<span class="at">direction =</span> <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## Joining with `by = join_by(grouped_taxa)`
-## Joining with `by = join_by(nutrient)`</code></pre>
-<p><img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div id="references" class="section level1 unnumbered hasAnchor">
+<h1>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 
 </div>
             </section>
@@ -208,8 +186,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="chapter2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="applications.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="final-words.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -240,7 +218,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/langbart/Timor.nutrients/edit/main/03-method.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-references.Rmd",
 "text": "Edit"
 },
 "history": {

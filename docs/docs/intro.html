@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 Applications | Modelling scenarios for nutrient-sensitive fisheries management</title>
+  <title>Chapter 2 Data | Modelling scenarios for nutrient-sensitive fisheries management</title>
   <meta name="description" content="This book contains analyses and reports in ‘Modelling scenarios for nutrient-sensitive fisheries management’" />
   <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 Applications | Modelling scenarios for nutrient-sensitive fisheries management" />
+  <meta property="og:title" content="Chapter 2 Data | Modelling scenarios for nutrient-sensitive fisheries management" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This book contains analyses and reports in ‘Modelling scenarios for nutrient-sensitive fisheries management’" />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="langbart/Timor.nutrients" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 Applications | Modelling scenarios for nutrient-sensitive fisheries management" />
+  <meta name="twitter:title" content="Chapter 2 Data | Modelling scenarios for nutrient-sensitive fisheries management" />
   
   <meta name="twitter:description" content="This book contains analyses and reports in ‘Modelling scenarios for nutrient-sensitive fisheries management’" />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="chapter3.html"/>
-<link rel="next" href="final-words.html"/>
+<link rel="prev" href="index.html"/>
+<link rel="next" href="chapter2.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -177,14 +177,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="applications" class="section level1 hasAnchor" number="5">
-<h1><span class="header-section-number">Chapter 5</span> Applications<a href="applications.html#applications" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Some <em>significant</em> applications are demonstrated in this chapter.</p>
-<div id="example-one" class="section level2 hasAnchor" number="5.1">
-<h2><span class="header-section-number">5.1</span> Example one<a href="applications.html#example-one" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="intro" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Data<a href="intro.html#intro" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="nutritional-and-weight-estimation-in-fish-catches" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Nutritional and weight estimation in fish catches<a href="intro.html#nutritional-and-weight-estimation-in-fish-catches" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The total estimated catch weight is determined by the number of individuals and the length range of each catch. Specifically, during the initial phase of the Peskas project (July 2017 - April 2019), the standard length measurement used was the fork length (FL), which later changed to the total length (TL) in the subsequent and current version of the project. We utilized the API service offered by the FishBase database to incorporate length-to-length and length-to-weight conversion tables, using information from survey landings to calculate the weight in grams based on the following formula:</p>
+<p>W = a × L^b</p>
+<p>Here, W represents the weight in grams, L is the total length (TL) in centimeters, and a and b are the conversion parameters obtained from FishBase for each fish species.</p>
+<p>The FishBase database provides length-to-length and length-to-weight relationships for over 5,000 fish species. Typically, there are multiple records for the parameters a and b for each species. Since the length measurements in Peskas’ first version pertained to FL, we initially standardized all length measurements to TL using the FishBase length-to-length conversion tables. Subsequently, we applied the TL-to-weight conversion tables to estimate the weights.</p>
+<p>The FishBase length-to-weight conversion tables offer species-level taxonomic resolution. To derive a singular length-to-weight relationship for each fish group, we calculated the median values of parameters a and b for all species within a particular fish group. To ensure relevance to the region of interest, we refined the species list using FAO country codes (<a href="https://www.fao.org/countryprofiles/iso3list/en/" class="uri">https://www.fao.org/countryprofiles/iso3list/en/</a>) pertinent to Timor-Leste and Indonesia (country codes 626 and 360, respectively). For instance, to ascertain the weight of a catch categorized under the fish group labeled ECN (representing the Echeneidae family), we first identified the species within ECN documented in Timor-Leste and Indonesia. After this, we computed the average values of the parameters a and b for the identified species, which in this case were Echeneis naucrates and Remora remora (as illustrated in the figure below).</p>
+<p>To address the scarcity of measured nutrient values for fish, which are typically limited to a few species and countries. To overcome this data limitation, MacNeil et al. developed a Bayesian hierarchical model that leverages both phylogenetic information and trait-based information to predict concentrations of seven essential nutrients: calcium, iron, omega-3 fatty acids, protein, selenium, vitamin A, and zinc for both marine and inland fish species globally (see Hicks et al. 2019). For each catch, the nutritional yield was calculated by combining the validated weight estimates for each fish group with the modelled nutrient concentrations. Specifically, we used the highest posterior predictive density values for each of the seven nutrients, which can be found in the repository (<a href="https://github.com/mamacneil/NutrientFishbase" class="uri">https://github.com/mamacneil/NutrientFishbase</a>). For non-fish groups—including octopuses, squids, cockles, shrimps, crabs, and lobsters—nutritional yield information was not available in the NutrientFishbase repository models. We retrieved the necessary data for these groups from the <a href="https://www.fao.org/documents/card/en/c/I8542EN/">Global food composition database</a>, using the same methodological approach as for the fish groups to estimate their nutritional content. To represent the nutrient concentration associated with each fish group, we used the median value as a summarizing metric.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:nutdispersion"></span>
+<img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/nutdispersion-1.png" alt="Here is a nice figure!" width="80%" />
+<p class="caption">
+Figure 2.1: Here is a nice figure!
+</p>
 </div>
-<div id="example-two" class="section level2 hasAnchor" number="5.2">
-<h2><span class="header-section-number">5.2</span> Example two<a href="applications.html#example-two" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Add plot explanations</p>
 
 </div>
 </div>
@@ -193,8 +202,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="chapter3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="final-words.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -225,7 +234,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/langbart/Timor.nutrients/edit/main/04-application.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-intro.Rmd",
 "text": "Edit"
 },
 "history": {
