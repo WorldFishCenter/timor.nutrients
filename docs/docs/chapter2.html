@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Highlight statistics | Modelling scenarios for nutrient-sensitive fisheries management</title>
+  <meta name="description" content="This book contains analyses and reports in ‘Modelling scenarios for nutrient-sensitive fisheries management’" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Highlight statistics | Modelling scenarios for nutrient-sensitive fisheries management" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This book contains analyses and reports in ‘Modelling scenarios for nutrient-sensitive fisheries management’" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Highlight statistics | Modelling scenarios for nutrient-sensitive fisheries management" />
+  
+  <meta name="twitter:description" content="This book contains analyses and reports in ‘Modelling scenarios for nutrient-sensitive fisheries management’" />
+  
+
+<meta name="author" content="Lore" />
+
+
+<meta name="date" content="2023-11-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="intro.html"/>
+<link rel="next" href="chapter3.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/core-js-2.5.3/shim.min.js"></script>
+<script src="libs/react-18.2.0/react.min.js"></script>
+<script src="libs/react-18.2.0/react-dom.min.js"></script>
+<script src="libs/reactwidget-1.0.0/react-tools.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="libs/reactable-0.4.4/reactable.css" rel="stylesheet" />
+<script src="libs/reactable-binding-0.4.4/reactable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Modelling scenarios for nutrient-sensitive fisheries managemente</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Data</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#nutritional-and-weight-estimation-in-fish-catches"><i class="fa fa-check"></i><b>2.1</b> Nutritional and weight estimation in fish catches</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter2.html"><a href="chapter2.html"><i class="fa fa-check"></i><b>3</b> Highlight statistics</a></li>
+<li class="chapter" data-level="4" data-path="chapter3.html"><a href="chapter3.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Modelling scenarios for nutrient-sensitive fisheries management</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter2" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Highlight statistics<a href="chapter2.html#chapter2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The table summarizes the main statistics on nutrient supply for each region. Below is a description of each column:</p>
+<ul>
+<li><p><strong>MUNICIPALITY (POPULATION)</strong>: Municipality and number of people &gt; 5 years old in 2022.</p></li>
+<li><p><strong>COASTLINE EXTENSION</strong>: Municipality coastline extension in Km.</p></li>
+<li><p><strong>NUTRIENT</strong>: Nutrient of reference</p></li>
+<li><p><strong>ANNUAL SUPPLY</strong>: Aggregated annual value in kg. These values represent municipal-level estimates based on the number of fishing boats recorded in the 2021 Timor-Leste boat census, average number of fishing trips per boat and average landing weight values for each fish group.</p></li>
+<li><p><strong>ANNUAL SUPPLY PER KM</strong>: It describes the annual supply of each nutrient standardized on the coastline length, that is: <span class="math inline">\(\frac{Annual\ supply\ (kg)}{Coastline\ extension\ (km)}\)</span></p></li>
+<li><p><strong>N. PEOPLE SUPPLIED DAILY</strong>: It describes the number of people meeting the nutrient’ RNI for each municipality. RNI values used are the following:</p>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="11%" />
+<col width="12%" />
+<col width="21%" />
+<col width="12%" />
+<col width="11%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Selenium</th>
+<th>Zinc</th>
+<th>Protein</th>
+<th>Total -3 PUFA</th>
+<th>Calcium</th>
+<th>Iron</th>
+<th>Vitamin-A</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0.000026</td>
+<td>0.0049</td>
+<td>46</td>
+<td>2.939</td>
+<td>1</td>
+<td>0.0294</td>
+<td>0.0005</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<p>The 20% of RNIs values was take as reference in consideration of the fact that <a href="https://www.fao.org/documents/card/en/c/cc4576en">an ‘adequate diet’ is expected to comprise 5 food group</a>. RNIs were then converted from grams to kg (dividing by 1000) and the requirements was calculated as: <span class="math inline">\(\frac{Anuual\ supply\ (kg)}{(RNI\times 0.20) \ / 1000} /365\)</span></p>
+<ul>
+<li><strong>POPULATION MEETING RNI REQUIREMENTS</strong>: Percentage of the population meeting the RNI requirements in each municipality: <span class="math inline">\(\frac{Number\ of\ people\ supplied\ daily}{Municipality\ population} \times 100\)</span></li>
+</ul>
+<div class="reactable html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-c17113ee6bafda1a2be9" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-c17113ee6bafda1a2be9">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"region":["Ainaro (   61,741)","Ainaro (   61,741)","Ainaro (   61,741)","Ainaro (   61,741)","Ainaro (   61,741)","Ainaro (   61,741)","Ainaro (   61,741)","Atauro (    8,940)","Atauro (    8,940)","Atauro (    8,940)","Atauro (    8,940)","Atauro (    8,940)","Atauro (    8,940)","Atauro (    8,940)","Baucau (  115,629)","Baucau (  115,629)","Baucau (  115,629)","Baucau (  115,629)","Baucau (  115,629)","Baucau (  115,629)","Baucau (  115,629)","Bobonaro (   91,349)","Bobonaro (   91,349)","Bobonaro (   91,349)","Bobonaro (   91,349)","Bobonaro (   91,349)","Bobonaro (   91,349)","Bobonaro (   91,349)","Covalima (   63,137)","Covalima (   63,137)","Covalima (   63,137)","Covalima (   63,137)","Covalima (   63,137)","Covalima (   63,137)","Covalima (   63,137)","Dili (  280,684)","Dili (  280,684)","Dili (  280,684)","Dili (  280,684)","Dili (  280,684)","Dili (  280,684)","Dili (  280,684)","Lautem (   60,015)","Lautem (   60,015)","Lautem (   60,015)","Lautem (   60,015)","Lautem (   60,015)","Lautem (   60,015)","Lautem (   60,015)","Liquica (   70,638)","Liquica (   70,638)","Liquica (   70,638)","Liquica (   70,638)","Liquica (   70,638)","Liquica (   70,638)","Liquica (   70,638)","Manatuto (   43,765)","Manatuto (   43,765)","Manatuto (   43,765)","Manatuto (   43,765)","Manatuto (   43,765)","Manatuto (   43,765)","Manatuto (   43,765)","Manufahi (   51,751)","Manufahi (   51,751)","Manufahi (   51,751)","Manufahi (   51,751)","Manufahi (   51,751)","Manufahi (   51,751)","Manufahi (   51,751)","Oecusse (   69,323)","Oecusse (   69,323)","Oecusse (   69,323)","Oecusse (   69,323)","Oecusse (   69,323)","Oecusse (   69,323)","Oecusse (   69,323)","Viqueque (   69,238)","Viqueque (   69,238)","Viqueque (   69,238)","Viqueque (   69,238)","Viqueque (   69,238)","Viqueque (   69,238)","Viqueque (   69,238)","All (1,148,745)","All (1,148,745)","All (1,148,745)","All (1,148,745)","All (1,148,745)","All (1,148,745)","All (1,148,745)"],"nutrient":["selenium","zinc","protein","omega3","calcium","iron","vitaminA","selenium","zinc","protein","omega3","calcium","iron","vitaminA","selenium","zinc","protein","omega3","calcium","iron","vitaminA","selenium","zinc","protein","omega3","calcium","iron","vitaminA","selenium","zinc","protein","omega3","calcium","iron","vitaminA","selenium","zinc","protein","omega3","calcium","iron","vitaminA","selenium","zinc","protein","omega3","calcium","iron","vitaminA","selenium","zinc","protein","omega3","calcium","iron","vitaminA","selenium","zinc","protein","omega3","calcium","iron","vitaminA","selenium","zinc","protein","omega3","calcium","iron","vitaminA","selenium","zinc","protein","omega3","calcium","iron","vitaminA","selenium","zinc","protein","omega3","calcium","iron","vitaminA","calcium","iron","omega3","protein","selenium","vitaminA","zinc"],"annual_kg":[0.0026,0.0734,1281.2364,85.8322,6.2225,0.053,0.0036,0.2565,7.0353,110624.3908,1321.4139,431.904,6.1758,0.3827,0.2712,3.7216,56770.4322,2293.123,1294.9779,5.7107,0.0557,0.4636,19.5957,285945.184,13982.3003,2002.7687,12.288,0.7547,0.1318,1.7577,29712.9206,770.5511,569.2205,2.995,0.0481,0.0792,1.5363,24989.4804,572.0959,201.1015,1.5263,0.083,0.6904,9.5248,175558.2303,3186.1136,2475.1306,13.5612,0.4665,0.2455,5.9866,103404.7398,2364.4126,380.12,5.2878,0.1916,0.5508,13.2767,206736.8211,13386.5385,2047.5802,12.5747,0.3108,0.0332,0.7118,10695.7839,667.8914,153.0258,0.7168,0.018,0.325,7.9081,145263.3251,2921.4496,512.818,7.3917,0.448,0.2048,3.0245,76786.0186,1557.8762,322.3643,3.4633,0.3158,10397.2341,71.7444,43109.5984,1227768.5633,3.2547,3.0784,74.1526],"rni":[5.2e-09,9.8e-07,0.0092,0.0005878,0.0002,5.88e-06,1e-07,5.2e-09,9.8e-07,0.0092,0.0005878,0.0002,5.88e-06,1e-07,5.2e-09,9.8e-07,0.0092,0.0005878,0.0002,5.88e-06,1e-07,5.2e-09,9.8e-07,0.0092,0.0005878,0.0002,5.88e-06,1e-07,5.2e-09,9.8e-07,0.0092,0.0005878,0.0002,5.88e-06,1e-07,5.2e-09,9.8e-07,0.0092,0.0005878,0.0002,5.88e-06,1e-07,5.2e-09,9.8e-07,0.0092,0.0005878,0.0002,5.88e-06,1e-07,5.2e-09,9.8e-07,0.0092,0.0005878,0.0002,5.88e-06,1e-07,5.2e-09,9.8e-07,0.0092,0.0005878,0.0002,5.88e-06,1e-07,5.2e-09,9.8e-07,0.0092,0.0005878,0.0002,5.88e-06,1e-07,5.2e-09,9.8e-07,0.0092,0.0005878,0.0002,5.88e-06,1e-07,5.2e-09,9.8e-07,0.0092,0.0005878,0.0002,5.88e-06,1e-07,0.0002,5.88e-06,0.0005878,0.0092,5.2e-09,1e-07,9.8e-07],"people_supplied_daily":[1382.619,205.335,381.547,400.062,85.239,24.718,98.69,135121.57,19668.121,32943.535,6159.088,5916.493,2877.544,10484.156,142877.505,10404.216,16906.025,10688.208,17739.424,2660.857,1525.225,244282.433,54782.499,85153.42,65171.269,27435.188,5725.485,20677.599,69449.405,4913.826,8848.398,3591.526,7797.541,1395.478,1318.236,41727.626,4294.984,7441.775,2666.53,2754.815,711.145,2273.669,363760.896,26627.969,52280.593,14850.422,33905.898,6318.702,12780.859,129370.826,16736.245,30793.55,11020.488,5207.124,2463.806,5250.659,290219.089,37116.915,61565.462,62394.434,28049.044,5859.049,8514.013,17497.344,1990.066,3185.165,3113.031,2096.244,333.996,493.363,171212.999,22108.315,43258.882,13616.828,7024.904,3444.1,12273.328,107898.945,8455.389,22866.593,7261.235,4415.949,1613.701,8651.247,142427.864,33428.582,200933.122,365624.944,1714801.258,84341.045,207303.882],"percent_population_supplied":[2.239,0.333,0.618,0.648,0.138,0.04,0.16,1511.427,220.001,368.496,68.894,66.18,32.187,117.272,123.565,8.998,14.621,9.244,15.342,2.301,1.319,267.417,59.971,93.218,71.343,30.033,6.268,22.636,109.998,7.783,14.015,5.688,12.35,2.21,2.088,14.866,1.53,2.651,0.95,0.981,0.253,0.81,606.117,44.369,87.113,24.745,56.496,10.529,21.296,183.146,23.693,43.593,15.601,7.372,3.488,7.433,663.131,84.81,140.673,142.567,64.09,13.388,19.454,33.811,3.845,6.155,6.015,4.051,0.645,0.953,246.979,31.892,62.402,19.643,10.134,4.968,17.705,155.838,12.212,33.026,10.487,6.378,2.331,12.495,12.399,2.91,17.492,31.828,149.276,7.342,18.046]},"columns":[{"id":"region","name":"Municipality (population)","type":"factor","minWidth":140,"align":"center","sortable":false,"style":"function(rowInfo, column, state) {\n        const firstSorted = state.sorted[0]\n        if (!firstSorted || firstSorted.id === 'region') {\n          const prevRow = state.pageRows[rowInfo.viewIndex - 1]\n          if (prevRow && rowInfo.values['region'] === prevRow['region']) {\n            return { visibility: 'hidden' }\n          }\n        }\n      }"},{"id":"nutrient","name":"Nutrient","type":"character","minWidth":100,"align":"center"},{"id":"annual_kg","name":"Annual supply (Kg)","type":"numeric","minWidth":100,"align":"center","format":{"cell":{"separators":true},"aggregated":{"separators":true}},"style":[{"background":"#F5FCDF"},{"background":"#F4FBDD"},{"background":"#9CD7AC"},{"background":"#BDE6B2"},{"background":"#E0F4C5"},{"background":"#F4FBDE"},{"background":"#F4FBDE"},{"background":"#F4FBDB"},{"background":"#DFF4C4"},{"background":"#59BDAB"},{"background":"#9BD6AC"},{"background":"#A9DDAE"},{"background":"#E0F4C5"},{"background":"#F3FBDA"},{"background":"#F4FBDB"},{"background":"#E7F7CA"},{"background":"#64C1AB"},{"background":"#94D3AB"},{"background":"#9BD7AC"},{"background":"#E2F5C6"},{"background":"#F4FBDE"},{"background":"#F3FBD9"},{"background":"#D0EEB9"},{"background":"#4BB8AB"},{"background":"#79C9AB"},{"background":"#96D4AB"},{"background":"#D7F1BE"},{"background":"#F3FBD6"},{"background":"#F4FBDD"},{"background":"#EFFAD0"},{"background":"#6EC5AB"},{"background":"#A2DAAD"},{"background":"#A6DBAE"},{"background":"#EAF8CC"},{"background":"#F4FBDE"},{"background":"#F4FBDD"},{"background":"#F1FAD1"},{"background":"#70C6AB"},{"background":"#A5DBAE"},{"background":"#B2E1B0"},{"background":"#F1FAD1"},{"background":"#F4FBDD"},{"background":"#F3FBD7"},{"background":"#DAF2C1"},{"background":"#52BBAB"},{"background":"#90D1AB"},{"background":"#93D3AB"},{"background":"#D5F0BD"},{"background":"#F3FBD9"},{"background":"#F4FBDB"},{"background":"#E1F4C5"},{"background":"#5ABEAB"},{"background":"#94D3AB"},{"background":"#AADEAE"},{"background":"#E3F5C7"},{"background":"#F4FBDC"},{"background":"#F3FBD8"},{"background":"#D6F0BD"},{"background":"#50BAAB"},{"background":"#7AC9AB"},{"background":"#96D4AB"},{"background":"#D7F1BE"},{"background":"#F4FBDB"},{"background":"#F4FBDE"},{"background":"#F3FBD7"},{"background":"#7DCBAB"},{"background":"#A4DAAD"},{"background":"#B6E3B0"},{"background":"#F3FBD7"},{"background":"#F4FBDE"},{"background":"#F4FBDA"},{"background":"#DDF3C3"},{"background":"#55BCAB"},{"background":"#91D2AB"},{"background":"#A7DCAE"},{"background":"#DEF3C3"},{"background":"#F3FBD9"},{"background":"#F4FBDC"},{"background":"#E9F8CC"},{"background":"#5FBFAB"},{"background":"#99D6AC"},{"background":"#ACDFAF"},{"background":"#E8F7CA"},{"background":"#F4FBDA"},{"background":"#7ECBAB"},{"background":"#BFE7B2"},{"background":"#68C3AB"},{"background":"#35B0AB"},{"background":"#E9F7CB"},{"background":"#E9F7CB"},{"background":"#BEE7B2"}]},{"id":"rni","name":"rni","type":"numeric","minWidth":100,"align":"center"},{"id":"people_supplied_daily","name":"N. people supplied daily","type":"numeric","minWidth":100,"align":"center","format":{"cell":{"separators":true},"aggregated":{"separators":true}},"style":[{"background":"#B6E3B0"},{"background":"#D6F1BE"},{"background":"#CAECB5"},{"background":"#C9ECB4"},{"background":"#E7F7CA"},{"background":"#F5FCDF"},{"background":"#E4F6C8"},{"background":"#66C2AB"},{"background":"#8BD0AB"},{"background":"#81CCAB"},{"background":"#9ED8AC"},{"background":"#9FD8AD"},{"background":"#AADEAE"},{"background":"#96D4AB"},{"background":"#65C1AB"},{"background":"#96D4AB"},{"background":"#8ED1AB"},{"background":"#96D4AB"},{"background":"#8DD0AB"},{"background":"#ACDEAF"},{"background":"#B4E2B0"},{"background":"#5ABEAB"},{"background":"#77C8AB"},{"background":"#6FC5AB"},{"background":"#74C7AB"},{"background":"#84CDAB"},{"background":"#A0D9AD"},{"background":"#8ACFAB"},{"background":"#73C7AB"},{"background":"#A2DAAD"},{"background":"#99D5AC"},{"background":"#A7DCAE"},{"background":"#9BD6AC"},{"background":"#B6E3B0"},{"background":"#B6E3B0"},{"background":"#7CCAAB"},{"background":"#A4DBAD"},{"background":"#9CD7AC"},{"background":"#ABDEAF"},{"background":"#ABDEAF"},{"background":"#C0E8B2"},{"background":"#AEDFAF"},{"background":"#52BBAB"},{"background":"#85CDAB"},{"background":"#78C9AB"},{"background":"#90D2AB"},{"background":"#80CCAB"},{"background":"#9ED8AC"},{"background":"#93D3AB"},{"background":"#66C2AB"},{"background":"#8ED1AB"},{"background":"#82CCAB"},{"background":"#95D4AB"},{"background":"#A1D9AD"},{"background":"#ADDFAF"},{"background":"#A1D9AD"},{"background":"#57BCAB"},{"background":"#7FCBAB"},{"background":"#75C7AB"},{"background":"#75C7AB"},{"background":"#84CDAB"},{"background":"#9FD8AD"},{"background":"#99D6AC"},{"background":"#8DD1AB"},{"background":"#B0E0AF"},{"background":"#A9DDAE"},{"background":"#A9DDAE"},{"background":"#AFE0AF"},{"background":"#CDEDB7"},{"background":"#C6EAB3"},{"background":"#61C0AB"},{"background":"#89CFAB"},{"background":"#7CCAAB"},{"background":"#92D2AB"},{"background":"#9CD7AC"},{"background":"#A8DCAE"},{"background":"#94D3AB"},{"background":"#6AC3AB"},{"background":"#9AD6AC"},{"background":"#88CFAB"},{"background":"#9CD7AC"},{"background":"#A4DAAD"},{"background":"#B3E2B0"},{"background":"#99D6AC"},{"background":"#65C1AB"},{"background":"#81CCAB"},{"background":"#5EBFAB"},{"background":"#52BBAB"},{"background":"#35B0AB"},{"background":"#6FC5AB"},{"background":"#5DBFAB"}]},{"id":"percent_population_supplied","name":"Population meeting RNI requirements","type":"numeric","minWidth":100,"align":"center","format":{"cell":{"suffix":"%","separators":true},"aggregated":{"suffix":"%","separators":true}},"html":true,"style":[{"background":"#DDF3C3"},{"background":"#F3FBD7"},{"background":"#F2FBD2"},{"background":"#F1FAD1"},{"background":"#F4FBDC"},{"background":"#F5FCDF"},{"background":"#F4FBDB"},{"background":"#35B0AB"},{"background":"#6DC5AB"},{"background":"#5EBFAB"},{"background":"#8FD1AB"},{"background":"#90D2AB"},{"background":"#A2D9AD"},{"background":"#80CBAB"},{"background":"#7ECBAB"},{"background":"#BEE7B2"},{"background":"#B3E2B0"},{"background":"#BDE6B2"},{"background":"#B2E1B0"},{"background":"#DCF3C2"},{"background":"#E7F7CA"},{"background":"#68C2AB"},{"background":"#93D3AB"},{"background":"#86CEAB"},{"background":"#8ED1AB"},{"background":"#A3DAAD"},{"background":"#C6EAB3"},{"background":"#AADDAE"},{"background":"#82CCAB"},{"background":"#C1E8B2"},{"background":"#B4E2B0"},{"background":"#C8EBB3"},{"background":"#B7E3B1"},{"background":"#DDF3C3"},{"background":"#DEF4C4"},{"background":"#B3E2B0"},{"background":"#E4F6C8"},{"background":"#D9F2C0"},{"background":"#ECF9CE"},{"background":"#ECF8CD"},{"background":"#F3FBD9"},{"background":"#EFF9CF"},{"background":"#4FBAAB"},{"background":"#9AD6AC"},{"background":"#88CFAB"},{"background":"#A8DCAE"},{"background":"#94D3AB"},{"background":"#BBE5B1"},{"background":"#ABDEAF"},{"background":"#73C7AB"},{"background":"#A9DDAE"},{"background":"#9BD6AC"},{"background":"#B2E1B0"},{"background":"#C2E9B2"},{"background":"#D3EFBB"},{"background":"#C2E9B2"},{"background":"#4DB9AB"},{"background":"#89CFAB"},{"background":"#7ACAAB"},{"background":"#7AC9AB"},{"background":"#91D2AB"},{"background":"#B5E3B0"},{"background":"#ADDFAF"},{"background":"#A0D9AD"},{"background":"#D1EFBA"},{"background":"#C6EAB3"},{"background":"#C6EBB3"},{"background":"#D0EEB9"},{"background":"#F1FAD1"},{"background":"#ECF9CE"},{"background":"#6AC3AB"},{"background":"#A2DAAD"},{"background":"#92D2AB"},{"background":"#ADDFAF"},{"background":"#BBE5B1"},{"background":"#CBECB5"},{"background":"#AFE0AF"},{"background":"#77C8AB"},{"background":"#B7E4B1"},{"background":"#A1D9AD"},{"background":"#BBE5B1"},{"background":"#C5EAB3"},{"background":"#DCF3C2"},{"background":"#B7E3B1"},{"background":"#B7E3B1"},{"background":"#D7F1BE"},{"background":"#AFE0AF"},{"background":"#A2DAAD"},{"background":"#79C9AB"},{"background":"#C2E9B2"},{"background":"#AFE0AF"}]}],"groupBy":["region"],"filterable":true,"pagination":false,"defaultExpanded":true,"outlined":true,"rowStyle":"\n    function(rowInfo, state) {\n      // Ignore padding rows\n      if (!rowInfo) return\n\n      // Add horizontal separators between groups when sorting by school\n      const firstSorted = state.sorted[0]\n      if (firstSorted && firstSorted.id === 'region') {\n        const nextRow = state.pageRows[rowInfo.viewIndex + 1]\n        if (nextRow && rowInfo.values['region'] !== nextRow['region']) {\n          // Use box-shadow to add a 2px border without taking extra space\n          return { boxShadow: 'inset 0 -2px 0 rgba(0, 0, 0, 0.1)' }\n        }\n      }\n    }\n  ","theme":{"color":"#222222","backgroundColor":"#ffffff","borderColor":"#dddddd","borderWidth":"1px","stripedColor":"#dddddd","highlightColor":"#f0f0f0","cellPadding":5,"tableStyle":{"fontSize":14,"borderBottom":"3px solid #222222"},"headerStyle":{"borderWidth":"3px","paddingTop":"12px","verticalAlign":"bottom","textAlign":"bottom","background":"#ffffff","textTransform":"uppercase","borderColor":"#222222","color":"#000000","&:hover":{"background":"#dddddd"},"&[aria-sort='ascending'], &[aria-sort='descending']":{"background":"#5b5e5f","color":"#ffffff"},"borderColor.1":"#333","fontSize":12},"groupHeaderStyle":{"&:not(:empty)":{"paddingBottom":"3px","verticalAlign":"bottom","textAlign":"bottom","backgroundColor":"#ffffff","textTransform":"uppercase","fontSize":12,"color":"#222222"}},"rowSelectedStyle":{"backgroundColor":"#dddddd"},"cellStyle":{"display":"flex","flexDirection":"column","justifyContent":"center"},"inputStyle":{"backgroundColor":"#ffffff","color":"#222222"},"searchInputStyle":{"textTransform":"uppercase","color":"#222222","fontSize":"14px"},"paginationStyle":{"textTransform":"uppercase","fontSize":"14px"},"pageButtonStyle":{"textTransform":"uppercase","fontSize":"14px"}},"dataKey":"e10cf4c9b9e7597d53723ef7e3485039"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.0.style","tag.attribs.rowStyle"],"jsHooks":[]}</script>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter3.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-literature.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Timor nutrient-sensitive fisheries management.pdf", "Timor nutrient-sensitive fisheries management.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

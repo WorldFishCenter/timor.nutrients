@@ -14,7 +14,7 @@ The FishBase length-to-weight conversion tables offer species-level taxonomic re
 
 To address the scarcity of measured nutrient values for fish, which are typically limited to a few species and countries. To overcome this data limitation, MacNeil et al. developed a Bayesian hierarchical model that leverages both phylogenetic information and trait-based information to predict concentrations of seven essential nutrients: calcium, iron, omega-3 fatty acids, protein, selenium, vitamin A, and zinc for both marine and inland fish species globally (see Hicks et al. 2019). For each catch, the nutritional yield was calculated by combining the validated weight estimates for each fish group with the modelled nutrient concentrations. Specifically, we used the highest posterior predictive density values for each of the seven nutrients, which can be found in the repository (<https://github.com/mamacneil/NutrientFishbase>). For non-fish groups---including octopuses, squids, cockles, shrimps, crabs, and lobsters---nutritional yield information was not available in the NutrientFishbase repository models. We retrieved the necessary data for these groups from the [Global food composition database](https://www.fao.org/documents/card/en/c/I8542EN/), using the same methodological approach as for the fish groups to estimate their nutritional content. To represent the nutrient concentration associated with each fish group, we used the median value as a summarizing metric.
 
-```{r echo=FALSE, fig.height=4, fig.width=8, message=FALSE, warning=FALSE, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
+```{r nutdispersion, echo=FALSE, fig.height=4, fig.width=8, message=FALSE, warning=FALSE, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
 setwd("../..")
 pars <- read_config()
 
@@ -38,20 +38,20 @@ ntab %>%
     interagency_code = tidytext::reorder_within(interagency_code, mean, name)
   ) %>%
   dplyr::filter(!is.na(mean)) %>%
-  ggplot(aes(mean, interagency_code)) +
-  theme_minimal() +
-  geom_line(color = "#447597") +
-  geom_point(color = "#447597") +
-  geom_area(fill = "#447597", alpha = 0.15) +
-  geom_pointrange(
-    aes(xmin = mean - ic, xmax = mean + ic),
+  ggplot2::ggplot(ggplot2::aes(mean, interagency_code)) +
+  ggplot2::theme_minimal() +
+  ggplot2::geom_line(color = "#447597") +
+  ggplot2::geom_point(color = "#447597") +
+  ggplot2::geom_area(fill = "#447597", alpha = 0.15) +
+  ggplot2::geom_pointrange(
+    ggplot2::aes(xmin = mean - ic, xmax = mean + ic),
     size = 0.1,
-    position = position_dodge(0.1),
+    position = ggplot2::position_dodge(0.1),
     color = "#447597"
   ) +
-  facet_wrap(. ~ name, scales = "free", ncol = 7) +
+  ggplot2::facet_wrap(. ~ name, scales = "free", ncol = 7) +
   tidytext::scale_y_reordered() +
-  coord_cartesian(xlim = c(0, NA), expand = FALSE)
+  ggplot2::coord_cartesian(xlim = c(0, NA), expand = FALSE)
 ```
 
-## Add plot explanations
+Add plot explanations

@@ -16,11 +16,8 @@ nutrients_table %>%
   dplyr::mutate(rdi = (value / conv_factor) * 100) %>% 
   dplyr::group_by(catch_name) %>% 
   dplyr::mutate(tot = sum(rdi)) %>% 
-  ggplot(aes(rdi, reorder(catch_name, rdi), fill = nutrient))+
-  theme_minimal()+
-  geom_col()+
-  scale_fill_viridis_d(direction = - 1)
-
-
-
+  ggplot2::ggplot(ggplot2::aes(rdi, reorder(catch_name, rdi), fill = nutrient))+
+  ggplot2::theme_minimal()+
+  ggplot2::geom_col()+
+  ggplot2::scale_fill_viridis_d(direction = - 1)
 ```
