@@ -8,8 +8,7 @@
 #' @export
 #'
 generate_summary_table <- function(use_20 = TRUE) {
-
-  if(isTRUE(use_20)){
+  if (isTRUE(use_20)) {
     rdi_table <- Timor.nutrients::RDI_tab %>% dplyr::mutate(conv_factor = conv_factor * 0.20)
   } else {
     rdi_table <- Timor.nutrients::RDI_tab
@@ -59,7 +58,7 @@ generate_summary_table <- function(use_20 = TRUE) {
       region_population = format(region_population, big.mark = ","),
       region = paste0(region, " (", region_population, ")")
     ) %>%
-    dplyr::select(region, nutrient, annual_kg, rni, people_supplied_daily, percent_population_supplied)
+    dplyr::select(region, nutrient, annual_kg, people_supplied_daily, percent_population_supplied)
 
   color_pal <- c("#f5fcdf", "#f2fbd2", "#c9ecb4", "#93d3ab", "#35b0ab")
 

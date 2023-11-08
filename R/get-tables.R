@@ -42,8 +42,8 @@ get_nutrients_table <- function(pars, summarise = TRUE, convert = TRUE) {
     dplyr::rowwise() %>%
     dplyr::mutate(ID = digest::digest(
       paste(interagency_code,
-            Selenium_mu,
-            sep = "_"
+        Selenium_mu,
+        sep = "_"
       ),
       algo = "md5"
     )) %>%
@@ -51,7 +51,6 @@ get_nutrients_table <- function(pars, summarise = TRUE, convert = TRUE) {
     dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::first(.x))) %>%
     dplyr::select(-ID) %>%
     dplyr::ungroup()
-
 }
 
 get_rfish_table <- function(pars) {

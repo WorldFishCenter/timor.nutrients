@@ -4,10 +4,12 @@
 \alias{rename_nutrients_mu}
 \title{Rename nutrients columns}
 \usage{
-rename_nutrients_mu(df = NULL)
+rename_nutrients_mu(df = NULL, hyphen = FALSE)
 }
 \arguments{
 \item{df}{Dataframe containing nutrients columns to rename.}
+
+\item{hyphen}{Whether to use hyphen in renaming "omega_3" and "vitamin_a".}
 }
 \value{
 A dataframe with renamed columns

@@ -1,9 +1,13 @@
-# Timor SSF nutrient profiles {#chapter4}
+# Timor SSF nutrient profiles {#profiles}
 
-Add concept and perspectives...
+What are the profiles
+Why nutrient profiles
 
+## Methods
 
-```{r echo=FALSE, fig.height=5, fig.width=8, message=FALSE, warning=FALSE}
+How profiles are generated
+
+```{r echo=FALSE, fig.height=5, fig.width=8, message=FALSE, warning=FALSE, fig.cap="Profiles of nutrients"}
 library(ggplot2)
 df <-
   Timor.nutrients::kobo_trips %>%
@@ -40,7 +44,7 @@ factoextra::fviz_cluster(k2,
   theme(legend.position = "bottom")
 ```
 
-```{r echo=FALSE, fig.height=7, fig.width=6, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.height=5, fig.width=6, message=FALSE, warning=FALSE, fig.cap="Median nutrient contirbution by profile"}
 clusterdf <-
   dplyr::tibble(
     clusters = as.character(k2$cluster),

@@ -1,6 +1,12 @@
-# Data {#intro}
+# Data  {#data}
 
-## Nutritional and weight estimation in fish catches
+The research presented in this book relies on two primary sources of data:
+
+1.  Recorded Catch (RC): This dataset comprises detailed records of fishing trips that were documented by data collectors in the coastal municipalities of East Timor starting from January 2018.
+
+2.  Estimated Catch (EC): This dataset provides a broader view of catch data on a regional level. It is created by combining RC with additional information, including the frequency of fishing trips made by each fishing boat and the total number of boats surveyed (censused) in each municipality. This combination extrapolates the recorded catch data to a larger scale.
+
+## Catch weight and nutrional content 
 
 The total estimated catch weight is determined by the number of individuals and the length range of each catch. Specifically, during the initial phase of the Peskas project (July 2017 - April 2019), the standard length measurement used was the fork length (FL), which later changed to the total length (TL) in the subsequent and current version of the project. We utilized the API service offered by the FishBase database to incorporate length-to-length and length-to-weight conversion tables, using information from survey landings to calculate the weight in grams based on the following formula:
 
@@ -14,12 +20,14 @@ The FishBase length-to-weight conversion tables offer species-level taxonomic re
 
 To address the scarcity of measured nutrient values for fish, which are typically limited to a few species and countries. To overcome this data limitation, MacNeil et al. developed a Bayesian hierarchical model that leverages both phylogenetic information and trait-based information to predict concentrations of seven essential nutrients: calcium, iron, omega-3 fatty acids, protein, selenium, vitamin A, and zinc for both marine and inland fish species globally (see Hicks et al. 2019). For each catch, the nutritional yield was calculated by combining the validated weight estimates for each fish group with the modelled nutrient concentrations. Specifically, we used the highest posterior predictive density values for each of the seven nutrients, which can be found in the repository (<https://github.com/mamacneil/NutrientFishbase>). For non-fish groups---including octopuses, squids, cockles, shrimps, crabs, and lobsters---nutritional yield information was not available in the NutrientFishbase repository models. We retrieved the necessary data for these groups from the [Global food composition database](https://www.fao.org/documents/card/en/c/I8542EN/), using the same methodological approach as for the fish groups to estimate their nutritional content. To represent the nutrient concentration associated with each fish group, we used the median value as a summarizing metric.
 
-```{r nutdispersion, echo=FALSE, fig.height=4, fig.width=8, message=FALSE, warning=FALSE, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
+```{r nutdispersion, echo=FALSE, fig.height=4, fig.width=10, message=FALSE, warning=FALSE, fig.cap="Distribution of nutrients' concentration for each fish group. Dots represent the median, bars represent the 95% confidence interval.", out.width='80%', fig.asp=.75, fig.align='center'}
+
 setwd("../..")
 pars <- read_config()
 
 ntab <- get_nutrients_table(pars, summarise = FALSE, convert = FALSE)
 ntab %>%
+  rename_nutrients_mu(hyphen = TRUE) %>% 
   tidyr::pivot_longer(-interagency_code) %>%
   dplyr::group_by(interagency_code, name) %>%
   dplyr::summarise(
@@ -33,6 +41,10 @@ ntab %>%
     ic = se * qt((1 - 0.05) / 2 + .5, n - 1)
   ) %>%
   dplyr::ungroup() %>%
+  dplyr::mutate(name = stringr::str_to_title(name),
+                name = dplyr::case_when(name %in% c("Selenium", "Vitamin-A") ~ paste(name, "(μg)"),
+                                        name %in% c("Calcium", "Iron", "Zinc") ~ paste(name, "(mg)"),
+                                        TRUE ~ paste(name, "(g)"))) %>% 
   dplyr::mutate(
     name = as.factor(name),
     interagency_code = tidytext::reorder_within(interagency_code, mean, name)
@@ -51,7 +63,7 @@ ntab %>%
   ) +
   ggplot2::facet_wrap(. ~ name, scales = "free", ncol = 7) +
   tidytext::scale_y_reordered() +
-  ggplot2::coord_cartesian(xlim = c(0, NA), expand = FALSE)
-```
+  ggplot2::coord_cartesian(xlim = c(0, NA), expand = FALSE)+
+  ggplot2::labs(x  = "Mean concentration per 100g", y = "")
 
-Add plot explanations
+```

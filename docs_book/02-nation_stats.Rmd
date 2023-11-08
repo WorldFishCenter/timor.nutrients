@@ -1,6 +1,8 @@
-# Highlight statistics {#chapter2}
+# Highlight statistics {#highlight}
 
-The table summarizes the main statistics on nutrient supply for each region. Below is a description of each column:
+## Timor-Est SSF nutritional scenario
+
+The table uses the [EC dataset][data] and summarizes the main statistics on nutrient supply for each region. Below is a description of each table' column:
 
 -   **MUNICIPALITY (POPULATION)**: Municipality and number of people \> 5 years old in 2022.
 
