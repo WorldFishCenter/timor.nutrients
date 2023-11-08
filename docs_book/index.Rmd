@@ -8,7 +8,7 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-github-repo: langbart/Timor.nutrients
+github-repo: WorldFishCenter/timor.nutrients
 ---
 
 # Content
