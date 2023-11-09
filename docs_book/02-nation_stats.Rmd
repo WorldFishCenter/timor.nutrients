@@ -24,7 +24,7 @@ The 20% of RNIs values was take as reference in consideration of the fact that [
 
 -   **POPULATION MEETING RNI REQUIREMENTS**: Percentage of the population meeting the RNI requirements in each municipality: $\frac{Number\ of\ people\ supplied\ daily}{Municipality\ population} \times 100$
 
-```{r echo=TRUE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 color_pal <- c("#f5fcdf", "#f2fbd2", "#c9ecb4", "#93d3ab", "#35b0ab")
 timor.nutrients::generate_summary_table(use_20 = TRUE)
 ```

@@ -4,7 +4,7 @@ This section presents the analyses that illustrates the distribution of nutrient
 
 ## Fish groups 
 
-```{r echo=TRUE, fig.cap="Fish groups' nutrional contribution to RNI.", fig.height=8, fig.width=7, message=FALSE, warning=FALSE, out.width='80%'}
+```{r echo=FALSE, fig.cap="Fish groups' nutrional contribution to RNI.", fig.height=8, fig.width=7, message=FALSE, warning=FALSE, out.width='80%'}
 library(ggplot2)
 library(ggforce)
 
@@ -45,7 +45,7 @@ timor.nutrients::nutrients_table %>%
 
 ## Habitat and gear type
 
-```{r echo=TRUE, fig.cap="Sankey diagram showing the relative distribution of key nutrients across various marine habitats and the corresponding extraction by different fishing gear types used in Timor-Est small-scale fisheries.", fig.height=8, fig.width=7, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Sankey diagram showing the relative distribution of key nutrients across various marine habitats and the corresponding extraction by different fishing gear types used in Timor-Est small-scale fisheries.", fig.height=8, fig.width=7, message=FALSE, warning=FALSE}
 parallel_plot <-
   timor.nutrients::kobo_trips %>%
   dplyr::select(habitat, gear_type, Selenium_mu:Vitamin_A_mu) %>%
