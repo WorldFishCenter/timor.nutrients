@@ -40,7 +40,7 @@ factoextra::fviz_cluster(k2,
   theme_minimal() +
   scale_fill_viridis_d() +
   scale_color_viridis_d() +
-  labs(title = "Nutrient profiles clusters") +
+  labs(title = "") +
   theme(legend.position = "bottom")
 ```
 
