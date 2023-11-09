@@ -107,7 +107,7 @@ get_merged_trips <- function(pars, ...) {
 }
 
 get_fao_composition <- function() {
-  fao_comp <- readr::read_csv(system.file("fao_food_composition.csv", package = "Timor.nutrients"))
+  fao_comp <- readr::read_csv(system.file("fao_food_composition.csv", package = "timor.nutrients"))
 
   octopus <- c("OCT", "OCT")
   squids <- c("SQZ", "SQR", "OMZ", "CTL", "CTC")

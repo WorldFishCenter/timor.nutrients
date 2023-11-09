@@ -9,12 +9,12 @@
 #'
 generate_summary_table <- function(use_20 = TRUE) {
   if (isTRUE(use_20)) {
-    rdi_table <- Timor.nutrients::RDI_tab %>% dplyr::mutate(conv_factor = conv_factor * 0.20)
+    rdi_table <- timor.nutrients::RDI_tab %>% dplyr::mutate(conv_factor = conv_factor * 0.20)
   } else {
-    rdi_table <- Timor.nutrients::RDI_tab
+    rdi_table <- timor.nutrients::RDI_tab
   }
   municipal_nut_month <-
-    Timor.nutrients::region_stats %>%
+    timor.nutrients::region_stats %>%
     dplyr::group_by(region, date_bin_start) %>%
     dplyr::summarise(dplyr::across(is.numeric, ~ sum(.))) %>%
     dplyr::mutate(year = lubridate::year(date_bin_start)) %>%
@@ -41,7 +41,7 @@ generate_summary_table <- function(use_20 = TRUE) {
 
   tab <-
     nut_region %>%
-    dplyr::left_join(Timor.nutrients::timor_population, by = "region") %>%
+    dplyr::left_join(timor.nutrients::timor_population, by = "region") %>%
     dplyr::left_join(rdi_table, by = "nutrient") %>%
     dplyr::rename(
       "annual_kg" = kg,

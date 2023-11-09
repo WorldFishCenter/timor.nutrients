@@ -186,3 +186,68 @@ if (isTRUE(summarise)) {
 
 nutrients_tab
 
+
+###
+
+render_docs()
+
+we <-
+  timor.nutrients::kobo_trips %>%
+  dplyr::filter(weight > 0, n_fishers >0, trip_duration > 0) %>%
+  dplyr::select(trip_duration, n_fishers, habitat, gear_type, weight, Selenium_mu:Vitamin_A_mu) %>%
+  na.omit() %>%
+  rename_nutrients_mu() %>%
+  tidyr::pivot_longer(-c(trip_duration, n_fishers, habitat, gear_type, weight),
+                      names_to = "nutrient", values_to = "concentration_g") %>%
+  dplyr::mutate(concentration_g_stand = (concentration_g / n_fishers) / trip_duration) %>%
+  dplyr::mutate(concentration_g = concentration_g / weight) %>%
+  dplyr::select(-weight) %>%
+  dplyr::select(-c(trip_duration, n_fishers, concentration_g)) %>%
+  dplyr::group_by(habitat, nutrient) %>%
+  dplyr::summarise(concentration_g_stand = median(concentration_g_stand)) %>%
+  dplyr::ungroup()
+
+
+library(treemapify)
+
+we %>%
+  dplyr::left_join(timor.nutrients::RDI_tab, by = "nutrient") %>%
+  dplyr::mutate(concentration_g_stand = concentration_g_stand * 1000,
+                nutrient = stringr::str_to_title(nutrient),
+                nutrient = dplyr::case_when(nutrient %in% c("Selenium", "Vitamina") ~ paste(nutrient, "(μg)"),
+                                            nutrient %in% c("Calcium", "Iron", "Zinc") ~ paste(nutrient, "(mg)"),
+                                            TRUE ~ paste(nutrient, "(g)")),
+                nutrient = ifelse(nutrient == "Vitamina (μg)", "Vitamin-A (μg)", nutrient),
+                nutrient = ifelse(nutrient == "Omega3 (g)", "Omega-3 (g)", nutrient)) %>%
+  dplyr::mutate(concentration_g_stand = (concentration_g_stand / conv_factor)) %>%
+  dplyr::filter(!nutrient == "Selenium (μg)") %>%
+  ggplot(aes(area = concentration_g_stand,
+             fill = nutrient,
+             label = habitat,
+             subgroup = nutrient), alpha = 0.5) +
+  geom_treemap() +
+  geom_treemap_subgroup_border() +
+  geom_treemap_subgroup_text(place = "centre",
+                             grow = T,
+                             alpha = 0.5,
+                             colour = "black",
+                             fontface = "italic",
+                             min.size = 0) +
+  geom_treemap_text(colour = "white", place = "topleft", reflow = T)+
+  scale_fill_viridis_d()
+
+
+
+###
+we %>%
+  dplyr::left_join(timor.nutrients::RDI_tab, by = "nutrient") %>%
+  dplyr::mutate(concentration_g_stand = concentration_g_stand * 1000,
+                nutrient = stringr::str_to_title(nutrient),
+                nutrient = dplyr::case_when(nutrient %in% c("Selenium", "Vitamina") ~ paste(nutrient, "(μg)"),
+                                            nutrient %in% c("Calcium", "Iron", "Zinc") ~ paste(nutrient, "(mg)"),
+                                            TRUE ~ paste(nutrient, "(g)")),
+                nutrient = ifelse(nutrient == "Vitamina (μg)", "Vitamin-A (μg)", nutrient),
+                nutrient = ifelse(nutrient == "Omega3 (g)", "Omega-3 (g)", nutrient)) %>%
+  dplyr::mutate(concentration_g_stand = (concentration_g_stand / conv_factor)) %>%
+  dplyr::filter(!nutrient == "Selenium (μg)")
+

@@ -1,16 +1,16 @@
 # Timor SSF nutrient profiles {#profiles}
 
-What are the profiles
-Why nutrient profiles
-
 ## Methods
 
-How profiles are generated
+In this section, we identified recurrent nutritional profiles based on [RC data][data]. We aimed to determine the most appropriate number of distinct groups, or "clusters," present in our dataset. To achieve this, we used the total within sum of square (WSS) to identify the point at which grouping additional data points together does not significantly improve the clarity of the clustering. Once we established the optimal number of clusters, we applied the [K-means](https://uc-r.github.io/kmeans_clustering#:~:text=The%20gap%20statistic%20compares%20the,simulations%20of%20the%20sampling%20process.) clustering method. This is a widely-used technique that organizes data into clusters based on similarity. In our case, we grouped fishing trips together if they showed similar levels of nutrient concentrations. By doing this, we were able to observe patterns and categorize the trips according to their nutritional profiles.
 
-```{r echo=FALSE, fig.height=5, fig.width=8, message=FALSE, warning=FALSE, fig.cap="Profiles of nutrients"}
+## Results
+
+```{r echo=FALSE, fig.height=5, fig.width=8, message=FALSE, warning=FALSE, fig.cap="Cluster analysis of nutrient profiles using k-means clustering. The scatter plot visualizes the distribution of data points in a two-dimensional space defined by the first two principal components which explain 38.6% and 24.5% of the variance, respectively.The convex hulls represent the boundaries of each cluster, providing a visual guide to the cluster density and separation."}
+
 library(ggplot2)
 df <-
-  Timor.nutrients::kobo_trips %>%
+  timor.nutrients::kobo_trips %>%
   dplyr::ungroup() %>%
   dplyr::select(-Selenium_mu) %>%
   rename_nutrients_mu() %>%
@@ -28,12 +28,12 @@ df <-
   dplyr::summarise(dplyr::across(is.numeric, ~ median(.x, na.rm = T))) %>%
   dplyr::ungroup()
 
-# factoextra::fviz_nbclust(na.omit(df)[ ,5:10], kmeans, method = "wss")
-set.seed(555)
-k2 <- kmeans(na.omit(df)[, 5:10], centers = 5, nstart = 500)
+#factoextra::fviz_nbclust(na.omit(df)[ ,7:12], kmeans, method = "gap_stat")
+#set.seed(555)
+k2 <- kmeans(na.omit(df)[, 7:12], centers = 4, nstart = 500)
 
 factoextra::fviz_cluster(k2,
-  data = na.omit(df)[, 5:10],
+  data = na.omit(df)[, 7:12],
   geom = c("point"),
   shape = 19
 ) +
@@ -44,7 +44,7 @@ factoextra::fviz_cluster(k2,
   theme(legend.position = "bottom")
 ```
 
-```{r echo=FALSE, fig.height=5, fig.width=6, message=FALSE, warning=FALSE, fig.cap="Median nutrient contirbution by profile"}
+```{r echo=FALSE, fig.height=5, fig.width=6, message=FALSE, warning=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart represents the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch for each nutrient within different clusters. Each bar is segmented into six categories corresponding to the nutrients analyzed: calcium (dark purple), iron (blue), omega-3 (green), protein (teal), vitamin A (dark teal), and zinc (yellow). Clusters are labeled on the y-axis, indicating distinct groupings based on nutrient profile similarities derived from the cluster analysis. The x-axis quantifies the number of individuals who meet the RNI, highlighting the variation in nutritional fulfillment across clusters."}
 clusterdf <-
   dplyr::tibble(
     clusters = as.character(k2$cluster),
@@ -53,7 +53,7 @@ clusterdf <-
 
 clusterdf %>%
   # dplyr::select(-weight) %>%
-  tidyr::pivot_longer(-c(clusters:vessel_type)) %>%
+  tidyr::pivot_longer(-c(clusters:n_fishers)) %>%
   dplyr::group_by(clusters, name) %>%
   dplyr::summarise(value = median(value, na.rm = T)) %>%
   ggplot(aes(value, reorder(clusters, value), fill = name)) +

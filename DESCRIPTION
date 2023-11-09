@@ -1,12 +1,11 @@
-Package: Timor.nutrients
+Package: timor.nutrients
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Author: Lorenzo Longobardi
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: CC BY 4.0
 Imports:
     bookdown,
     config,
@@ -29,3 +28,6 @@ LazyData: true
 RoxygenNote: 7.2.3
 Depends: 
     R (>= 2.10)
+Authors@R: 
+    person("Lorenzo", "Longobardi", , "l.longobardi@cgiar.org", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-3126-7341"))

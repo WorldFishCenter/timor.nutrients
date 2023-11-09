@@ -1,19 +1,21 @@
 # Nutrients distribution {#distribution}
 
-## Fish groups
+This section presents the analyses that illustrates the distribution of nutrients within various components of small-scale fisheries in East Timor.
 
-```{r echo=FALSE, fig.height=8, fig.width=7, message=FALSE, warning=FALSE, fig.cap="Nutrional contribution of fish groups to RNI.", out.width='80%'}
+## Fish groups 
+
+```{r echo=TRUE, fig.cap="Fish groups' nutrional contribution to RNI.", fig.height=8, fig.width=7, message=FALSE, warning=FALSE, out.width='80%'}
 library(ggplot2)
 library(ggforce)
 
 catch_groups_name <-
-  Timor.nutrients::catch_groups %>%
+  timor.nutrients::catch_groups %>%
   dplyr::select(
     grouped_taxa = interagency_code,
     catch_name
   )
 
-Timor.nutrients::nutrients_table %>%
+timor.nutrients::nutrients_table %>%
   dplyr::left_join(catch_groups_name) %>%
   dplyr::select(catch_name, Selenium_mu:Vitamin_A_mu) %>%
   rename_nutrients_mu(hyphen = FALSE) %>%
@@ -43,9 +45,9 @@ Timor.nutrients::nutrients_table %>%
 
 ## Habitat and gear type
 
-```{r echo=FALSE, fig.height=8, fig.width=7, message=FALSE, warning=FALSE, fig.cap="Distribution of relative nutrients stocks across habitat and gear types in Timor-Est SSFs."}
+```{r echo=TRUE, fig.cap="Sankey diagram showing the relative distribution of key nutrients across various marine habitats and the corresponding extraction by different fishing gear types used in Timor-Est small-scale fisheries.", fig.height=8, fig.width=7, message=FALSE, warning=FALSE}
 parallel_plot <-
-  Timor.nutrients::kobo_trips %>%
+  timor.nutrients::kobo_trips %>%
   dplyr::select(habitat, gear_type, Selenium_mu:Vitamin_A_mu) %>%
   rename_nutrients_mu() %>%
   tidyr::pivot_longer(-c(habitat, gear_type), names_to = "nutrient", values_to = "concentration_g") %>%
@@ -119,3 +121,4 @@ parallel_plot %>%
   ) +
   labs(fill = "")
 ```
+

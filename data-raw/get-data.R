@@ -10,7 +10,7 @@ RDI_tab <-
   )
 
 timor_population <-
-  readr::read_csv(system.file("timor_census_2022.csv", package = "Timor.nutrients")) %>%
+  readr::read_csv(system.file("timor_census_2022.csv", package = "timor.nutrients")) %>%
   dplyr::filter(!gender == "Total") %>%
   dplyr::group_by(region) %>%
   dplyr::filter(age > 5) %>%
@@ -19,7 +19,7 @@ timor_population <-
   dplyr::ungroup()
 
 catch_groups <-
-  readr::read_csv(system.file("catch_groups.csv", package = "Timor.nutrients")) %>%
+  readr::read_csv(system.file("catch_groups.csv", package = "timor.nutrients")) %>%
   dplyr::select(interagency_code, family, catch_name)
 
 nutrients_table <-
@@ -32,7 +32,7 @@ nutrients_table <-
 
 
 region_stats <-
-  readr::read_rds(system.file("estimations_kg_10_2023.rds", package = "Timor.nutrients")) %>%
+  readr::read_rds(system.file("estimations_kg_10_2023.rds", package = "timor.nutrients")) %>%
   dplyr::left_join(nutrients_table, by = "grouped_taxa") %>%
   dplyr::transmute(
     region = .data$region,
@@ -52,9 +52,9 @@ trips <- get_merged_trips(pars)
 kobo_trips <-
   trips %>%
   dplyr::mutate(
-    landing_period = lubridate::floor_date(.data$landing_date, unit = "month"),
-    landing_id = as.character(.data$landing_id)
-  ) %>%
+    landing_period = lubridate::floor_date(landing_date, unit = "month"),
+    landing_id = as.character(landing_id),
+    n_fishers = fisher_number_man + fisher_number_woman + fisher_number_child) %>%
   tidyr::unnest(.data$landing_catch) %>%
   tidyr::unnest(.data$length_frequency) %>%
   dplyr::filter(!is.na(.data$weight)) %>%
@@ -62,6 +62,8 @@ kobo_trips <-
   dplyr::summarise(
     landing_id = dplyr::first(landing_id),
     landing_date = dplyr::first(landing_date),
+    trip_duration = dplyr::first(trip_duration),
+    n_fishers = dplyr::first(n_fishers),
     habitat = dplyr::first(habitat),
     gear_type = dplyr::first(gear_type),
     vessel_type = dplyr::first(vessel_type),
