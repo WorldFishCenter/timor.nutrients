@@ -3,9 +3,11 @@ fig:unnamed-chunk-2
 fig:unnamed-chunk-3
 fig:unnamed-chunk-4
 fig:unnamed-chunk-5
+fig:model-settings
 content
 data
 catch-weight-and-nutrional-content
+checks-and-limitations
 highlight
 timor-est-ssf-nutritional-scenario
 distribution
@@ -16,3 +18,8 @@ methods
 results
 clusters
 xgboost-model
+checks-and-limitations-1
+next-steps
+notes
+ml-model-interpretation
+ml-model-explanation

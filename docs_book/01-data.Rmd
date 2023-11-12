@@ -67,3 +67,7 @@ ntab %>%
   ggplot2::labs(x  = "Mean concentration per 100g", y = "")
 
 ```
+
+## Checks and limitations
+
+- Check groups with higher dispersion... Dow we need to narrow species grouping?

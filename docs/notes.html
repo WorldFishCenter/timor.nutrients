@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Modelling scenarios for nutrient-sensitive fisheries management</title>
-  <meta name="description" content="Modelling scenarios for nutrient-sensitive fisheries management" />
+  <title>6 Notes | Modelling scenarios for nutrient-sensitive fisheries management</title>
+  <meta name="description" content="6 Notes | Modelling scenarios for nutrient-sensitive fisheries management" />
   <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Modelling scenarios for nutrient-sensitive fisheries management" />
+  <meta property="og:title" content="6 Notes | Modelling scenarios for nutrient-sensitive fisheries management" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="WorldFishCenter/timor.nutrients" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Modelling scenarios for nutrient-sensitive fisheries management" />
+  <meta name="twitter:title" content="6 Notes | Modelling scenarios for nutrient-sensitive fisheries management" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="references.html"/>
 
-<link rel="next" href="data.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -131,23 +131,32 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Modelling scenarios for nutrient-sensitive fisheries management</h1>
-<p class="author"><em>Lore</em></p>
-<p class="date"><em>2023-11-12</em></p>
+<div id="notes" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">6</span> Notes<a href="notes.html#notes" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="ml-model-interpretation" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> ML model interpretation<a href="notes.html#ml-model-interpretation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>ROC Curve: The curve plots the true positive rate (sensitivity) against the false positive rate (1 - specificity) at various threshold settings. The true positive rate is on the y-axis, and the false positive rate is on the x-axis.</p></li>
+<li><p>Performance: A perfect classifier would have a point in the upper left corner of the graph, where the true positive rate is 1 (or 100%) and the false positive rate is 0. The closer the curve follows the left-hand border and then the top border of the ROC space, the more accurate the test.</p></li>
+<li><p>Diagonal Line: The dotted diagonal line represents a no-skill classifier (e.g., random guessing). A good classifier stays as far away from this line as possible (toward the upper left corner).</p></li>
+<li><p>Area Under the Curve (AUC): The area under each ROC curve (AUC) is a measure of the test’s accuracy. An AUC of 0.5 suggests no discrimination (no better than random chance), while an AUC of 1.0 suggests perfect discrimination.</p></li>
+</ul>
 </div>
-<div id="content" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">1</span> Content<a href="index.html#content" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>This book contains analyses and reports in ‘Modelling scenarios for nutrient-sensitive fisheries management’</p>
+<div id="ml-model-explanation" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> ML model explanation<a href="notes.html#ml-model-explanation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>SHAP values: help in understanding how each predictor in the dataset contributed to each particular prediction. A high positive SHAP value for a feature increases the probability of a certain prediction, while a high negative SHAP value decreases it.</li>
+</ul>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
+<a href="references.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="data.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -178,7 +187,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-notes.Rmd",
 "text": "Edit"
 },
 "history": {

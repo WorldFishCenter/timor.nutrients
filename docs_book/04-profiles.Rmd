@@ -4,15 +4,17 @@
 
 In this section, we identified recurrent nutritional profiles based on [RC data][data]. We aimed to determine the most appropriate number of distinct groups, or "clusters," present in our dataset. To achieve this, we used the total within sum of square (WSS) to identify the point at which grouping additional data points together does not significantly improve the clarity of the clustering. Once we established the optimal number of clusters, we applied the [K-means](https://uc-r.github.io/kmeans_clustering#:~:text=The%20gap%20statistic%20compares%20the,simulations%20of%20the%20sampling%20process.) clustering method. This is a widely-used technique that organizes data into clusters based on similarity. In our case, we grouped fishing trips together if they showed similar levels of nutrient concentrations. By doing this, we were able to observe patterns and categorize the trips according to their nutritional profiles.
 
-Then we performed a ML model to assess whether nutritional profiles were predicatable by fishing strategy. We utilized a machine learning approach, specifically employing the XGBoost algorithm. XGBoost was chosen due to its capability in handling categorical variables, such as habitat, gear type, and vessel type, which are prominent in our dataset. Additionally, its proficiency in handling categorical variables and enabling a detailed examination of predictor importance in relation to the nutritional profiles classification aligned well with our requirement to model the clusters as a categorical outcome variable.
+To investigate the predictability of nutritional profiles based on fishing strategies, we employed a machine learning model using the XGBoost algorithm. This algorithm is also known for its ability to prevent overfitting, a critical factor for ensuring the reliability of our predictive model. Additionally, XGBoost's feature importance tool allowed us to identify the most influential predictors on the nutritional profiles.
 
-The selection of XGBoost was also influenced by its inherent mechanisms that mitigate overfitting, an important consideration to enhance the reliability of our predictive model. The algorithm's feature importance functionality provided an added benefit, allowing for an examination of which predictors exert the most influence on the nutritional profile clusters. This aspect was pertinent to our objective of exploring the association between fishing strategies and nutritional outcomes.
+Our methodology began with the preparation of the dataset, which was crucial for the effective application of the machine learning model. We transformed the dataset to combine habitat and gear type information and selected relevant predictor variables, including quarter, habitat, gear type, and vessel type. The model parameters (number of trees, tree depth, and learning rate) were dynamically tuned during the training phase to optimize model performance. The dataset was split into two parts: 80% for training the model and 20% for testing. This allocation ensured a comprehensive dataset for training the model while allowing for effective validation. To further enhance the model's accuracy and generalizability, we applied cross-validation using the training set. In the final stage, we fitted the XGBoost model to the training data and evaluated its performance using metrics such as accuracy, ROC AUC, sensitivity, and specificity. These metrics provided insights into the model's discriminatory ability between different nutritional profile outcomes. The calculation of ROC curves and AUC values offered additional evaluation of the model's effectiveness.
 
 ## Results
 
 ### Clusters
 
-```{r echo=TRUE, fig.cap="Cluster analysis of nutrient profiles using k-means clustering. The scatter plot visualizes the distribution of data points in a two-dimensional space defined by the first two principal components which explain 39% and 26% of the variance. The convex hulls represent the boundaries of each cluster, providing a visual guide to the cluster density and separation.", fig.height=5, fig.width=8, message=FALSE, warning=FALSE}
+The scatter plot from the k-means clustering (Figure 5.1) showed the distribution of nutrient profiles across different clusters. The first two principal components explained a significant portion of the variance, indicating distinct groupings in nutrient profiles among the fishing trips. The clear separation of clusters in this plot suggests that the fishing trips could be effectively categorized based on their nutrient content. The bar chart (Figure 5.2) displaying nutrient adequacy across clusters indicated the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch for various nutrients. The segmentation of bars into different nutrients (calcium, iron, omega-3, protein, vitamin A, zinc) across clusters showed variation in nutritional fulfillment. This suggests that different fishing strategies, represented by different clusters, result in catches with varying nutritional values.
+
+```{r echo=FALSE, fig.cap="Cluster analysis of nutrient profiles using k-means clustering. The scatter plot visualizes the distribution of data points in a two-dimensional space defined by the first two principal components which explain 39% and 26% of the variance. The convex hulls represent the boundaries of each cluster, fig.width=8, message=FALSE, warning=FALSE, providing a visual guide to the cluster density and separation.", fig.height=5}
 library(ggplot2)
 
 df <-
@@ -54,7 +56,7 @@ factoextra::fviz_cluster(k2,
   theme(legend.position = "bottom")
 ```
 
-```{r echo=TRUE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart represents the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch for each nutrient within different clusters. Each bar is segmented into six categories corresponding to the nutrients analyzed: calcium (dark purple), iron (blue), omega-3 (green), protein (teal), vitamin A (dark teal), and zinc (yellow). Clusters are labeled on the y-axis, indicating distinct groupings based on nutrient profile similarities derived from the cluster analysis. The x-axis quantifies the number of individuals who meet the RNI, highlighting the variation in nutritional fulfillment across clusters.", fig.height=5, fig.width=6, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart represents the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch for each nutrient within different clusters. Each bar is segmented into six categories corresponding to the nutrients analyzed: calcium (dark purple), fig.width=6, message=FALSE, warning=FALSE, iron (blue), omega-3 (green), protein (teal), vitamin A (dark teal), and zinc (yellow). Clusters are labeled on the y-axis, indicating distinct groupings based on nutrient profile similarities derived from the cluster analysis. The x-axis quantifies the number of individuals who meet the RNI, highlighting the variation in nutritional fulfillment across clusters.", fig.height=5}
 clusterdf <-
   dplyr::tibble(
     clusters = as.character(k2$cluster),
@@ -85,7 +87,9 @@ clusterdf %>%
 
 ### XGBoost model
 
-```{r model-settings, echo=TRUE, message=FALSE, warning=FALSE}
+The model's predictive capacity was quantitatively assessed via receiver operating characteristic (ROC) analysis across five distinct clusters. The ROC (see [ML model interpretation][notes]) curves illustrate a differential capacity of the model to classify each cluster based on the nutritional profiles derived from various fishing strategies. Cluster 2 and 5 demonstrated superior model performance, indicated by a curve proximate to the top-left, suggesting high sensitivity and specificity. Clusters 1 and 4 showed marginally lower but comparable discrimination ability. Cluster 3 indicated a slight decrease in sensitivity and exhibited the model's lowest performance, with a curve markedly farther from the ideal top-left position. Collectively, an aggregate AUC of 0.86 signifies a strong overall ability of the model to differentiate between the clusters, albeit with varying degrees of precision. These findings underscore the model's effectiveness in predicting nutritional outcomes based on fishing strategies, with implications for tailoring nutrient-sensitive fisheries management interventions.
+
+```{r model-settings, echo=FALSE, fig.cap="Receiver Operating Characteristic (ROC) Curves with Data Points for Cluster-Based Classification. The curves delineate the sensitivity versus 1-specificity for the five clusters derived from the XGBoost classification model. Each cluster is represented by a distinct color with data points marked, which illustrates the true positive rate against the false positive rate for each respective cluster. The closeness of each curve to the top-left corner indicates the model’s classification efficacy per cluster, with Cluster 1 and 2 showing the highest performance. The overall model demonstrates substantial predictive accuracy with a composite AUC value of 0.86.", fig.height=5, fig.width=6, message=FALSE, warning=FALSE}
 df_field <-
   readr::read_rds(paste0(system.file("model-outputs", package = "timor.nutrients"), "/ml_data.rds")) %>% 
   dplyr::mutate_all(as.factor)
@@ -205,7 +209,9 @@ final_rs %>%
   ggplot(aes(1 - specificity, sensitivity, color = .level)) +
   theme_minimal() +
   geom_line() +
-  # geom_point()+
+  geom_point(size = 0.5) +
+  geom_abline(slope = 1, intercept = 0, color = "grey", linetype = "dashed")+
+  coord_cartesian(expand = FALSE)+
   scale_color_viridis_d() +
   labs(color = "cluster")
 
@@ -249,3 +255,17 @@ shapviz::sv_importance(sha) +
 
 p1 <- sv_dependence(sha, "habitat")
 ```
+
+## Checks and limitations
+
+-   The distribution of both habitat types and gear types in our data is uneven. Observations in deep water and reef environments are more common compared to other habitats, and similarly, the use of gill nets is more frequent than other types of fishing gear. We need to evaluate whether this imbalance could lead to biases or issues in our model.
+
+-   Are we considering all the possible potential good predictors?
+
+## Next steps
+
+Explore the model:
+
+-   Quantify the importance of each predictor on the model outcome
+
+-   Assess the direction of the effect of each predictor, that is analyze which features have the most impact on driving predictions towards each cluster. [SHAP Values][notes] are a good way to address that.
