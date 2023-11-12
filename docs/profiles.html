@@ -337,14 +337,14 @@ Figure 5.2: Distribution of nutrient adequacy across k-means clusters. The bar c
 <span id="cb9-59"><a href="profiles.html#cb9-59" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">20</span></span>
 <span id="cb9-60"><a href="profiles.html#cb9-60" tabindex="-1"></a>)</span>
 <span id="cb9-61"><a href="profiles.html#cb9-61" tabindex="-1"></a></span>
-<span id="cb9-62"><a href="profiles.html#cb9-62" tabindex="-1"></a>doParallel<span class="sc">::</span><span class="fu">registerDoParallel</span>(<span class="at">cores =</span> <span class="dv">6</span>)</span>
-<span id="cb9-63"><a href="profiles.html#cb9-63" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">891</span>)</span>
-<span id="cb9-64"><a href="profiles.html#cb9-64" tabindex="-1"></a>xgb_res <span class="ot">&lt;-</span> tune<span class="sc">::</span><span class="fu">tune_grid</span>(</span>
-<span id="cb9-65"><a href="profiles.html#cb9-65" tabindex="-1"></a>  xgb_wf,</span>
-<span id="cb9-66"><a href="profiles.html#cb9-66" tabindex="-1"></a>  <span class="at">resamples =</span> folds,</span>
-<span id="cb9-67"><a href="profiles.html#cb9-67" tabindex="-1"></a>  <span class="at">grid =</span> xgb_grid,</span>
-<span id="cb9-68"><a href="profiles.html#cb9-68" tabindex="-1"></a>  <span class="at">control =</span> tune<span class="sc">::</span><span class="fu">control_grid</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-69"><a href="profiles.html#cb9-69" tabindex="-1"></a>)</span>
+<span id="cb9-62"><a href="profiles.html#cb9-62" tabindex="-1"></a><span class="co">#doParallel::registerDoParallel(cores = 6)</span></span>
+<span id="cb9-63"><a href="profiles.html#cb9-63" tabindex="-1"></a><span class="co">#set.seed(891)</span></span>
+<span id="cb9-64"><a href="profiles.html#cb9-64" tabindex="-1"></a><span class="co">#xgb_res &lt;- tune::tune_grid(</span></span>
+<span id="cb9-65"><a href="profiles.html#cb9-65" tabindex="-1"></a><span class="co">#  xgb_wf,</span></span>
+<span id="cb9-66"><a href="profiles.html#cb9-66" tabindex="-1"></a><span class="co">#  resamples = folds,</span></span>
+<span id="cb9-67"><a href="profiles.html#cb9-67" tabindex="-1"></a><span class="co">#  grid = xgb_grid,</span></span>
+<span id="cb9-68"><a href="profiles.html#cb9-68" tabindex="-1"></a><span class="co">#  control = tune::control_grid(save_pred = TRUE)</span></span>
+<span id="cb9-69"><a href="profiles.html#cb9-69" tabindex="-1"></a><span class="co">#)</span></span>
 <span id="cb9-70"><a href="profiles.html#cb9-70" tabindex="-1"></a></span>
 <span id="cb9-71"><a href="profiles.html#cb9-71" tabindex="-1"></a><span class="co">#readr::write_rds(xgb_res, file = paste0(system.file(&quot;model-outputs&quot;, package = &quot;timor.nutrients&quot;), &quot;/xgb_res.rds&quot;))</span></span>
 <span id="cb9-72"><a href="profiles.html#cb9-72" tabindex="-1"></a></span>
