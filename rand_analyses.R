@@ -1,253 +1,299 @@
-library(magrittr)
-we <-
-  kobo_trips %>%
-  dplyr::ungroup() %>%
-  dplyr::select(-Selenium_mu) %>%
-  dplyr::mutate(dplyr::across(Zinc_mu:Vitamin_A_mu, ~ .x * 1000)) %>%
-  tidyr::pivot_longer(-c(landing_id:weight), names_to = "nutrient", values_to = "gr") %>%
-  dplyr::mutate(nutrient = tolower(nutrient),
-                nutrient = stringr::str_replace(nutrient, "_mu", ""),
-                nutrient = ifelse(nutrient == "omega_3", "omega3", nutrient),
-                nutrient = ifelse(nutrient == "vitamin_a", "vitaminA", nutrient)) %>%
-  dplyr::left_join(RDI_tab, by = "nutrient") %>%
-  dplyr::mutate(npeople = gr / conv_factor) %>%
-  dplyr::select(-gr, -conv_factor) %>%
-  dplyr::group_by(landing_id) %>%
-  dplyr::mutate(tot_people = sum(npeople, na.rm = T),
-                people_perc = npeople / tot_people * 100) %>%
-  dplyr::ungroup() %>%
-  dplyr::select(-c(npeople, tot_people)) %>%
-  tidyr::pivot_wider(names_from = "nutrient", values_from = "people_perc") %>%
-  dplyr::filter(landing_period > "2019-01-01")
-
-we_summ <-
-  we %>%
-  dplyr::group_by(landing_period, habitat, gear_type, vessel_type) %>%
-  dplyr::summarise(dplyr::across(is.numeric, ~ median(.x))) %>%
-  dplyr::ungroup()
-
-
-# Assuming your data is stored in a variable called df
-# Remove non-numeric columns for PCA
-
-nut_vars <- we_summ %>% dplyr::select(zinc:vitaminA)
-
-# Perform PCA
-res.pca <- FactoMineR::PCA(nut_vars, scale.unit = TRUE, ncp = 4, graph = FALSE)
-
-# Visualize eigenvalues/variances
-factoextra::fviz_eig(res.pca, addlabels = TRUE, ylim = c(0, 50))
-
-# Biplot of PCA results
-factoextra::fviz_pca_biplot(res.pca)
-
-
-factoextra::fviz_pca_ind(res.pca,
-             geom.ind = "point", # to keep the individuals as points
-             col.ind = we_summ$gear_type, # color by gear_type
-             palette = "jco", # color palette
-             addEllipses = FALSE, # add concentration ellipses
-             legend.title = "Gear Type",
-             repel = FALSE)
-
-df_pca <- dplyr::tibble(we_summ,
-                        a1 = res.pca$ind$coord[ ,1],
-                        a2 = res.pca$ind$coord[ ,2])
-library(ggplot2)
-df_pca %>%
-ggplot(aes(a1, a2, color = habitat))+
-  theme_minimal()+
-  geom_point()
-
-factoextra::fviz_nbclust(na.omit(we_summ)[ ,6:11], kmeans, method = "gap_stat")
-k2 <- kmeans(na.omit(we_summ)[ ,6:11], centers = 5, nstart = 25)
-factoextra::fviz_cluster(k2, data = na.omit(we_summ)[ ,6:11], geom = c("point"))
-
-clusterdf <-
-  dplyr::tibble(clusters = as.character(k2$cluster),
-                           na.omit(we_summ))
-
-clusterdf %>%
-  dplyr::select(-weight) %>%
-  tidyr::pivot_longer(-c(clusters:vessel_type)) %>%
-  ggplot(aes(clusters, value, fill = name))+
-  theme_minimal()+
-  facet_wrap(.~name, ncol = 3, scales = "free")+
-  geom_boxplot(size = 0.2, alpha = 0.75)
-
-
-clusterdf %>%
-  dplyr::select(-weight) %>%
-  tidyr::pivot_longer(-c(clusters:vessel_type)) %>%
-  dplyr::group_by(clusters, name) %>%
-  dplyr::summarise(value = mean(value)) %>%
-  ggplot(aes(clusters, value, fill = name))+
-  theme_minimal()+
-  geom_col()+
-  scale_fill_viridis_d()+
-  coord_flip()
-
-
-
-#### discriminant factor
-
-iris <-
-  na.omit(we_summ) %>%
-  #dplyr::mutate(gear_type = paste(habitat, gear_type, sep = "_")) %>%
-  dplyr::select(habitat, zinc:vitaminA)
-
-set.seed(123)
-ind <- sample(2, nrow(iris),
-              replace = TRUE,
-              prob = c(0.8, 0.2))
-training <- iris[ind==1,]
-testing <- iris[ind==2,]
-
-linear <- MASS::lda(habitat~., training)
-linear
-p <- predict(linear, training)
-df2 <- dplyr::tibble(p = p$x[,1], g = training$habitat)
-
-
-df2 %>%
-ggplot(aes(p, fill = g))+
-  geom_histogram()+
-  facet_grid(g~.)
-
-p1 <- predict(linear, training)$class
-tab <- table(Predicted = p1, Actual = training$habitat)
-tab
-
-sum(diag(tab))/sum(tab)
-
-
-as.data.frame(tab) %>%
-  dplyr::mutate(Freq = ifelse(Freq == 0, NA_real_, Freq)) %>%
-  ggplot(aes(Predicted, Actual))+
-  geom_tile(aes(fill = Freq))+
-  scale_fill_continuous(na.value = 'white', type = "viridis")+
-  #scale_fill_viridis_c(na.value = 'white', alpha = 0.75)+
-  coord_cartesian(expand = FALSE)+
-  theme(panel.background = element_blank())
-?scale_fill_continuous
-
-
-
-##### methods: Nutrient content calculation #####
-
-#1) Species Table. We got interested species information starting from
-#fao interagency_code using fishbase API services. These species are filtered by specific regions code
-# we used timor and indopacific
-rfish_tab <- get_rfish_table(pars)
-
-fao_groups <- get_fao_composition()
-
-#2) Nutrients Table. Nutrients composition is retrieved by the final table from hicks and al.
-nutrients_tab <-
-  readr::read_csv(pars$nutrients$resource,
-                  show_col_types = FALSE) %>%
-  dplyr::rename(SpecCode = .data$spec_code) %>%
-  dplyr::mutate(SpecCode = as.integer(.data$SpecCode)) %>%
-  dplyr::select(.data$species, .data$SpecCode, tidyselect::contains("_mu")) %>%
-#3) We merged Species Table and Nutrients Table by spec_code (FAO?)
-  dplyr::right_join(rfish_tab, by = "SpecCode") %>%
-  dplyr::select(.data$interagency_code, tidyselect::contains("_mu")) %>%
-  dplyr::filter(!interagency_code %in% unique(fao_groups$interagency_code)) %>%
-  dplyr::bind_rows(fao_groups)
-
-#4) Some groups were not present in Nutrients Table and their nutritional values were
-# obtained from alterantive sources (report di gianna)
-
-if (isTRUE(convert)) {
-  nutrients_tab <-
-    nutrients_tab %>%
-    dplyr::mutate(dplyr::across(
-      c(.data$Zinc_mu, .data$Calcium_mu, .data$Iron_mu),
-      ~ (.x / 1000) / 100
-    )) %>%
-    dplyr::mutate(dplyr::across(
-      c(.data$Selenium_mu, .data$Vitamin_A_mu),
-      ~ (.x / 1000000) / 100
-    )) %>%
-    dplyr::mutate(dplyr::across(
-      c(.data$Omega_3_mu, .data$Protein_mu),
-      ~ (.x / 1) / 100
-    ))
-}
-
-#5) We summarise values by interagency code
-
-if (isTRUE(summarise)) {
-  nutrients_tab <-
-    nutrients_tab %>%
-    dplyr::group_by(.data$interagency_code) %>%
-    dplyr::summarise_all(stats::median, na.rm = TRUE)
-}
-
-nutrients_tab
-
-
-###
-
-render_docs()
-
-we <-
+treemap_habitat_df <-
   timor.nutrients::kobo_trips %>%
-  dplyr::filter(weight > 0, n_fishers >0, trip_duration > 0) %>%
-  dplyr::select(trip_duration, n_fishers, habitat, gear_type, weight, Selenium_mu:Vitamin_A_mu) %>%
+  dplyr::filter(weight > 0) %>%
+  dplyr::select(habitat, weight, Selenium_mu:Vitamin_A_mu) %>%
   na.omit() %>%
   rename_nutrients_mu() %>%
-  tidyr::pivot_longer(-c(trip_duration, n_fishers, habitat, gear_type, weight),
-                      names_to = "nutrient", values_to = "concentration_g") %>%
-  dplyr::mutate(concentration_g_stand = (concentration_g / n_fishers) / trip_duration) %>%
-  dplyr::mutate(concentration_g = concentration_g / weight) %>%
+  tidyr::pivot_longer(-c(habitat, weight),
+    names_to = "nutrient", values_to = "concentration_g"
+  ) %>%
+  dplyr::mutate(concentration_g_stand = concentration_g / weight) %>%
   dplyr::select(-weight) %>%
-  dplyr::select(-c(trip_duration, n_fishers, concentration_g)) %>%
+  dplyr::select(-concentration_g) %>%
   dplyr::group_by(habitat, nutrient) %>%
   dplyr::summarise(concentration_g_stand = median(concentration_g_stand)) %>%
-  dplyr::ungroup()
-
-
-library(treemapify)
-
-we %>%
+  dplyr::ungroup() %>%
   dplyr::left_join(timor.nutrients::RDI_tab, by = "nutrient") %>%
-  dplyr::mutate(concentration_g_stand = concentration_g_stand * 1000,
-                nutrient = stringr::str_to_title(nutrient),
-                nutrient = dplyr::case_when(nutrient %in% c("Selenium", "Vitamina") ~ paste(nutrient, "(μg)"),
-                                            nutrient %in% c("Calcium", "Iron", "Zinc") ~ paste(nutrient, "(mg)"),
-                                            TRUE ~ paste(nutrient, "(g)")),
-                nutrient = ifelse(nutrient == "Vitamina (μg)", "Vitamin-A (μg)", nutrient),
-                nutrient = ifelse(nutrient == "Omega3 (g)", "Omega-3 (g)", nutrient)) %>%
+  dplyr::mutate(
+    concentration_g_stand = concentration_g_stand * 1000,
+    nutrient = stringr::str_to_title(nutrient),
+    nutrient = dplyr::case_when(
+      nutrient %in% c("Selenium", "Vitamina") ~ paste(nutrient, "(μg)"),
+      nutrient %in% c("Calcium", "Iron", "Zinc") ~ paste(nutrient, "(mg)"),
+      TRUE ~ paste(nutrient, "(g)")
+    ),
+    nutrient = ifelse(nutrient == "Vitamina (μg)", "Vitamin-A (μg)", nutrient),
+    nutrient = ifelse(nutrient == "Omega3 (g)", "Omega-3 (g)", nutrient)
+  ) %>%
   dplyr::mutate(concentration_g_stand = (concentration_g_stand / conv_factor)) %>%
   dplyr::filter(!nutrient == "Selenium (μg)") %>%
-  ggplot(aes(area = concentration_g_stand,
-             fill = nutrient,
-             label = habitat,
-             subgroup = nutrient), alpha = 0.5) +
+  dplyr::mutate(nutrient = factor(nutrient, levels = c(
+    "Protein (g)",
+    "Zinc (mg)",
+    "Calcium (mg)",
+    "Omega-3 (g)",
+    "Vitamin-A (μg)",
+    "Iron (mg)"
+  )))
+
+treemap_habitat_df %>%
+  ggplot(aes(
+    area = concentration_g_stand,
+    fill = nutrient,
+    label = habitat,
+    subgroup = nutrient
+  ), alpha = 0.5) +
   geom_treemap() +
   geom_treemap_subgroup_border() +
-  geom_treemap_subgroup_text(place = "centre",
-                             grow = T,
-                             alpha = 0.5,
-                             colour = "black",
-                             fontface = "italic",
-                             min.size = 0) +
-  geom_treemap_text(colour = "white", place = "topleft", reflow = T)+
-  scale_fill_viridis_d()
+  geom_treemap_subgroup_text(
+    place = "centre",
+    grow = T,
+    alpha = 0.5,
+    colour = "black",
+    fontface = "italic",
+    min.size = 0
+  ) +
+  geom_treemap_text(colour = "white", place = "topleft", reflow = T) +
+  scale_fill_viridis_d(direction = -1) +
+  theme(legend.position = "bottom") +
+  labs(fill = "")
 
 
+####
 
-###
-we %>%
+treemap_gear_df <-
+  timor.nutrients::kobo_trips %>%
+  dplyr::filter(weight > 0) %>%
+  dplyr::select(gear_type, weight, Selenium_mu:Vitamin_A_mu) %>%
+  na.omit() %>%
+  rename_nutrients_mu() %>%
+  tidyr::pivot_longer(-c(gear_type, weight),
+    names_to = "nutrient", values_to = "concentration_g"
+  ) %>%
+  dplyr::mutate(concentration_g_stand = concentration_g / weight) %>%
+  dplyr::select(-weight) %>%
+  dplyr::select(-concentration_g) %>%
+  dplyr::group_by(gear_type, nutrient) %>%
+  dplyr::summarise(concentration_g_stand = median(concentration_g_stand)) %>%
+  dplyr::ungroup() %>%
   dplyr::left_join(timor.nutrients::RDI_tab, by = "nutrient") %>%
-  dplyr::mutate(concentration_g_stand = concentration_g_stand * 1000,
-                nutrient = stringr::str_to_title(nutrient),
-                nutrient = dplyr::case_when(nutrient %in% c("Selenium", "Vitamina") ~ paste(nutrient, "(μg)"),
-                                            nutrient %in% c("Calcium", "Iron", "Zinc") ~ paste(nutrient, "(mg)"),
-                                            TRUE ~ paste(nutrient, "(g)")),
-                nutrient = ifelse(nutrient == "Vitamina (μg)", "Vitamin-A (μg)", nutrient),
-                nutrient = ifelse(nutrient == "Omega3 (g)", "Omega-3 (g)", nutrient)) %>%
+  dplyr::mutate(
+    concentration_g_stand = concentration_g_stand * 1000,
+    nutrient = stringr::str_to_title(nutrient),
+    nutrient = dplyr::case_when(
+      nutrient %in% c("Selenium", "Vitamina") ~ paste(nutrient, "(μg)"),
+      nutrient %in% c("Calcium", "Iron", "Zinc") ~ paste(nutrient, "(mg)"),
+      TRUE ~ paste(nutrient, "(g)")
+    ),
+    nutrient = ifelse(nutrient == "Vitamina (μg)", "Vitamin-A (μg)", nutrient),
+    nutrient = ifelse(nutrient == "Omega3 (g)", "Omega-3 (g)", nutrient)
+  ) %>%
   dplyr::mutate(concentration_g_stand = (concentration_g_stand / conv_factor)) %>%
   dplyr::filter(!nutrient == "Selenium (μg)")
 
+treemap_gear_df %>%
+  ggplot(aes(
+    area = concentration_g_stand,
+    fill = nutrient,
+    label = gear_type,
+    subgroup = nutrient
+  ), alpha = 0.5) +
+  geom_treemap() +
+  geom_treemap_subgroup_border() +
+  geom_treemap_subgroup_text(
+    place = "centre",
+    grow = T,
+    alpha = 0.5,
+    colour = "black",
+    fontface = "italic",
+    min.size = 0
+  ) +
+  geom_treemap_text(colour = "white", place = "topleft", reflow = T) +
+  scale_fill_viridis_d(direction = -1) +
+  theme(legend.position = "bottom") +
+  labs(fill = "")
+
+
+##### ml #######
+# these are the cluster data (from section nutrients distrivution)
+library(DataExplorer)
+df <- readr::read_csv("ml_data.csv")
+
+DataExplorer::plot_intro(df)
+DataExplorer::plot_bar(df[, -1])
+
+# wrangling
+df_field <- df %>%
+  dplyr::mutate_all(as.factor)
+
+# splitting and resampling
+library(tidymodels)
+
+set.seed(123)
+df_split <-
+  df_field %>%
+  rsample::initial_split(prop = 0.8, strata = cluster)
+
+train <- rsample::training(df_split)
+test <- rsample::testing(df_split)
+
+# Cross validation folds from training dataset
+set.seed(234)
+folds <- rsample::vfold_cv(train, strata = cluster)
+
+# pre- processing
+
+cust_rec <-
+  recipes::recipe(cluster ~ ., data = train) %>%
+  #  update_role(customerID, new_role = "ID") %>%
+  #  step_corr(all_numeric()) %>%
+  recipes::step_corr(recipes::all_numeric(), threshold = 0.7, method = "spearman") %>%
+  recipes::step_zv(recipes::all_numeric()) %>% # filter zero variance
+  # recipes::step_normalize(recipes::all_numeric()) %>%
+  recipes::step_dummy(recipes::all_nominal_predictors())
+
+
+# Model
+
+xgb_spec0 <-
+  parsnip::boost_tree() %>%
+  parsnip::set_engine("xgboost") %>%
+  parsnip::set_mode("classification")
+
+xgb_wf0 <-
+  workflows::workflow() %>%
+  workflows::add_recipe(cust_rec) %>%
+  workflows::add_model(xgb_spec0)
+
+# fit model
+xgb_fit0 <- tune::fit_resamples(xgb_wf0,
+  resamples = folds,
+  metrics = yardstick::metric_set(accuracy, roc_auc, sens, spec),
+  control = tune::control_resamples(save_pred = TRUE)
+)
+
+xgb_fit0 %>%
+  tune::collect_metrics()
+
+# final fit
+
+xgb_final <- tune::last_fit(
+  xgb_wf0,
+  split = df_split,
+  metrics = yardstick::metric_set(accuracy, roc_auc, sens, spec)
+)
+
+xgb_final %>%
+  tune::collect_metrics()
+
+xgb_final %>%
+  tune::collect_predictions() %>%
+  yardstick::conf_mat(cluster, .pred_class)
+
+
+
+#### using parameters
+# Setup a model specification
+
+xgb_spec <- parsnip::boost_tree(
+  trees = 500,
+  tree_depth = hardhat::tune(),
+  min_n = hardhat::tune(),
+  loss_reduction = hardhat::tune(), ## first three: model complexity
+  sample_size = hardhat::tune(), mtry = hardhat::tune(), ## randomness
+  learn_rate = hardhat::tune() ## step size
+) %>%
+  parsnip::set_engine("xgboost") %>%
+  parsnip::set_mode("classification")
+
+# Passing to workflow formula and Model specification
+xgb_wf <-
+  workflows::workflow() %>%
+  workflows::add_formula(cluster ~ .) %>%
+  workflows::add_model(xgb_spec)
+
+# tuning
+
+xgb_grid <- dials::grid_latin_hypercube(
+  dials::tree_depth(),
+  dials::min_n(),
+  dials::loss_reduction(),
+  sample_size = sample_prop(),
+  dials::finalize(dials::mtry(), train),
+  dials::learn_rate(),
+  size = 20
+)
+install.packages("doParallel")
+library(finetune)
+
+doParallel::registerDoParallel(cores = 4)
+
+set.seed(234)
+xgb_res <- tune::tune_grid(
+  xgb_wf,
+  resamples = folds,
+  grid = xgb_grid,
+  control = tune::control_grid(save_pred = TRUE)
+)
+xgb_res
+
+# dysplay tuning parameters
+
+xgb_res %>%
+  tune::collect_metrics() %>%
+  dplyr::filter(.metric == "roc_auc") %>%
+  dplyr::select(mean, mtry:sample_size) %>%
+  tidyr::pivot_longer(mtry:sample_size,
+    names_to = "parameter",
+    values_to = "value"
+  ) %>%
+  ggplot(aes(value, mean, color = parameter)) +
+  geom_point(show.legend = FALSE) +
+  facet_wrap(~parameter, scales = "free_x")
+
+
+tune::show_best(xgb_res, "roc_auc")
+
+best_auc <- tune::select_best(xgb_res, "roc_auc")
+
+
+final_xgb <- tune::finalize_workflow(xgb_wf, best_auc)
+final_xgb
+
+final_xgb %>%
+  fit(data = train) %>%
+  hardhat::extract_fit_parsnip() %>%
+  vip::vip(geom = "point")
+
+final_rs <- tune::last_fit(final_xgb, df_split,
+  metrics = yardstick::metric_set(accuracy, roc_auc, sens, spec)
+)
+final_rs %>%
+  tune::collect_metrics()
+
+cmat <-
+final_rs %>%
+  tune::collect_predictions() %>%
+  yardstick::conf_mat(cluster, .pred_class)
+
+cmat
+summary(cmat)
+
+
+final_rs %>%
+  tune::collect_predictions() %>%
+  yardstick::roc_curve(cluster, c(.pred_1:.pred_5), event_level = "second") %>%
+  ggplot(aes(1-specificity, sensitivity, color = .level))+
+  theme_minimal()+
+  geom_line()+
+  geom_point()+
+  scale_color_viridis_d()+
+  labs(color = "cluster")
+
+
+final_rs %>%
+  tune::collect_predictions() %>%
+  yardstick::roc_auc(cluster, c(.pred_1:.pred_5))
+
+
+install.packages("")

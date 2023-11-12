@@ -48,7 +48,8 @@ region_stats <-
     vitaminA = (.data$Vitamin_A_mu * (.data$catch * 1000)) / 1000
   )
 
-trips <- get_merged_trips(pars)
+trips <- get_merged_trips(pars) %>% dplyr::filter(!is.na(landing_id))
+names(trips)
 kobo_trips <-
   trips %>%
   dplyr::mutate(
@@ -61,11 +62,13 @@ kobo_trips <-
   dplyr::group_by(.data$landing_id, .data$landing_period) %>%
   dplyr::summarise(
     landing_id = dplyr::first(landing_id),
+    reporting_region = dplyr::first(reporting_region),
     landing_date = dplyr::first(landing_date),
     trip_duration = dplyr::first(trip_duration),
     n_fishers = dplyr::first(n_fishers),
     habitat = dplyr::first(habitat),
     gear_type = dplyr::first(gear_type),
+    mesh_size = dplyr::first(mesh_size),
     vessel_type = dplyr::first(vessel_type),
     dplyr::across(
       c(.data$weight:.data$Vitamin_A_mu),
@@ -81,3 +84,6 @@ usethis::use_data(timor_population, overwrite = TRUE)
 usethis::use_data(nutrients_table, overwrite = TRUE)
 usethis::use_data(region_stats, overwrite = TRUE)
 usethis::use_data(kobo_trips, overwrite = TRUE)
+
+devtools::document()
+
