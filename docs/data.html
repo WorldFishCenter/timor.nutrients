@@ -146,48 +146,10 @@
 <p>The FishBase database provides length-to-length and length-to-weight relationships for over 5,000 fish species. Typically, there are multiple records for the parameters a and b for each species. Since the length measurements in Peskas’ first version pertained to FL, we initially standardized all length measurements to TL using the FishBase length-to-length conversion tables. Subsequently, we applied the TL-to-weight conversion tables to estimate the weights.</p>
 <p>The FishBase length-to-weight conversion tables offer species-level taxonomic resolution. To derive a singular length-to-weight relationship for each fish group, we calculated the median values of parameters a and b for all species within a particular fish group. To ensure relevance to the region of interest, we refined the species list using FAO country codes (<a href="https://www.fao.org/countryprofiles/iso3list/en/" class="uri">https://www.fao.org/countryprofiles/iso3list/en/</a>) pertinent to Timor-Leste and Indonesia (country codes 626 and 360, respectively). For instance, to ascertain the weight of a catch categorized under the fish group labeled ECN (representing the Echeneidae family), we first identified the species within ECN documented in Timor-Leste and Indonesia. After this, we computed the average values of the parameters a and b for the identified species, which in this case were Echeneis naucrates and Remora remora (as illustrated in the figure below).</p>
 <p>To address the scarcity of measured nutrient values for fish, which are typically limited to a few species and countries. To overcome this data limitation, MacNeil et al. developed a Bayesian hierarchical model that leverages both phylogenetic information and trait-based information to predict concentrations of seven essential nutrients: calcium, iron, omega-3 fatty acids, protein, selenium, vitamin A, and zinc for both marine and inland fish species globally (see Hicks et al. 2019). For each catch, the nutritional yield was calculated by combining the validated weight estimates for each fish group with the modelled nutrient concentrations. Specifically, we used the highest posterior predictive density values for each of the seven nutrients, which can be found in the repository (<a href="https://github.com/mamacneil/NutrientFishbase" class="uri">https://github.com/mamacneil/NutrientFishbase</a>). For non-fish groups—including octopuses, squids, cockles, shrimps, crabs, and lobsters—nutritional yield information was not available in the NutrientFishbase repository models. We retrieved the necessary data for these groups from the <a href="https://www.fao.org/documents/card/en/c/I8542EN/">Global food composition database</a>, using the same methodological approach as for the fish groups to estimate their nutritional content. To represent the nutrient concentration associated with each fish group, we used the median value as a summarizing metric.</p>
-<pre><code>## 
-ℹ Downloading rfish-table__20231111005820_fe395e3__.rds
-
-✔ Saved rfish-table__20231111005820_fe395e3__.rds to rfish-table__20231111005820_fe395e3__.rds  ( 159.2 K…
-## Rows: 515 Columns: 13── Column specification ──────────────────────────────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (4): integragency_code, food_name, habitat, food_state
-## dbl (9): food_id, ISSCAAP, protein(g), calcium(mg), iron(mg), zinc(mg), selenium(mcg), vitaminA(mcg), ...
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>## Warning: There were 17 warnings in `dplyr::mutate()`.
-## The first warning was:
-## ℹ In argument: `ic = se * qt((1 - 0.05)/2 + 0.5, n - 1)`.
-## ℹ In group 5: `interagency_code = &quot;BWH&quot;`.
-## Caused by warning in `qt()`:
-## ! NaNs produced
-## ℹ Run `dplyr::last_dplyr_warnings()` to see the 16 remaining warnings.</code></pre>
-<pre><code>## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?
-## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?
-## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?
-## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?
-## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?
-## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?
-## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?</code></pre>
-<pre><code>## Warning: Removed 12 rows containing missing values (`geom_segment()`).</code></pre>
-<pre><code>## Warning: Removed 12 rows containing missing values (`geom_segment()`).
-## Removed 12 rows containing missing values (`geom_segment()`).
-## Removed 12 rows containing missing values (`geom_segment()`).
-## Removed 12 rows containing missing values (`geom_segment()`).
-## Removed 12 rows containing missing values (`geom_segment()`).
-## Removed 12 rows containing missing values (`geom_segment()`).</code></pre>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:nutdispersion"></span>
-<img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/nutdispersion-1.png" alt="Distribution of nutrients' concentration for each fish group. Dots represent the median, fig.height=4, fig.width=10, message=FALSE, warning=FALSE, bars represent the 95% confidence interval." width="80%" />
+<div class="figure"><span style="display:block;" id="fig:nutdispersion"></span>
+<img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/nutdispersion-1.png" alt="Distribution of nutrients' concentration for each fish group. Dots represent the median, bars represent the 95% confidence interval." width="960" />
 <p class="caption">
-Figure 2.1: Distribution of nutrients’ concentration for each fish group. Dots represent the median, fig.height=4, fig.width=10, message=FALSE, warning=FALSE, bars represent the 95% confidence interval.
+Figure 2.1: Distribution of nutrients’ concentration for each fish group. Dots represent the median, bars represent the 95% confidence interval.
 </p>
 </div>
 </div>
