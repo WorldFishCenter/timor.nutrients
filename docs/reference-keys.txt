@@ -20,6 +20,6 @@ clusters
 xgboost-model
 checks-and-limitations-1
 next-steps
-notes
+simple
 ml-model-interpretation
 ml-model-explanation
