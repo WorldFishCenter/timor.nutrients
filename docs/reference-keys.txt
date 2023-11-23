@@ -15,7 +15,8 @@ fish-groups
 habitat-and-gear-type
 profiles
 methods
-results
+data-analysis-design-and-subset-division
+results-not-updated
 clusters
 xgboost-model
 checks-and-limitations-1

@@ -2,13 +2,35 @@
 
 ## Methods
 
-In this section, we identified recurrent nutritional profiles based on [RC data][data]. We aimed to determine the most appropriate number of distinct groups, or "clusters," present in our dataset. To achieve this, we used the total within sum of square (WSS) to identify the point at which grouping additional data points together does not significantly improve the clarity of the clustering. Once we established the optimal number of clusters, we applied the [K-means](https://uc-r.github.io/kmeans_clustering#:~:text=The%20gap%20statistic%20compares%20the,simulations%20of%20the%20sampling%20process.) clustering method. This is a widely-used technique that organizes data into clusters based on similarity. In our case, we grouped fishing trips together if they showed similar levels of nutrient concentrations. By doing this, we were able to observe patterns and categorize the trips according to their nutritional profiles.
+In this section, we identified recurrent nutritional profiles based on [RC data](https://worldfishcenter.github.io/timor.nutrients/data.html#data), then, we aimed to predict the nutritional profiles on the basis of the fishing strategy adopted.
 
-To investigate the predictability of nutritional profiles based on fishing strategies, we employed a machine learning model using the XGBoost algorithm. This algorithm is also known for its ability to prevent overfitting, a critical factor for ensuring the reliability of our predictive model. Additionally, XGBoost's feature importance tool allowed us to identify the most influential predictors on the nutritional profiles.
+### Data analysis design and subset division
 
-We used quarter, habitat, gear type, vessel type and the interaction between habitat and gear type as predictors variables. The model parameters (number of trees, tree depth, loss reduction, sample size and and early stopping) were dynamically tuned during the training phase to optimize model performance. The dataset was split into two parts: 80% for training the model and 20% for testing. This allocation ensured a comprehensive dataset for training the model while allowing for effective validation. To further enhance the model's accuracy and generalizability, we applied cross-validation on 10 folds using the training set. In the final stage, we fitted the XGBoost model to the training data and evaluated its performance using metrics such as accuracy, ROC AUC, sensitivity, and specificity. These metrics provided insights into the model's discriminatory ability between different nutritional profile outcomes. The calculation of ROC curves and AUC values offered additional evaluation of the model's effectiveness.
+As a first step we addressed the inherent imbalance in the [RC data](https://worldfishcenter.github.io/timor.nutrients/data.html#data), a critical aspect for ensuring accurate and unbiased analysis. Notably, a substantial portion of the data, exceeding 40%, is from Atauro, with gill net being the most frequently reported gear type across all the municipalities. To mitigate the skew caused by this overrepresentation, we strategically divided the dataset into four distinct subsets:
 
-## Results
+-   Atauro - Gill net: Focused on data from Atauro using gill nets.
+
+-   Atauro - All gears: Included data from Atauro using fishing methods other than gill nets.
+
+-   Mainland - Gill net: Comprised of gill net data from all municipalities excluding Atauro.
+
+-   Mainland - All gears: Encompassed data from all other municipalities using non-gill net fishing methods.
+
+This deliberate subdivision of the dataset was intended to reduce bias and enhance analytical precision. Furthermore, by isolating gill net data, we were able to specifically examine the impact of mesh size on the prediction of nutrient profiles in gill net catches, providing a more focused and detailed analysis of this gear type's influence on nutritional outcomes.
+
+Subsequently, we identified recurrent nutritional profiles for each dataset. We assessed the total within sum of square (WSS) of six nutrient concentrations---excluding selenium---to identify the optimal number of distinctive nutritional profiles, or clusters. This approach helped determine the point at which additional data points do not significantly enhance the clarity of the clusters.
+
+Having established the optimal number of clusters, we then performed the K-means clustering method. This method, known for its effectiveness in organizing data into distinct groups based on similarities, was applied to categorize the fishing trips. Each trip was grouped based on its nutrient concentration profile, thereby enabling us to discern patterns and categorize trips according to their nutritional value.
+
+The K-means algorithm functions by assigning each data point to the nearest cluster, based on the mean value of the points in the cluster. This iterative process continues until the assignment of points to clusters no longer changes, indicating that the clusters are as distinct as possible. The result is a set of clusters that represent unique nutritional profiles, each characterized by a specific combination of nutrient concentrations.
+
+Following the clustering, we performed a XGBoost model to predict the nutritional profiles based on the fishing strategy, habitat and season. We employed the XGBoost algorithm due to its effectiveness in preventing overfitting and its ability to highlight key predictors. We used mesh size, habitat, quarter of the year, and vessel type as predictors for gill net subsets. For other gear types, the models used habitat x gear interaction, habitat, gear type, quarter of the year, and vessel type as predictors.
+
+Model tuning was conducted dynamically, adjusting parameters like the number of trees, tree depth, loss reduction, sample size, and early stopping. The data was split into training (80%) and testing (20%) sets, with 10-fold cross-validation applied to the training set for enhanced accuracy and generalizability.
+
+The model's performance was assessed using metrics such as accuracy, ROC AUC, sensitivity, and specificity, providing a comprehensive understanding of its ability to accurately distinguish between different nutritional profiles. The ROC curves and AUC values offered an additional layer of model effectiveness evaluation.
+
+## Results (not updated)
 
 ### Clusters
 
@@ -265,7 +287,7 @@ shapviz::sv_importance(sha) +
   theme_minimal()
 
 
-p1 <- sv_dependence(sha, "habitat")
+shapviz::sv_dependence(sha$.pred_1, "mesh")
 ```
 
 ## Checks and limitations
@@ -274,7 +296,7 @@ p1 <- sv_dependence(sha, "habitat")
 
 -   Are we considering all the possible potential good predictors?
 
-- These color are confusing sometimes, consider change the color palette
+-   These color are confusing sometimes, consider change the color palette
 
 ## Next steps
 

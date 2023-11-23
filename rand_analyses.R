@@ -1,3 +1,4 @@
+### descriptive nutrients plots ####
 treemap_habitat_df <-
   timor.nutrients::kobo_trips %>%
   dplyr::filter(weight > 0) %>%
@@ -113,187 +114,57 @@ treemap_gear_df %>%
   theme(legend.position = "bottom") +
   labs(fill = "")
 
+### shap values ####
 
-##### ml #######
-# these are the cluster data (from section nutrients distrivution)
-library(DataExplorer)
-df <- readr::read_csv("ml_data.csv")
+sha <- shapviz::shapviz(timor.nutrients::shap_results$model_atauro_GN)
+shapviz::sv_importance(sha)
 
-DataExplorer::plot_intro(df)
-DataExplorer::plot_bar(df[, -1])
+shapviz::sv_dependence(sha$.pred_1,
+                       v = "mesh_size",
+                       color_var = "habitat",
+                       color = "#008080",
+                       viridis_args = list(begin = 1, end = 0, option = "turbo"),
+                       jitter_width = 0.5) &
+  ggplot2::theme_minimal() &
+  ggplot2::scale_x_continuous(n.breaks = 10) &
+  ggplot2::geom_hline(yintercept = 0, linetype = 2, color = "grey50") &
+  patchwork::plot_layout(ncol = 1)&
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-# wrangling
-df_field <- df %>%
-  dplyr::mutate_all(as.factor)
+#### new plots ####
 
-# splitting and resampling
-library(tidymodels)
+plots <-
+  list(
+    timor.nutrients::model_outputs$model_atauro_AG$roc_curves + ggplot2::labs(subtitle = "Atauro - All gears"),
+    timor.nutrients::model_outputs$model_atauro_GN$roc_curves + ggplot2::labs(subtitle = "Atauro - Gill net"),
+    timor.nutrients::model_outputs$model_timor_AG$roc_curves + ggplot2::labs(subtitle = "Mainland - All gears"),
+    timor.nutrients::model_outputs$model_timor_GN$roc_curves + ggplot2::labs(subtitle = "Mainland - Gill net")
+  )
+plots <- lapply(plots, function(x) {
+  x +
+    ggplot2::theme(legend.position = "none") +
+    ggplot2::labs(x = "", y = "")
+})
+legend_plot <- cowplot::get_legend(plots[[1]] +
+                                     ggplot2::theme(
+                                       legend.position = "right",
+                                       legend.key.size = ggplot2::unit(0.8, "cm"),
+                                       legend.title = ggplot2::element_text(size = 12)
+                                     ))
+combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "auto")
 
-set.seed(123)
-df_split <-
-  df_field %>%
-  rsample::initial_split(prop = 0.8, strata = cluster)
+x_label <- cowplot::draw_label("1 - Specificity", x = 0.5, y = 0.05)
+y_label <- cowplot::draw_label("Sensitivity", x = 0.02, y = 0.5, angle = 90)
 
-train <- rsample::training(df_split)
-test <- rsample::testing(df_split)
+final_plot <-
+  cowplot::plot_grid(
+    combined_plots,
+    legend_plot,
+    ncol = 2,
+    rel_widths = c(1, 0.15),
+    scale = 0.9
+  ) +
+  x_label +
+  y_label
 
-# Cross validation folds from training dataset
-set.seed(234)
-folds <- rsample::vfold_cv(train, strata = cluster)
-
-# pre- processing
-
-cust_rec <-
-  recipes::recipe(cluster ~ ., data = train) %>%
-  #  update_role(customerID, new_role = "ID") %>%
-  #  step_corr(all_numeric()) %>%
-  recipes::step_corr(recipes::all_numeric(), threshold = 0.7, method = "spearman") %>%
-  recipes::step_zv(recipes::all_numeric()) %>% # filter zero variance
-  # recipes::step_normalize(recipes::all_numeric()) %>%
-  recipes::step_dummy(recipes::all_nominal_predictors())
-
-
-# Model
-
-xgb_spec0 <-
-  parsnip::boost_tree() %>%
-  parsnip::set_engine("xgboost") %>%
-  parsnip::set_mode("classification")
-
-xgb_wf0 <-
-  workflows::workflow() %>%
-  workflows::add_recipe(cust_rec) %>%
-  workflows::add_model(xgb_spec0)
-
-# fit model
-xgb_fit0 <- tune::fit_resamples(xgb_wf0,
-  resamples = folds,
-  metrics = yardstick::metric_set(accuracy, roc_auc, sens, spec),
-  control = tune::control_resamples(save_pred = TRUE)
-)
-
-xgb_fit0 %>%
-  tune::collect_metrics()
-
-# final fit
-
-xgb_final <- tune::last_fit(
-  xgb_wf0,
-  split = df_split,
-  metrics = yardstick::metric_set(accuracy, roc_auc, sens, spec)
-)
-
-xgb_final %>%
-  tune::collect_metrics()
-
-xgb_final %>%
-  tune::collect_predictions() %>%
-  yardstick::conf_mat(cluster, .pred_class)
-
-
-
-#### using parameters
-# Setup a model specification
-
-xgb_spec <- parsnip::boost_tree(
-  trees = 500,
-  tree_depth = hardhat::tune(),
-  min_n = hardhat::tune(),
-  loss_reduction = hardhat::tune(), ## first three: model complexity
-  sample_size = hardhat::tune(), mtry = hardhat::tune(), ## randomness
-  learn_rate = hardhat::tune() ## step size
-) %>%
-  parsnip::set_engine("xgboost") %>%
-  parsnip::set_mode("classification")
-
-# Passing to workflow formula and Model specification
-xgb_wf <-
-  workflows::workflow() %>%
-  workflows::add_formula(cluster ~ .) %>%
-  workflows::add_model(xgb_spec)
-
-# tuning
-
-xgb_grid <- dials::grid_latin_hypercube(
-  dials::tree_depth(),
-  dials::min_n(),
-  dials::loss_reduction(),
-  sample_size = sample_prop(),
-  dials::finalize(dials::mtry(), train),
-  dials::learn_rate(),
-  size = 20
-)
-install.packages("doParallel")
-library(finetune)
-
-doParallel::registerDoParallel(cores = 4)
-
-set.seed(234)
-xgb_res <- tune::tune_grid(
-  xgb_wf,
-  resamples = folds,
-  grid = xgb_grid,
-  control = tune::control_grid(save_pred = TRUE)
-)
-xgb_res
-
-# dysplay tuning parameters
-
-xgb_res %>%
-  tune::collect_metrics() %>%
-  dplyr::filter(.metric == "roc_auc") %>%
-  dplyr::select(mean, mtry:sample_size) %>%
-  tidyr::pivot_longer(mtry:sample_size,
-    names_to = "parameter",
-    values_to = "value"
-  ) %>%
-  ggplot(aes(value, mean, color = parameter)) +
-  geom_point(show.legend = FALSE) +
-  facet_wrap(~parameter, scales = "free_x")
-
-
-tune::show_best(xgb_res, "roc_auc")
-
-best_auc <- tune::select_best(xgb_res, "roc_auc")
-
-
-final_xgb <- tune::finalize_workflow(xgb_wf, best_auc)
-final_xgb
-
-final_xgb %>%
-  fit(data = train) %>%
-  hardhat::extract_fit_parsnip() %>%
-  vip::vip(geom = "point")
-
-final_rs <- tune::last_fit(final_xgb, df_split,
-  metrics = yardstick::metric_set(accuracy, roc_auc, sens, spec)
-)
-final_rs %>%
-  tune::collect_metrics()
-
-cmat <-
-final_rs %>%
-  tune::collect_predictions() %>%
-  yardstick::conf_mat(cluster, .pred_class)
-
-cmat
-summary(cmat)
-
-
-final_rs %>%
-  tune::collect_predictions() %>%
-  yardstick::roc_curve(cluster, c(.pred_1:.pred_5), event_level = "second") %>%
-  ggplot(aes(1-specificity, sensitivity, color = .level))+
-  theme_minimal()+
-  geom_line()+
-  geom_point()+
-  scale_color_viridis_d()+
-  labs(color = "cluster")
-
-
-final_rs %>%
-  tune::collect_predictions() %>%
-  yardstick::roc_auc(cluster, c(.pred_1:.pred_5))
-
-
-install.packages("")
+final_plot

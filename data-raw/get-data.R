@@ -1,4 +1,3 @@
-## code to prepare `get_data` goes here
 library(magrittr)
 
 pars <- read_config()
@@ -55,7 +54,8 @@ kobo_trips <-
   dplyr::mutate(
     landing_period = lubridate::floor_date(landing_date, unit = "month"),
     landing_id = as.character(landing_id),
-    n_fishers = fisher_number_man + fisher_number_woman + fisher_number_child) %>%
+    n_fishers = fisher_number_man + fisher_number_woman + fisher_number_child
+  ) %>%
   tidyr::unnest(.data$landing_catch) %>%
   tidyr::unnest(.data$length_frequency) %>%
   dplyr::filter(!is.na(.data$weight)) %>%
@@ -77,7 +77,6 @@ kobo_trips <-
   ) %>%
   dplyr::ungroup()
 
-##
 usethis::use_data(RDI_tab, overwrite = TRUE)
 usethis::use_data(catch_groups, overwrite = TRUE)
 usethis::use_data(timor_population, overwrite = TRUE)
@@ -85,5 +84,19 @@ usethis::use_data(nutrients_table, overwrite = TRUE)
 usethis::use_data(region_stats, overwrite = TRUE)
 usethis::use_data(kobo_trips, overwrite = TRUE)
 
-devtools::document()
+# Run XGBoost model
+# data_list <- get_model_data()$data
+# model_outputs <-
+#  purrr::imap(
+#    data_list, ~ run_xgmodel
+#    (dataframe = .x$dataframe, step_other = .x$step_other, n_cores = 8)
+#  ) %>%
+#  setNames(paste0("model_", names(.)))
 
+# usethis::use_data(model_outputs, overwrite = TRUE)
+
+# Get shap values
+# shap_results <- purrr::map(timor.nutrients::model_outputs , run_kernelshap)
+# usethis::use_data(shap_results, overwrite = T)
+
+devtools::document()

@@ -23,7 +23,7 @@
 <meta name="author" content="Lore" />
 
 
-<meta name="date" content="2023-11-15" />
+<meta name="date" content="2023-11-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -96,8 +96,11 @@
 </ul></li>
 <li class="chapter" data-level="5" data-path="profiles.html"><a href="profiles.html"><i class="fa fa-check"></i><b>5</b> Timor SSF nutrient profiles</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="profiles.html"><a href="profiles.html#methods"><i class="fa fa-check"></i><b>5.1</b> Methods</a></li>
-<li class="chapter" data-level="5.2" data-path="profiles.html"><a href="profiles.html#results"><i class="fa fa-check"></i><b>5.2</b> Results</a>
+<li class="chapter" data-level="5.1" data-path="profiles.html"><a href="profiles.html#methods"><i class="fa fa-check"></i><b>5.1</b> Methods</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="profiles.html"><a href="profiles.html#data-analysis-design-and-subset-division"><i class="fa fa-check"></i><b>5.1.1</b> Data analysis design and subset division</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="profiles.html"><a href="profiles.html#results-not-updated"><i class="fa fa-check"></i><b>5.2</b> Results (not updated)</a>
 <ul>
 <li class="chapter" data-level="5.2.1" data-path="profiles.html"><a href="profiles.html#clusters"><i class="fa fa-check"></i><b>5.2.1</b> Clusters</a></li>
 <li class="chapter" data-level="5.2.2" data-path="profiles.html"><a href="profiles.html#xgboost-model"><i class="fa fa-check"></i><b>5.2.2</b> XGBoost model</a></li>
@@ -135,12 +138,27 @@
 <h1><span class="header-section-number">5</span> Timor SSF nutrient profiles<a href="profiles.html#profiles" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="methods" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Methods<a href="profiles.html#methods" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In this section, we identified recurrent nutritional profiles based on <a href="data.html#data">RC data</a>. We aimed to determine the most appropriate number of distinct groups, or “clusters,” present in our dataset. To achieve this, we used the total within sum of square (WSS) to identify the point at which grouping additional data points together does not significantly improve the clarity of the clustering. Once we established the optimal number of clusters, we applied the <a href="https://uc-r.github.io/kmeans_clustering#:~:text=The%20gap%20statistic%20compares%20the,simulations%20of%20the%20sampling%20process.">K-means</a> clustering method. This is a widely-used technique that organizes data into clusters based on similarity. In our case, we grouped fishing trips together if they showed similar levels of nutrient concentrations. By doing this, we were able to observe patterns and categorize the trips according to their nutritional profiles.</p>
-<p>To investigate the predictability of nutritional profiles based on fishing strategies, we employed a machine learning model using the XGBoost algorithm. This algorithm is also known for its ability to prevent overfitting, a critical factor for ensuring the reliability of our predictive model. Additionally, XGBoost’s feature importance tool allowed us to identify the most influential predictors on the nutritional profiles.</p>
-<p>We used quarter, habitat, gear type, vessel type and the interaction between habitat and gear type as predictors variables. The model parameters (number of trees, tree depth, loss reduction, sample size and and early stopping) were dynamically tuned during the training phase to optimize model performance. The dataset was split into two parts: 80% for training the model and 20% for testing. This allocation ensured a comprehensive dataset for training the model while allowing for effective validation. To further enhance the model’s accuracy and generalizability, we applied cross-validation on 10 folds using the training set. In the final stage, we fitted the XGBoost model to the training data and evaluated its performance using metrics such as accuracy, ROC AUC, sensitivity, and specificity. These metrics provided insights into the model’s discriminatory ability between different nutritional profile outcomes. The calculation of ROC curves and AUC values offered additional evaluation of the model’s effectiveness.</p>
+<p>In this section, we identified recurrent nutritional profiles based on <a href="https://worldfishcenter.github.io/timor.nutrients/data.html#data">RC data</a>, then, we aimed to predict the nutritional profiles on the basis of the fishing strategy adopted.</p>
+<div id="data-analysis-design-and-subset-division" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Data analysis design and subset division<a href="profiles.html#data-analysis-design-and-subset-division" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As a first step we addressed the inherent imbalance in the <a href="https://worldfishcenter.github.io/timor.nutrients/data.html#data">RC data</a>, a critical aspect for ensuring accurate and unbiased analysis. Notably, a substantial portion of the data, exceeding 40%, is from Atauro, with gill net being the most frequently reported gear type across all the municipalities. To mitigate the skew caused by this overrepresentation, we strategically divided the dataset into four distinct subsets:</p>
+<ul>
+<li><p>Atauro - Gill net: Focused on data from Atauro using gill nets.</p></li>
+<li><p>Atauro - All gears: Included data from Atauro using fishing methods other than gill nets.</p></li>
+<li><p>Mainland - Gill net: Comprised of gill net data from all municipalities excluding Atauro.</p></li>
+<li><p>Mainland - All gears: Encompassed data from all other municipalities using non-gill net fishing methods.</p></li>
+</ul>
+<p>This deliberate subdivision of the dataset was intended to reduce bias and enhance analytical precision. Furthermore, by isolating gill net data, we were able to specifically examine the impact of mesh size on the prediction of nutrient profiles in gill net catches, providing a more focused and detailed analysis of this gear type’s influence on nutritional outcomes.</p>
+<p>Subsequently, we identified recurrent nutritional profiles for each dataset. We assessed the total within sum of square (WSS) of six nutrient concentrations—excluding selenium—to identify the optimal number of distinctive nutritional profiles, or clusters. This approach helped determine the point at which additional data points do not significantly enhance the clarity of the clusters.</p>
+<p>Having established the optimal number of clusters, we then performed the K-means clustering method. This method, known for its effectiveness in organizing data into distinct groups based on similarities, was applied to categorize the fishing trips. Each trip was grouped based on its nutrient concentration profile, thereby enabling us to discern patterns and categorize trips according to their nutritional value.</p>
+<p>The K-means algorithm functions by assigning each data point to the nearest cluster, based on the mean value of the points in the cluster. This iterative process continues until the assignment of points to clusters no longer changes, indicating that the clusters are as distinct as possible. The result is a set of clusters that represent unique nutritional profiles, each characterized by a specific combination of nutrient concentrations.</p>
+<p>Following the clustering, we performed a XGBoost model to predict the nutritional profiles based on the fishing strategy, habitat and season. We employed the XGBoost algorithm due to its effectiveness in preventing overfitting and its ability to highlight key predictors. We used mesh size, habitat, quarter of the year, and vessel type as predictors for gill net subsets. For other gear types, the models used habitat x gear interaction, habitat, gear type, quarter of the year, and vessel type as predictors.</p>
+<p>Model tuning was conducted dynamically, adjusting parameters like the number of trees, tree depth, loss reduction, sample size, and early stopping. The data was split into training (80%) and testing (20%) sets, with 10-fold cross-validation applied to the training set for enhanced accuracy and generalizability.</p>
+<p>The model’s performance was assessed using metrics such as accuracy, ROC AUC, sensitivity, and specificity, providing a comprehensive understanding of its ability to accurately distinguish between different nutritional profiles. The ROC curves and AUC values offered an additional layer of model effectiveness evaluation.</p>
 </div>
-<div id="results" class="section level2 hasAnchor" number="5.2">
-<h2><span class="header-section-number">5.2</span> Results<a href="profiles.html#results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="results-not-updated" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Results (not updated)<a href="profiles.html#results-not-updated" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="clusters" class="section level3 hasAnchor" number="5.2.1">
 <h3><span class="header-section-number">5.2.1</span> Clusters<a href="profiles.html#clusters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The scatter plot from the k-means clustering (Figure 5.1) showed the distribution of nutrient profiles across different clusters. The first two principal components explained a significant portion of the variance, indicating distinct groupings in nutrient profiles among the fishing trips. The clear separation of clusters in this plot suggests that the fishing trips could be effectively categorized based on their nutrient content. The bar chart (Figure 5.2) displaying nutrient adequacy across clusters indicated the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch for various nutrients. The segmentation of bars into different nutrients (calcium, iron, omega-3, protein, vitamin A, zinc) across clusters showed variation in nutritional fulfillment. This suggests that different fishing strategies, represented by different clusters, result in catches with varying nutritional values.</p>
