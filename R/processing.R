@@ -86,6 +86,12 @@ get_model_data <- function() {
   set.seed(555)
   k2 <- kmeans(df[, 7:12], centers = 5, nstart = 500)
 
+  timor_GN_raw <-
+    dplyr::tibble(
+      clusters = as.character(k2$cluster),
+      df
+    )
+
   timor_GN <-
     dplyr::tibble(
       clusters = as.character(k2$cluster),
@@ -100,11 +106,11 @@ get_model_data <- function() {
       geom = c("point"),
       shape = 19
     ) +
-    theme_minimal() +
-    scale_fill_viridis_d() +
-    scale_color_viridis_d() +
-    labs(title = "") +
-    theme(legend.position = "bottom")
+    ggplot2::theme_minimal() +
+    ggplot2::scale_fill_viridis_d() +
+    ggplot2::scale_color_viridis_d() +
+    ggplot2::labs(title = "") +
+    ggplot2::theme(legend.position = "bottom")
 
   df <-
     timor.nutrients::kobo_trips %>%
@@ -132,6 +138,13 @@ get_model_data <- function() {
   set.seed(555)
   k2 <- kmeans(df[, 6:11], centers = 5, nstart = 500)
 
+  timor_AG_raw <-
+    dplyr::tibble(
+      clusters = as.character(k2$cluster),
+      df
+    )
+
+
   timor_AG <-
     dplyr::tibble(
       clusters = as.character(k2$cluster),
@@ -147,11 +160,11 @@ get_model_data <- function() {
       geom = c("point"),
       shape = 19
     ) +
-    theme_minimal() +
-    scale_fill_viridis_d() +
-    scale_color_viridis_d() +
-    labs(title = "") +
-    theme(legend.position = "bottom")
+    ggplot2::theme_minimal() +
+    ggplot2::scale_fill_viridis_d() +
+    ggplot2::scale_color_viridis_d() +
+    ggplot2::labs(title = "") +
+    ggplot2::theme(legend.position = "bottom")
 
   df <-
     timor.nutrients::kobo_trips %>%
@@ -179,6 +192,12 @@ get_model_data <- function() {
   set.seed(555)
   k2 <- kmeans(df[, 7:12], centers = 5, nstart = 500)
 
+  atauro_GN_raw <-
+    dplyr::tibble(
+      clusters = as.character(k2$cluster),
+      df
+    )
+
   atauro_GN <-
     dplyr::tibble(
       clusters = as.character(k2$cluster),
@@ -193,11 +212,11 @@ get_model_data <- function() {
       geom = c("point"),
       shape = 19
     ) +
-    theme_minimal() +
-    scale_fill_viridis_d() +
-    scale_color_viridis_d() +
-    labs(title = "") +
-    theme(legend.position = "bottom")
+    ggplot2::theme_minimal() +
+    ggplot2::scale_fill_viridis_d() +
+    ggplot2::scale_color_viridis_d() +
+    ggplot2::labs(title = "") +
+    ggplot2::theme(legend.position = "bottom")
 
 
   df <-
@@ -227,6 +246,12 @@ get_model_data <- function() {
   k2 <- kmeans(df[, 6:11], centers = 5, nstart = 500)
 
 
+  atauro_AG_raw <-
+    dplyr::tibble(
+      clusters = as.character(k2$cluster),
+      df
+    )
+
   atauro_AG <-
     dplyr::tibble(
       clusters = as.character(k2$cluster),
@@ -242,14 +267,22 @@ get_model_data <- function() {
       geom = c("point"),
       shape = 19
     ) +
-    theme_minimal() +
-    scale_fill_viridis_d() +
-    scale_color_viridis_d() +
-    labs(title = "") +
-    theme(legend.position = "bottom")
+    ggplot2::theme_minimal() +
+    ggplot2::scale_fill_viridis_d() +
+    ggplot2::scale_color_viridis_d() +
+    ggplot2::labs(title = "") +
+    ggplot2::theme(legend.position = "bottom")
 
   # Create a named list of dataframes and parameters
-  data_list <- list(
+
+  data_list_raw <- list(
+    atauro_AG_raw = atauro_AG_raw,
+    atauro_GN_raw = atauro_GN_raw,
+    timor_AG_raw = timor_AG_raw,
+    timor_GN_raw = timor_GN_raw
+  )
+
+  data_list_processed <- list(
     atauro_AG = list(dataframe = atauro_AG, step_other = c("habitat_gear", "habitat", "gear_type")),
     atauro_GN = list(dataframe = atauro_GN, step_other = "habitat"),
     timor_AG = list(dataframe = timor_AG, step_other = c("habitat_gear", "habitat", "gear_type")),
@@ -264,7 +297,44 @@ get_model_data <- function() {
   )
 
   list(
-    data = data_list,
-    kmeans_plots = profiles_kmeans
+    data_raw = data_list_raw,
+    kmeans_plots = profiles_kmeans,
+    data_processed = data_list_processed
   )
+}
+
+
+#' Run PERMANOVA on Clustered Data
+#'
+#' This function performs a Permutational Multivariate Analysis of Variance (PERMANOVA)
+#' on a given dataset. It first selects a range of variables  (from zinc to vitaminA)
+#' and clusters, then calculates the Euclidean distance matrix,
+#' and finally runs PERMANOVA using the `vegan::adonis2` function.
+#'
+#' @param x A dataframe containing the variables of interest and a 'clusters' group column.
+#' @param permutations The number of permutations to be used in the PERMANOVA analysis.
+#' @param parallel Optional; a parallel backend to be used with the PERMANOVA analysis. If NULL, parallel processing is not used.
+#' @return A PERMANOVA result in tidy object from `broom::tidy`.
+#' @importFrom dplyr select
+#' @importFrom vegan vegdist adonis2
+#' @examples
+#' \dontrun{
+#' # Example usage:
+#' # run_permanova_clusters(your_data, 999, parallel = 2)
+#' }
+#' @export
+#'
+run_permanova_clusters <- function(x, permutations = NULL, parallel = NULL) {
+  anov_dat <-
+    x %>%
+    dplyr::select(clusters, zinc:vitaminA)
+
+  dist_matrix <- vegan::vegdist(anov_dat[, -1], method = "euclidean")
+  # Perform PERMANOVA using the adonis function
+  permanova_results <- vegan::adonis2(dist_matrix ~ clusters,
+    data = anov_dat,
+    parallel = parallel,
+    permutations = permutations
+  )
+  broom::tidy(permanova_results)
 }

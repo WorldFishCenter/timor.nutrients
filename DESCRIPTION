@@ -8,6 +8,7 @@ Description: More about what it does (maybe more than one line)
 License: CC BY 4.0
 Imports:
     bookdown,
+    broom,
     config,
     dplyr,
     factoextra,
@@ -17,12 +18,16 @@ Imports:
     googleCloudStorageR,
     jsonlite,
     magrittr,
+    purrr,
+    reactable,
+    reactablefmtr,
     readr,
     rlang,
     scales,
     stringr,
     tidyr,
-    tidytext
+    tidytext,
+    vegan
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3

@@ -7,7 +7,7 @@
 get_model_data()
 }
 \value{
-A list containing the four datasets.
+A list containing the four datasets. The list also includes kmeans profiles plots.
 }
 \description{
 Prepares and returns datasets for use with an ML model. This function generates

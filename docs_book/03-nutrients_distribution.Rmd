@@ -35,8 +35,8 @@ timor.nutrients::nutrients_table %>%
   dplyr::mutate(tot = sum(rdi)) %>%
   ggplot2::ggplot(ggplot2::aes(rdi, reorder(catch_name, rdi), fill = nutrient)) +
   ggplot2::theme_minimal() +
-  ggplot2::geom_col() +
-  ggplot2::scale_fill_viridis_d(direction = -1) +
+  ggplot2::geom_col(alpha = 0.85) +
+  ggplot2::scale_fill_manual(values = timor.nutrients::color_palette) +
   ggplot2::scale_x_continuous(labels = scales::percent) +
   ggplot2::labs(y = "", x = "Matched RNI from 100g portion", fill = "") +
   theme(legend.position = "bottom")
@@ -102,15 +102,16 @@ parallel_plot$y <- factor(parallel_plot$y, levels = c(
 ))
 
 parallel_plot %>%
+  dplyr::filter(!Nutrient == "Selenium") %>% 
   na.omit() %>%
   ggplot(aes(x, id = id, split = y, value = concentration_g)) +
-  ggforce::geom_parallel_sets(aes(fill = Nutrient), alpha = 0.75, axis.width = 0.1) +
+  ggforce::geom_parallel_sets(aes(fill = Nutrient), alpha = 0.7, axis.width = 0.1) +
   ggforce::geom_parallel_sets_axes(axis.width = 0.25, fill = "grey95") +
   ggforce::geom_parallel_sets_labels(colour = "grey30", angle = 0, size = 3.5) +
   scale_x_discrete(name = NULL, expand = c(0, 0.2)) +
   scale_y_continuous(breaks = NULL, expand = c(0.05, 0)) +
   theme_minimal(12) +
-  scale_fill_viridis_d(direction = -1) +
+  scale_fill_manual(values = timor.nutrients::color_palette) +
   # scale_fill_manual(values = c("#508AA8", "grey95", "#BD9391")) +
   theme(
     axis.line = element_blank(),

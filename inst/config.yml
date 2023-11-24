@@ -24,3 +24,4 @@ default:
       protein: 46
       vitaminA: 0.0007
       omega3: 1.1
+    palette: ["#E07A5F", "#3D405B", "#81B29A", "#F2CC8F", "#0a9396", "#b392ac"]

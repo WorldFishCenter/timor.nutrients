@@ -2,6 +2,9 @@ library(magrittr)
 
 pars <- read_config()
 
+color_palette <- pars$nutrients$palette
+usethis::use_data(color_palette, overwrite = TRUE)
+
 RDI_tab <-
   tidyr::tibble(
     nutrient = c("selenium", "zinc", "protein", "omega3", "calcium", "iron", "vitaminA"),
@@ -84,8 +87,23 @@ usethis::use_data(nutrients_table, overwrite = TRUE)
 usethis::use_data(region_stats, overwrite = TRUE)
 usethis::use_data(kobo_trips, overwrite = TRUE)
 
+data_list <- get_model_data()
+
+# permanova
+#data_clusters <-
+#  list(
+#    atauro_AG_perm = data_list$data_raw$atauro_AG_raw,
+#    atauro_GN_perm = data_list$data_raw$atauro_GN_raw,
+#    timor_AG_perm = data_list$data_raw$timor_AG_raw,
+#    timor_GN_perm = data_list$data_raw$timor_GN_raw
+#  )
+
+#perm_results <- purrr::imap(data_clusters, ~ run_permanova_clusters(.x, permutations = 999, parallel = 8))
+# usethis::use_data(perm_results, overwrite = T)
+
+
 # Run XGBoost model
-# data_list <- get_model_data()$data
+# data_list <- get_model_data()$data_processed
 # model_outputs <-
 #  purrr::imap(
 #    data_list, ~ run_xgmodel

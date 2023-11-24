@@ -16,9 +16,9 @@ habitat-and-gear-type
 profiles
 methods
 data-analysis-design-and-subset-division
-results-not-updated
+results
 clusters
-xgboost-model
+xgboost-model-not-updated
 checks-and-limitations-1
 next-steps
 simple
