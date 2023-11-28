@@ -12,35 +12,37 @@ In this section, we identified recurrent nutritional profiles based on [RC data]
 
 As a first step we addressed the inherent imbalance in the [RC data](https://worldfishcenter.github.io/timor.nutrients/data.html#data), a critical aspect for ensuring accurate and unbiased analysis. Notably, a substantial portion of the data, exceeding 40%, is from Atauro, with gill net being the most frequently reported gear type across all the municipalities. To mitigate the skew caused by this overrepresentation, we strategically divided the dataset into four distinct subsets:
 
--   Atauro - Gill net: Focused on data from Atauro using gill nets.
+-   Atauro GN: Focused on data from Atauro using gill nets.
 
--   Atauro - All gears: Included data from Atauro using fishing methods other than gill nets.
+-   Atauro AG: Included data from Atauro using fishing methods other than gill nets.
 
--   Mainland - Gill net: Comprised of gill net data from all municipalities excluding Atauro.
+-   Mainland GN: Comprised of gill net data from all municipalities excluding Atauro.
 
--   Mainland - All gears: Encompassed data from all other municipalities using non-gill net fishing methods.
+-   Mainland AG: Encompassed data from all other municipalities using non-gill net fishing methods.
 
-This deliberate subdivision of the dataset was intended to reduce bias and enhance analytical precision. Furthermore, by isolating gill net data, we were able to specifically examine the impact of mesh size on the prediction of nutrient profiles in gill net catches, providing a more focused and detailed analysis of this gear type's influence on nutritional outcomes.
+This subdivision of the dataset was intended to reduce biases and enhance analytical precision. Furthermore, by isolating gill net data, we were able to specifically examine the impact of mesh size on the prediction of nutrient profiles in gill net catches, providing a more focused and detailed analysis of this gear type's influence on nutritional outcomes.
 
-Subsequently, we identified recurrent nutritional profiles for each dataset. We assessed the total within sum of square (WSS) of six nutrient concentrations---excluding selenium---to identify the optimal number of distinctive nutritional profiles, or clusters. This approach helped determine the point at which additional data points do not significantly enhance the clarity of the clusters.
+Subsequently, we identified recurrent nutritional profiles for each dataset. We assessed the total within sum of square (WSS) of six nutrient concentrations---excluding selenium---to identify the optimal number of clusters (distinctive nutritional profiles). This methodology helped determine the point at which additional data points do not significantly enhance the clarity of the clusters.
 
-Having established the optimal number of clusters, we proceeded with the K-means clustering method to organize the data into distinct groups based on similarities in nutrient concentrations. Each trip was grouped based on its nutrient concentration profile, thereby enabling us to discern patterns and categorize trips according to their nutritional value.
+Once established the optimal number of clusters for each dataset, we proceeded with the K-means clustering method to organize the data into distinct groups based on similarities in nutrient concentrations. Each trip was grouped based on its nutrient concentration profile, thereby enabling us to discern patterns and categorize trips according to their nutritional value.
 The K-means algorithm functions by assigning each data point to the nearest cluster, based on the mean value of the points in the cluster. This iterative process continues until the assignment of points to clusters no longer changes, indicating that the clusters are as distinct as possible. The result is a set of clusters that represent unique nutritional profiles, each characterized by a specific combination of nutrient concentrations.
 
 
-Subsequent to the clustering, we conducted Permutational Multivariate Analysis of Variance (PERMANOVA) to validate the clustering methodology across four distinct datasets: Atauro AG, Atauro GN, Timor AG, and Timor GN. PERMANOVA is a robust non-parametric statistical test that evaluates whether there are significant differences between groups. Unlike traditional ANOVA, PERMANOVA does not rely on assumptions of normality and is therefore suitable for ecological data, which often do not follow normal distributions. Our PERMANOVA analysis was conducted on each of the four subsets on a distance matrix representing pairwise dissimilarities in nutrient concentrations across all fishing trips. This approach allowed us to test the hypothesis that the nutrient profiles of fishing trips within the same cluster are more similar to each other than to trips in different clusters.
+Subsequent to the clustering, we conducted Permutational Multivariate Analysis of Variance (PERMANOVA) to validate the clustering methodology across four distinct datasets: Atauro AG, Atauro GN, Mainland AG, and Mainland GN. PERMANOVA is a robust non-parametric statistical test that evaluates whether there are significant differences between groups. Unlike traditional ANOVA, PERMANOVA does not rely on assumptions of normality and is therefore suitable for ecological data, which often do not follow normal distributions. Our PERMANOVA analysis was conducted on each of the four subsets on a distance matrix representing pairwise dissimilarities in nutrient concentrations across all fishing trips. This approach allowed us to test the hypothesis that the nutrient profiles of fishing trips within the same cluster are more similar to each other than to trips in different clusters.
 
-Finally, we performed a XGBoost model to predict the nutritional profiles based on the fishing strategy, habitat and season. We employed the XGBoost algorithm due to its effectiveness in preventing overfitting and its ability to highlight key predictors. We used mesh size, habitat, quarter of the year, and vessel type as predictors for gill net subsets. For other gear types, the models used habitat x gear interaction, habitat, gear type, quarter of the year, and vessel type as predictors.
+Finally, we performed a XGBoost model to each data subset to predict the nutritional profiles based on the fishing strategy, habitat and season. We employed the XGBoost algorithm due to its effectiveness in preventing overfitting and its ability to highlight key predictors. We used mesh size, habitat, quarter of the year, and vessel type as predictors for gill net subsets. For other gear types, the models used habitat x gear interaction, habitat, gear type, quarter of the year, and vessel type as predictors.
 
-Model tuning was conducted dynamically, adjusting parameters like the number of trees, tree depth, loss reduction, sample size, and early stopping. The data was split into training (80%) and testing (20%) sets, with 10-fold cross-validation applied to the training set for enhanced accuracy and generalizability.
+Model tuning was conducted dynamically, adjusting parameters the number of trees, tree depth, loss reduction, sample size, and early stopping. The 4 data subsets were split into training (80%) and testing (20%) sets, with 10-fold cross-validation applied to the training set for enhanced accuracy and generalizability.
 
-The model's performance was assessed using metrics such as accuracy, ROC AUC, sensitivity, and specificity, providing a comprehensive understanding of its ability to accurately distinguish between different nutritional profiles. The ROC curves and AUC values offered an additional layer of model effectiveness evaluation.
+The model's performance was assessed using accuracy, ROC AUC, sensitivity, and specificity, providing a comprehensive understanding of its ability to accurately distinguish between different nutritional profiles. The ROC curves and AUC values offered an additional layer of model effectiveness evaluation.
 
 ## Results
 
-### Clusters
+### Clusters (not updated)
 
-The scatter plot from the k-means clustering (Figure 5.1) showed the distribution of nutrient profiles across different clusters. The first two principal components explained a significant portion of the variance, indicating distinct groupings in nutrient profiles among the fishing trips. The clear separation of clusters in this plot suggests that the fishing trips could be effectively categorized based on their nutrient content. The bar chart (Figure 5.2) displaying nutrient adequacy across clusters indicated the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch for various nutrients. The segmentation of bars into different nutrients (calcium, iron, omega-3, protein, vitamin A, zinc) across clusters showed variation in nutritional fulfillment. This suggests that different fishing strategies, represented by different clusters, result in catches with varying nutritional values.
+The WSS analysis indicated a number of 4 or 5 as optimal number of clusters for each data subset. We choose 5 clusters for all the subsets to keep consistency among the subsequent analyses and to capture more complexity in nutrient profiles' patterns.
+
+The scatter plot from the k-means clustering (Figure 5.1) showed the distribution of nutrient profiles across different clusters in each data subset. The first two principal components explained a significant portion of the variance, indicating distinct groupings in nutrient profiles among the fishing trips. The clear separation of clusters in this plot suggests that the fishing trips could be effectively categorized based on their nutrient content. The bar chart (Figure 5.2) displaying nutrient adequacy across clusters indicated the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch for various nutrients. The segmentation of bars into different nutrients (calcium, iron, omega-3, protein, vitamin A, zinc) across clusters showed variation in nutritional fulfillment. This suggests that different fishing strategies, represented by different clusters, result in catches with varying nutritional values.
 
 ```{r echo=FALSE, fig.cap="Cluster analysis of nutrient profiles using k-means clustering. The scatter plot visualizes the distribution of data points in a two-dimensional space defined by the first two principal components. The convex hulls represent the boundaries of each cluster, providing a visual guide to the cluster density and separation.", fig.height=7, fig.width=8, message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -141,16 +143,17 @@ final_plot
 ```
 
 
-The PERMANOVA analyses (see table below) revealed statistically significant differences between clusters, suggesting robust groupings based on the nutrient profiles. The pseudo-F statistics were remarkably high in all cases, indicating strong differentiation between clusters. Specifically, the R² values were 0.86, 0.82, 0.85, and 0.92 for Atauro AG, Atauro GN, Timor AG, and Timor GN respectively, indicating that between 82% to 92% of the variance in nutrient concentrations was explained by the clusters. The high R² values underscore the distinctness of the clusters, reinforcing the validity of the K-means clustering.
+The PERMANOVA analyses (see table below) revealed statistically significant differences between clusters, suggesting robust groupings based on the nutrient profiles. The pseudo-F statistics were remarkably high in all cases, indicating strong differentiation between clusters. Specifically, the R² values were 0.86, 0.82, 0.85, and 0.92 for Atauro AG, Atauro GN, Mainland AG, and Mainland GN respectively, indicating that between 82% to 92% of the variance in nutrient concentrations was explained by the clusters. The high R² values underscore the distinctness of the clusters, reinforcing the validity of the K-means clustering.
 
-These findings were consistent across the datasets, with p-values below 0.001, providing clear evidence to reject the null hypothesis of no difference between clusters. Hence, the PERMANOVA results robustly support the effectiveness of the K-means algorithm in capturing meaningful patterns in nutrient profiles.
+These findings were consistent across all the datasets, with p-values below 0.001, providing clear evidence to reject the null hypothesis of no difference between clusters. Hence, the PERMANOVA results robustly support the effectiveness of the K-means algorithm in capturing meaningful patterns in nutrient profiles.
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 timor.nutrients::perm_results %>%
   dplyr::bind_rows(.id = "subset") %>%
   dplyr::mutate(dplyr::across(c(SumOfSqs, R2, statistic), ~ round(.x, 2)),
     p.value = ifelse(p.value <= 0.001, "< 0.001", p.value),
-    subset = stringr::str_remove(subset, "perm")
+    subset = stringr::str_remove(subset, "_perm"),
+    subset = stringr::str_replace(subset, "timor", "mainland")
   ) %>%
   reactable::reactable(
     theme = reactablefmtr::fivethirtyeight(centered = TRUE),
@@ -174,7 +177,7 @@ timor.nutrients::perm_results %>%
 
 ### XGBoost model (not updated)
 
-The model's predictive capacity was quantitatively assessed via receiver operating characteristic (ROC) analysis across five distinct clusters. The ROC curves (see [ML model interpretation][In simple terms]) illustrate a differential capacity of the model to classify each cluster based on the nutritional profiles derived from various fishing strategies. Cluster 2 and 5 demonstrated superior model performance, indicated by a curve proximate to the top-left, suggesting high sensitivity and specificity. Clusters 1 and 4 showed marginally lower but comparable discrimination ability. Cluster 3 indicated a slight decrease in sensitivity and exhibited the model's lowest performance, with a curve markedly farther from the ideal top-left position. Collectively, an aggregate AUC of 0.87 signifies a strong overall ability of the model to differentiate between the clusters, albeit with varying degrees of precision. These findings underscore the model's effectiveness in predicting nutritional outcomes based on fishing strategies, with implications for tailoring nutrient-sensitive fisheries management interventions.
+The models' predictive capacity was quantitatively assessed via receiver operating characteristic (ROC) analysis across five distinct clusters. The ROC curves (see [ML model interpretation][In simple terms]) illustrate a differential capacity of the model to classify each cluster based on the nutritional profiles derived from various fishing strategies. Cluster 2 and 5 demonstrated superior model performance, indicated by a curve proximate to the top-left, suggesting high sensitivity and specificity. Clusters 1 and 4 showed marginally lower but comparable discrimination ability. Cluster 3 indicated a slight decrease in sensitivity and exhibited the model's lowest performance, with a curve markedly farther from the ideal top-left position. Collectively, an aggregate AUC of 0.87 signifies a strong overall ability of the model to differentiate between the clusters, albeit with varying degrees of precision. These findings underscore the model's effectiveness in predicting nutritional outcomes based on fishing strategies, with implications for tailoring nutrient-sensitive fisheries management interventions.
 
 ```{r model-settings, echo=FALSE, fig.cap="Receiver Operating Characteristic (ROC) Curves with Data Points for Cluster-Based Classification. The curves delineate the sensitivity versus 1-specificity for the five clusters derived from the XGBoost classification model. Each cluster is represented by a distinct color with data points marked, which illustrates the true positive rate against the false positive rate for each respective cluster. The closeness of each curve to the top-left corner indicates the model’s classification efficacy per cluster, with Cluster 1 and 2 showing the highest performance. The overall model demonstrates substantial predictive accuracy with a composite AUC value of 0.86.", fig.height=6.5, fig.width=8, message=FALSE, warning=FALSE}
 plots <-
@@ -214,36 +217,42 @@ final_plot <-
 final_plot
 ```
 
-```{r model-explanation, eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
-fit2 <-
-  final_xgb %>%
-  fit(data = train)
+Accuracy metrics
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+timor.nutrients::model_outputs %>%
+  purrr::map(purrr::pluck(4)) %>%
+  purrr::imap(~ summary(.x)) %>%
+  dplyr::bind_rows(.id = "subset") %>%
+  dplyr::select(-.estimator) %>%
+  tidyr::pivot_wider(names_from = subset, values_from = .estimate) %>%
+  dplyr::rename(metric = .metric) %>%
+  na.omit() %>% 
+  dplyr::mutate(dplyr::across(.cols = dplyr::where(is.numeric), ~ round(.x, 2))) %>% 
+  reactable::reactable(
+    theme = reactablefmtr::fivethirtyeight(centered = TRUE),
+    defaultExpanded = TRUE,
+    pagination = FALSE,
+    compact = FALSE,
+    borderless = FALSE,
+    striped = FALSE,
+    defaultColDef = reactable::colDef(
+      align = "center"
+    ),
+    columns = list(
+      metric = reactable::colDef(
+        minWidth = 120
+      )
+    )
+  )
+
+```
 
 
-feat_names <- c("quarter", "habitat_gear", "habitat", "gear_type", "vessel_type")
-simple_fit <-
-  final_xgb %>%
-  fit(data = train)
+```{r model-explanation, echo=FALSE, message=FALSE, warning=FALSE,fig.height=10, fig.width=7}
+plot_model_shaps(timor.nutrients::shap_results$model_atauro_GN, model_type = "gn", cols = 1)
 
-# Set up parallel backend
-doParallel::registerDoParallel(cores = 6)
-
-ks <- kernelshap::kernelshap(
-  simple_fit,
-  X = train, # Assuming random row order
-  bg_X = head(train, 500), # Assuming random row order
-  type = "prob", # Predictions must be numeric
-  feature_names = feat_names,
-  parallel = TRUE,
-  verbose = TRUE
-)
-
-sha <- shapviz::shapviz(ks)
-shapviz::sv_importance(sha) +
-  theme_minimal()
-
-
-shapviz::sv_dependence(sha$.pred_1, "mesh")
 ```
 
 ## Checks and limitations

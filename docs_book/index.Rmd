@@ -1,4 +1,4 @@
---- 
+---
 title: "Modelling scenarios for nutrient-sensitive fisheries management"
 author: "Lore"
 date: "`r Sys.Date()`"
@@ -13,4 +13,6 @@ github-repo: WorldFishCenter/timor.nutrients
 
 # Content
 
-This book contains analyses and reports in 'Modelling scenarios for nutrient-sensitive fisheries management'
+This book contains analyses and reports of the paper '***Modelling scenarios for nutrient-sensitive fisheries management***'.
+
+All data and code to generate the analyses are in <https://github.com/WorldFishCenter/timor.nutrients>.

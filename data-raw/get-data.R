@@ -90,7 +90,7 @@ usethis::use_data(kobo_trips, overwrite = TRUE)
 data_list <- get_model_data()
 
 # permanova
-#data_clusters <-
+# data_clusters <-
 #  list(
 #    atauro_AG_perm = data_list$data_raw$atauro_AG_raw,
 #    atauro_GN_perm = data_list$data_raw$atauro_GN_raw,
@@ -98,7 +98,7 @@ data_list <- get_model_data()
 #    timor_GN_perm = data_list$data_raw$timor_GN_raw
 #  )
 
-#perm_results <- purrr::imap(data_clusters, ~ run_permanova_clusters(.x, permutations = 999, parallel = 8))
+# perm_results <- purrr::imap(data_clusters, ~ run_permanova_clusters(.x, permutations = 999, parallel = 8))
 # usethis::use_data(perm_results, overwrite = T)
 
 

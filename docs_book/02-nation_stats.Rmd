@@ -6,13 +6,9 @@ The table uses the [EC dataset][data] and summarizes the main statistics on nutr
 
 -   **MUNICIPALITY (POPULATION)**: Municipality and number of people \> 5 years old in 2022.
 
--   **COASTLINE EXTENSION**: Municipality coastline extension in Km.
-
 -   **NUTRIENT**: Nutrient of reference
 
 -   **ANNUAL SUPPLY**: Aggregated annual value in kg. These values represent municipal-level estimates based on the number of fishing boats recorded in the 2021 Timor-Leste boat census, average number of fishing trips per boat and average landing weight values for each fish group.
-
--   **ANNUAL SUPPLY PER KM**: It describes the annual supply of each nutrient standardized on the coastline length, that is: $\frac{Annual\ supply\ (kg)}{Coastline\ extension\ (km)}$
 
 -   **N. PEOPLE SUPPLIED DAILY**: It describes the number of people meeting the nutrient' RNI for each municipality. RNI values used are the following:
 

@@ -207,3 +207,147 @@ run_kernelshap <- function(model) {
     verbose = TRUE
   )
 }
+
+#' Plot SHAP Values for Different Model Types
+#'
+#' This function generates a scatter plot of SHAP (SHapley Additive exPlanations) values for different model types.
+#' It is specifically designed for either "gn" or other model types, plotting different aspects of the data.
+#'
+#' @param shap_object A list containing the SHAP values and corresponding feature values. Must have elements `X` and `S`.
+#' @param model_type A character string specifying the model type. For this function, it can be "gn" or other types.
+#' @param alpha The alpha value for the geom_jitter layer in ggplot2, controlling the transparency of points.
+#'
+#' @details
+#' If `model_type` is "gn", the function plots `mesh_size`, `habitat`, and their corresponding SHAP values.
+#' Otherwise, it plots `habitat_gear`, `vessel_type`, and their corresponding SHAP values.
+#'
+#' @return A ggplot object representing the SHAP value scatter plot.
+#'
+#' @examples
+#' \dontrun{
+#' plot_shap(shap_object = my_shap_data, model_type = "gn", alpha = 0.5)
+#' }
+plot_shap <- function(shap_object = NULL, model_type = NULL, alpha = NULL) {
+  if (model_type == "gn") {
+    process_shap <-
+      dplyr::tibble(
+        mesh_fact = shap_object$X$mesh_size,
+        habitat_fact = shap_object$X$habitat,
+        mesh_shap = shap_object$S[, 3]
+      )
+
+    process_shap %>%
+      ggplot2::ggplot(aes(mesh_fact, mesh_shap, color = habitat_fact)) +
+      # ggplot2::geom_point() +
+      ggplot2::geom_jitter(width = 0.5, alpha = alpha) +
+      ggplot2::theme_minimal() +
+      ggplot2::scale_x_continuous(n.breaks = 10) +
+      ggplot2::geom_hline(yintercept = 0, linetype = 2, color = "grey50") +
+      ggplot2::scale_color_viridis_d(direction = -1, option = "turbo") +
+      ggplot2::coord_cartesian()
+  } else {
+    process_shap <-
+      dplyr::tibble(
+        habitat_gear_fact = as.character(shap_object$X$habitat_gear),
+        vessel_fact = shap_object$X$vessel_type,
+        habitat_gear_shap = shap_object$S[, 2]
+      )
+
+    to_group <-
+      process_shap %>%
+      dplyr::mutate(
+        zero_dist = 0 - abs(habitat_gear_shap)
+      ) %>%
+      dplyr::group_by(habitat_gear_fact) %>%
+      dplyr::summarise(zero_dist = mean(zero_dist)) %>%
+      dplyr::slice_max(order_by = zero_dist, n = 10) %>%
+      magrittr::extract2("habitat_gear_fact")
+
+    process_shap <-
+      process_shap %>%
+      dplyr::mutate(habitat_gear_fact = ifelse(habitat_gear_fact %in% to_group, "Others", habitat_gear_fact))
+
+    process_shap %>%
+      ggplot2::ggplot(aes(reorder(habitat_gear_fact, habitat_gear_shap), habitat_gear_shap, color = vessel_fact)) +
+      # ggplot2::geom_point() +
+      ggplot2::geom_jitter(width = 0.5, alpha = alpha) +
+      ggplot2::theme_minimal() +
+      # ggplot2::scale_y_continuous(n.breaks = 10) +
+      ggplot2::geom_hline(yintercept = 0, linetype = 2, color = "grey50") +
+      # ggplot2::scale_color_viridis_d(direction = -1, alpha = 0.65) +
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)) +
+      ggplot2::coord_cartesian()
+  }
+}
+
+#' Plot SHAP Values for Multiple Models
+#'
+#' This function visualizes SHAP values across multiple models or model types, integrating the `plot_shap` function.
+#'
+#' @param data_shaps A data frame or list of data frames containing SHAP values and corresponding features.
+#' @param model_type A character string specifying the model type, passed to the `plot_shap` function.
+#' @param alpha The alpha value for geom_jitter in ggplot2, controlling point transparency.
+#' @param cols The number of columns in the plot layout.
+#'
+#' @details
+#' The function uses the `shapviz` package for initial processing and then applies `plot_shap` to each model.
+#' It arranges the resulting plots in a grid format, optionally including a legend and common axes labels.
+#'
+#' @return A ggplot object representing the combined grid of SHAP value plots for different models.
+#'
+#' @examples
+#' \dontrun{
+#' plot_model_shaps(data_shaps = my_model_shaps, model_type = "gn", alpha = 0.2, cols = 2)
+#' }
+plot_model_shaps <- function(data_shaps = NULL, model_type = NULL, alpha = 0.2, cols = 1) {
+  sha <- shapviz::shapviz(data_shaps)
+  shapviz_object <- purrr::map(sha, plot_shap, model_type = model_type, alpha = alpha)
+
+  plots <- lapply(shapviz_object, function(x) {
+    x +
+      ggplot2::theme(
+        legend.position = "none",
+        plot.margin = unit(c(0, 0, 0, 0), "cm")
+      ) +
+      ggplot2::labs(x = "", y = "")
+  })
+
+  legend_plot <- cowplot::get_legend(plots[[1]] +
+    ggplot2::theme(
+      legend.position = "right",
+      legend.key.size = ggplot2::unit(0.8, "cm"),
+      legend.title = ggplot2::element_text(size = 12)
+    ))
+  combined_plots <- cowplot::plot_grid(
+    plotlist = plots,
+    ncol = cols,
+    label_fontface = "bold",
+    label_size = 9,
+    hjust = 0,
+    vjust = -0.5,
+    align = "hv",
+    labels = c("NP1", "NP2", "NP3", "NP4", "NP5")
+  )
+
+  if (model_type == "gn") {
+    x_label <- cowplot::draw_label("Mesh size (mm)", x = 0.5, y = 0.05)
+  } else {
+    x_label <- cowplot::draw_label("Habitat x Gear type ", x = 0.5, y = 0.05)
+  }
+
+  y_label <- cowplot::draw_label("|SHAP| value", x = 0.015, y = 0.5, angle = 90)
+
+  final_plot <-
+    cowplot::plot_grid(
+      combined_plots,
+      legend_plot,
+      ncol = 2,
+      rel_widths = c(1, 0.22),
+      scale = 0.9,
+      greedy = TRUE
+    ) +
+    x_label +
+    y_label
+
+  final_plot
+}
