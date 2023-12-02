@@ -38,18 +38,80 @@ The model's performance was assessed using accuracy, ROC AUC, sensitivity, and s
 
 ## Results
 
-### Clusters (not updated)
+### Clusters
 
-The WSS analysis indicated a number of 4 or 5 as optimal number of clusters for each data subset. We choose 5 clusters for all the subsets to keep consistency among the subsequent analyses and to capture more complexity in nutrient profiles' patterns.
+The WSS analysis indicated that either 4 or 5 clusters were the best for organizing each subset of our data. We decided to use 5 clusters for all subsets to maintain uniformity across our analyses and to better represent the varied patterns in nutrient profiles.
 
-The scatter plot from the k-means clustering (Figure 5.1) showed the distribution of nutrient profiles across different clusters in each data subset. The first two principal components explained a significant portion of the variance, indicating distinct groupings in nutrient profiles among the fishing trips. The clear separation of clusters in this plot suggests that the fishing trips could be effectively categorized based on their nutrient content. The bar chart (Figure 5.2) displaying nutrient adequacy across clusters indicated the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch for various nutrients. The segmentation of bars into different nutrients (calcium, iron, omega-3, protein, vitamin A, zinc) across clusters showed variation in nutritional fulfillment. This suggests that different fishing strategies, represented by different clusters, result in catches with varying nutritional values.
+The bar chart (Figure 5.1) displaying nutrient adequacy across nutrient profiles indicated the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch for various nutrients. The profiles are the result of k-means clustering, reflecting distinct groupings based on the type and quantity of nutrients present in the catch. 
 
-```{r echo=FALSE, fig.cap="Cluster analysis of nutrient profiles using k-means clustering. The scatter plot visualizes the distribution of data points in a two-dimensional space defined by the first two principal components. The convex hulls represent the boundaries of each cluster, providing a visual guide to the cluster density and separation.", fig.height=7, fig.width=8, message=FALSE, warning=FALSE}
+In the Atauro subsets (Panels a and b), there is a notable variation in the composition of nutrients. For example, some profiles are characterized by higher segments of protein and omega-3, suggestive of a catch rich in these particular nutrients. This is especially evident in the subset using gill nets, where the nutrient profile segments for protein and omega-3 are more prominent.
+Contrastingly, the Mainland subsets (Panels c and d) display a different nutrient composition. Here, the catch appears to be less concentrated in protein and omega-3 but shows relatively larger segments for iron and zinc, indicating a variance in the type of marine life caught or perhaps the nutritional quality of these catches.
+
+Across all panels, the nutrient profiles exhibit significant differences in the levels of calcium and vitamin A. Certain profiles show substantial segments representing these nutrients, while others are noticeably lacking, suggesting that the nutrient density of the catches can vary greatly within the same region and gear type.
+
+
+The scatter plot from the k-means clustering (Figure 5.2) showed the distribution of nutrient profiles across different clusters in each data subset. The first two principal components explained a significant portion of the variance, indicating distinct groupings in nutrient profiles among the fishing trips. The clear separation of clusters in this plot suggests that the fishing trips could be effectively categorized based on their nutrient content. 
+
+```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients: calcium (dark purple), iron (blue), omega-3 (green), protein (teal), vitamin A (dark teal), and zinc (yellow). The clusters are enumerated on the y-axis, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis quantifies the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutrient adequacy across clusters. Panels (a) through (d) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
+plot_bars <- function(x) {
+  x %>%
+    tidyr::pivot_longer(c(zinc:vitaminA)) %>%
+    dplyr::group_by(clusters, name) %>%
+    dplyr::summarise(value = median(value, na.rm = T)) %>%
+    ggplot2::ggplot(ggplot2::aes(value, clusters, fill = name)) +
+    ggplot2::theme_minimal() +
+    ggplot2::geom_col(width = 0.75, alpha = 0.85) +
+    ggplot2::scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
+    ggplot2::coord_cartesian(expand = FALSE) +
+    ggplot2::scale_x_continuous(n.breaks = 8) +
+    ggplot2::theme(legend.position = "bottom") +
+    ggplot2::labs(fill = "", x = "", y = "") +
+    ggplot2::theme(legend.position = "",
+                   plot.margin = unit(c(0, 0, 0, 0), "cm"))
+}
+
+plots <- purrr::map(data$data_raw, plot_bars)
+
+plots <-
+  list(
+    plots$atauro_AG_raw + ggplot2::labs(subtitle = "Atauro - All gears"),
+    plots$atauro_GN_raw + ggplot2::labs(subtitle = "Atauro - Gill net"),
+    plots$timor_AG_raw + ggplot2::labs(subtitle = "Mainland - All gears"),
+    plots$timor_GN_raw + ggplot2::labs(subtitle = "Mainland - Gill net")
+  )
+
+
+legend_plot <- cowplot::get_legend(plots[[1]] +
+  ggplot2::theme(
+    legend.position = "right",
+    legend.key.size = ggplot2::unit(0.55, "cm"),
+    legend.title = ggplot2::element_text(size = 12)
+  ))
+combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "auto")
+
+x_label <- cowplot::draw_label("N. individuals meeting RNI per 1kg of catch", x = 0.5, y = 0.05)
+y_label <- cowplot::draw_label("Nutritional profile", x = 0.02, y = 0.5, angle = 90)
+
+final_plot <-
+  cowplot::plot_grid(
+    combined_plots,
+    legend_plot,
+    ncol = 2,
+    rel_widths = c(1, 0.2),
+    scale = 0.9
+  ) +
+  x_label +
+  y_label
+
+final_plot
+
+```
+
+```{r echo=FALSE, fig.height=7, fig.width=8, message=FALSE, warning=FALSE, fig.cap="Nutritional profile clustering of fishing trips by region and gear type. Each plot presents a k-means clustering analysis of fishing trip observations, grouped by their nutritional contributions to the Recommended Nutrient Intake (RNI) for six nutrients. The four panels, labeled (a) through (d), display data subsets for Atauro and the Mainland, utilizing all gear types and gill nets specifically. The scatter plots within each panel are charted in a two-dimensional space defined by the first two principal components, with the axes denoting the percentage of explained variance. Points are color-coded to denote distinct nutritional profile clusters derived from the k-means algorithm. Convex hulls define the periphery of each cluster, providing insight into the cluster density and separation. Convex hulls around the clusters aid in visualizing the distribution and delineation of nutritional profile groupings across different fishing methods and geographic areas."}
 library(ggplot2)
 
 data <- get_model_data()
 kmean_plots <- data$kmeans_plots
-
 
 plots <-
   list(
@@ -62,7 +124,10 @@ plots <-
 plots <- lapply(plots, function(x) {
   x +
     ggplot2::theme_minimal(10) +
-    ggplot2::theme(legend.position = "none")
+    ggplot2::theme(legend.position = "none",
+                   plot.margin = unit(c(0, 0, 0, 0), "cm"))+
+    ggplot2::labs(fill = "Nutritional\nprofile",
+                  color = "Nutritional\nprofile")
 })
 
 legend_plot <- cowplot::get_legend(plots[[1]] +
@@ -86,60 +151,6 @@ final_plot <-
   )
 
 final_plot
-```
-
-```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart represents the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch for each nutrient within different clusters. Each bar is segmented into six categories corresponding to the nutrients analyzed: calcium (dark purple), iron (blue), omega-3 (green), protein (teal), vitamin A (dark teal), and zinc (yellow). Clusters are labeled on the y-axis, indicating distinct groupings based on nutrient profile similarities derived from the cluster analysis. The x-axis quantifies the number of individuals who meet the RNI, highlighting the variation in nutritional fulfillment across clusters.", fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
-plot_bars <- function(x) {
-  x %>%
-    tidyr::pivot_longer(c(zinc:vitaminA)) %>%
-    dplyr::group_by(clusters, name) %>%
-    dplyr::summarise(value = median(value, na.rm = T)) %>%
-    ggplot2::ggplot(ggplot2::aes(value, clusters, fill = name)) +
-    ggplot2::theme_minimal() +
-    ggplot2::geom_col(width = 0.75, alpha = 0.85) +
-    ggplot2::scale_fill_manual(values = timor.nutrients::color_palette) +
-    ggplot2::coord_cartesian(expand = FALSE) +
-    ggplot2::scale_x_continuous(n.breaks = 8) +
-    ggplot2::theme(legend.position = "bottom") +
-    ggplot2::labs(fill = "", x = "", y = "") +
-    ggplot2::theme(legend.position = "")
-}
-
-plots <- purrr::map(data$data_raw, plot_bars)
-
-plots <-
-  list(
-    plots$atauro_AG_raw + ggplot2::labs(subtitle = "Atauro - All gears"),
-    plots$atauro_GN_raw + ggplot2::labs(subtitle = "Atauro - Gill net"),
-    plots$timor_AG_raw + ggplot2::labs(subtitle = "Mainland - All gears"),
-    plots$timor_GN_raw + ggplot2::labs(subtitle = "Mainland - Gill net")
-  )
-
-
-legend_plot <- cowplot::get_legend(plots[[1]] +
-  ggplot2::theme(
-    legend.position = "right",
-    legend.key.size = ggplot2::unit(0.55, "cm"),
-    legend.title = ggplot2::element_text(size = 12)
-  ))
-combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "auto")
-
-x_label <- cowplot::draw_label("N. individuals meeting RNI per 1kg of catch", x = 0.5, y = 0.05)
-y_label <- cowplot::draw_label("Cluster number", x = 0.02, y = 0.5, angle = 90)
-
-final_plot <-
-  cowplot::plot_grid(
-    combined_plots,
-    legend_plot,
-    ncol = 2,
-    rel_widths = c(1, 0.2),
-    scale = 0.9
-  ) +
-  x_label +
-  y_label
-
-final_plot
-
 ```
 
 
@@ -173,13 +184,21 @@ timor.nutrients::perm_results %>%
     )
   )
 ```
+Table 5.1: Results of PERMANOVA analysis assessing the homogeneity of nutrient profiles within fishing trip clusters. The analysis was conducted across four datasets: Atauro with all gears (atauro_AG), Atauro with gill nets (atauro_GN), Mainland with all gears (mainland_AG), and Mainland with gill nets (mainland_GN). For each dataset, the term 'clusters' represents the within-group sum of squares (SUMOFSQS), which measures the variance within the nutritional profiles, while 'Residual' represents the variance between nutritional profiles Degrees of Freedom (DF), R-squared values (R2), and associated statistics indicate the strength and significance of the clustering. The R2 value quantifies the proportion of variance explained by the clusters.
 
+### XGBoost model
 
-### XGBoost model (not updated)
+In the analysis of the XGBoost model's predictive performance, both quantitative and visual assessments were conducted, detailed in Table 5.2 and Figure 5.3, respectively. The Receiver Operating Characteristic (ROC) curves (see [ML model interpretation][In simple terms]) presented in Figure 5.3 offer a graphical evaluation of the model's sensitivity and specificity across four subsets of fishing data, categorized by region and gear type. These curves plot the true positive rate against the false positive rate for each nutritional profile group identified within the data.
 
-The models' predictive capacity was quantitatively assessed via receiver operating characteristic (ROC) analysis across five distinct clusters. The ROC curves (see [ML model interpretation][In simple terms]) illustrate a differential capacity of the model to classify each cluster based on the nutritional profiles derived from various fishing strategies. Cluster 2 and 5 demonstrated superior model performance, indicated by a curve proximate to the top-left, suggesting high sensitivity and specificity. Clusters 1 and 4 showed marginally lower but comparable discrimination ability. Cluster 3 indicated a slight decrease in sensitivity and exhibited the model's lowest performance, with a curve markedly farther from the ideal top-left position. Collectively, an aggregate AUC of 0.87 signifies a strong overall ability of the model to differentiate between the clusters, albeit with varying degrees of precision. These findings underscore the model's effectiveness in predicting nutritional outcomes based on fishing strategies, with implications for tailoring nutrient-sensitive fisheries management interventions.
+An examination of the ROC curves reveals variability in the model's ability to distinguish between nutritional profile groups. The areas under the curves (AUC) provide a numerical measure of the model’s discriminative power, with a value of 1 representing perfect prediction and 0.5 indicating no discriminative power. While none of the profile groups reach perfection, several demonstrate substantial AUC values, indicating a robust ability to classify observations accurately. 
 
-```{r model-settings, echo=FALSE, fig.cap="Receiver Operating Characteristic (ROC) Curves with Data Points for Cluster-Based Classification. The curves delineate the sensitivity versus 1-specificity for the five clusters derived from the XGBoost classification model. Each cluster is represented by a distinct color with data points marked, which illustrates the true positive rate against the false positive rate for each respective cluster. The closeness of each curve to the top-left corner indicates the model’s classification efficacy per cluster, with Cluster 1 and 2 showing the highest performance. The overall model demonstrates substantial predictive accuracy with a composite AUC value of 0.86.", fig.height=6.5, fig.width=8, message=FALSE, warning=FALSE}
+In comparing these visual findings with the statistical data from Table 5.2, it is observed that subsets from Atauro (both with all gears and gill nets) yield higher AUC, accuracy, and kappa statistics, suggesting a more consistent and accurate classification of nutritional profiles. These subsets also show higher sensitivity and specificity, indicating a balanced predictive capability for identifying true positives and true negatives. Conversely, the Mainland subsets exhibit lower performance metrics, indicating a more challenging classification scenario. This is reflected in the ROC curves where the lines for the Mainland subsets are farther from the top-left corner, suggesting a lower true positive rate relative to the false positive rate compared to the Atauro subsets.
+
+The positive predictive value (PPV) and negative predictive value (NPV), which provide insight into the model's precision and reliability, also align with the ROC curve analysis, showing higher values for the Atauro subsets. This indicates that when the model predicts a particular nutritional profile for these subsets, it is more likely to be correct. The Matthew's correlation coefficient (MCC) values, a balanced measure of quality for binary classifications, corroborate the ROC analysis by indicating that the Atauro subsets maintain a higher quality of prediction across classes.
+
+In summary, the integrated analysis of Table 5.2 and Figure 5.3 reveals a differentiated performance of the XGBoost model across various subsets of fishing data. The model showcases commendable predictive strength in the Atauro subsets, with high AUC, accuracy, and kappa metrics indicating a reliable classification of nutritional profiles. The ROC curve analysis further supports this, with curves for Atauro subsets nearer to the desired top-left corner, denoting higher sensitivity and specificity. In contrast, the Mainland subsets, despite achieving moderate success, suggest an area for improvement, as seen by their relative distance from the optimal point on the ROC curves and lower performance metrics. This suggests that while the model is effective in identifying nutritional profiles in certain contexts, its performance is not uniformly high across all subsets.
+
+```{r model-settings, echo=FALSE, fig.cap="Receiver Operating Characteristic (ROC) Curves for evaluating the performance of a cluster-based XGBoost classification model across four distinct fishing datasets: Atauro with all gears (a), Atauro with gill nets (b), Mainland with all gears (c), and Mainland with gill nets (d). Each curve represents one of the five clusters obtained from the classification, with different colors marking each cluster. Data points on the curves indicate the trade-off between sensitivity (true positive rate) and 1-specificity (false positive rate) for each cluster. The proximity of the curves to the top-left corner reflects the accuracy of the model in classifying the nutritional profiles into the correct clusters.", fig.height=6.5, fig.width=8, message=FALSE, warning=FALSE}
 plots <-
   list(
     timor.nutrients::model_outputs$model_atauro_AG$roc_curves + ggplot2::labs(subtitle = "Atauro - All gears"),
@@ -189,8 +208,9 @@ plots <-
   )
 plots <- lapply(plots, function(x) {
   x +
-    ggplot2::theme(legend.position = "none") +
-    ggplot2::labs(x = "", y = "")
+    ggplot2::theme(legend.position = "none",
+                   plot.margin = unit(c(0, 0, 0, 0), "cm")) +
+    ggplot2::labs(x = "", y = "", color = "Nutritional\nprofile")
 })
 legend_plot <- cowplot::get_legend(plots[[1]] +
                                      ggplot2::theme(
@@ -217,18 +237,32 @@ final_plot <-
 final_plot
 ```
 
-Accuracy metrics
-
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
-timor.nutrients::model_outputs %>%
+models_metrics <- 
+  timor.nutrients::model_outputs %>%
   purrr::map(purrr::pluck(4)) %>%
   purrr::imap(~ summary(.x)) %>%
   dplyr::bind_rows(.id = "subset") %>%
   dplyr::select(-.estimator) %>%
   tidyr::pivot_wider(names_from = subset, values_from = .estimate) %>%
   dplyr::rename(metric = .metric) %>%
-  na.omit() %>% 
+  na.omit() 
+
+models_auc <- 
+  timor.nutrients::model_outputs %>%
+  purrr::map(purrr::pluck(8)) %>%
+  dplyr::bind_rows(.id = "subset") %>%
+  dplyr::select(-estimator) %>%
+  tidyr::pivot_wider(names_from = subset, values_from = estimate)
+
+
+dplyr::bind_rows(models_auc, models_metrics) %>% 
+  dplyr::bind_rows(models_auc, models_metrics) %>% 
+  dplyr::rename("Atauro AG" = model_atauro_AG,
+                "Mainland AG" = model_timor_AG,
+                "Atauro GN" = model_atauro_GN,
+                "Mainland GN" = model_timor_GN) %>% 
   dplyr::mutate(dplyr::across(.cols = dplyr::where(is.numeric), ~ round(.x, 2))) %>% 
   reactable::reactable(
     theme = reactablefmtr::fivethirtyeight(centered = TRUE),
@@ -248,9 +282,9 @@ timor.nutrients::model_outputs %>%
   )
 
 ```
+Table 5.2: Performance Metrics for XGBoost Model Across Fishing Data Subsets. This table provides a comprehensive overview of the predictive performance of an XGBoost classification model for four distinct subsets of fishing data: Atauro with all gears (ATAURO AG), Atauro with gill nets (ATAURO GN), Mainland with all gears (MAINLAND AG), and Mainland with gill nets (MAINLAND GN). Key performance indicators include ROC-AUC (area under the receiver operating characteristic curve), accuracy, Kappa (kap), sensitivity (sens), specificity (spec), positive predictive value (ppv), negative predictive value (npv), Matthew's correlation coefficient (mcc), Youden's J index (j_index), balanced accuracy (bal_accuracy), detection prevalence, precision, recall, and F measure (f_meas). The metrics collectively reflect the model's ability to discriminate between nutritional profiles, its overall accuracy, and the balance between the sensitivity and specificity for each subset.
 
-
-```{r model-explanation, echo=FALSE, message=FALSE, warning=FALSE,fig.height=10, fig.width=7}
+```{r model-explanation, echo=FALSE, message=FALSE, warning=FALSE,fig.height=9, fig.width=7}
 plot_model_shaps(timor.nutrients::shap_results$model_atauro_GN, model_type = "gn", cols = 1)
 
 ```

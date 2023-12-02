@@ -4,7 +4,7 @@ This section presents the analyses that illustrates the distribution of nutrient
 
 ## Fish groups 
 
-```{r echo=FALSE, fig.cap="Fish groups' nutrional contribution to RNI.", fig.height=8, fig.width=7, message=FALSE, warning=FALSE, out.width='80%'}
+```{r echo=FALSE, fig.height=8, fig.width=7, message=FALSE, warning=FALSE, out.width='80%', fig.cap="The bar chart illustrates the cumulative contribution of various marine food sources to the Recommended Nutrient Intake (RNI) for six essential nutrients, based on a 100g portion size. The x-axis is scaled in percentage terms, with the 100% mark indicating the complete RNI for a reproductive-age woman. Each horizontal bar is a stacked representation, segmented by color to denote the specific nutrient contributions from marine food sources. The marine food sources are labeled on the y-axis, which allows for a comparative visualization of their nutrient profiles, highlighting the diversity in nutrient density and emphasizing their potential significance in dietary nutrition."}
 library(ggplot2)
 library(ggforce)
 
@@ -36,16 +36,16 @@ timor.nutrients::nutrients_table %>%
   ggplot2::ggplot(ggplot2::aes(rdi, reorder(catch_name, rdi), fill = nutrient)) +
   ggplot2::theme_minimal() +
   ggplot2::geom_col(alpha = 0.85) +
-  ggplot2::scale_fill_manual(values = timor.nutrients::color_palette) +
-  ggplot2::scale_x_continuous(labels = scales::percent) +
+  ggplot2::scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
+  ggplot2::scale_x_continuous(labels = scales::percent, n.breaks = 10) +
   ggplot2::labs(y = "", x = "Matched RNI from 100g portion", fill = "") +
-  theme(legend.position = "bottom")
+  ggplot2::theme(legend.position = "bottom")
 ```
 
 
 ## Habitat and gear type
 
-```{r echo=FALSE, fig.cap="Sankey diagram showing the relative distribution of key nutrients across various marine habitats and the corresponding extraction by different fishing gear types used in Timor-Est small-scale fisheries.", fig.height=8, fig.width=7, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.height=8, fig.width=7, message=FALSE, warning=FALSE, fig.cap="Sankey diagram showing the relative distribution of key nutrients across various marine habitats and the corresponding extraction by different fishing gear types used in Timor-Est small-scale fisheries."}
 parallel_plot <-
   timor.nutrients::kobo_trips %>%
   dplyr::select(habitat, gear_type, Selenium_mu:Vitamin_A_mu) %>%
@@ -111,7 +111,7 @@ parallel_plot %>%
   scale_x_discrete(name = NULL, expand = c(0, 0.2)) +
   scale_y_continuous(breaks = NULL, expand = c(0.05, 0)) +
   theme_minimal(12) +
-  scale_fill_manual(values = timor.nutrients::color_palette) +
+  scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
   # scale_fill_manual(values = c("#508AA8", "grey95", "#BD9391")) +
   theme(
     axis.line = element_blank(),

@@ -2,8 +2,12 @@ library(magrittr)
 
 pars <- read_config()
 
-color_palette <- pars$nutrients$palette
-usethis::use_data(color_palette, overwrite = TRUE)
+palettes <- list(
+  nutrients_palette = pars$nutrients$pal_nutrients,
+  clusters_palette = pars$nutrients$pal_clusters
+)
+
+usethis::use_data(palettes, overwrite = TRUE)
 
 RDI_tab <-
   tidyr::tibble(
@@ -32,26 +36,44 @@ nutrients_table <-
     ~ tidyr::replace_na(., median(., na.rm = TRUE))
   )
 
+#region_stats <-
+#  get_models(pars) %>%
+#  dplyr::left_join(nutrients_table, by = "grouped_taxa") %>%
+#  dplyr::mutate(dplyr::across(c(Selenium_mu:Vitamin_A_mu), ~ .x * catch)) %>%
+#  rename_nutrients_mu()
 
+region_data <- readr::read_rds(system.file("estimations_kg_12_2023.rds", package = "timor.nutrients"))
 region_stats <-
-  readr::read_rds(system.file("estimations_kg_10_2023.rds", package = "timor.nutrients")) %>%
+  region_data$municipal %>%
+   purrr::map(~ purrr::keep(.x, stringr::str_detect(
+     names(.x), stringr::fixed("taxa")
+   ))) %>%
+   purrr::flatten() %>%
+   purrr::set_names(names(region_data$municipal)) %>%
+   dplyr::bind_rows(.id = "region") %>%
+   dplyr::rename(date_bin_start = .data$landing_period) %>%
+   dplyr::select(c(.data$region, .data$date_bin_start, .data$grouped_taxa, .data$catch)) %>%
   dplyr::left_join(nutrients_table, by = "grouped_taxa") %>%
-  dplyr::transmute(
-    region = .data$region,
-    date_bin_start = .data$date_bin_start,
-    grouped_taxa = .data$grouped_taxa,
-    catch = .data$catch,
-    selenium = (.data$Selenium_mu * (.data$catch * 1000)) / 1000,
-    zinc = (.data$Zinc_mu * (.data$catch * 1000)) / 1000,
-    protein = (.data$Protein_mu * (.data$catch * 1000)) / 1000,
-    omega3 = (.data$Omega_3_mu * (.data$catch * 1000)) / 1000,
-    calcium = (.data$Calcium_mu * (.data$catch * 1000) / 1000),
-    iron = (.data$Iron_mu * (.data$catch * 1000)) / 1000,
-    vitaminA = (.data$Vitamin_A_mu * (.data$catch * 1000)) / 1000
-  )
+  dplyr::mutate(dplyr::across(c(Selenium_mu:Vitamin_A_mu), ~ .x * catch)) %>%
+  rename_nutrients_mu()
+
+#  dplyr::left_join(nutrients_table, by = "grouped_taxa") %>%
+#  dplyr::transmute(
+#    region = .data$region,
+#    date_bin_start = .data$date_bin_start,
+#    grouped_taxa = .data$grouped_taxa,
+#    selenium = (.data$Selenium_mu * (.data$catch * 1000)) / 1000,
+#    zinc = (.data$Zinc_mu * (.data$catch * 1000)) / 1000,
+#    catch = .data$catch,
+#    protein = (.data$Protein_mu * (.data$catch * 1000)) / 1000,
+#    omega3 = (.data$Omega_3_mu * (.data$catch * 1000)) / 1000,
+#    calcium = (.data$Calcium_mu * (.data$catch * 1000) / 1000),
+#    iron = (.data$Iron_mu * (.data$catch * 1000)) / 1000,
+#    vitaminA = (.data$Vitamin_A_mu * (.data$catch * 1000)) / 1000
+#  )
 
 trips <- get_merged_trips(pars) %>% dplyr::filter(!is.na(landing_id))
-names(trips)
+
 kobo_trips <-
   trips %>%
   dplyr::mutate(
@@ -86,35 +108,38 @@ usethis::use_data(timor_population, overwrite = TRUE)
 usethis::use_data(nutrients_table, overwrite = TRUE)
 usethis::use_data(region_stats, overwrite = TRUE)
 usethis::use_data(kobo_trips, overwrite = TRUE)
+devtools::document()
 
 data_list <- get_model_data()
 
 # permanova
-# data_clusters <-
-#  list(
-#    atauro_AG_perm = data_list$data_raw$atauro_AG_raw,
-#    atauro_GN_perm = data_list$data_raw$atauro_GN_raw,
-#    timor_AG_perm = data_list$data_raw$timor_AG_raw,
-#    timor_GN_perm = data_list$data_raw$timor_GN_raw
-#  )
+data_clusters <-
+  list(
+    atauro_AG_perm = data_list$data_raw$atauro_AG_raw,
+    atauro_GN_perm = data_list$data_raw$atauro_GN_raw,
+    timor_AG_perm = data_list$data_raw$timor_AG_raw,
+    timor_GN_perm = data_list$data_raw$timor_GN_raw
+  )
 
-# perm_results <- purrr::imap(data_clusters, ~ run_permanova_clusters(.x, permutations = 999, parallel = 8))
-# usethis::use_data(perm_results, overwrite = T)
+perm_results <- purrr::imap(data_clusters, ~ run_permanova_clusters(.x, permutations = 999, parallel = 7))
+usethis::use_data(perm_results, overwrite = T)
 
 
 # Run XGBoost model
-# data_list <- get_model_data()$data_processed
-# model_outputs <-
-#  purrr::imap(
-#    data_list, ~ run_xgmodel
-#    (dataframe = .x$dataframe, step_other = .x$step_other, n_cores = 8)
-#  ) %>%
-#  setNames(paste0("model_", names(.)))
+data_list <- get_model_data()$data_processed
+model_outputs <-
+  purrr::imap(
+    data_list, ~ run_xgmodel
+    (dataframe = .x$dataframe, step_other = .x$step_other, n_cores = 7)
+  ) %>%
+  setNames(paste0("model_", names(.)))
 
-# usethis::use_data(model_outputs, overwrite = TRUE)
+usethis::use_data(model_outputs, overwrite = TRUE)
+devtools::document()
+
 
 # Get shap values
-# shap_results <- purrr::map(timor.nutrients::model_outputs , run_kernelshap)
-# usethis::use_data(shap_results, overwrite = T)
+shap_results <- purrr::map(timor.nutrients::model_outputs, run_kernelshap)
+usethis::use_data(shap_results, overwrite = T)
 
 devtools::document()

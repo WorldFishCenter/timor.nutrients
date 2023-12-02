@@ -1,4 +1,4 @@
-get_nutrients_table <- function(pars, summarise = TRUE, convert = TRUE) {
+get_nutrients_table_legacy <- function(pars, summarise = TRUE, convert = TRUE) {
   rfish_tab <- get_rfish_table(pars)
 
   fao_groups <- get_fao_composition()
@@ -51,6 +51,65 @@ get_nutrients_table <- function(pars, summarise = TRUE, convert = TRUE) {
     dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::first(.x))) %>%
     dplyr::select(-ID) %>%
     dplyr::ungroup()
+}
+
+get_nutrients_table <- function(pars, summarise = TRUE, convert = TRUE) {
+  rfish_tab <- get_rfish_table(pars)
+  # get invertebrates nutrients
+  fao_groups <- get_fao_composition()
+
+  nutrients_tab <-
+    rfishbase::estimate(rfish_tab$Species) %>% # get updated nutrients values
+    dplyr::select(!dplyr::contains("_")) %>%
+    dplyr::select(.data$SpecCode, .data$Calcium:.data$Zinc) %>%
+    dplyr::right_join(rfish_tab) %>%
+    dplyr::select(.data$interagency_code, .data$SpecCode, .data$Calcium:.data$Zinc) %>%
+    # na.omit() %>%
+    dplyr::group_by(.data$interagency_code, .data$SpecCode) %>%
+    dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::first(.x))) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(
+      .data$interagency_code,
+      Selenium_mu = .data$Selenium,
+      Zinc_mu = .data$Zinc,
+      Protein_mu = .data$Protein,
+      Omega_3_mu = .data$Omega3,
+      Calcium_mu = .data$Calcium,
+      Iron_mu = .data$Iron,
+      Vitamin_A_mu = .data$VitaminA
+    ) %>%
+    dplyr::filter(!.data$interagency_code %in% unique(fao_groups$interagency_code)) %>%
+    dplyr::bind_rows(fao_groups)
+
+
+  if (isTRUE(convert)) {
+    nutrients_tab <-
+      nutrients_tab %>%
+      dplyr::mutate(dplyr::across(
+        c(.data$Zinc_mu, .data$Calcium_mu, .data$Iron_mu),
+        ~ (.x / 1000) / 100
+      )) %>%
+      dplyr::mutate(dplyr::across(
+        c(.data$Selenium_mu, .data$Vitamin_A_mu),
+        ~ (.x / 1000000) / 100
+      )) %>%
+      dplyr::mutate(dplyr::across(
+        c(.data$Omega_3_mu, .data$Protein_mu),
+        ~ (.x / 1) / 100
+      ))
+  }
+  if (isTRUE(summarise)) {
+    nutrients_tab <-
+      nutrients_tab %>%
+      dplyr::group_by(.data$interagency_code) %>%
+      dplyr::summarise_all(stats::median, na.rm = TRUE)
+  }
+
+  nutrients_tab %>%
+    dplyr::mutate_at(
+      dplyr::vars(.data$Selenium_mu:.data$Vitamin_A_mu),
+      ~ tidyr::replace_na(., stats::median(., na.rm = TRUE))
+    )
 }
 
 get_rfish_table <- function(pars) {

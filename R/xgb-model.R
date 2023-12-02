@@ -146,7 +146,7 @@ run_xgmodel <- function(dataframe = NULL,
     ggplot2::geom_point(size = 0.5) +
     ggplot2::geom_abline(slope = 1, intercept = 0, color = "grey", linetype = "dashed") +
     ggplot2::coord_cartesian(expand = FALSE) +
-    ggplot2::scale_color_viridis_d() +
+    ggplot2::scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
     ggplot2::labs(color = "cluster")
 
   # show auc value

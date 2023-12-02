@@ -104,11 +104,13 @@ get_model_data <- function() {
     factoextra::fviz_cluster(k2,
       data = df[, 6:11],
       geom = c("point"),
-      shape = 19
+      shape = 19,
+      alpha = 0.25,
+      pointsize = 1.5
     ) +
     ggplot2::theme_minimal() +
-    ggplot2::scale_fill_viridis_d() +
-    ggplot2::scale_color_viridis_d() +
+    ggplot2::scale_fill_manual(values = timor.nutrients::palettes$clusters_palette) +
+    ggplot2::scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
     ggplot2::labs(title = "") +
     ggplot2::theme(legend.position = "bottom")
 
@@ -158,11 +160,13 @@ get_model_data <- function() {
     factoextra::fviz_cluster(k2,
       data = df[, 6:11],
       geom = c("point"),
-      shape = 19
+      shape = 19,
+      alpha = 0.25,
+      pointsize = 1.5
     ) +
     ggplot2::theme_minimal() +
-    ggplot2::scale_fill_viridis_d() +
-    ggplot2::scale_color_viridis_d() +
+    ggplot2::scale_fill_manual(values = timor.nutrients::palettes$clusters_palette) +
+    ggplot2::scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
     ggplot2::labs(title = "") +
     ggplot2::theme(legend.position = "bottom")
 
@@ -210,11 +214,13 @@ get_model_data <- function() {
     factoextra::fviz_cluster(k2,
       data = df[, 6:11],
       geom = c("point"),
-      shape = 19
+      shape = 19,
+      alpha = 0.25,
+      pointsize = 1.5
     ) +
     ggplot2::theme_minimal() +
-    ggplot2::scale_fill_viridis_d() +
-    ggplot2::scale_color_viridis_d() +
+    ggplot2::scale_fill_manual(values = timor.nutrients::palettes$clusters_palette) +
+    ggplot2::scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
     ggplot2::labs(title = "") +
     ggplot2::theme(legend.position = "bottom")
 
@@ -265,11 +271,13 @@ get_model_data <- function() {
     factoextra::fviz_cluster(k2,
       data = df[, 6:11],
       geom = c("point"),
-      shape = 19
+      shape = 19,
+      alpha = 0.25,
+      pointsize = 1.5
     ) +
     ggplot2::theme_minimal() +
-    ggplot2::scale_fill_viridis_d() +
-    ggplot2::scale_color_viridis_d() +
+    ggplot2::scale_fill_manual(values = timor.nutrients::palettes$clusters_palette) +
+    ggplot2::scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
     ggplot2::labs(title = "") +
     ggplot2::theme(legend.position = "bottom")
 

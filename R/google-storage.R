@@ -261,3 +261,28 @@ download_cloud_file <- function(name, provider, options, file = name) {
 
   file
 }
+
+get_models <- function(pars) {
+  models <-
+    cloud_object_name(
+      prefix = "model_predictions",
+      provider = pars$storage$google$key,
+      options = pars$storage$google$options
+    ) %>%
+    download_cloud_file(
+      provider = pars$storage$google$key,
+      options = pars$storage$google$options
+    ) %>%
+    readr::read_rds()
+
+  municipal_taxa <-
+    models$municipal %>%
+    purrr::map(~ purrr::keep(.x, stringr::str_detect(
+      names(.x), stringr::fixed("taxa")
+    ))) %>%
+    purrr::flatten() %>%
+    purrr::set_names(names(models$municipal)) %>%
+    dplyr::bind_rows(.id = "region") %>%
+    dplyr::rename(date_bin_start = .data$landing_period) %>%
+    dplyr::select(c(.data$region, .data$date_bin_start, .data$grouped_taxa, .data$catch))
+}

@@ -20,7 +20,7 @@ The FishBase length-to-weight conversion tables offer species-level taxonomic re
 
 To address the scarcity of measured nutrient values for fish, which are typically limited to a few species and countries. To overcome this data limitation, MacNeil et al. developed a Bayesian hierarchical model that leverages both phylogenetic information and trait-based information to predict concentrations of seven essential nutrients: calcium, iron, omega-3 fatty acids, protein, selenium, vitamin A, and zinc for both marine and inland fish species globally (see Hicks et al. 2019). For each catch, the nutritional yield was calculated by combining the validated weight estimates for each fish group with the modelled nutrient concentrations. Specifically, we used the highest posterior predictive density values for each of the seven nutrients, which can be found in the repository (<https://github.com/mamacneil/NutrientFishbase>). For non-fish groups---including octopuses, squids, cockles, shrimps, crabs, and lobsters---nutritional yield information was not available in the NutrientFishbase repository models. We retrieved the necessary data for these groups from the [Global food composition database](https://www.fao.org/documents/card/en/c/I8542EN/), using the same methodological approach as for the fish groups to estimate their nutritional content. To represent the nutrient concentration associated with each fish group, we used the median value as a summarizing metric.
 
-```{r nutdispersion, echo=FALSE, fig.cap="Distribution of nutrients' concentration for each fish group. Dots represent the median, bars represent the 95% confidence interval.", fig.height=4, fig.width=10, message=FALSE, warning=FALSE}
+```{r nutdispersion, echo=FALSE, fig.cap="Distribution of nutrients' concentration for each fish group. Dots represent the median, bars represent the 95% confidence interval.", fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
 
 setwd("../..")
 pars <- read_config()
@@ -38,7 +38,7 @@ ntab %>%
   ) %>%
   dplyr::mutate(
     se = sd / sqrt(n),
-    ic = se * qt((1 - 0.05) / 2 + .5, n - 1)
+    ic = se * qt((1 - 0.1) / 2 + .5, n - 1)
   ) %>%
   dplyr::ungroup() %>%
   dplyr::mutate(name = stringr::str_to_title(name),
@@ -61,7 +61,7 @@ ntab %>%
     position = ggplot2::position_dodge(0.1),
     color = "#447597"
   ) +
-  ggplot2::facet_wrap(. ~ name, scales = "free", ncol = 7) +
+  ggplot2::facet_wrap(. ~ name, scales = "free", ncol = 4) +
   tidytext::scale_y_reordered() +
   ggplot2::coord_cartesian(xlim = c(0, NA), expand = FALSE)+
   ggplot2::labs(x  = "Mean concentration per 100g", y = "")

@@ -17,8 +17,8 @@ profiles
 methods
 data-analysis-design-and-subset-division
 results
-clusters-not-updated
-xgboost-model-not-updated
+clusters
+xgboost-model
 checks-and-limitations-1
 next-steps
 simple

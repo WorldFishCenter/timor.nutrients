@@ -83,22 +83,6 @@ generate_summary_table <- function(use_20 = TRUE) {
     filterable = TRUE,
     groupBy = "region",
     defaultExpanded = TRUE,
-    rowStyle = htmlwidgets::JS("
-    function(rowInfo, state) {
-      // Ignore padding rows
-      if (!rowInfo) return
-
-      // Add horizontal separators between groups when sorting by school
-      const firstSorted = state.sorted[0]
-      if (firstSorted && firstSorted.id === 'region') {
-        const nextRow = state.pageRows[rowInfo.viewIndex + 1]
-        if (nextRow && rowInfo.values['region'] !== nextRow['region']) {
-          // Use box-shadow to add a 2px border without taking extra space
-          return { boxShadow: 'inset 0 -2px 0 rgba(0, 0, 0, 0.1)' }
-        }
-      }
-    }
-  "),
     defaultColDef = reactable::colDef(
       align = "center",
       minWidth = 100
@@ -108,16 +92,7 @@ generate_summary_table <- function(use_20 = TRUE) {
         name = "Municipality (population)",
         sortable = FALSE,
         minWidth = 140,
-        align = "center",
-        style = htmlwidgets::JS("function(rowInfo, column, state) {
-        const firstSorted = state.sorted[0]
-        if (!firstSorted || firstSorted.id === 'region') {
-          const prevRow = state.pageRows[rowInfo.viewIndex - 1]
-          if (prevRow && rowInfo.values['region'] === prevRow['region']) {
-            return { visibility: 'hidden' }
-          }
-        }
-      }"),
+        align = "center"
       ),
       nutrient = reactable::colDef(
         name = "Nutrient"
