@@ -6,7 +6,7 @@
 
 ## Methods
 
-In this section, we identified recurrent nutritional profiles based on [RC data](https://worldfishcenter.github.io/timor.nutrients/data.html#data), then, we aimed to predict the nutritional profiles on the basis of the fishing strategy and environmental factors.
+In this section, we identified recurrent nutritional profiles based on [RC data](https://worldfishcenter.github.io/timor.nutrients/data.html#data), then, we predicted and explained the nutritional profiles on the basis of the fishing strategy and environmental factors.
 
 ### Data analysis design and subset division
 
@@ -22,19 +22,19 @@ As a first step we addressed the inherent imbalance in the [RC data](https://wor
 
 This subdivision of the dataset was intended to reduce biases and enhance analytical precision. Furthermore, by isolating gill net data, we were able to specifically examine the impact of mesh size on the prediction of nutrient profiles in gill net catches, providing a more focused and detailed analysis of this gear type's influence on nutritional outcomes.
 
-Subsequently, we identified recurrent nutritional profiles for each dataset. We assessed the total within sum of square (WSS) of six nutrient concentrations---excluding selenium---to identify the optimal number of clusters (distinctive nutritional profiles). This methodology helped determine the point at which additional data points do not significantly enhance the clarity of the clusters.
+### Clustering and Classification
 
-Once established the optimal number of clusters for each dataset, we proceeded with the K-means clustering method to organize the data into distinct groups based on similarities in nutrient concentrations. Each trip was grouped based on its nutrient concentration profile, thereby enabling us to discern patterns and categorize trips according to their nutritional value.
+Subsequently, we identified recurrent nutritional profiles for each dataset. We assessed the total within sum of square (WSS) of six nutrient concentrations---excluding selenium---to identify the optimal number of clusters (distinctive nutritional profiles). Once established the optimal number of clusters for each dataset, we proceeded with the K-means clustering method to organize the data into distinct groups based on similarities in nutrient concentrations. Each trip was grouped based on its nutrient concentration profile, thereby enabling us to discern patterns and categorize trips according to their nutritional profile.
 The K-means algorithm functions by assigning each data point to the nearest cluster, based on the mean value of the points in the cluster. This iterative process continues until the assignment of points to clusters no longer changes, indicating that the clusters are as distinct as possible. The result is a set of clusters that represent unique nutritional profiles, each characterized by a specific combination of nutrient concentrations.
-
 
 Subsequent to the clustering, we conducted Permutational Multivariate Analysis of Variance (PERMANOVA) to validate the clustering methodology across four distinct datasets: Atauro AG, Atauro GN, Mainland AG, and Mainland GN. PERMANOVA is a robust non-parametric statistical test that evaluates whether there are significant differences between groups. Unlike traditional ANOVA, PERMANOVA does not rely on assumptions of normality and is therefore suitable for ecological data, which often do not follow normal distributions. Our PERMANOVA analysis was conducted on each of the four subsets on a distance matrix representing pairwise dissimilarities in nutrient concentrations across all fishing trips. This approach allowed us to test the hypothesis that the nutrient profiles of fishing trips within the same cluster are more similar to each other than to trips in different clusters.
 
 Finally, we performed a XGBoost model to each data subset to predict the nutritional profiles based on the fishing strategy, habitat and season. We employed the XGBoost algorithm due to its effectiveness in preventing overfitting and its ability to highlight key predictors. We used mesh size, habitat, quarter of the year, and vessel type as predictors for gill net subsets. For other gear types, the models used habitat x gear interaction, habitat, gear type, quarter of the year, and vessel type as predictors.
 
-Model tuning was conducted dynamically, adjusting parameters the number of trees, tree depth, loss reduction, sample size, and early stopping. The 4 data subsets were split into training (80%) and testing (20%) sets, with 10-fold cross-validation applied to the training set for enhanced accuracy and generalizability.
+Model tuning was conducted dynamically, adjusting several parameters including the number of trees, tree depth, loss reduction, sample size, and early stopping. The 4 data subsets were split into training (80%) and testing (20%) sets, with 10-fold cross-validation applied to the training set for enhanced accuracy and generalizability. The models' performance was assessed using accuracy, ROC AUC, sensitivity, and specificity, providing a comprehensive understanding of their ability to accurately distinguish between different nutritional profiles. The ROC curves and AUC values offered an additional layer of model effectiveness evaluation.
 
-The model's performance was assessed using accuracy, ROC AUC, sensitivity, and specificity, providing a comprehensive understanding of its ability to accurately distinguish between different nutritional profiles. The ROC curves and AUC values offered an additional layer of model effectiveness evaluation.
+We employed [SHapley Additive exPlanations (SHAP)][In simple terms] values to dissect and quantify the influence of various predictors on the nutritional profiles predicted by our XGBoost models. SHAP values, rooted in cooperative game theory, offer a nuanced approach to understanding machine learning model outputs. They decompose a model's prediction into contributions from each feature, illuminating not only the significance of these features but also the direction of their impact on the prediction. 
+Specifically, for subsets involving gill net fishing methods (Atauro GN and Mainland GN), our focus was on understanding the impact of mesh size. In contrast, for the other subsets (Atauro AG and Mainland AG), which included different fishing methods, we concentrated on analyzing how the habitat and gear type interacted and influenced the nutritional profile predictions.
 
 ## Results
 
@@ -49,10 +49,11 @@ Contrastingly, the Mainland subsets (Panels c and d) display a different nutrien
 
 Across all panels, the nutrient profiles exhibit significant differences in the levels of calcium and vitamin A. Certain profiles show substantial segments representing these nutrients, while others are noticeably lacking, suggesting that the nutrient density of the catches can vary greatly within the same region and gear type.
 
+```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients. The clusters are enumerated on the y-axis, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis quantifies the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutrient adequacy across clusters. Panels (a) through (d) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
+library(ggplot2)
+data <- get_model_data()
 
-The scatter plot from the k-means clustering (Figure 5.2) showed the distribution of nutrient profiles across different clusters in each data subset. The first two principal components explained a significant portion of the variance, indicating distinct groupings in nutrient profiles among the fishing trips. The clear separation of clusters in this plot suggests that the fishing trips could be effectively categorized based on their nutrient content. 
 
-```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients: calcium (dark purple), iron (blue), omega-3 (green), protein (teal), vitamin A (dark teal), and zinc (yellow). The clusters are enumerated on the y-axis, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis quantifies the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutrient adequacy across clusters. Panels (a) through (d) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
 plot_bars <- function(x) {
   x %>%
     tidyr::pivot_longer(c(zinc:vitaminA)) %>%
@@ -107,10 +108,9 @@ final_plot
 
 ```
 
-```{r echo=FALSE, fig.height=7, fig.width=8, message=FALSE, warning=FALSE, fig.cap="Nutritional profile clustering of fishing trips by region and gear type. Each plot presents a k-means clustering analysis of fishing trip observations, grouped by their nutritional contributions to the Recommended Nutrient Intake (RNI) for six nutrients. The four panels, labeled (a) through (d), display data subsets for Atauro and the Mainland, utilizing all gear types and gill nets specifically. The scatter plots within each panel are charted in a two-dimensional space defined by the first two principal components, with the axes denoting the percentage of explained variance. Points are color-coded to denote distinct nutritional profile clusters derived from the k-means algorithm. Convex hulls define the periphery of each cluster, providing insight into the cluster density and separation. Convex hulls around the clusters aid in visualizing the distribution and delineation of nutritional profile groupings across different fishing methods and geographic areas."}
-library(ggplot2)
+The scatter plot from the k-means clustering (Figure 5.2) showed the distribution of nutrient profiles across different clusters in each data subset. The first two principal components explained a significant portion of the variance, indicating distinct groupings in nutrient profiles among the fishing trips. 
 
-data <- get_model_data()
+```{r echo=FALSE, fig.height=7, fig.width=8, message=FALSE, warning=FALSE, fig.cap="Nutritional profile clustering of fishing trips by region and gear type. Each plot presents a k-means clustering analysis of fishing trip observations, grouped by their nutritional contributions to the Recommended Nutrient Intake (RNI) for six nutrients. The four panels, labeled (a) through (d), display data subsets for Atauro and the Mainland, utilizing all gear types and gill nets specifically. The scatter plots within each panel are charted in a two-dimensional space defined by the first two principal components, with the axes denoting the percentage of explained variance. Points are color-coded to denote distinct nutritional profile clusters derived from the k-means algorithm. Convex hulls define the periphery of each cluster, providing insight into the cluster density and separation. Convex hulls around the clusters aid in visualizing the distribution and delineation of nutritional profile groupings across different fishing methods and geographic areas."}
 kmean_plots <- data$kmeans_plots
 
 plots <-
@@ -154,7 +154,7 @@ final_plot
 ```
 
 
-The PERMANOVA analyses (see table below) revealed statistically significant differences between clusters, suggesting robust groupings based on the nutrient profiles. The pseudo-F statistics were remarkably high in all cases, indicating strong differentiation between clusters. Specifically, the R² values were 0.86, 0.82, 0.85, and 0.92 for Atauro AG, Atauro GN, Mainland AG, and Mainland GN respectively, indicating that between 82% to 92% of the variance in nutrient concentrations was explained by the clusters. The high R² values underscore the distinctness of the clusters, reinforcing the validity of the K-means clustering.
+The PERMANOVA analyses (Table 5.1) revealed statistically significant differences between clusters, suggesting robust groupings based on the nutrient profiles. The pseudo-F statistics were remarkably high in all cases, indicating strong differentiation between clusters. Specifically, the R² values were 0.86, 0.82, 0.85, and 0.92 for Atauro AG, Atauro GN, Mainland AG, and Mainland GN respectively, indicating that between 82% to 92% of the variance in nutrient concentrations was explained by the clusters. The high R² values underscore the distinctness of the clusters, reinforcing the validity of the K-means clustering.
 
 These findings were consistent across all the datasets, with p-values below 0.001, providing clear evidence to reject the null hypothesis of no difference between clusters. Hence, the PERMANOVA results robustly support the effectiveness of the K-means algorithm in capturing meaningful patterns in nutrient profiles.
 
@@ -284,8 +284,13 @@ dplyr::bind_rows(models_auc, models_metrics) %>%
 ```
 Table 5.2: Performance Metrics for XGBoost Model Across Fishing Data Subsets. This table provides a comprehensive overview of the predictive performance of an XGBoost classification model for four distinct subsets of fishing data: Atauro with all gears (ATAURO AG), Atauro with gill nets (ATAURO GN), Mainland with all gears (MAINLAND AG), and Mainland with gill nets (MAINLAND GN). Key performance indicators include ROC-AUC (area under the receiver operating characteristic curve), accuracy, Kappa (kap), sensitivity (sens), specificity (spec), positive predictive value (ppv), negative predictive value (npv), Matthew's correlation coefficient (mcc), Youden's J index (j_index), balanced accuracy (bal_accuracy), detection prevalence, precision, recall, and F measure (f_meas). The metrics collectively reflect the model's ability to discriminate between nutritional profiles, its overall accuracy, and the balance between the sensitivity and specificity for each subset.
 
+
+Shap values results...
 ```{r model-explanation, echo=FALSE, message=FALSE, warning=FALSE,fig.height=9, fig.width=7}
-plot_model_shaps(timor.nutrients::shap_results$model_atauro_GN, model_type = "gn", cols = 1)
+plot_model_shaps(timor.nutrients::shap_results$model_atauro_GN,
+                 model_type = "gn",
+                 cols = 1,
+                 alpha = 0.75)
 
 ```
 
@@ -293,11 +298,3 @@ plot_model_shaps(timor.nutrients::shap_results$model_atauro_GN, model_type = "gn
 
 -   Are we considering all the possible potential good predictors?
 
-
-## Next steps
-
-Explore the model:
-
--   Quantify the importance of each predictor on the model outcome
-
--   Assess the direction of the effect of each predictor, that is analyze which features have the most impact on driving predictions towards each cluster. [SHAP Values][In simple terms] are a good way to address that.

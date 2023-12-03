@@ -235,16 +235,16 @@ plot_shap <- function(shap_object = NULL, model_type = NULL, alpha = NULL) {
         habitat_fact = shap_object$X$habitat,
         mesh_shap = shap_object$S[, 3]
       )
-
     process_shap %>%
       ggplot2::ggplot(aes(mesh_fact, mesh_shap, color = habitat_fact)) +
-      # ggplot2::geom_point() +
-      ggplot2::geom_jitter(width = 0.5, alpha = alpha) +
+      ggplot2::geom_jitter(width = 3, alpha = alpha, size = 1.5) +
       ggplot2::theme_minimal() +
       ggplot2::scale_x_continuous(n.breaks = 10) +
       ggplot2::geom_hline(yintercept = 0, linetype = 2, color = "grey50") +
-      ggplot2::scale_color_viridis_d(direction = -1, option = "turbo") +
-      ggplot2::coord_cartesian()
+      ggplot2::scale_color_manual(values = c("#f28f3b", "grey50", "#ffd5c2", "#588b8b", "#c8553d", "#2d3047", "#93b7be"))+
+      ggplot2::coord_cartesian(expand = FALSE)+
+      ggplot2::labs(color = "Habitat")
+
   } else {
     process_shap <-
       dplyr::tibble(
@@ -269,14 +269,14 @@ plot_shap <- function(shap_object = NULL, model_type = NULL, alpha = NULL) {
 
     process_shap %>%
       ggplot2::ggplot(aes(reorder(habitat_gear_fact, habitat_gear_shap), habitat_gear_shap, color = vessel_fact)) +
-      # ggplot2::geom_point() +
-      ggplot2::geom_jitter(width = 0.5, alpha = alpha) +
+      ggplot2::geom_jitter(width = 0.5, alpha = alpha, size = 1.5) +
       ggplot2::theme_minimal() +
-      # ggplot2::scale_y_continuous(n.breaks = 10) +
       ggplot2::geom_hline(yintercept = 0, linetype = 2, color = "grey50") +
-      # ggplot2::scale_color_viridis_d(direction = -1, alpha = 0.65) +
+      ggplot2::scale_color_manual(values = c("grey50", "#bc4749"))+
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)) +
-      ggplot2::coord_cartesian()
+      ggplot2::coord_cartesian(expand = FALSE)+
+      ggplot2::labs(color = "Transport")
+
   }
 }
 
@@ -335,7 +335,7 @@ plot_model_shaps <- function(data_shaps = NULL, model_type = NULL, alpha = 0.2, 
     x_label <- cowplot::draw_label("Habitat x Gear type ", x = 0.5, y = 0.05)
   }
 
-  y_label <- cowplot::draw_label("|SHAP| value", x = 0.015, y = 0.5, angle = 90)
+  y_label <- cowplot::draw_label("SHAP value (impact on model output)", x = 0.015, y = 0.5, angle = 90)
 
   final_plot <-
     cowplot::plot_grid(

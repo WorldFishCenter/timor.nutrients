@@ -15,4 +15,4 @@ github-repo: WorldFishCenter/timor.nutrients
 
 This book contains analyses and reports of the paper '***Modelling scenarios for nutrient-sensitive fisheries management***'.
 
-All data and code to generate the analyses are in <https://github.com/WorldFishCenter/timor.nutrients>.
+All data and code to generate the analyses are in organised in <https://github.com/WorldFishCenter/timor.nutrients>.
