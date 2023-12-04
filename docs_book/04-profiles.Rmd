@@ -24,7 +24,7 @@ This subdivision of the dataset was intended to reduce biases and enhance analyt
 
 ### Clustering and Classification
 
-Subsequently, we identified recurrent nutritional profiles for each dataset. We assessed the total within sum of square (WSS) of six nutrient concentrations---excluding selenium---to identify the optimal number of clusters (distinctive nutritional profiles). Once established the optimal number of clusters for each dataset, we proceeded with the K-means clustering method to organize the data into distinct groups based on similarities in nutrient concentrations. Each trip was grouped based on its nutrient concentration profile, thereby enabling us to discern patterns and categorize trips according to their nutritional profile.
+After data partition we identified recurrent nutritional profiles for each dataset. We assessed the total within sum of square (WSS) of six nutrient concentrations---excluding selenium---to identify the optimal number of clusters (distinctive nutritional profiles). Once established the optimal number of clusters for each dataset, we proceeded with the K-means clustering method to organize the data into distinct groups based on similarities in nutrient concentrations. Each trip was grouped based on its nutrient concentration profile, thereby enabling us to discern patterns and categorize trips according to their nutritional profile.
 The K-means algorithm functions by assigning each data point to the nearest cluster, based on the mean value of the points in the cluster. This iterative process continues until the assignment of points to clusters no longer changes, indicating that the clusters are as distinct as possible. The result is a set of clusters that represent unique nutritional profiles, each characterized by a specific combination of nutrient concentrations.
 
 Subsequent to the clustering, we conducted Permutational Multivariate Analysis of Variance (PERMANOVA) to validate the clustering methodology across four distinct datasets: Atauro AG, Atauro GN, Mainland AG, and Mainland GN. PERMANOVA is a robust non-parametric statistical test that evaluates whether there are significant differences between groups. Unlike traditional ANOVA, PERMANOVA does not rely on assumptions of normality and is therefore suitable for ecological data, which often do not follow normal distributions. Our PERMANOVA analysis was conducted on each of the four subsets on a distance matrix representing pairwise dissimilarities in nutrient concentrations across all fishing trips. This approach allowed us to test the hypothesis that the nutrient profiles of fishing trips within the same cluster are more similar to each other than to trips in different clusters.
@@ -43,11 +43,10 @@ Specifically, for subsets involving gill net fishing methods (Atauro GN and Main
 The WSS analysis indicated that either 4 or 5 clusters were the best for organizing each subset of our data. We decided to use 5 clusters for all subsets to maintain uniformity across our analyses and to better represent the varied patterns in nutrient profiles.
 
 The bar chart (Figure 5.1) displaying nutrient adequacy across nutrient profiles indicated the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch for various nutrients. The profiles are the result of k-means clustering, reflecting distinct groupings based on the type and quantity of nutrients present in the catch. 
+For the Atauro dataset using all gear types (Panel a),we observe diverse distributions of nutrient adequacy across the profiles Specifically, clusters 3 and 5 exhibit a notably higher content of vitamin A relative to the other clusters, whereas calcium and protein appear more evenly distributed among all nutrient profiles. The distribution of zinc varies greatly, with cluster 1 showing the greatest concentration. Iron is most abundant in cluster 4, distinguishing it from the rest.
 
-In the Atauro subsets (Panels a and b), there is a notable variation in the composition of nutrients. For example, some profiles are characterized by higher segments of protein and omega-3, suggestive of a catch rich in these particular nutrients. This is especially evident in the subset using gill nets, where the nutrient profile segments for protein and omega-3 are more prominent.
-Contrastingly, the Mainland subsets (Panels c and d) display a different nutrient composition. Here, the catch appears to be less concentrated in protein and omega-3 but shows relatively larger segments for iron and zinc, indicating a variance in the type of marine life caught or perhaps the nutritional quality of these catches.
+For the subset of data from Atauro using only gill net gear (Panel b), the distribution is characterized by higher proportions of calcium in clusters 2 and 4. Additionally, clusters 1 and 4 stand out due to their higher vitamin A content....etc...etc...
 
-Across all panels, the nutrient profiles exhibit significant differences in the levels of calcium and vitamin A. Certain profiles show substantial segments representing these nutrients, while others are noticeably lacking, suggesting that the nutrient density of the catches can vary greatly within the same region and gear type.
 
 ```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients. The clusters are enumerated on the y-axis, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis quantifies the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutrient adequacy across clusters. Panels (a) through (d) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -67,8 +66,10 @@ plot_bars <- function(x) {
     ggplot2::scale_x_continuous(n.breaks = 8) +
     ggplot2::theme(legend.position = "bottom") +
     ggplot2::labs(fill = "", x = "", y = "") +
-    ggplot2::theme(legend.position = "",
-                   plot.margin = unit(c(0, 0, 0, 0), "cm"))
+    ggplot2::theme(
+      legend.position = "",
+      plot.margin = unit(c(0, 0, 0, 0), "cm")
+    )
 }
 
 plots <- purrr::map(data$data_raw, plot_bars)
@@ -105,7 +106,6 @@ final_plot <-
   y_label
 
 final_plot
-
 ```
 
 The scatter plot from the k-means clustering (Figure 5.2) showed the distribution of nutrient profiles across different clusters in each data subset. The first two principal components explained a significant portion of the variance, indicating distinct groupings in nutrient profiles among the fishing trips. 
@@ -124,10 +124,14 @@ plots <-
 plots <- lapply(plots, function(x) {
   x +
     ggplot2::theme_minimal(10) +
-    ggplot2::theme(legend.position = "none",
-                   plot.margin = unit(c(0, 0, 0, 0), "cm"))+
-    ggplot2::labs(fill = "Nutritional\nprofile",
-                  color = "Nutritional\nprofile")
+    ggplot2::theme(
+      legend.position = "none",
+      plot.margin = unit(c(0, 0, 0, 0), "cm")
+    ) +
+    ggplot2::labs(
+      fill = "Nutritional\nprofile",
+      color = "Nutritional\nprofile"
+    )
 })
 
 legend_plot <- cowplot::get_legend(plots[[1]] +
@@ -208,16 +212,18 @@ plots <-
   )
 plots <- lapply(plots, function(x) {
   x +
-    ggplot2::theme(legend.position = "none",
-                   plot.margin = unit(c(0, 0, 0, 0), "cm")) +
+    ggplot2::theme(
+      legend.position = "none",
+      plot.margin = unit(c(0, 0, 0, 0), "cm")
+    ) +
     ggplot2::labs(x = "", y = "", color = "Nutritional\nprofile")
 })
 legend_plot <- cowplot::get_legend(plots[[1]] +
-                                     ggplot2::theme(
-                                       legend.position = "right",
-                                       legend.key.size = ggplot2::unit(0.8, "cm"),
-                                       legend.title = ggplot2::element_text(size = 12)
-                                     ))
+  ggplot2::theme(
+    legend.position = "right",
+    legend.key.size = ggplot2::unit(0.8, "cm"),
+    legend.title = ggplot2::element_text(size = 12)
+  ))
 combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "auto")
 
 x_label <- cowplot::draw_label("1 - Specificity", x = 0.5, y = 0.05)
@@ -238,8 +244,7 @@ final_plot
 ```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-
-models_metrics <- 
+models_metrics <-
   timor.nutrients::model_outputs %>%
   purrr::map(purrr::pluck(4)) %>%
   purrr::imap(~ summary(.x)) %>%
@@ -247,9 +252,9 @@ models_metrics <-
   dplyr::select(-.estimator) %>%
   tidyr::pivot_wider(names_from = subset, values_from = .estimate) %>%
   dplyr::rename(metric = .metric) %>%
-  na.omit() 
+  na.omit()
 
-models_auc <- 
+models_auc <-
   timor.nutrients::model_outputs %>%
   purrr::map(purrr::pluck(8)) %>%
   dplyr::bind_rows(.id = "subset") %>%
@@ -257,13 +262,15 @@ models_auc <-
   tidyr::pivot_wider(names_from = subset, values_from = estimate)
 
 
-dplyr::bind_rows(models_auc, models_metrics) %>% 
-  dplyr::bind_rows(models_auc, models_metrics) %>% 
-  dplyr::rename("Atauro AG" = model_atauro_AG,
-                "Mainland AG" = model_timor_AG,
-                "Atauro GN" = model_atauro_GN,
-                "Mainland GN" = model_timor_GN) %>% 
-  dplyr::mutate(dplyr::across(.cols = dplyr::where(is.numeric), ~ round(.x, 2))) %>% 
+dplyr::bind_rows(models_auc, models_metrics) %>%
+  dplyr::bind_rows(models_auc, models_metrics) %>%
+  dplyr::rename(
+    "Atauro AG" = model_atauro_AG,
+    "Mainland AG" = model_timor_AG,
+    "Atauro GN" = model_atauro_GN,
+    "Mainland GN" = model_timor_GN
+  ) %>%
+  dplyr::mutate(dplyr::across(.cols = dplyr::where(is.numeric), ~ round(.x, 2))) %>%
   reactable::reactable(
     theme = reactablefmtr::fivethirtyeight(centered = TRUE),
     defaultExpanded = TRUE,
@@ -280,21 +287,130 @@ dplyr::bind_rows(models_auc, models_metrics) %>%
       )
     )
   )
-
 ```
 Table 5.2: Performance Metrics for XGBoost Model Across Fishing Data Subsets. This table provides a comprehensive overview of the predictive performance of an XGBoost classification model for four distinct subsets of fishing data: Atauro with all gears (ATAURO AG), Atauro with gill nets (ATAURO GN), Mainland with all gears (MAINLAND AG), and Mainland with gill nets (MAINLAND GN). Key performance indicators include ROC-AUC (area under the receiver operating characteristic curve), accuracy, Kappa (kap), sensitivity (sens), specificity (spec), positive predictive value (ppv), negative predictive value (npv), Matthew's correlation coefficient (mcc), Youden's J index (j_index), balanced accuracy (bal_accuracy), detection prevalence, precision, recall, and F measure (f_meas). The metrics collectively reflect the model's ability to discriminate between nutritional profiles, its overall accuracy, and the balance between the sensitivity and specificity for each subset.
 
 
-Shap values results...
-```{r model-explanation, echo=FALSE, message=FALSE, warning=FALSE,fig.height=9, fig.width=7}
-plot_model_shaps(timor.nutrients::shap_results$model_atauro_GN,
-                 model_type = "gn",
-                 cols = 1,
-                 alpha = 0.75)
+The analysis of SHAP values from gill net models reveals the interaction between mesh size and habitat in predicting nutrient profiles. In the Atauro region, as depicted in Figure 5.4, smaller mesh sizes (below 40 mm) are consistently linked to a higher prediction of nutrient profile NP1 across various habitats, especially reefs, beaches, and mangroves. This suggests that smaller mesh sizes are generally effective across these diverse marine environments for predicting NP1.
 
+For nutrient profile NP2, there is a noticeable increase in SHAP values within the 40 to 60 mm mesh size range, with reefs and beaches showing this pattern most clearly. This indicates that medium mesh sizes are particularly predictive of NP2 in these ecological settings.
+
+Larger mesh sizes, specifically those between 60 and 70 mm, have been associated with nutrient profiles NP3 and NP4 across several habitats, including reefs, beaches, and mangroves. A more specific association is observed with mesh sizes between 70 and 80 mm, which are predominantly linked to predicting NP4. For the largest mesh sizes analyzed, nutrient profile NP5 emerges as the most likely prediction among the various profiles, especially in the Atauro data subset.
+
+The SHAP values derived from the mainland data present a more varied pattern. Small mesh sizes (less than 35 mm) used in deep water and FAD environments are linked with the prediction of nutrient profiles NP3 and NP4, with the latter also being associated with reef and beach habitats. Mesh sizes in the range of 40 to 65 mm are strong predictors for nutrient profiles NP1 and NP5. Profile NP1 is most commonly predicted in reef and FAD settings, while NP5 is typically associated with deeper waters. At the larger end of the mesh size spectrum, nutrient profile NP2 becomes the most probable prediction, particularly when fishing occurs in deeper habitats.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE,fig.height=7, fig.width=8,  fig.cap="Differential influence of mesh size on nutritional profile predictions across habitats. The figure compiles subplots for five distinct nutrient profiles (NP1-NP5) as predicted by gill net XGBoost models, with each subplot showing the distribution of SHAP values across varying mesh sizes. Each data point is colored to represent different habitats: Beach, Deep, FAD, Mangrove, Reef, Seagrass and Traditional FAD, providing insight into the habitat-specific impact of mesh size on the predictive accuracy of the model. The x-axis delineates the mesh size range, while the y-axis quantifies the magnitude of the SHAP value, with positive values denoting a heightened probability of a nutrient profile's occurrence and negative values indicating a reduced probability."}
+# atauro gn
+sha <- shapviz::shapviz(timor.nutrients::shap_results$model_atauro_GN)
+shapviz_object <- purrr::map(sha, plot_shap, model_type = "gn", alpha = 0.3)
+
+plots <- lapply(shapviz_object, function(x) {
+  x +
+    ggplot2::theme(
+      legend.position = "none",
+      plot.margin = unit(c(0, 0, 0, 0), "cm")
+    ) +
+    ggplot2::labs(x = "", y = "")
+})
+
+combined_plots_atauro <- cowplot::plot_grid(
+  plotlist = plots,
+  ncol = 1,
+  label_fontface = "bold",
+  label_size = 6.5,
+  hjust = -0.5,
+  vjust = -0.5,
+  align = "hv",
+  labels = c("NP1", "NP2", "NP3", "NP4", "NP5")
+)
+
+# timor gn
+sha <- shapviz::shapviz(timor.nutrients::shap_results$model_timor_GN)
+shapviz_object <- purrr::map(sha, plot_shap, model_type = "gn", alpha = 0.3)
+
+plots <- lapply(shapviz_object, function(x) {
+  x +
+    ggplot2::theme(
+      legend.position = "none",
+      plot.margin = unit(c(0, 0, 0, 0), "cm")
+    ) +
+    ggplot2::labs(x = "", y = "")
+})
+
+legend_plot <- cowplot::get_legend(plots[[1]] +
+  ggplot2::theme(
+    plot.margin = unit(c(0, 0, 0, 0), "cm"),
+    legend.title = ggplot2::element_text(size = 11),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.justification = "center",
+    legend.box.just = "bottom"
+  ))
+combined_plots_timor <- cowplot::plot_grid(
+  plotlist = plots,
+  ncol = 1,
+  label_fontface = "bold",
+  label_size = 6.5,
+  hjust = -0.5,
+  vjust = -0.5,
+  align = "hv",
+  labels = c("NP1", "NP2", "NP3", "NP4", "NP5")
+)
+
+gn_plots <- cowplot::plot_grid(combined_plots_atauro,
+  combined_plots_timor,
+  labels = c("Atauro GN", "Mainland GN"),
+  align = "hv",
+  label_size = 9,
+  scale = 0.9,
+  hjust = -1.5
+)
+
+
+x_label <- cowplot::draw_label("Mesh size (mm)", x = 0.5, y = 0.025)
+# } else {
+#  x_label <- cowplot::draw_label("Habitat x Gear type ", x = 0.5, y = 0.05)
+# }
+y_label <- cowplot::draw_label("SHAP value", x = 0.015, y = 0.5, angle = 90)
+
+body_plot <-
+  gn_plots +
+  x_label +
+  y_label
+
+final_plot <-
+  cowplot::plot_grid(
+    body_plot,
+    legend_plot,
+    ncol = 1,
+    nrow = 2,
+    rel_heights = c(2.5, 0.15),
+    greedy = FALSE
+  )
+final_plot
 ```
+
+SHAP results of all gears models ...
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE,fig.height=7, fig.width=8,  fig.cap="Lore ipsum"}
+plot_model_shaps(timor.nutrients::shap_results$model_atauro_AG,
+  model_type = "ag",
+  cols = 2,
+  alpha = 0.25,
+  drop_legend = TRUE
+)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE,fig.height=8, fig.width=9,  fig.cap="Lore ipsum2"}
+plot_model_shaps(timor.nutrients::shap_results$model_timor_AG,
+  model_type = "ag",
+  cols = 2,
+  alpha = 0.25,
+  drop_legend = TRUE
+)
+```
+
 
 ## Checks and limitations
 
 -   Are we considering all the possible potential good predictors?
-

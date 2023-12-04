@@ -4,7 +4,13 @@
 \alias{plot_model_shaps}
 \title{Plot SHAP Values for Multiple Models}
 \usage{
-plot_model_shaps(data_shaps = NULL, model_type = NULL, alpha = 0.2, cols = 1)
+plot_model_shaps(
+  data_shaps = NULL,
+  model_type = NULL,
+  alpha = 0.2,
+  cols = 1,
+  drop_legend = FALSE
+)
 }
 \arguments{
 \item{data_shaps}{A data frame or list of data frames containing SHAP values and corresponding features.}
@@ -14,6 +20,8 @@ plot_model_shaps(data_shaps = NULL, model_type = NULL, alpha = 0.2, cols = 1)
 \item{alpha}{The alpha value for geom_jitter in ggplot2, controlling point transparency.}
 
 \item{cols}{The number of columns in the plot layout.}
+
+\item{drop_legend}{Wether to return legend. Default is TRUE.}
 }
 \value{
 A ggplot object representing the combined grid of SHAP value plots for different models.
