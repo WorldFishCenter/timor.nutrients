@@ -23,7 +23,7 @@ clustering-and-classification
 results
 clusters
 xgboost-model
-checks-and-limitations-1
+preliminary-considerations
 simple
 ml-model-interpretation
 ml-model-explanation

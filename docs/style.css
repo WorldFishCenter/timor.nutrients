@@ -1,5 +1,8 @@
-body {
-    font-family: 'Roboto', sans-serif;
+.book.font-family-0 {
+  font-family: Georgia, serif;
+}
+.book.font-family-1 {
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
 }
 
 p.caption {
