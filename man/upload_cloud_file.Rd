@@ -14,15 +14,8 @@ is also supported.}
 
 \item{options}{named list with cloud provider options, see details}
 
-\item{name}{What to call the file once uploaded. Default is the filepath}
-}
-\value{
-If `provider` is "gcs" and if successful a list of medatada objects
-}
-\description{
-Upload a local file to a cloud storage bucket
-}
-\details{
+\item{name}{What to call the file once uploaded. Default is the filepath
+
 ### Google Cloud Services
 
 For Google Cloud Services ("gcs") options must be a list with two fields:
@@ -32,7 +25,13 @@ have downloaded from your Google Project (if [cloud_storage_authenticate] has
 not been called before).
 
 This function uses [googleCloudStorageR::gcs_upload] under the hood to upload
-the file.
+the file.}
+}
+\value{
+If `provider` is "gcs" and if successful a list of medatada objects
+}
+\description{
+Upload a local file to a cloud storage bucket
 }
 \examples{
 

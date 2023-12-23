@@ -27,7 +27,19 @@ return all extensions founds}
 \item{exact_match}{logical indicating whether the prefix should be matched
 exactly}
 
-\item{options}{named list with cloud provider options, see details}
+\item{options}{named list with cloud provider options, see details
+
+
+### Google Cloud Services
+
+For Google Cloud Services ("gcs") options must be a list with two fields:
+`bucket` with the bucketname (character) you are uploading to, and
+`service_account_key` with the contents of the authentication json file you
+have downloaded from your Google Project (if [cloud_storage_authenticate] has
+not been called before).
+
+This function uses [googleCloudStorageR::gcs_upload] under the hood to upload
+the file.}
 }
 \value{
 A string vector with the object names in the cloud storage that match
@@ -38,18 +50,6 @@ Obtain the full name (e.g.
 `timor-landings-v2_metadata__20210326084600_54617b3__.json`) of a cloud
 storage object. If there are more than one object matching the prefix,
 version, and extension, a vector with all the names is returned.
-}
-\details{
-### Google Cloud Services
-
-For Google Cloud Services ("gcs") options must be a list with two fields:
-`bucket` with the bucketname (character) you are uploading to, and
-`service_account_key` with the contents of the authentication json file you
-have downloaded from your Google Project (if [cloud_storage_authenticate] has
-not been called before).
-
-This function uses [googleCloudStorageR::gcs_upload] under the hood to upload
-the file.
 }
 \examples{
 

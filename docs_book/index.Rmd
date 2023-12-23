@@ -1,7 +1,7 @@
 ---
 title: "Modelling scenarios for nutrient-sensitive fisheries management"
-author: "Lore"
-date: "`r Sys.Date()`"
+author: "Lorenzo Longobardi"
+date: "Last update: `r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book

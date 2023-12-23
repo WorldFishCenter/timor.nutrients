@@ -79,8 +79,19 @@ get_nutrients_table <- function(pars, summarise = TRUE, convert = TRUE) {
       Vitamin_A_mu = .data$VitaminA
     ) %>%
     dplyr::filter(!.data$interagency_code %in% unique(fao_groups$interagency_code)) %>%
-    dplyr::bind_rows(fao_groups)
+    dplyr::bind_rows(fao_groups) %>%
+    dplyr::filter(!.data$interagency_code == "FLY")
 
+  # use pelagic fish groups to infer FLY nutrients values
+  pelagics <-
+    nutrients_tab %>%
+    dplyr::filter(.data$interagency_code %in% c("CLP", "RAX", "SDX")) %>%
+    dplyr::summarise(dplyr::across(dplyr::where(is.numeric), ~ median(.x, na.rm = T))) %>%
+    dplyr::mutate(interagency_code = "FLY")
+
+  nutrients_tab <-
+    nutrients_tab %>%
+    dplyr::bind_rows(pelagics)
 
   if (isTRUE(convert)) {
     nutrients_tab <-
@@ -130,6 +141,44 @@ get_rfish_table <- function(pars) {
   readr::read_rds(file = rfish_rds)
 }
 
+get_fao_composition <- function() {
+  fao_comp <- readr::read_csv("https://github.com/WorldFishCenter/timor.nutrients/raw/main/inst/fao_food_composition.csv")
+
+  octopus <- c("OCT", "OCT")
+  squids <- c("SQZ", "SQR", "OMZ", "CTL", "CTC")
+  cockles <- c("CLV", "SVE")
+  shrimps <- c("CSH", "PAL", "PAN", "PRA", "PEZ", "ENS", "MPM", "MPN", "PRB", "WKP", "PBA", "GIT", "TIP", "PNV", "SHS")
+  crabs <- c("CAD", "DUN", "CRE", "PCR", "SWM", "CRB", "SCD", "MUD")
+  lobsters <- c("NEX", "LBA", "LBE", "NEP", "VLO", "LOR")
+
+  fao_comp %>%
+    dplyr::rename(interagency_code = .data$integragency_code) %>%
+    dplyr::filter(.data$food_state == "r") %>%
+    dplyr::filter(.data$interagency_code %in% c(octopus, squids, cockles, shrimps, crabs, lobsters)) %>%
+    dplyr::mutate(interagency_code = dplyr::case_when(
+      .data$interagency_code %in% octopus ~ "OCZ",
+      .data$interagency_code %in% squids ~ "IAX",
+      .data$interagency_code %in% cockles ~ "COZ",
+      .data$interagency_code %in% shrimps ~ "PEZ",
+      .data$interagency_code %in% crabs ~ "CRA",
+      .data$interagency_code %in% lobsters ~ "SLV",
+      TRUE ~ .data$interagency_code
+    )) %>%
+    # dplyr::group_by(.data$interagency_code) %>%
+    # dplyr::summarise(dplyr::across(.data$`protein(g)`:.data$`omega3(g)`, ~ median(.x, na.rm = TRUE))) %>%
+    dplyr::rename(
+      Protein_mu = .data$`protein(g)`,
+      Calcium_mu = .data$`calcium(mg)`,
+      Iron_mu = .data$`iron(mg)`,
+      Zinc_mu = .data$`zinc(mg)`,
+      Selenium_mu = .data$`selenium(mcg)`,
+      Vitamin_A_mu = .data$`vitaminA(mcg)`,
+      Omega_3_mu = .data$`omega3(g)`
+    ) %>%
+    dplyr::select(.data$interagency_code, .data$Protein_mu:.data$Omega_3_mu)
+}
+
+
 get_merged_trips <- function(pars, ...) {
   trips <-
     cloud_object_name(
@@ -163,39 +212,4 @@ get_merged_trips <- function(pars, ...) {
       TRUE ~ reporting_region
     )) %>%
     dplyr::select(-.data$reporting_region_fill)
-}
-
-get_fao_composition <- function() {
-  fao_comp <- readr::read_csv(system.file("fao_food_composition.csv", package = "timor.nutrients"))
-
-  octopus <- c("OCT", "OCT")
-  squids <- c("SQZ", "SQR", "OMZ", "CTL", "CTC")
-  cockles <- c("CLV", "SVE")
-  shrimps <- c("CSH", "PAL", "PAN", "PRA", "PEZ", "ENS", "MPM", "MPN", "PRB", "WKP", "PBA", "GIT", "TIP", "PNV", "SHS")
-  crabs <- c("CAD", "DUN", "CRE", "PCR", "SWM", "CRB", "SCD", "MUD")
-  lobsters <- c("NEX", "LBA", "LBE", "NEP", "VLO", "LOR")
-
-  fao_comp %>%
-    dplyr::filter(food_state == "r") %>%
-    dplyr::filter(integragency_code %in% c(octopus, squids, cockles, shrimps, crabs, lobsters)) %>%
-    dplyr::mutate(interagency_code = dplyr::case_when(
-      integragency_code %in% octopus ~ "OCZ",
-      integragency_code %in% squids ~ "IAX",
-      integragency_code %in% cockles ~ "COZ",
-      integragency_code %in% shrimps ~ "PEZ",
-      integragency_code %in% crabs ~ "CRA",
-      integragency_code %in% lobsters ~ "SLV",
-      TRUE ~ integragency_code
-    )) %>%
-    dplyr::group_by(interagency_code) %>%
-    dplyr::summarise(dplyr::across(`protein(g)`:`omega3(g)`, ~ median(.x, na.rm = TRUE))) %>%
-    dplyr::rename(
-      Protein_mu = `protein(g)`,
-      Calcium_mu = `calcium(mg)`,
-      Iron_mu = `iron(mg)`,
-      Zinc_mu = `zinc(mg)`,
-      Selenium_mu = `selenium(mcg)`,
-      Vitamin_A_mu = `vitaminA(mcg)`,
-      Omega_3_mu = `omega3(g)`
-    )
 }

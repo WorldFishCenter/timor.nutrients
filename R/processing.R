@@ -77,14 +77,15 @@ get_model_data <- function() {
     tidyr::pivot_wider(names_from = "nutrient", values_from = "people_rni_kg") %>%
     dplyr::mutate(quarter = lubridate::quarter(landing_date)) %>%
     dplyr::select(landing_date, quarter, dplyr::everything()) %>%
-    dplyr::group_by(landing_date, quarter, vessel_type, habitat, gear_type, mesh_size) %>%
+    dplyr::group_by(landing_id, landing_date, quarter, vessel_type, habitat, gear_type, mesh_size) %>%
     dplyr::summarise(dplyr::across(is.numeric, ~ median(.x, na.rm = T))) %>%
     dplyr::ungroup() %>%
     na.omit()
 
-  # factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
+  #factoextra::fviz_nbclust(df[, 8:13], kmeans, method = "wss")
+  # 4
   set.seed(555)
-  k2 <- kmeans(df[, 7:12], centers = 5, nstart = 500)
+  k2 <- kmeans(df[, 8:13], centers = 5, nstart = 500)
 
   timor_GN_raw <-
     dplyr::tibble(
@@ -102,7 +103,7 @@ get_model_data <- function() {
 
   profiles_plot_timor_GN <-
     factoextra::fviz_cluster(k2,
-      data = df[, 6:11],
+      data = df[, 8:13],
       geom = c("point"),
       shape = 19,
       alpha = 0.25,
@@ -131,21 +132,20 @@ get_model_data <- function() {
     tidyr::pivot_wider(names_from = "nutrient", values_from = "people_rni_kg") %>%
     dplyr::mutate(quarter = lubridate::quarter(landing_date)) %>%
     dplyr::select(landing_date, quarter, dplyr::everything()) %>%
-    dplyr::group_by(landing_date, quarter, vessel_type, habitat, gear_type) %>%
+    dplyr::group_by(landing_id, landing_date, quarter, vessel_type, habitat, gear_type) %>%
     dplyr::summarise(dplyr::across(is.numeric, ~ median(.x, na.rm = T))) %>%
     dplyr::ungroup() %>%
     na.omit()
 
-  # factoextra::fviz_nbclust(df[, 6:11], kmeans, method = "wss")
+  #factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
   set.seed(555)
-  k2 <- kmeans(df[, 6:11], centers = 5, nstart = 500)
+  k2 <- kmeans(df[, 7:12], centers = 5, nstart = 500)
 
   timor_AG_raw <-
     dplyr::tibble(
       clusters = as.character(k2$cluster),
       df
     )
-
 
   timor_AG <-
     dplyr::tibble(
@@ -158,7 +158,7 @@ get_model_data <- function() {
 
   profiles_plot_timor_AG <-
     factoextra::fviz_cluster(k2,
-      data = df[, 6:11],
+      data = df[, 7:12],
       geom = c("point"),
       shape = 19,
       alpha = 0.25,
@@ -187,14 +187,14 @@ get_model_data <- function() {
     tidyr::pivot_wider(names_from = "nutrient", values_from = "people_rni_kg") %>%
     dplyr::mutate(quarter = lubridate::quarter(landing_date)) %>%
     dplyr::select(landing_date, quarter, dplyr::everything()) %>%
-    dplyr::group_by(landing_date, quarter, vessel_type, habitat, gear_type, mesh_size) %>%
+    dplyr::group_by(landing_id, landing_date, quarter, vessel_type, habitat, gear_type, mesh_size) %>%
     dplyr::summarise(dplyr::across(is.numeric, ~ median(.x, na.rm = T))) %>%
     dplyr::ungroup() %>%
     na.omit()
 
-  # factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
+  #factoextra::fviz_nbclust(df[, 8:13], kmeans, method = "wss")
   set.seed(555)
-  k2 <- kmeans(df[, 7:12], centers = 5, nstart = 500)
+  k2 <- kmeans(df[, 8:13], centers = 5, nstart = 500)
 
   atauro_GN_raw <-
     dplyr::tibble(
@@ -212,7 +212,7 @@ get_model_data <- function() {
 
   profiles_plot_atauro_GN <-
     factoextra::fviz_cluster(k2,
-      data = df[, 6:11],
+      data = df[, 8:13],
       geom = c("point"),
       shape = 19,
       alpha = 0.25,
@@ -242,14 +242,14 @@ get_model_data <- function() {
     tidyr::pivot_wider(names_from = "nutrient", values_from = "people_rni_kg") %>%
     dplyr::mutate(quarter = lubridate::quarter(landing_date)) %>%
     dplyr::select(landing_date, quarter, dplyr::everything()) %>%
-    dplyr::group_by(landing_date, quarter, vessel_type, habitat, gear_type) %>%
+    dplyr::group_by(landing_id, landing_date, quarter, vessel_type, habitat, gear_type) %>%
     dplyr::summarise(dplyr::across(is.numeric, ~ median(.x, na.rm = T))) %>%
     dplyr::ungroup() %>%
     na.omit()
 
-  # factoextra::fviz_nbclust(df[, 6:11], kmeans, method = "wss")
+  #factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
   set.seed(555)
-  k2 <- kmeans(df[, 6:11], centers = 5, nstart = 500)
+  k2 <- kmeans(df[, 7:12], centers = 5, nstart = 500)
 
 
   atauro_AG_raw <-
@@ -269,7 +269,7 @@ get_model_data <- function() {
 
   profiles_plot_atauro_AG <-
     factoextra::fviz_cluster(k2,
-      data = df[, 6:11],
+      data = df[, 7:12],
       geom = c("point"),
       shape = 19,
       alpha = 0.25,
@@ -342,7 +342,8 @@ run_permanova_clusters <- function(x, permutations = NULL, parallel = NULL) {
   permanova_results <- vegan::adonis2(dist_matrix ~ clusters,
     data = anov_dat,
     parallel = parallel,
-    permutations = permutations
+    permutations = permutations,
+    save.memory = TRUE
   )
   broom::tidy(permanova_results)
 }

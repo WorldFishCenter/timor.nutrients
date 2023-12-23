@@ -16,6 +16,7 @@ Imports:
     doParallel,
     dplyr,
     factoextra,
+    future,
     magrittr,
     rlang,
     vegan
