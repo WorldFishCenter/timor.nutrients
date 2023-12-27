@@ -17,6 +17,7 @@ Imports:
     dplyr,
     factoextra,
     future,
+    ggchicklet,
     magrittr,
     rlang,
     tidytext,

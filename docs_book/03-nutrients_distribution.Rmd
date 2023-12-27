@@ -46,7 +46,8 @@ base_plot <-
   dplyr::mutate(tot = sum(rdi, na.rm = T)) %>%
   dplyr::arrange(-tot) %>%
   dplyr::left_join(tot_catch) %>%
-  tidyr::replace_na(list(catch = 0))
+  tidyr::replace_na(list(catch = 0)) %>% 
+  dplyr::arrange(dplyr::desc(nutrient))
 
 tot_catch_plot <-
   base_plot %>%
@@ -56,32 +57,44 @@ tot_catch_plot <-
     tot = dplyr::first(tot)
   )
 
-
 ggplot2::ggplot() +
   ggplot2::theme_minimal() +
-  ggplot2::geom_col(base_plot, mapping = ggplot2::aes(rdi, reorder(catch_name, tot), fill = nutrient), alpha = 0.85) +
+  ggchicklet::geom_chicklet(base_plot,
+    mapping = ggplot2::aes(
+      y = rdi, x = reorder(catch_name, tot),
+      fill = nutrient,
+      color = nutrient
+    ),
+    position = ggplot2::position_stack(reverse = FALSE),
+    alpha = 0.8,
+    width = 1
+  ) +
   geom_text(base_plot,
-    mapping = aes(rdi, reorder(catch_name, tot), label = round(rdi, 2) * 100),
+    mapping = aes(y = rdi, x = reorder(catch_name, tot), label = round(rdi, 2) * 100),
     position = position_stack(0.5),
     color = "white",
-    size = 3,
-    inherit.aes = FALSE
+    size = 3
   ) +
   geom_text(tot_catch_plot,
-    mapping = aes(tot, reorder(catch_name, tot),
+    mapping = aes(
+      y = tot, x = reorder(catch_name, tot),
       label = scales::comma(round(catch, 0), suffix = " t"),
-      alpha = catch
+      alpha = sqrt(catch)
     ),
     size = 4,
-    nudge_x = 0.1
+    nudge_y = 0.1
   ) +
   ggplot2::scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
-  ggplot2::scale_color_viridis_c() +
-  ggplot2::scale_x_continuous(labels = scales::percent, n.breaks = 10) +
-  ggplot2::labs(y = "", x = "Matched RNI from 100g portion", fill = "") +
-  ggplot2::theme(legend.position = "bottom") +
-  coord_cartesian(expand =  FALSE, xlim = c(0, 1.55)) +
-  guides(alpha = "none")
+  ggplot2::scale_color_manual(values = timor.nutrients::palettes$nutrients_palette) +
+  ggplot2::scale_y_continuous(labels = scales::percent, n.breaks = 10) +
+  ggplot2::labs(x = "", y = "Matched RNI from 100g portion", fill = "") +
+  ggplot2::theme(legend.position = "bottom",
+                panel.grid.minor  = element_blank()) +
+  coord_flip(expand = FALSE,  ylim = c(0, 1.55)) +
+  guides(
+    alpha = "none",
+    color = "none"
+  )
 
 ```
 
