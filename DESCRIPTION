@@ -19,6 +19,7 @@ Imports:
     future,
     magrittr,
     rlang,
+    tidytext,
     vegan
 Suggests:
     ggforce,
@@ -45,7 +46,6 @@ Suggests:
     themis,
     tidyr,
     tidyselect,
-    tidytext,
     tune,
     vip,
     workflows,
