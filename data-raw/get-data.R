@@ -17,9 +17,9 @@ RDI_tab <-
 
 timor_population <-
   readr::read_csv(system.file("timor_census_2022.csv", package = "timor.nutrients")) %>%
-  dplyr::filter(!gender == "Total") %>%
+  dplyr::filter(gender == "Female") %>%
   dplyr::group_by(region) %>%
-  dplyr::filter(age > 5) %>%
+  dplyr::filter(age > 14 & age < 50) %>%
   dplyr::summarise(population = sum(count, na.rm = T)) %>%
   dplyr::add_row(region = "All", population = sum(.$population)) %>%
   dplyr::ungroup()

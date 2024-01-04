@@ -2,9 +2,9 @@
 
 ## Timor-Est SSF nutritional scenario
 
-The table uses the [EC dataset][data] and summarizes the main statistics on nutrient supply for each region. Below is a description of each table' column:
+The table uses the [EC dataset][data] and summarizes the main statistics on nutrient supply for each region related to **WRA**, the number of woman of reproductive age (15-49 years old). Below is a description of each table' column:
 
--   **MUNICIPALITY (POPULATION)**: Municipality and number of people \> 5 years old in 2022.
+-   **MUNICIPALITY (POPULATION)**: Municipality and WRA number in 2022.
 
 -   **NUTRIENT**: Nutrient of reference
 
@@ -18,7 +18,7 @@ The table uses the [EC dataset][data] and summarizes the main statistics on nutr
 
 The 20% of RNIs values was take as reference in consideration of the fact that [an 'adequate diet' is expected to comprise 5 food group](https://www.fao.org/documents/card/en/c/cc4576en). RNIs were then converted from grams to kg (dividing by 1000) and the requirements was calculated as: $\frac{Anuual\ supply\ (kg)}{(RNI\times 0.20) \ / 1000} /365$
 
--   **POPULATION MEETING RNI REQUIREMENTS**: Percentage of the population meeting the RNI requirements in each municipality: $\frac{Number\ of\ people\ supplied\ daily}{Municipality\ population} \times 100$
+-   **POPULATION MEETING RNI REQUIREMENTS**: Percentage of the WRA population meeting the RNI requirements in each municipality: $\frac{Number\ of\ people\ supplied\ daily}{Municipality\ population} \times 100$
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 color_pal <- c("#f5fcdf", "#f2fbd2", "#c9ecb4", "#93d3ab", "#35b0ab")
