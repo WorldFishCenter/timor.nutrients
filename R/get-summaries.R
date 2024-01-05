@@ -71,6 +71,17 @@ generate_summary_table <- function(use_20 = TRUE) {
 
   tab$region <- factor(tab$region, levels = unique(tab$region))
 
+  all_nutrients <-
+    tab %>%
+    dplyr::filter(!nutrient == "selenium") %>%
+    dplyr::group_by(region) %>%
+    dplyr::summarise(dplyr::across(dplyr::where(is.numeric), ~ sum(.x))) %>%
+    dplyr::mutate(nutrient = "all nutrients (except selenium)")
+
+  tab <-
+    tab %>%
+    dplyr::bind_rows(all_nutrients)
+
   reactable::reactable(
     tab,
     theme = reactablefmtr::fivethirtyeight(centered = TRUE),
