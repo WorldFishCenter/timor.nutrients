@@ -5,10 +5,11 @@ fig:unnamed-chunk-4
 fig:unnamed-chunk-5
 fig:unnamed-chunk-6
 fig:unnamed-chunk-7
+fig:unnamed-chunk-8
 fig:model-settings
-fig:unnamed-chunk-10
 fig:unnamed-chunk-11
 fig:unnamed-chunk-12
+fig:unnamed-chunk-13
 content
 data
 catch-weight-and-nutrional-content
@@ -19,6 +20,7 @@ distribution
 fish-groups
 nutrional-and-price-values
 habitat-and-gear-type
+a-focus-on-habitats-nutritional-contribution
 profiles
 methods
 data-analysis-design-and-subset-division
