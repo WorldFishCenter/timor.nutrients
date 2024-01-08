@@ -103,12 +103,18 @@ kobo_trips <-
   ) %>%
   dplyr::ungroup()
 
+catch_data <-
+  trips %>%
+  dplyr::filter(landing_id %in% kobo_trips$landing_id) %>%
+  dplyr::select(landing_id, landing_value, landing_catch)
+
 usethis::use_data(RDI_tab, overwrite = TRUE)
 usethis::use_data(catch_groups, overwrite = TRUE)
 usethis::use_data(timor_population, overwrite = TRUE)
 usethis::use_data(nutrients_table, overwrite = TRUE)
 usethis::use_data(region_stats, overwrite = TRUE)
 usethis::use_data(kobo_trips, overwrite = TRUE)
+usethis::use_data(catch_data, overwrite = TRUE)
 devtools::document()
 
 #data_list <- get_model_data()

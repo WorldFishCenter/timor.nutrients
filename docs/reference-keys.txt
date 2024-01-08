@@ -4,10 +4,11 @@ fig:unnamed-chunk-3
 fig:unnamed-chunk-4
 fig:unnamed-chunk-5
 fig:unnamed-chunk-6
+fig:unnamed-chunk-7
 fig:model-settings
-fig:unnamed-chunk-9
 fig:unnamed-chunk-10
 fig:unnamed-chunk-11
+fig:unnamed-chunk-12
 content
 data
 catch-weight-and-nutrional-content
@@ -16,6 +17,7 @@ highlight
 timor-est-ssf-nutritional-scenario
 distribution
 fish-groups
+nutrional-and-price-values
 habitat-and-gear-type
 profiles
 methods

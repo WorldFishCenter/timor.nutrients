@@ -4,7 +4,7 @@ This section presents the analyses that illustrates the distribution of nutrient
 
 ## Fish groups 
 
-```{r echo=FALSE, fig.height=8, fig.width=7, message=FALSE, warning=FALSE, out.width='80%', fig.cap="The bar chart illustrates the contribution of a variety of marine food sources to the Recommended Nutrient Intake (RNI) for six fundamental nutrients, based on a 100g portion. The x-axis represents the proportion of RNI fulfilled, with the 100% benchmark signifying the complete RNI for an adult woman of reproductive age. Each bar is a color-segmented stacked visual, with distinct hues corresponding to individual nutrients, and white numbers within indicating the specific percentage contribution of each nutrient. The chart incorporates the total annual catch in metric tons for each marine species from 2018 to 2023, presented at the end of each bar, providing a view of both the nutritional value and the harvest volume of these essential food sources. The transparency of these values is adjusted to reflect each species' relative contribution to the overall catch"}
+```{r echo=FALSE, fig.height=8, fig.width=7, message=FALSE, warning=FALSE, out.width='80%', fig.cap="The bar chart illustrates the contribution of a variety of marine food sources to the Recommended Nutrient Intake (RNI) for six fundamental nutrients, based on a 100g portion. Each bar is a color-segmented stacked visual, with distinct hues corresponding to individual nutrients, and white numbers within indicating the specific percentage contribution of each nutrient. The chart incorporates the mean annual catch in metric tons for each marine species from 2018 to 2023, presented at the end of each bar, providing a view of both the nutritional value and the harvest volume of these essential food sources. The transparency of these values is adjusted to reflect each species' relative contribution to the mean annual catch"}
 
 library(ggplot2)
 library(ggforce)
@@ -18,8 +18,11 @@ catch_groups_name <-
 
 tot_catch <-
   timor.nutrients::region_stats %>%
-  dplyr::group_by(grouped_taxa) %>%
+  dplyr::mutate(year = lubridate::year(date_bin_start)) %>% 
+  dplyr::group_by(grouped_taxa, year) %>%
   dplyr::summarise(catch = sum(catch)) %>%
+  dplyr::group_by(grouped_taxa) %>%
+  dplyr::summarise(catch = mean(catch)) %>% 
   dplyr::left_join(catch_groups_name) %>%
   dplyr::select(-grouped_taxa) %>%
   dplyr::select(catch_name, catch) %>%
@@ -134,6 +137,84 @@ timor.nutrients::region_stats %>%
   labs(x = "tons", y = "") +
   theme(legend.position = "") +
   scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette)
+```
+
+## Nutrional and price values
+
+```{r echo=FALSE, fig.height=3.5, fig.width=6, message=FALSE, warning=FALSE, fig.cap="Comparative analysis of nutritional score versus economic accessibility for key fish groups. This scatter plot displays the relationship between the cumulative nutritional score and the market price for various fish groups within Timor-Leste fishery. The x-axis quantifies the cumulative contribution to the Recommended Nutrient Intake (RNI) for six essential nutrients (zinc, protein, omega-3, calcium, iron, vitamin A) from a 100g portion of each fish group. The y-axis represents the average market price per kilogram for each group. Dot size and the accompanying numerical labels reflect the relative catch percentage of each group, serving as an index of accessibility and availability. "}
+
+revenue_dat <-
+  timor.nutrients::catch_data %>%
+  tidyr::unnest(landing_catch) %>% 
+  tidyr::unnest(length_frequency) %>% 
+  dplyr::filter(!is.na(.data$weight), !is.na(landing_value)) %>%
+  dplyr::group_by(landing_id) %>% 
+  dplyr::mutate(n = dplyr::n()) %>%
+  dplyr::filter(n == 1) %>% 
+  dplyr::select(-n) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::mutate(tot_obs = length(unique(landing_id))) %>% 
+  dplyr::group_by(catch_taxon) %>% 
+  dplyr::mutate(catch_percent = dplyr::n() / tot_obs * 100) %>% 
+  dplyr::filter(catch_taxon %in% c("CLP", "GZP", "TUN", "SDX", "FLY", "CGX")) %>% 
+  dplyr::group_by(.data$landing_id, .data$catch_taxon) %>%
+  dplyr::summarise(
+    landing_value = dplyr::first(landing_value),
+    catch_percent = dplyr::first(catch_percent),
+    dplyr::across(
+      c(.data$weight:.data$Vitamin_A_mu),
+      ~ sum(.x)
+    ))
+
+
+models <- 
+  revenue_dat %>% 
+  dplyr::ungroup() %>% 
+  dplyr::select(catch_taxon, landing_value, weight) %>% 
+  split(.$catch_taxon) %>% 
+  purrr::map(~lm(log(landing_value) ~ log(weight), data = .x)) %>% 
+  purrr::map(~predict(.x, data.frame(weight = log(100)))) %>% 
+  dplyr::bind_rows(.id = "catch_taxon") %>% 
+  dplyr::rename(price = `1`) %>% 
+  dplyr::mutate(price = round(exp(price) * 10, 2))
+
+revenue_dat <- 
+  revenue_dat %>% 
+  rename_nutrients_mu() %>% 
+  tidyr::pivot_longer(-c(landing_id:weight), names_to = "nutrient") %>% 
+  dplyr::filter(!nutrient == "selenium") %>% 
+  dplyr::left_join(RDI_tab) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::mutate(value = value / weight * 100,
+                inds = value / conv_factor * 100) %>% 
+  dplyr::group_by(landing_id, catch_taxon) %>% 
+  dplyr::mutate(inds_100 = sum(inds)) %>% 
+  dplyr::group_by(catch_taxon) %>% 
+  dplyr::summarise(
+    catch_percent = dplyr::first(catch_percent),
+    inds = dplyr::first(inds_100)
+    ) %>% 
+  dplyr::left_join(models) %>% 
+  dplyr::rename(interagency_code = catch_taxon) %>% 
+  dplyr::left_join(timor.nutrients::catch_groups, by = "interagency_code") %>% 
+  dplyr::select(catch_name, catch_percent, price, inds)
+
+
+revenue_dat %>%
+  ggplot(aes(inds, price, size = catch_percent, color = catch_name)) +
+  theme_minimal() +
+  geom_point()+
+  geom_text(aes(label = round(catch_percent,1)), color = "grey30", size = 3.5, vjust = -1.2)+
+  scale_size(range = c(2, 8))+
+  coord_cartesian(xlim = c(75, 130), ylim = c(0, 6))+
+  scale_x_continuous(labels = scales::label_percent(scale = 1))+
+  scale_y_continuous(labels = scales::label_dollar())+
+  scale_color_viridis_d(alpha = 0.85)+
+  theme(panel.grid.minor = element_blank())+
+  guides(size = "none")+
+  labs(x = "Cumulative nutrient score",
+       y = "Price (USD / kg)",
+       color = "Fish group")
 ```
 
 ## Habitat and gear type
