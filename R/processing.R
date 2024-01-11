@@ -82,7 +82,7 @@ get_model_data <- function() {
     dplyr::ungroup() %>%
     na.omit()
 
-  #factoextra::fviz_nbclust(df[, 8:13], kmeans, method = "wss")
+  # factoextra::fviz_nbclust(df[, 8:13], kmeans, method = "wss")
   # 4
   set.seed(555)
   k2 <- kmeans(df[, 8:13], centers = 5, nstart = 500)
@@ -137,7 +137,7 @@ get_model_data <- function() {
     dplyr::ungroup() %>%
     na.omit()
 
-  #factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
+  # factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
   set.seed(555)
   k2 <- kmeans(df[, 7:12], centers = 5, nstart = 500)
 
@@ -192,7 +192,7 @@ get_model_data <- function() {
     dplyr::ungroup() %>%
     na.omit()
 
-  #factoextra::fviz_nbclust(df[, 8:13], kmeans, method = "wss")
+  # factoextra::fviz_nbclust(df[, 8:13], kmeans, method = "wss")
   set.seed(555)
   k2 <- kmeans(df[, 8:13], centers = 5, nstart = 500)
 
@@ -247,7 +247,7 @@ get_model_data <- function() {
     dplyr::ungroup() %>%
     na.omit()
 
-  #factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
+  # factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
   set.seed(555)
   k2 <- kmeans(df[, 7:12], centers = 5, nstart = 500)
 

@@ -176,7 +176,10 @@ run_xgmodel <- function(dataframe = NULL,
 #'
 #' @param model A model object that contains at least two elements: `$train_data`, a dataframe of training data,
 #' and `$fit`, the fitted model object.
-#'
+#' @param parallel A logical value indicating whether to use parallel processing. Defaults to `NULL`, which will not
+#' use parallel processing. Set to `TRUE` to enable parallel processing.
+#' @param cores An integer specifying the number of cores to use for parallel processing. Only relevant if `parallel` is `TRUE`.
+#' Defaults to `NULL`, which will use the default number of cores determined by the parallel backend.#'
 #' @details
 #' The function first removes the last column from the training data. It then selects a random subset of 500 observations
 #' from this modified training dataset to serve as the background dataset for KernelSHAP. The KernelSHAP explanation
@@ -193,9 +196,11 @@ run_xgmodel <- function(dataframe = NULL,
 #' }
 #' @export
 #'
-run_kernelshap <- function(model) {
+run_kernelshap <- function(model, parallel = NULL, cores = NULL) {
   train_clean <- model$train_data[-ncol(model$train_data)]
   bg_X <- dplyr::sample_n(train_clean, 500)
+
+  doParallel::registerDoParallel(cores = cores)
 
   kernelshap::kernelshap(
     object = model$fit,
@@ -203,11 +208,10 @@ run_kernelshap <- function(model) {
     bg_X = bg_X,
     type = "prob",
     feature_names = names(train_clean),
-    parallel = TRUE,
+    parallel = parallel,
     verbose = TRUE
   )
 }
-
 #' Plot SHAP Values for Different Model Types
 #'
 #' This function generates a scatter plot of SHAP (SHapley Additive exPlanations) values for different model types.

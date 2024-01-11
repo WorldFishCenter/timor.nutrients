@@ -41,6 +41,7 @@ generate_summary_table <- function(use_20 = TRUE) {
 
   tab <-
     nut_region %>%
+    dplyr::mutate(nutrient = ifelse(nutrient == "vitamina", "vitaminA", nutrient)) %>%
     dplyr::left_join(timor.nutrients::timor_population, by = "region") %>%
     dplyr::left_join(rdi_table, by = "nutrient") %>%
     dplyr::rename(

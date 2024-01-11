@@ -4,11 +4,17 @@
 \alias{run_kernelshap}
 \title{Run KernelSHAP on a Model}
 \usage{
-run_kernelshap(model)
+run_kernelshap(model, parallel = NULL, cores = NULL)
 }
 \arguments{
 \item{model}{A model object that contains at least two elements: `$train_data`, a dataframe of training data,
 and `$fit`, the fitted model object.}
+
+\item{parallel}{A logical value indicating whether to use parallel processing. Defaults to `NULL`, which will not
+use parallel processing. Set to `TRUE` to enable parallel processing.}
+
+\item{cores}{An integer specifying the number of cores to use for parallel processing. Only relevant if `parallel` is `TRUE`.
+Defaults to `NULL`, which will use the default number of cores determined by the parallel backend.#'}
 }
 \value{
 Returns an object of class `kernelshap`, which contains the SHAP (SHapley Additive exPlanations) values computed

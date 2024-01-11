@@ -42,19 +42,20 @@ nutrients_table <-
 #  dplyr::mutate(dplyr::across(c(Selenium_mu:Vitamin_A_mu), ~ .x * catch)) %>%
 #  rename_nutrients_mu()
 
-region_data <- readr::read_rds(system.file("estimations_kg_12_2023.rds", package = "timor.nutrients"))
+region_data <- readr::read_rds(system.file("estimations_kg_12_2023_v2.rds", package = "timor.nutrients"))
 region_stats <-
-  region_data$municipal %>%
+  region_data %>%
   purrr::map(~ purrr::keep(.x, stringr::str_detect(
     names(.x), stringr::fixed("taxa")
   ))) %>%
-  purrr::flatten() %>%
-  purrr::set_names(names(region_data$municipal)) %>%
+  purrr::list_flatten(name_spec = "{outer}") %>%
   dplyr::bind_rows(.id = "region") %>%
   dplyr::rename(date_bin_start = .data$landing_period) %>%
   dplyr::select(c(.data$region, .data$date_bin_start, .data$grouped_taxa, .data$catch)) %>%
   dplyr::left_join(nutrients_table, by = "grouped_taxa") %>%
   dplyr::mutate(dplyr::across(c(Selenium_mu:Vitamin_A_mu), ~ .x * catch)) %>%
+  rename_nutrients_mu() %>%
+  dplyr::filter(date_bin_start < "2024-01-01") %>%
   rename_nutrients_mu()
 
 #  dplyr::left_join(nutrients_table, by = "grouped_taxa") %>%
@@ -81,6 +82,7 @@ kobo_trips <-
     landing_id = as.character(landing_id),
     n_fishers = fisher_number_man + fisher_number_woman + fisher_number_child
   ) %>%
+  dplyr::filter(landing_period >= "2018-01-01" & landing_period <= "2023-12-31") %>%
   tidyr::unnest(.data$landing_catch) %>%
   tidyr::unnest(.data$length_frequency) %>%
   dplyr::filter(!is.na(.data$weight)) %>%
@@ -117,36 +119,35 @@ usethis::use_data(kobo_trips, overwrite = TRUE)
 usethis::use_data(catch_data, overwrite = TRUE)
 devtools::document()
 
-#data_list <- get_model_data()
+data_list <- get_model_data()
 
-# permanova
-#set.seed(555)
-#data_clusters <-
-#  list(
-#    atauro_AG_perm = dplyr::slice_sample(data_list$data_raw$atauro_AG_raw, prop = .5),
-#    atauro_GN_perm = dplyr::slice_sample(data_list$data_raw$atauro_GN_raw, prop = .5),
-#    timor_AG_perm = dplyr::slice_sample(data_list$data_raw$timor_AG_raw, prop = .5),
-#    timor_GN_perm = dplyr::slice_sample(data_list$data_raw$timor_GN_raw, prop = .5)
-#  )
-#perm_results <- purrr::imap(data_clusters, ~ run_permanova_clusters(.x, permutations = 999, parallel = 7))
-#usethis::use_data(perm_results, overwrite = T)
+#permanova
+ set.seed(555)
+ data_clusters <-
+  list(
+    atauro_AG_perm = dplyr::slice_sample(data_list$data_raw$atauro_AG_raw, prop = .5),
+    atauro_GN_perm = dplyr::slice_sample(data_list$data_raw$atauro_GN_raw, prop = .5),
+    timor_GN_perm = dplyr::slice_sample(data_list$data_raw$timor_GN_raw, prop = .5),
+    timor_AG_perm = dplyr::slice_sample(data_list$data_raw$timor_AG_raw, prop = .5)
+  )
+ perm_results <- purrr::imap(data_clusters, ~ run_permanova_clusters(.x, permutations = 999, parallel = 8))
+ usethis::use_data(perm_results, overwrite = T)
+ devtools::document()
+
+#Run XGBoost model
+data_list <- get_model_data()$data_processed
+model_outputs <-
+  purrr::imap(
+    data_list, ~ run_xgmodel
+    (dataframe = .x$dataframe, step_other = .x$step_other, n_cores = 8)
+  ) %>%
+  setNames(paste0("model_", names(.)))
+
+usethis::use_data(model_outputs, overwrite = TRUE)
+devtools::document()
 
 
-# Run XGBoost model
-#data_list <- get_model_data()$data_processed
-#model_outputs <-
-#  purrr::imap(
-#    data_list, ~ run_xgmodel
-#    (dataframe = .x$dataframe, step_other = .x$step_other, n_cores = 7)
-#  ) %>%
-#  setNames(paste0("model_", names(.)))
-
-#usethis::use_data(model_outputs, overwrite = TRUE)
-#devtools::document()
-
-
-# Get shap values
-#shap_results <- purrr::map(timor.nutrients::model_outputs,run_kernelshap)
-#usethis::use_data(shap_results, overwrite = T)
-#devtools::document()
-
+#Get shap values
+shap_results <- purrr::map(timor.nutrients::model_outputs, run_kernelshap, parallel = TRUE, cores = 8)
+usethis::use_data(shap_results, overwrite = T)
+devtools::document()
