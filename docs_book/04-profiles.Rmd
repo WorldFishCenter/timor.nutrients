@@ -44,22 +44,33 @@ The bar chart (Figure 5.1) displaying nutrient adequacy across nutrient profiles
 
 For the subset of data from Atauro using only gill net gear (Panel b), the distribution is characterized by higher proportions of calcium in clusters 3 and 5. Additionally, clusters 1 and 4 stand out due to their higher vitamin A content....etc...etc...
 
-```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients. The clusters are enumerated on the y-axis, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis quantifies the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutrient adequacy across clusters. Panels (a) through (d) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients. The clusters are enumerated on the y-axis, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis and the white labels in the bars quantify the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutrient adequacy across clusters. Panels (a) through (d) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
 library(ggplot2)
 data <- get_model_data()
 
 
 plot_bars <- function(x) {
   x %>%
-    tidyr::pivot_longer(c(zinc:vitaminA)) %>%
+    dplyr::rename_with(~ stringr::str_to_title(.x), .cols = c(.data$zinc:.data$vitaminA)) %>%
+    dplyr::rename(
+      "Vitamin-A" = .data$Vitamina,
+      "Omega-3" = .data$Omega3
+    ) %>%
+    tidyr::pivot_longer(c(Zinc:"Vitamin-A")) %>%
     dplyr::group_by(clusters, name) %>%
     dplyr::summarise(value = median(value, na.rm = T)) %>%
-    ggplot2::ggplot(ggplot2::aes(value, clusters, fill = name)) +
+    ggplot2::ggplot(ggplot2::aes(clusters, value, fill = name)) +
     ggplot2::theme_minimal() +
-    ggplot2::geom_col(width = 0.75, alpha = 0.85) +
+    ggchicklet::geom_chicklet(radius = grid::unit(2, "pt"),
+                              alpha = 0.85,
+                              position = ggplot2::position_stack(reverse = FALSE))+
+    ggplot2::geom_text(mapping = aes(x = clusters, y = value, label = round(value, 1)),
+                       position = position_stack(0.5),
+                       color = "white",
+                       size = 2.5)+
     ggplot2::scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
-    ggplot2::coord_cartesian(expand = FALSE) +
-    ggplot2::scale_x_continuous(n.breaks = 8) +
+    ggplot2::scale_y_continuous(n.breaks = 8) +
+    ggplot2::coord_flip(expand = FALSE)+
     ggplot2::theme(legend.position = "bottom") +
     ggplot2::labs(fill = "", x = "", y = "") +
     ggplot2::theme(
