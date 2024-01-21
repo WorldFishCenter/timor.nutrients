@@ -243,7 +243,7 @@ plot_shap <- function(shap_object = NULL, model_type = NULL, alpha = NULL) {
       ggplot2::ggplot(ggplot2::aes(mesh_fact, mesh_shap, color = habitat_fact)) +
       ggplot2::geom_jitter(width = 2, alpha = alpha, size = 1.5, show.legend = FALSE) +
       ggplot2::geom_point(size = 0.1) +
-      ggplot2::theme_minimal() +
+      ggplot2::theme_bw() +
       ggplot2::scale_x_continuous(n.breaks = 10) +
       ggplot2::geom_hline(yintercept = 0, linetype = 2, color = "grey50") +
       ggplot2::scale_color_manual(values = c("#f28f3b", "#c27ba0", "#ffd5c2", "#588b8b", "#c8553d", "#2d3047", "#007ea7")) +
@@ -314,7 +314,8 @@ plot_model_shaps <- function(data_shaps = NULL, model_type = NULL, alpha = 0.2, 
     x +
       ggplot2::theme(
         legend.position = "none",
-        plot.margin = unit(c(0, 0, 0, 0), "cm")
+        plot.margin = unit(c(0, 0, 0, 0), "cm"),
+        panel.grid = ggplot2::element_blank()
       ) +
       ggplot2::labs(x = "", y = "")
   })
@@ -369,4 +370,45 @@ plot_model_shaps <- function(data_shaps = NULL, model_type = NULL, alpha = 0.2, 
   }
 
   final_plot
+}
+
+#' Extract SHAP Values for Specific Features
+#'
+#' This function extracts specific features and their corresponding SHAP values from a SHAP object.
+#' It is designed to work with SHAP objects that contain features such as mesh size and habitat.
+#'
+#' @param shap_object A list containing the SHAP values and corresponding feature values.
+#'                    Must have elements `X` and `S`, where `X` contains feature values and
+#'                    `S` contains corresponding SHAP values.
+#'
+#' @details
+#' The function specifically extracts 'mesh size' and 'habitat' features from the `X` component
+#' and their corresponding SHAP values from the `S` component of the `shap_object`.
+#' It is used as a utility function within other functions handling SHAP values.
+#'
+#' @return A `tibble` containing columns for mesh size (`mesh_fact`), habitat (`habitat_fact`),
+#'         and their corresponding SHAP values (`mesh_shap`).
+#'
+#' @examples
+#' \dontrun{
+#' shap_data <- list(
+#'   X = data.frame(mesh_size = 1:10, habitat = 11:20),
+#'   S = matrix(runif(30), ncol = 3)
+#' )
+#' extracted_shaps <- get_shaps(shap_data)
+#' }
+get_shaps <- function(shap_object = NULL, model_type = NULL) {
+  if (model_type == "gn") {
+  dplyr::tibble(
+    mesh_fact = shap_object$X$mesh_size,
+    habitat_fact = shap_object$X$habitat,
+    mesh_shap = shap_object$S[, 3]
+  )
+  } else {
+    dplyr::tibble(
+      habitat_gear_fact = as.character(shap_object$X$habitat_gear),
+      vessel_fact = shap_object$X$vessel_type,
+      habitat_gear_shap = shap_object$S[, 2]
+    )
+  }
 }
