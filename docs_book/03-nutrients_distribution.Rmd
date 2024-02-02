@@ -183,7 +183,7 @@ parallel_plot %>%
   labs(fill = "")
 ```
 
-## Nutritional contribution price values
+## Nutritional contribution and economic profiling
 
 ```{r echo=FALSE, fig.height=5, fig.width=9, message=FALSE, warning=FALSE, fig.cap="Nutritional and economic profiling of key fish groups within the Timor-Leste fishery.Panel A, Distribution of nutritional content among different functional fish groups: Small pelagics, Large pelagics, Small demersals, Large demersals, Sharks and rays and Other groups, that includes shrimps, molluscs, cephalopods and crustaceans. The plot shows the ranked contribution of each functional fish to the supply of calcium, omega-3, iron, protein, vitamin A, and zinc during the period 2018-2023. Panel B, Comparative analysis of nutritional score versus economic accessibility for key fish groups. This scatter plot displays the relationship between the cumulative nutritional score and the market price for various fish groups within Timor-Leste fishery. The x-axis quantifies the cumulative contribution to the Recommended Nutrient Intake (RNI) for six essential nutrients (zinc, protein, omega-3, calcium, iron, vitamin A) from a 100g portion of each fish group. The y-axis represents the average market price per kilogram for each group. Dot size and the accompanying numerical labels reflect the relative catch percentage of each group, serving as an index of accessibility and availability. Panel C, The bar chart illustrates the contribution of each habitat to the Recommended Nutrient Intake (RNI) for six fundamental nutrients, based on a 100g portion. Each bar is a color-segmented stacked visual, with distinct hues corresponding to individual nutrients, and white numbers within indicating the specific percentage contribution of each nutrient."}
 
@@ -405,7 +405,7 @@ cowplot::plot_grid(
   second_row_plot, 
   ncol = 1,
   align = "hv", 
-  rel_heights = c(0.75, 1),
+  rel_heights = c(0.6, 1),
   labels = "AUTO"
 )
 
