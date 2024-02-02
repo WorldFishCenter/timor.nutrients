@@ -102,143 +102,6 @@ ggplot2::ggplot() +
 ```
 
 
-```{r echo=FALSE, fig.height=7, fig.width=7, message=FALSE, warning=FALSE, out.width='80%', fig.cap="Distribution of nutritional content among different functional fish groups: Small pelagics, Large pelagics, Small demersals, Large demersals, Sharks and rays and Other groups, that includes shrimps, molluscs, cephalopods and crustaceans. The plot shows the ranked contribution of each functional fish to the supply of calcium, omega-3, iron, protein, vitamin A, and zinc during the period 2018-2023."}
-
-timor.nutrients::region_stats %>%
-  dplyr::mutate(fish_group = dplyr::case_when(
-    grouped_taxa %in% c("COZ") ~ "Molluscs",
-    grouped_taxa %in% c("PEZ") ~ "Shrimps",
-    grouped_taxa %in% c("MZZ") ~ "Other",
-    grouped_taxa %in% c("SLV", "CRA") ~ "Crustaceans",
-    grouped_taxa %in% c("OCZ", "IAX") ~ "Cephalopods",
-    grouped_taxa %in% c("SKH", "SRX") ~ "Sharks and rays",
-    grouped_taxa %in% c("SNA", "GPX", "PWT", "GRX", "MUI", "BGX") ~ "Large demersals",
-    grouped_taxa %in% c("CGX", "TUN", "BEN", "LWX", "BAR", "SFA", "CBA", "DOX", "ECN", "DOS") ~ "Large pelagics",
-    grouped_taxa %in% c("YDX", "SPI", "EMP", "SUR", "TRI", "MOJ", "WRA", "MOO", "BWH", "LGE", "MOB", "MHL", "GOX", "THO", "IHX", "APO", "IHX", "PUX", "DRZ") ~ "Small demersals",
-    grouped_taxa %in% c("RAX", "SDX", "CJX", "CLP", "GZP", "FLY", "KYX", "CLP", "MUL", "DSF", "MIL", "THF") ~ "Small pelagics",
-    TRUE ~ NA_character_
-  )) %>%
-  dplyr::select(-grouped_taxa) %>% 
-  dplyr::group_by(fish_group) %>%
-  dplyr::summarise(dplyr::across(dplyr::where(is.numeric), ~ sum(.x, na.rm = T))) %>%
-  na.omit() %>% 
-  tidyr::pivot_longer(-c(fish_group, catch), names_to = "nutrient") %>%
-  dplyr::group_by(nutrient, fish_group) %>%
-  dplyr::summarise(value = sum(value)) %>%
-  dplyr::arrange(-value, .by_group = TRUE) %>%
-  dplyr::select(fish_group, nutrient, value) %>%
-  dplyr::ungroup() %>%
-  dplyr::mutate(
-    nutrient = as.factor(nutrient),
-    fish_group = ifelse(fish_group %in% c("Shrimps", "Molluscs", "Cephalopods", "Crustaceans"), "Other groups", fish_group),
-    fish_group = tidytext::reorder_within(fish_group, value, nutrient)
-  ) %>%
-  dplyr::filter(!nutrient == "selenium") %>%
-  dplyr::mutate(
-    nutrient = stringr::str_to_title(nutrient),
-    nutrient = dplyr::case_when(
-      nutrient == "Omega3" ~ "Omega-3",
-      nutrient == "Vitamina" ~ "Vitamin-A",
-      TRUE ~ nutrient
-    )
-  ) %>%
-  ggplot(aes(value / 1000, fish_group, fill = nutrient)) +
-  theme_bw() +
-  geom_col(alpha = 0.85) +
-  facet_wrap(. ~ nutrient, ncol = 2, scales = "free") +
-  tidytext::scale_y_reordered() +
-  labs(x = "Tons", y = "") +
-  theme(legend.position = "",
-        panel.grid = element_blank(),
-    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
-    strip.text.x = ggplot2::element_text(face = "bold")
-) +
-    ggplot2::coord_cartesian(expand = F) +
-  scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette)
-```
-
-## Nutrional and price values
-
-```{r echo=FALSE, fig.height=3.5, fig.width=6, message=FALSE, warning=FALSE, fig.cap="Comparative analysis of nutritional score versus economic accessibility for key fish groups. This scatter plot displays the relationship between the cumulative nutritional score and the market price for various fish groups within Timor-Leste fishery. The x-axis quantifies the cumulative contribution to the Recommended Nutrient Intake (RNI) for six essential nutrients (zinc, protein, omega-3, calcium, iron, vitamin A) from a 100g portion of each fish group. The y-axis represents the average market price per kilogram for each group. Dot size and the accompanying numerical labels reflect the relative catch percentage of each group, serving as an index of accessibility and availability. "}
-revenue_dat <-
-  timor.nutrients::catch_data %>%
-  tidyr::unnest(landing_catch) %>%
-  tidyr::unnest(length_frequency) %>%
-  dplyr::filter(!is.na(.data$weight), !is.na(landing_value)) %>%
-  dplyr::group_by(landing_id) %>%
-  dplyr::mutate(n = dplyr::n()) %>%
-  dplyr::filter(n == 1) %>%
-  dplyr::select(-n) %>%
-  dplyr::ungroup() %>%
-  dplyr::mutate(tot_obs = length(unique(landing_id))) %>%
-  dplyr::group_by(catch_taxon) %>%
-  dplyr::mutate(catch_percent = dplyr::n() / tot_obs * 100) %>%
-  dplyr::filter(catch_taxon %in% c("CLP", "GZP", "TUN", "SDX", "FLY", "CGX")) %>%
-  dplyr::group_by(.data$landing_id, .data$catch_taxon) %>%
-  dplyr::summarise(
-    landing_value = dplyr::first(landing_value),
-    catch_percent = dplyr::first(catch_percent),
-    dplyr::across(
-      c(.data$weight:.data$Vitamin_A_mu),
-      ~ sum(.x)
-    )
-  )
-
-
-models <-
-  revenue_dat %>%
-  dplyr::ungroup() %>%
-  dplyr::select(catch_taxon, landing_value, weight) %>%
-  split(.$catch_taxon) %>%
-  purrr::map(~ lm(log(landing_value) ~ log(weight), data = .x)) %>%
-  purrr::map(~ predict(.x, data.frame(weight = log(100)))) %>%
-  dplyr::bind_rows(.id = "catch_taxon") %>%
-  dplyr::rename(price = `1`) %>%
-  dplyr::mutate(price = round(exp(price) * 10, 2))
-
-revenue_dat <-
-  revenue_dat %>%
-  rename_nutrients_mu() %>%
-  tidyr::pivot_longer(-c(landing_id:weight), names_to = "nutrient") %>%
-  dplyr::filter(!nutrient == "selenium") %>%
-  dplyr::left_join(RDI_tab) %>%
-  dplyr::ungroup() %>%
-  dplyr::mutate(
-    value = value / weight * 100,
-    inds = value / conv_factor * 100
-  ) %>%
-  dplyr::group_by(landing_id, catch_taxon) %>%
-  dplyr::mutate(inds_100 = sum(inds)) %>%
-  dplyr::group_by(catch_taxon) %>%
-  dplyr::summarise(
-    catch_percent = dplyr::first(catch_percent),
-    inds = dplyr::first(inds_100)
-  ) %>%
-  dplyr::left_join(models) %>%
-  dplyr::rename(interagency_code = catch_taxon) %>%
-  dplyr::left_join(timor.nutrients::catch_groups, by = "interagency_code") %>%
-  dplyr::select(catch_name, catch_percent, price, inds)
-
-
-revenue_dat %>%
-  ggplot(aes(inds, price, size = catch_percent, color = catch_name)) +
-  theme_bw() +
-  geom_point() +
-  geom_text(aes(label = round(catch_percent, 1)), color = "grey30", size = 3.5, vjust = -1.2) +
-  scale_size(range = c(3, 8)) +
-  coord_cartesian(xlim = c(75, 130), ylim = c(0, 6)) +
-  scale_x_continuous(labels = scales::label_percent(scale = 1)) +
-  scale_y_continuous(labels = scales::label_dollar()) +
-  scale_color_viridis_d(alpha = 0.85) +
-  theme(panel.grid= element_blank()) +
-  guides(size = "none") +
-  labs(
-    x = "Cumulative nutrient score",
-    y = "Price (USD / kg)",
-    color = "Fish group"
-  )
-```
-
 
 ## Habitat and gear type
 
@@ -320,9 +183,151 @@ parallel_plot %>%
   labs(fill = "")
 ```
 
-### A focus on habitats nutritional contribution
+## Nutritional contribution price values
 
-```{r echo=FALSE, fig.height=6, fig.width=7, message=FALSE, warning=FALSE, fig.cap="The bar chart illustrates the contribution of each habitat to the Recommended Nutrient Intake (RNI) for six fundamental nutrients, based on a 100g portion. Each bar is a color-segmented stacked visual, with distinct hues corresponding to individual nutrients, and white numbers within indicating the specific percentage contribution of each nutrient."}
+```{r echo=FALSE, fig.height=5, fig.width=9, message=FALSE, warning=FALSE, fig.cap="Nutritional and economic profiling of key fish groups within the Timor-Leste fishery.Panel A, Distribution of nutritional content among different functional fish groups: Small pelagics, Large pelagics, Small demersals, Large demersals, Sharks and rays and Other groups, that includes shrimps, molluscs, cephalopods and crustaceans. The plot shows the ranked contribution of each functional fish to the supply of calcium, omega-3, iron, protein, vitamin A, and zinc during the period 2018-2023. Panel B, Comparative analysis of nutritional score versus economic accessibility for key fish groups. This scatter plot displays the relationship between the cumulative nutritional score and the market price for various fish groups within Timor-Leste fishery. The x-axis quantifies the cumulative contribution to the Recommended Nutrient Intake (RNI) for six essential nutrients (zinc, protein, omega-3, calcium, iron, vitamin A) from a 100g portion of each fish group. The y-axis represents the average market price per kilogram for each group. Dot size and the accompanying numerical labels reflect the relative catch percentage of each group, serving as an index of accessibility and availability. Panel C, The bar chart illustrates the contribution of each habitat to the Recommended Nutrient Intake (RNI) for six fundamental nutrients, based on a 100g portion. Each bar is a color-segmented stacked visual, with distinct hues corresponding to individual nutrients, and white numbers within indicating the specific percentage contribution of each nutrient."}
+
+groups_plot <- 
+  timor.nutrients::region_stats %>%
+  dplyr::mutate(fish_group = dplyr::case_when(
+    grouped_taxa %in% c("COZ") ~ "Molluscs",
+    grouped_taxa %in% c("PEZ") ~ "Shrimps",
+    grouped_taxa %in% c("MZZ") ~ "Other",
+    grouped_taxa %in% c("SLV", "CRA") ~ "Crustaceans",
+    grouped_taxa %in% c("OCZ", "IAX") ~ "Cephalopods",
+    grouped_taxa %in% c("SKH", "SRX") ~ "Sharks and rays",
+    grouped_taxa %in% c("SNA", "GPX", "PWT", "GRX", "MUI", "BGX") ~ "Large demersals",
+    grouped_taxa %in% c("CGX", "TUN", "BEN", "LWX", "BAR", "SFA", "CBA", "DOX", "ECN", "DOS") ~ "Large pelagics",
+    grouped_taxa %in% c("YDX", "SPI", "EMP", "SUR", "TRI", "MOJ", "WRA", "MOO", "BWH", "LGE", "MOB", "MHL", "GOX", "THO", "IHX", "APO", "IHX", "PUX", "DRZ") ~ "Small demersals",
+    grouped_taxa %in% c("RAX", "SDX", "CJX", "CLP", "GZP", "FLY", "KYX", "CLP", "MUL", "DSF", "MIL", "THF") ~ "Small pelagics",
+    TRUE ~ NA_character_
+  )) %>%
+  dplyr::select(-grouped_taxa) %>% 
+  dplyr::group_by(fish_group) %>%
+  dplyr::summarise(dplyr::across(dplyr::where(is.numeric), ~ sum(.x, na.rm = T))) %>%
+  na.omit() %>% 
+  tidyr::pivot_longer(-c(fish_group, catch), names_to = "nutrient") %>%
+  dplyr::group_by(nutrient, fish_group) %>%
+  dplyr::summarise(value = sum(value)) %>%
+  dplyr::arrange(-value, .by_group = TRUE) %>%
+  dplyr::select(fish_group, nutrient, value) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(
+    nutrient = as.factor(nutrient),
+    fish_group = ifelse(fish_group %in% c("Shrimps", "Molluscs", "Cephalopods", "Crustaceans"), "Other groups", fish_group),
+    fish_group = factor(fish_group, levels = c("Shrimps", "Molluscs", "Cephalopods", "Crustaceans",
+                                               "Other groups", "Sharks and rays", "Large demersals",
+                                               "Small demersals","Large pelagics", "Small pelagics"))
+  ) %>%
+  dplyr::filter(!nutrient == "selenium") %>%
+  dplyr::mutate(
+    nutrient = stringr::str_to_title(nutrient),
+    nutrient = dplyr::case_when(
+      nutrient == "Omega3" ~ "Omega-3",
+      nutrient == "Vitamina" ~ "Vitamin-A",
+      TRUE ~ nutrient
+    )
+  ) %>% 
+  ggplot(aes(value / 1000, fish_group, fill = nutrient)) +
+  theme_bw() +
+  geom_col(alpha = 0.85) +
+  facet_grid(. ~ nutrient, scales = "free") +
+  labs(x = "Tons", y = "") +
+  theme(legend.position = "",
+        panel.grid = element_blank(),
+        strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
+        strip.text.x = ggplot2::element_text(face = "bold")
+  ) +
+  ggplot2::coord_cartesian(expand = T) +
+  scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette)+
+  scale_x_continuous(n.breaks = 3)
+
+###
+
+revenue_dat <-
+  timor.nutrients::catch_data %>%
+  tidyr::unnest(landing_catch) %>%
+  tidyr::unnest(length_frequency) %>%
+  dplyr::filter(!is.na(.data$weight), !is.na(landing_value)) %>%
+  dplyr::group_by(landing_id) %>%
+  dplyr::mutate(n = dplyr::n()) %>%
+  dplyr::filter(n == 1) %>%
+  dplyr::select(-n) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(tot_obs = length(unique(landing_id))) %>%
+  dplyr::group_by(catch_taxon) %>%
+  dplyr::mutate(catch_percent = dplyr::n() / tot_obs * 100) %>%
+  dplyr::filter(catch_taxon %in% c("CLP", "GZP", "TUN", "SDX", "FLY", "CGX")) %>%
+  dplyr::group_by(.data$landing_id, .data$catch_taxon) %>%
+  dplyr::summarise(
+    landing_value = dplyr::first(landing_value),
+    catch_percent = dplyr::first(catch_percent),
+    dplyr::across(
+      c(.data$weight:.data$Vitamin_A_mu),
+      ~ sum(.x)
+    )
+  )
+
+
+models <-
+  revenue_dat %>%
+  dplyr::ungroup() %>%
+  dplyr::select(catch_taxon, landing_value, weight) %>%
+  split(.$catch_taxon) %>%
+  purrr::map(~ lm(log(landing_value) ~ log(weight), data = .x)) %>%
+  purrr::map(~ predict(.x, data.frame(weight = log(100)))) %>%
+  dplyr::bind_rows(.id = "catch_taxon") %>%
+  dplyr::rename(price = `1`) %>%
+  dplyr::mutate(price = round(exp(price) * 10, 2))
+
+revenue_dat <-
+  revenue_dat %>%
+  rename_nutrients_mu() %>%
+  tidyr::pivot_longer(-c(landing_id:weight), names_to = "nutrient") %>%
+  dplyr::filter(!nutrient == "selenium") %>%
+  dplyr::left_join(RDI_tab) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(
+    value = value / weight * 100,
+    inds = value / conv_factor * 100
+  ) %>%
+  dplyr::group_by(landing_id, catch_taxon) %>%
+  dplyr::mutate(inds_100 = sum(inds)) %>%
+  dplyr::group_by(catch_taxon) %>%
+  dplyr::summarise(
+    catch_percent = dplyr::first(catch_percent),
+    inds = dplyr::first(inds_100)
+  ) %>%
+  dplyr::left_join(models) %>%
+  dplyr::rename(interagency_code = catch_taxon) %>%
+  dplyr::left_join(timor.nutrients::catch_groups, by = "interagency_code") %>%
+  dplyr::select(catch_name, catch_percent, price, inds)
+
+revenue_plot <- 
+  revenue_dat %>%
+  ggplot(aes(inds, price, size = catch_percent, color = catch_name)) +
+  theme_bw() +
+  geom_point(stroke = 2) +
+  geom_text(aes(label = round(catch_percent, 1)), color = "grey30", size = 3.5, vjust = -1.2) +
+  scale_size(range = c(3, 8)) +
+  coord_cartesian(xlim = c(75, 130), ylim = c(0, 6.4)) +
+  scale_x_continuous(labels = scales::label_percent(scale = 1)) +
+  scale_y_continuous(labels = scales::label_dollar()) +
+  scale_color_viridis_d(alpha = 0.7) +
+  theme(panel.grid= element_blank(),
+        legend.position = "bottom"
+        )+
+  guides(size = "none",
+         colour = guide_legend(override.aes = list(size=5)
+                               )
+         ) +
+  labs(
+    x = "Cumulative nutrient score",
+    y = "Price (USD / kg)",
+    color = ""
+  )
+###
+
 habitat_nutrients <-
   timor.nutrients::kobo_trips %>%
   dplyr::select(habitat, weight:Vitamin_A_mu) %>%
@@ -346,40 +351,62 @@ habitat_nutrients <-
     )
   )
 
+habitat_plot <-
 ggplot2::ggplot() +
   ggplot2::theme_bw() +
   ggchicklet::geom_chicklet(habitat_nutrients,
-    mapping = ggplot2::aes(
-      y = inds_kg,
-      x = reorder(habitat, inds_kg),
-      fill = nutrient,
-      color = nutrient
-    ),
-    position = ggplot2::position_stack(reverse = FALSE),
-    alpha = 0.8,
-    width = 0.8,
-    radius = grid::unit(3, "pt")
+                            mapping = ggplot2::aes(
+                              y = inds_kg,
+                              x = reorder(habitat, inds_kg),
+                              fill = nutrient,
+                              color = nutrient
+                            ),
+                            position = ggplot2::position_stack(reverse = FALSE),
+                            alpha = 0.8,
+                            width = 0.8,
+                            radius = grid::unit(3, "pt")
   ) +
   ggplot2::geom_text(habitat_nutrients,
-    mapping = ggplot2::aes(
-      y = inds_kg,
-      x = reorder(habitat, inds_kg),
-      label = round(inds_kg, 1),
-      group = nutrient
-    ),
-    position = ggplot2::position_stack(0.5, reverse = FALSE),
-    color = "white",
-    size = 3
+                     mapping = ggplot2::aes(
+                       y = inds_kg,
+                       x = reorder(habitat, inds_kg),
+                       label = round(inds_kg, 0),
+                       group = nutrient
+                     ),
+                     position = ggplot2::position_stack(0.5, reverse = FALSE),
+                     color = "white",
+                     size = 2.5
   ) +
   ggplot2::scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
   ggplot2::scale_color_manual(values = timor.nutrients::palettes$nutrients_palette) +
   ggplot2::scale_y_continuous(labels = scales::label_percent(scale = 1)) +
   ggplot2::coord_flip(expand = FALSE) +
   ggplot2::theme(legend.position = "bottom",
-                 panel.grid = element_blank()) +
-  ggplot2::labs(x = "Habitat", fill = "Nutrient", y = "Matched RNI from 100g portion")+
-  guides(
+                 panel.grid = ggplot2::element_blank()) +
+  ggplot2::labs(x = "Habitat", fill = "", y = "Matched RNI from 100g portion")+
+  ggplot2::guides(
     alpha = "none",
-    color = "none"
+    color = "none",
+    fill = guide_legend(override.aes = list(size=7)
+    )
   )
+
+
+second_row_plot <- cowplot::plot_grid(
+  revenue_plot + theme(plot.margin = unit(c(0, 0, 0, +2.2), "cm")),
+  habitat_plot,
+  ncol = 2, 
+  align = "h",
+  labels = c("B", "C")
+)
+
+cowplot::plot_grid(
+  groups_plot, 
+  second_row_plot, 
+  ncol = 1,
+  align = "hv", 
+  rel_heights = c(0.75, 1),
+  labels = "AUTO"
+)
+
 ```
