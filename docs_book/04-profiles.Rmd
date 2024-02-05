@@ -206,15 +206,13 @@ timor.nutrients::perm_results %>%
 
 Table 5.1: Results of PERMANOVA analysis assessing the homogeneity of nutritional profiles within fishing trip clusters. The analysis was conducted across four datasets: Atauro with all gears (atauro_AG), Atauro with gill nets (atauro_GN), Mainland with all gears (mainland_AG), and Mainland with gill nets (mainland_GN). For each dataset, the term 'clusters' represents the within-group sum of squares (SUMOFSQS), which measures the variance within the nutritional profiles, while 'Residual' represents the variance between nutritional profiles Degrees of Freedom (DF), R-squared values (R2), and associated statistics indicate the strength and significance of the clustering. The R2 value quantifies the proportion of variance explained by the clusters.
 
-### XGBoost model (currently not updated)
+### XGBoost model performance
 
-In the analysis of the XGBoost model's predictive performance, both quantitative and visual assessments were conducted, detailed in Table 5.2 and Figure 5.3, respectively. The Receiver Operating Characteristic (ROC) curves (see [ML model interpretation][In simple terms]) presented in Figure 5.3 offer a graphical evaluation of the model's sensitivity and specificity across four subsets of fishing data, categorized by region and gear type. These curves plot the true positive rate against the false positive rate for each nutritional profile group identified within the data.
-
-An examination of the ROC curves reveals variability in the model's ability to distinguish between nutritional profile groups. The areas under the curves (AUC) provide a numerical measure of the model's discriminative power, with a value of 1 representing perfect prediction and 0.5 indicating no discriminative power. While none of the profile groups reach perfection, several demonstrate substantial AUC values, indicating a robust ability to classify observations accurately.
+In the analysis of the XGBoost model’s predictive performance, both quantitative and visual assessments were conducted, detailed in Table 5.3 and Figure 5.4, respectively. The Receiver Operating Characteristic (ROC) curves (see [ML model interpretation][In simple terms]) presented in Figure 5.3 offer a graphical evaluation of the model’s sensitivity and specificity across four subsets of fishing data, categorized by region and gear type. These curves plot the true positive rate against the false positive rate for each nutritional profile group identified within the data. An examination of the ROC curves reveals variability in the model’s ability to distinguish between nutritional profile groups. The areas under the curves (AUC) provide a numerical measure of the model’s discriminative power, with a value of 1 representing perfect prediction and 0.5 indicating no discriminative power. While none of the profile groups reach perfection, several demonstrate substantial AUC values, indicating a robust ability to classify observations accurately.
 
 In comparing these visual findings with the statistical data from Table 5.2, it is observed that subsets from Atauro (both with all gears and gill nets) yield higher AUC, accuracy, and kappa statistics, suggesting a more consistent and accurate classification of nutritional profiles. These subsets also show higher sensitivity and specificity, indicating a balanced predictive capability for identifying true positives and true negatives. Conversely, the Mainland subsets exhibit lower performance metrics, indicating a more challenging classification scenario. This is reflected in the ROC curves where the lines for the Mainland subsets are farther from the top-left corner, suggesting a lower true positive rate relative to the false positive rate compared to the Atauro subsets.
 
-The positive predictive value (PPV) and negative predictive value (NPV), which provide insight into the model's precision and reliability, also align with the ROC curve analysis, showing higher values for the Atauro subsets. This indicates that when the model predicts a particular nutritional profile for these subsets, it is more likely to be correct. The Matthew's correlation coefficient (MCC) values, a balanced measure of quality for binary classifications, corroborate the ROC analysis by indicating that the Atauro subsets maintain a higher quality of prediction across classes.
+The positive predictive value (PPV) and negative predictive value (NPV), which provide insight into the model’s precision and reliability, also align with the ROC curve analysis, showing higher values for the Atauro subsets. This indicates that when the model predicts a particular nutritional profile for these subsets, it is more likely to be correct. The Matthew’s correlation coefficient (MCC) values, a balanced measure of quality for binary classifications, corroborate the ROC analysis by indicating that the Atauro subsets maintain a higher quality of prediction across classes.
 
 The integrated analysis of Table 5.2 and Figure 5.3 reveals a differentiated performance of the XGBoost model across various subsets of fishing data. The model showcases commendable predictive strength in the Atauro subsets, with high AUC, accuracy, and kappa metrics indicating a reliable classification of nutritional profiles. The ROC curve analysis further supports this, with curves for Atauro subsets nearer to the desired top-left corner, denoting higher sensitivity and specificity. In contrast, the Mainland subsets, despite achieving moderate success, suggest an area for improvement, as seen by their relative distance from the optimal point on the ROC curves and lower performance metrics. This suggests that while the model is effective in identifying nutritional profiles in certain contexts, its performance is not uniformly high across all subsets.
 
@@ -311,12 +309,14 @@ Table 5.2: Performance Metrics for XGBoost Model Across Fishing Data Subsets. Th
 
 \
 
-#### Models explanation (this section is not currently updated)
-The analysis of SHAP values (see [ML model explanation][In simple terms]) from gill net models (Figure 5.4), which provide insights into how different factors influence predictions in an XGBoost model, shows how mesh size and habitat together predict nutritional profiles in the Atauro region. It's found that smaller mesh sizes, specifically below 40 mm, are closely linked with a higher likelihood of predicting nutritional profile NP3 across various habitats like reefs and beaches. These smaller sizes also have a lesser association with NP4, particularly when fishing occurs in deeper waters. In contrast, mesh sizes around 50mm are predominantly associated with nutritional profile NP2 in similar environments, with mangroves also playing a role.
+#### Models explanation
 
-As we look at larger mesh sizes, those ranging between 60 and 70 mm, there's a notable association with nutritional profile NP5 across most habitats, including beaches, mangroves, and seagrass areas. There's a smaller yet significant link to NP1, especially notable when fishing in reef areas. For meshes larger than 70 mm, the data suggests a shift, with nutritional profile NP4 emerging as the most likely prediction among various profiles, particularly within the Atauro subset.
+The analysis of SHAP values (see [ML model explanation][In simple terms]) from gill net models (Figure 5.4, A-B), illuminates the influence of how the mesh size and habitat collectively determine the nutritional profiles in the Atauro (panel A) and Mainland (panel B). In Atauro, mesh sizes smaller than 40 mm are significantly associated with a higher likelihood of predicting the nutritional profile NP-2 across diverse habitats, including reefs, deep habitats, and to a lesser extent, Fish Aggregating Devices (FADs). Furthermore, these smaller mesh sizes exhibit a reduced association with nutritional profile NP-3, particularly when utilized within mangrove environments, and with NP-1 in beach and deep habitat settings. Conversely, mesh sizes around 50 mm are predominantly linked with nutritional profile NP-3, mainly within reef and FAD environments.
+As the analysis extends to larger mesh sizes, those measuring 60 and 80 mm show a strong correlation with nutritional profiles NP-4 and NP-5, respectively, especially when fishing occurs across reefs and seagrass areas, with a minor association observed in beach environments for the 80 mm mesh size. This includes a modest connection to NP-1, notably when fishing takes place in deep areas. For mesh sizes exceeding 80 mm, the data indicates a notable shift, with nutritional profile NP-1 becoming the most prevalent prediction among the various profiles, particularly when fishing in reef and mangrove habitats.
+Upon evaluating SHAP values derived from Mainland data, a more diverse pattern of associations emerges. Mesh sizes smaller than 30 mm, employed in beach, reef, and mangrove settings, are linked with nutritional profile NP-2, with a similar association observed in deep habitats. Meshes ranging from 30 to 40 mm are strong indicators of nutritional profile NP-1 across a broad spectrum of environments, especially in deep and reef areas. Increasing the mesh size to between 40 and 70 mm shifts the likelihood towards nutritional profile NP-5 as the most probable outcome for various fishing grounds, including reefs, deep environments, mangroves, and beaches. At the larger end of the spectrum, mesh sizes above 70 mm are more likely to predict nutritional profile NP-3, particularly in deep and FAD environments where SHAP values are notably high, with reefs, mangroves, and beaches also displaying relatively high values, and a noted increase in the likelihood of NP-3 outcomes in traditional FAD grounds when using a 100 mm mesh size.
+The SHAP value analysis for all fishing gear types other than gill nets reveals the complex interplay between the habitat where fishing occurs, the type of gear used, and whether the boats are motorised or unmotorised (Figure 5.4, panels C and D). In the Atauro dataset, as shown in panel C, the nutritional profile NP-1 is commonly associated with the use of long lines in deep water habitats, particularly from unmotorised boats. Hand lines in the same deep water habitats, however, shift the prediction towards nutritional profile NP-2. For nutritional profile NP-4, seine nets emerge as the most likely gear to yield this outcome in deep environments, though the use of hand lines also contributes to a lesser degree. Profiles NP-3 and NP-5 display a similarity in that they are both frequently predicted when fishing with spear guns; the former is more associated with unmotorised boats and the latter with motorised vessels. These two profiles are also set apart by their wider spread across various habitats that are connected to coastal areas, in contrast to the other profiles which are predominantly linked with deeper waters.
+In Mainland, the application of cast nets in reef habitats shows a strong link to nutritional profile NP-1. In both FAD and traditional FAD settings, nutritional profile NP-2 emerges as the most common outcome regardless of the gear type employed, with the notable exception of long lines, which instead suggest a higher likelihood of resulting in profile NP-3. The profiles NP-4 and NP-5 are distinctively aligned with certain fishing practices: NP-4 is closely associated with the use of hand lines in deep habitats, and NP-5 is characteristic of spear fishing and manual collection in littoral zones such as reefs and beaches.
 
-When examining SHAP values derived from mainland data, a more varied pattern emerges. Smaller mesh sizes, less than 35 mm and used in deep water, reef, and FAD environments, are associated with nutritional profiles NP2 and NP4. The latter also shows a connection to beach habitats. Meshes in the 35 to 40mm range are strong predictors for nutritional profile NP2 across a variety of environments, including FAD, deep, reef, and beach. As mesh sizes increase to between 40 and 70mm, the predicted nutritional profiles become more dependent on the specific fishing ground. For example, while reefs are most likely to yield NP1 and to a lesser extent NP3, beaches or deep environments are typically associated with NP2. At the larger end of the spectrum, above 70mm, NP5 becomes the probable prediction when fishing in deeper habitats, although NP2 remains a likely outcome if fishing occurs near beaches.
 
 ```{r eval=FALSE, fig.cap="Differential influence of mesh size on nutritional profile predictions across habitats. The figure compiles subplots for five distinct nutritional profiles (NP1-NP5) as predicted by gill net XGBoost models", fig.height=7, fig.width=8, message=FALSE, warning=FALSE, include=FALSE}
 # atauro gn
@@ -428,7 +428,7 @@ p1 <-
   dplyr::filter(mesh_shap > 0) %>%
   ggplot2::ggplot(ggplot2::aes(mesh_shap, mesh_fact, color = habitat_fact)) +
   facet_grid(. ~ factor(profile, levels = c("NP-2", "NP-3", "NP-4", "NP-5", "NP-1")),
-    scales = "free"
+             scales = "free"
   ) +
   # ggplot2::geom_jitter(width = 2, alpha = alpha, size = 1.5, show.legend = FALSE) +
   ggplot2::geom_point(ggplot2::aes(alpha = sqrt(mesh_shap), size = mesh_shap), ) +
@@ -464,7 +464,7 @@ p2 <-
   dplyr::filter(mesh_shap > 0) %>%
   ggplot2::ggplot(ggplot2::aes(mesh_shap, mesh_fact, color = habitat_fact)) +
   facet_grid(. ~ factor(profile, levels = c("NP-4", "NP-2", "NP-1", "NP-5", "NP-3")),
-    scales = "free"
+             scales = "free"
   ) +
   # ggplot2::geom_jitter(width = 2, alpha = alpha, size = 1.5, show.legend = FALSE) +
   ggplot2::geom_point(ggplot2::aes(alpha = sqrt(mesh_shap), size = mesh_shap), ) +
@@ -491,16 +491,16 @@ p2 <-
 
 
 leg <- cowplot::get_legend(p2 +
-  ggplot2::theme(
-    plot.margin = unit(c(2, 0, 0, 0.9), "cm"),
-    # legend.title = ggplot2::element_text(size = 11),
-    legend.position = "right",
-    legend.direction = "vertical",
-    legend.justification = "right",
-    legend.box.just = "right",
-    legend.background = element_rect(fill = "transparent", colour = NA),
-    legend.box.background = element_rect(fill = "transparent", colour = NA)
-  ))
+                             ggplot2::theme(
+                               plot.margin = unit(c(2, 0, 0, 0.9), "cm"),
+                               # legend.title = ggplot2::element_text(size = 11),
+                               legend.position = "right",
+                               legend.direction = "vertical",
+                               legend.justification = "right",
+                               legend.box.just = "right",
+                               legend.background = element_rect(fill = "transparent", colour = NA),
+                               legend.box.background = element_rect(fill = "transparent", colour = NA)
+                             ))
 
 base_plot <-
   cowplot::plot_grid(
@@ -529,7 +529,7 @@ grid <-
   )
 
 pp1 <- 
-cowplot::ggdraw() +
+  cowplot::ggdraw() +
   cowplot::draw_plot(grid) +
   cowplot::draw_label("Mesh size (mm)", x = 0.03, y = 0.7, angle = 90, hjust = 1, size = 12)
 
@@ -542,7 +542,8 @@ process_shap <-
   purrr::map(get_shaps, model_type = "ag") %>%
   dplyr::bind_rows(.id = "profile") %>%
   dplyr::mutate(profile = stringr::str_replace(profile, ".pred_", "NP-"),
-                vessel_fact = stringr::str_to_title(vessel_fact))
+                vessel_fact = stringr::str_to_title(vessel_fact),
+                vessel_fact = ifelse(vessel_fact == "Motorised", "Unmotorised", "Motorised"))
 
 
 to_group <-
@@ -589,7 +590,8 @@ process_shap <-
   purrr::map(get_shaps, model_type = "ag") %>%
   dplyr::bind_rows(.id = "profile") %>%
   dplyr::mutate(profile = stringr::str_replace(profile, ".pred_", "NP-"),
-                vessel_fact = stringr::str_to_title(vessel_fact))
+                vessel_fact = stringr::str_to_title(vessel_fact),
+                vessel_fact = ifelse(vessel_fact == "Motorised", "Unmotorised", "Motorised"))
 
 to_group <-
   process_shap %>%
@@ -669,7 +671,7 @@ grid <-
   )
 
 pp2 <-
-cowplot::ggdraw(ylim = c(-.05, NA)) +
+  cowplot::ggdraw(ylim = c(-.05, NA)) +
   cowplot::draw_plot(grid) +
   cowplot::draw_label("Habitat x Gear type", x = 0.03, y = 0.7, angle = 90, hjust = 1, size = 12)+
   cowplot::draw_label("SHAP value", x = 0.5, y = 0, size = 12)
