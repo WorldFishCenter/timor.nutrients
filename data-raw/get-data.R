@@ -103,7 +103,8 @@ kobo_trips <-
       ~ sum(.x) / 1000
     )
   ) %>%
-  dplyr::ungroup()
+  dplyr::ungroup() %>%
+  dplyr::mutate(habitat = ifelse(habitat == "Traditional FAD", "FAD", habitat))
 
 catch_data <-
   trips %>%
@@ -139,7 +140,7 @@ data_list <- get_model_data()$data_processed
 model_outputs <-
   purrr::imap(
     data_list, ~ run_xgmodel
-    (dataframe = .x$dataframe, step_other = .x$step_other, n_cores = 8)
+    (dataframe = .x$dataframe, step_other = .x$step_other, n_cores = 7)
   ) %>%
   setNames(paste0("model_", names(.)))
 
