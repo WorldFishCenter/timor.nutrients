@@ -62,28 +62,32 @@ plot_bars <- function(x) {
     tidyr::pivot_longer(c(Zinc:"Vitamin-A")) %>%
     dplyr::group_by(clusters, name) %>%
     dplyr::summarise(value = median(value, na.rm = T)) %>%
-    dplyr::mutate(labels = ifelse(value <= 0.4, NA_real_, value)) %>%
+    dplyr::mutate(labels = ifelse(value <= 0.5, NA_real_, value)) %>%
     ggplot2::ggplot(ggplot2::aes(clusters, value, fill = name, color = name)) +
     ggplot2::theme_bw() +
-    ggchicklet::geom_chicklet(radius = grid::unit(3, "pt"),
-                              alpha = 0.9,
-                              position = ggplot2::position_stack(reverse = FALSE),
-                              size = 0.4)+
-    ggplot2::geom_text(mapping = aes(x = clusters, y = value, label = round(labels, 1)),
-                       position = position_stack(0.5),
-                       color = "white",
-                       size = 2.5)+
+    ggchicklet::geom_chicklet(
+      radius = grid::unit(3, "pt"),
+      alpha = 0.9,
+      position = ggplot2::position_stack(reverse = FALSE),
+      size = 0.4
+    ) +
+    ggplot2::geom_text(
+      mapping = aes(x = clusters, y = value, label = round(labels, 1)),
+      position = position_stack(0.5),
+      color = "white",
+      size = 2.5
+    ) +
     ggplot2::scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
     ggplot2::scale_color_manual(values = timor.nutrients::palettes$nutrients_palette) +
     ggplot2::scale_y_continuous(n.breaks = 8) +
-    ggplot2::coord_flip(expand = FALSE)+
+    ggplot2::coord_flip(expand = FALSE, ylim = c(0, 13)) +
     ggplot2::theme(legend.position = "bottom") +
     ggplot2::labs(fill = "Nutrient", x = "", y = "") +
     ggplot2::theme(
       legend.position = "",
       plot.margin = unit(c(0, 0, 0, 0), "cm"),
-      panel.grid =ggplot2::element_blank()
-    )+
+      panel.grid = ggplot2::element_blank()
+    ) +
     ggplot2::guides(color = FALSE)
 }
 
@@ -99,11 +103,11 @@ plots <-
 
 
 legend_plot <- cowplot::get_legend(plots[[1]] +
-                                     ggplot2::theme(
-                                       legend.position = "right",
-                                       legend.key.size = ggplot2::unit(0.55, "cm"),
-                                       legend.title = ggplot2::element_text(size = 12)
-                                     ))
+  ggplot2::theme(
+    legend.position = "right",
+    legend.key.size = ggplot2::unit(0.55, "cm"),
+    legend.title = ggplot2::element_text(size = 12)
+  ))
 combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "AUTO")
 
 x_label <- cowplot::draw_label("N. individuals meeting RNI per 1kg of catch", x = 0.5, y = 0.05)
@@ -318,6 +322,289 @@ The SHAP value analysis for all fishing gear types other than gill nets reveals 
 In Mainland, the application of cast nets in reef habitats shows a strong link to nutritional profile NP-1. In FAD settings, nutritional profile NP-2 emerges as the most common outcome regardless of the gear type employed, with the notable exception of long lines, which instead suggest a higher likelihood of resulting in profile NP-3. The profiles NP-4 and NP-5 are distinctively aligned with certain fishing practices: NP-4 is closely associated with the use of hand lines in deep habitats, and NP-5 is characteristic of manual collection and spearfishing in littoral zones such as reefs and beaches.
 
 
+```{r echo=FALSE, fig.cap="Differential influence of mesh size and habitat x gear type interaction on the nutritional profile predictions in Atauro (A and C) and in Mainland (B and D). Panels A-B: These panels elucidate the impact of mesh size on the probability of observing various nutritional profiles in Atauro (Panel A) and Mainland (Panel B). Each panel includes five plots corresponding to distinct nutritional profiles (NP1-NP5), as forecasted by gill net XGBoost models. The plots exhibit distributions of SHAP values over a range of mesh sizes. Each data point is color-coded to represent different habitats (Beach, Deep, FAD, Mangrove, Reef and Seagrass), clarifying the mesh size's influence on the accuracy of predictions within each habitat. The y-axis details mesh size ranges, while the x-axis measures SHAP values, where higher values signal a stronger likelihood of a particular nutritional profile's presence. The size and opacity of each point are proportionate to the SHAP value's magnitude, visually indicating the significance of each data point in influencing the model's predictions. Panels C-D: In these panels, the interplay among habitat, gear type, and vessel type (motorized or unmotorized) is analyzed in relation to nutritional profiles in Atauro (Panel C) and Mainland (Panel D). Each plot showcases SHAP value distributions for the five nutritional profiles (NP1-NP5) predicted by XGBoost models applied to datasets encompassing all gear types, excluding gill nets. Data points are color-coded to differentiate between motorized and unmotorized vessels, shedding light on how vessel type, alongside habitat and gear interactions, modulates nutritional profile predictions. Echoing Panels A-B, elevated SHAP values on the x-axis indicate a heightened probability of a specific nutritional profile. Concurrently, the points' size and opacity correspond to the SHAP values, denoting their relative impact on the outcome prediction.", fig.height=9, fig.width=10, message=FALSE, warning=FALSE}
+sha_Agn <- shapviz::shapviz(timor.nutrients::shap_results$model_atauro_GN)
+sha_Mgn <- shapviz::shapviz(timor.nutrients::shap_results$model_timor_GN)
+
+p1 <-
+  sha_Agn %>%
+  purrr::map(get_shaps, model_type = "gn") %>%
+  dplyr::bind_rows(.id = "profile") %>%
+  dplyr::mutate(profile = stringr::str_replace(profile, ".pred_", "NP-")) %>%
+  dplyr::group_by(profile, habitat_fact, mesh_fact) %>%
+  dplyr::summarise(mesh_shap = median(mesh_shap, na.rm = T)) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(mesh_shap > 0) %>%
+  dplyr::mutate(habitat_fact = dplyr::case_when(habitat_fact == "Deep" ~ "Pelagic", TRUE ~ habitat_fact)) %>%
+  ggplot2::ggplot(ggplot2::aes(mesh_shap, mesh_fact, color = habitat_fact)) +
+  facet_grid(. ~ factor(profile, levels = c("NP-2", "NP-3", "NP-4", "NP-5", "NP-1")),
+    scales = "free"
+  ) +
+  # ggplot2::geom_jitter(width = 2, alpha = alpha, size = 1.5, show.legend = FALSE) +
+  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(mesh_shap), size = mesh_shap), ) +
+  ggplot2::theme_bw() +
+  # ggplot2::geom_hline(yintercept = 0, linetype = 2, color = "grey50") +
+  ggplot2::scale_color_manual(values = c("#f28f3b", "#c27ba0", "#ffd5c2", "#588b8b", "#c8553d", "#2d3047", "#007ea7")) +
+  ggplot2::coord_cartesian(expand = TRUE) +
+  ggplot2::scale_y_reverse(n.breaks = 10) +
+  # ggplot2::scale_x_continuous(n.breaks = 5) +
+  ggplot2::labs(color = "Habitat") +
+  ggplot2::theme(
+    panel.grid = ggplot2::element_blank(),
+    # panel.border = element_blank(), # This removes the border around each facet panel
+    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
+    strip.text.x = ggplot2::element_text(face = "bold")
+  ) +
+  ggplot2::guides(
+    color = ggplot2::guide_legend(override.aes = list(size = 3)),
+    alpha = "none",
+    size = "none"
+  ) +
+  ggplot2::labs(x = "", y = "")
+
+
+p2 <-
+  sha_Mgn %>%
+  purrr::map(get_shaps, model_type = "gn") %>%
+  dplyr::bind_rows(.id = "profile") %>%
+  dplyr::mutate(profile = stringr::str_replace(profile, ".pred_", "NP-")) %>%
+  dplyr::group_by(profile, habitat_fact, mesh_fact) %>%
+  dplyr::summarise(mesh_shap = median(mesh_shap, na.rm = T)) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(mesh_shap > 0) %>%
+  dplyr::mutate(habitat_fact = dplyr::case_when(habitat_fact == "Deep" ~ "Pelagic", TRUE ~ habitat_fact)) %>%
+  ggplot2::ggplot(ggplot2::aes(mesh_shap, mesh_fact, color = habitat_fact)) +
+  facet_grid(. ~ factor(profile, levels = c("NP-4", "NP-2", "NP-1", "NP-5", "NP-3")),
+    scales = "free"
+  ) +
+  # ggplot2::geom_jitter(width = 2, alpha = alpha, size = 1.5, show.legend = FALSE) +
+  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(mesh_shap), size = mesh_shap), ) +
+  ggplot2::theme_bw() +
+  # ggplot2::geom_hline(yintercept = 0, linetype = 2, color = "grey50") +
+  ggplot2::scale_color_manual(values = c("#f28f3b", "#c27ba0", "#ffd5c2", "#588b8b", "#c8553d", "#2d3047", "#007ea7")) +
+  ggplot2::coord_cartesian(expand = TRUE) +
+  ggplot2::scale_y_reverse(n.breaks = 10) +
+  # ggplot2::scale_x_continuous(n.breaks = 5) +
+  ggplot2::labs(color = "Habitat") +
+  ggplot2::theme(
+    panel.grid = ggplot2::element_blank(),
+    # panel.border = element_blank(), # This removes the border around each facet panel
+    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
+    strip.text.x = ggplot2::element_text(face = "bold")
+  ) +
+  ggplot2::guides(
+    color = ggplot2::guide_legend(override.aes = list(size = 3)),
+    alpha = "none",
+    size = "none"
+  ) +
+  ggplot2::labs(x = "", y = "")
+
+
+
+leg <- cowplot::get_legend(p2 +
+  ggplot2::theme(
+    plot.margin = unit(c(2, 0, 0, 0.9), "cm"),
+    # legend.title = ggplot2::element_text(size = 11),
+    legend.position = "right",
+    legend.direction = "vertical",
+    legend.justification = "right",
+    legend.box.just = "right",
+    legend.background = element_rect(fill = "transparent", colour = NA),
+    legend.box.background = element_rect(fill = "transparent", colour = NA)
+  ))
+
+base_plot <-
+  cowplot::plot_grid(
+    p1 + theme(
+      legend.position = "none",
+      plot.margin = unit(c(0, 0.5, -0.2, 0.9), "cm")
+    ),
+    p2 + theme(
+      legend.position = "none",
+      plot.margin = unit(c(-0.2, 0.5, 0, 0.9), "cm")
+    ),
+    ncol = 1,
+    labels = c("A", "B"),
+    hjust = -3.5,
+    vjust = 1.2,
+    align = "v"
+  )
+
+grid <-
+  cowplot::plot_grid(
+    base_plot,
+    leg,
+    # ncol = 2,
+    nrow = 1,
+    rel_widths = c(2, 0.3)
+  )
+
+pp1 <-
+  cowplot::ggdraw() +
+  cowplot::draw_plot(grid) +
+  cowplot::draw_label("Mesh size (mm)", x = 0.03, y = 0.7, angle = 90, hjust = 1, size = 12)
+
+sha_Aag <- shapviz::shapviz(timor.nutrients::shap_results$model_atauro_AG)
+sha_Mag <- shapviz::shapviz(timor.nutrients::shap_results$model_timor_AG)
+
+
+process_shap <-
+  sha_Aag %>%
+  purrr::map(get_shaps, model_type = "ag") %>%
+  dplyr::bind_rows(.id = "profile") %>%
+  dplyr::mutate(
+    profile = stringr::str_replace(profile, ".pred_", "NP-"),
+    vessel_fact = stringr::str_to_title(vessel_fact),
+    vessel_fact = ifelse(vessel_fact == "Motorised", "Unmotorised", "Motorised"),
+    habitat_gear_fact = stringr::str_replace(habitat_gear_fact, "Deep", "Pelagic")
+  )
+
+
+to_group <-
+  process_shap %>%
+  dplyr::mutate(
+    zero_dist = 0 - abs(habitat_gear_shap)
+  ) %>%
+  dplyr::group_by(habitat_gear_fact) %>%
+  dplyr::summarise(zero_dist = mean(zero_dist)) %>%
+  dplyr::slice_max(order_by = zero_dist, n = 15) %>%
+  magrittr::extract2("habitat_gear_fact")
+
+p1 <-
+  process_shap %>%
+  dplyr::mutate(habitat_gear_fact = ifelse(habitat_gear_fact %in% to_group, "Others", habitat_gear_fact)) %>%
+  dplyr::group_by(profile, vessel_fact, habitat_gear_fact) %>%
+  dplyr::summarise(habitat_gear_shap = median(habitat_gear_shap, na.rm = T)) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(habitat_gear_shap > 0) %>%
+  ggplot2::ggplot(ggplot2::aes(habitat_gear_shap, reorder(habitat_gear_fact, habitat_gear_shap), color = vessel_fact)) +
+  facet_grid(. ~ profile,
+    scales = "free"
+  ) +
+  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(habitat_gear_shap), size = habitat_gear_shap), ) +
+  ggplot2::theme_bw() +
+  ggplot2::scale_color_manual(values = c("grey50", "#bc4749")) +
+  ggplot2::coord_cartesian(expand = TRUE) +
+  ggplot2::labs(color = "Vessel type") +
+  ggplot2::theme(
+    panel.grid = ggplot2::element_blank(),
+    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
+    strip.text.x = ggplot2::element_text(face = "bold")
+  ) +
+  ggplot2::guides(
+    color = ggplot2::guide_legend(override.aes = list(size = 3)),
+    alpha = "none",
+    size = "none"
+  ) +
+  ggplot2::labs(x = "", y = "")
+
+
+process_shap <-
+  sha_Mag %>%
+  purrr::map(get_shaps, model_type = "ag") %>%
+  dplyr::bind_rows(.id = "profile") %>%
+  dplyr::mutate(
+    profile = stringr::str_replace(profile, ".pred_", "NP-"),
+    vessel_fact = stringr::str_to_title(vessel_fact),
+    vessel_fact = ifelse(vessel_fact == "Motorised", "Unmotorised", "Motorised"),
+    habitat_gear_fact = stringr::str_replace(habitat_gear_fact, "Deep", "Pelagic")
+  )
+to_group <-
+  process_shap %>%
+  dplyr::mutate(
+    zero_dist = 0 - abs(habitat_gear_shap)
+  ) %>%
+  dplyr::group_by(habitat_gear_fact) %>%
+  dplyr::summarise(zero_dist = mean(zero_dist)) %>%
+  dplyr::slice_max(order_by = zero_dist, n = 15) %>%
+  magrittr::extract2("habitat_gear_fact")
+
+p2 <-
+  process_shap %>%
+  dplyr::mutate(habitat_gear_fact = ifelse(habitat_gear_fact %in% to_group, "Others", habitat_gear_fact)) %>%
+  dplyr::group_by(profile, vessel_fact, habitat_gear_fact) %>%
+  dplyr::summarise(habitat_gear_shap = median(habitat_gear_shap, na.rm = T)) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(habitat_gear_shap > 0) %>%
+  ggplot2::ggplot(ggplot2::aes(habitat_gear_shap, reorder(habitat_gear_fact, habitat_gear_shap), color = vessel_fact)) +
+  facet_grid(. ~ profile,
+    scales = "free"
+  ) +
+  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(habitat_gear_shap), size = habitat_gear_shap), ) +
+  ggplot2::theme_bw() +
+  ggplot2::scale_color_manual(values = c("grey50", "#bc4749")) +
+  ggplot2::coord_cartesian(expand = TRUE) +
+  ggplot2::labs(color = "Vessel type") +
+  ggplot2::theme(
+    panel.grid = ggplot2::element_blank(),
+    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
+    strip.text.x = ggplot2::element_text(face = "bold")
+  ) +
+  ggplot2::guides(
+    color = ggplot2::guide_legend(override.aes = list(size = 3)),
+    alpha = "none",
+    size = "none"
+  ) +
+  ggplot2::labs(x = "", y = "")
+
+
+leg <- cowplot::get_legend(p2 +
+  ggplot2::theme(
+    plot.margin = unit(c(2, 0, 0, 0.9), "cm"),
+    # legend.title = ggplot2::element_text(size = 11),
+    legend.position = "right",
+    legend.direction = "vertical",
+    legend.justification = "right",
+    legend.box.just = "right",
+    legend.background = element_rect(fill = "transparent", colour = NA),
+    legend.box.background = element_rect(fill = "transparent", colour = NA)
+  ))
+
+base_plot <-
+  cowplot::plot_grid(
+    p1 + theme(
+      legend.position = "none",
+      plot.margin = unit(c(0, 0.5, -0.2, 0.9), "cm")
+    ),
+    p2 + theme(
+      legend.position = "none",
+      plot.margin = unit(c(-0.2, 0.5, 0, 0.9), "cm")
+    ),
+    ncol = 1,
+    labels = c("C", "D"),
+    hjust = -3.5,
+    vjust = 1.2,
+    align = "v"
+  )
+
+grid <-
+  cowplot::plot_grid(
+    base_plot,
+    leg,
+    # ncol = 2,
+    nrow = 1,
+    rel_widths = c(2, 0.3)
+  )
+
+pp2 <-
+  cowplot::ggdraw(ylim = c(-.05, NA)) +
+  cowplot::draw_plot(grid) +
+  cowplot::draw_label("Habitat x Gear type", x = 0.03, y = 0.7, angle = 90, hjust = 1, size = 12) +
+  cowplot::draw_label("SHAP value", x = 0.5, y = 0, size = 12)
+
+cowplot::plot_grid(pp1, pp2, ncol = 1, rel_heights = c(1.1, 1.3))
+```
+
+
+
+```{r eval=FALSE, fig.height=7, fig.width=8, message=FALSE, warning=FALSE, include=FALSE}
+plot_model_shaps(timor.nutrients::shap_results$model_atauro_AG,
+  model_type = "ag",
+  cols = 2,
+  alpha = 0.25,
+  drop_legend = TRUE
+)
+```
 
 ```{r eval=FALSE, fig.cap="Differential influence of mesh size on nutritional profile predictions across habitats. The figure compiles subplots for five distinct nutritional profiles (NP1-NP5) as predicted by gill net XGBoost models", fig.height=7, fig.width=8, message=FALSE, warning=FALSE, include=FALSE}
 # atauro gn
@@ -411,286 +698,6 @@ final_plot <-
   )
 final_plot
 ```
-
-
-```{r echo=FALSE, fig.cap="Differential influence of mesh size and habitat x gear type interaction on the nutritional profile predictions in Atauro (A and C) and in Mainland (B and D). Panels A-B: These panels elucidate the impact of mesh size on the probability of observing various nutritional profiles in Atauro (Panel A) and Mainland (Panel B). Each panel includes five plots corresponding to distinct nutritional profiles (NP1-NP5), as forecasted by gill net XGBoost models. The plots exhibit distributions of SHAP values over a range of mesh sizes. Each data point is color-coded to represent different habitats (Beach, Deep, FAD, Mangrove, Reef and Seagrass), clarifying the mesh size's influence on the accuracy of predictions within each habitat. The y-axis details mesh size ranges, while the x-axis measures SHAP values, where higher values signal a stronger likelihood of a particular nutritional profile's presence. The size and opacity of each point are proportionate to the SHAP value's magnitude, visually indicating the significance of each data point in influencing the model's predictions. Panels C-D: In these panels, the interplay among habitat, gear type, and vessel type (motorized or unmotorized) is analyzed in relation to nutritional profiles in Atauro (Panel C) and Mainland (Panel D). Each plot showcases SHAP value distributions for the five nutritional profiles (NP1-NP5) predicted by XGBoost models applied to datasets encompassing all gear types, excluding gill nets. Data points are color-coded to differentiate between motorized and unmotorized vessels, shedding light on how vessel type, alongside habitat and gear interactions, modulates nutritional profile predictions. Echoing Panels A-B, elevated SHAP values on the x-axis indicate a heightened probability of a specific nutritional profile. Concurrently, the points' size and opacity correspond to the SHAP values, denoting their relative impact on the outcome prediction.", fig.height=9, fig.width=10, message=FALSE, warning=FALSE}
-
-sha_Agn <- shapviz::shapviz(timor.nutrients::shap_results$model_atauro_GN)
-sha_Mgn <- shapviz::shapviz(timor.nutrients::shap_results$model_timor_GN)
-
-p1 <-
-  sha_Agn %>%
-  purrr::map(get_shaps,model_type = "gn") %>%
-  dplyr::bind_rows(.id = "profile") %>%
-  dplyr::mutate(profile = stringr::str_replace(profile, ".pred_", "NP-")) %>%
-  dplyr::group_by(profile, habitat_fact, mesh_fact) %>%
-  dplyr::summarise(mesh_shap = median(mesh_shap, na.rm = T)) %>%
-  dplyr::ungroup() %>%
-  dplyr::filter(mesh_shap > 0) %>%
-  ggplot2::ggplot(ggplot2::aes(mesh_shap, mesh_fact, color = habitat_fact)) +
-  facet_grid(. ~ factor(profile, levels = c("NP-2", "NP-3", "NP-4", "NP-5", "NP-1")),
-             scales = "free"
-  ) +
-  # ggplot2::geom_jitter(width = 2, alpha = alpha, size = 1.5, show.legend = FALSE) +
-  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(mesh_shap), size = mesh_shap), ) +
-  ggplot2::theme_bw() +
-  # ggplot2::geom_hline(yintercept = 0, linetype = 2, color = "grey50") +
-  ggplot2::scale_color_manual(values = c("#f28f3b", "#c27ba0", "#ffd5c2", "#588b8b", "#c8553d", "#2d3047", "#007ea7")) +
-  ggplot2::coord_cartesian(expand = TRUE) +
-  ggplot2::scale_y_reverse(n.breaks = 10) +
-  # ggplot2::scale_x_continuous(n.breaks = 5) +
-  ggplot2::labs(color = "Habitat") +
-  ggplot2::theme(
-    panel.grid = ggplot2::element_blank(),
-    # panel.border = element_blank(), # This removes the border around each facet panel
-    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
-    strip.text.x = ggplot2::element_text(face = "bold")
-  ) +
-  ggplot2::guides(
-    color = ggplot2::guide_legend(override.aes = list(size = 3)),
-    alpha = "none",
-    size = "none"
-  ) +
-  ggplot2::labs(x = "", y = "")
-
-
-p2 <-
-  sha_Mgn %>%
-  purrr::map(get_shaps, model_type = "gn") %>%
-  dplyr::bind_rows(.id = "profile") %>%
-  dplyr::mutate(profile = stringr::str_replace(profile, ".pred_", "NP-")) %>%
-  dplyr::group_by(profile, habitat_fact, mesh_fact) %>%
-  dplyr::summarise(mesh_shap = median(mesh_shap, na.rm = T)) %>%
-  dplyr::ungroup() %>%
-  dplyr::filter(mesh_shap > 0) %>%
-  ggplot2::ggplot(ggplot2::aes(mesh_shap, mesh_fact, color = habitat_fact)) +
-  facet_grid(. ~ factor(profile, levels = c("NP-4", "NP-2", "NP-1", "NP-5", "NP-3")),
-             scales = "free"
-  ) +
-  # ggplot2::geom_jitter(width = 2, alpha = alpha, size = 1.5, show.legend = FALSE) +
-  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(mesh_shap), size = mesh_shap), ) +
-  ggplot2::theme_bw() +
-  # ggplot2::geom_hline(yintercept = 0, linetype = 2, color = "grey50") +
-  ggplot2::scale_color_manual(values = c("#f28f3b", "#c27ba0", "#ffd5c2", "#588b8b", "#c8553d", "#2d3047", "#007ea7")) +
-  ggplot2::coord_cartesian(expand = TRUE) +
-  ggplot2::scale_y_reverse(n.breaks = 10) +
-  # ggplot2::scale_x_continuous(n.breaks = 5) +
-  ggplot2::labs(color = "Habitat") +
-  ggplot2::theme(
-    panel.grid = ggplot2::element_blank(),
-    # panel.border = element_blank(), # This removes the border around each facet panel
-    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
-    strip.text.x = ggplot2::element_text(face = "bold")
-  ) +
-  ggplot2::guides(
-    color = ggplot2::guide_legend(override.aes = list(size = 3)),
-    alpha = "none",
-    size = "none"
-  ) +
-  ggplot2::labs(x = "", y = "")
-
-
-
-leg <- cowplot::get_legend(p2 +
-                             ggplot2::theme(
-                               plot.margin = unit(c(2, 0, 0, 0.9), "cm"),
-                               # legend.title = ggplot2::element_text(size = 11),
-                               legend.position = "right",
-                               legend.direction = "vertical",
-                               legend.justification = "right",
-                               legend.box.just = "right",
-                               legend.background = element_rect(fill = "transparent", colour = NA),
-                               legend.box.background = element_rect(fill = "transparent", colour = NA)
-                             ))
-
-base_plot <-
-  cowplot::plot_grid(
-    p1 + theme(
-      legend.position = "none",
-      plot.margin = unit(c(0, 0.5, -0.2, 0.9), "cm")
-    ),
-    p2 + theme(
-      legend.position = "none",
-      plot.margin = unit(c(-0.2, 0.5, 0, 0.9), "cm")
-    ),
-    ncol = 1,
-    labels = c("A", "B"),
-    hjust = -3.5,
-    vjust = 1.2,
-    align = "v"
-  )
-
-grid <-
-  cowplot::plot_grid(
-    base_plot,
-    leg,
-    # ncol = 2,
-    nrow = 1,
-    rel_widths = c(2, 0.3)
-  )
-
-pp1 <- 
-  cowplot::ggdraw() +
-  cowplot::draw_plot(grid) +
-  cowplot::draw_label("Mesh size (mm)", x = 0.03, y = 0.7, angle = 90, hjust = 1, size = 12)
-
-sha_Aag <- shapviz::shapviz(timor.nutrients::shap_results$model_atauro_AG)
-sha_Mag<- shapviz::shapviz(timor.nutrients::shap_results$model_timor_AG)
-
-
-process_shap <- 
-  sha_Aag %>%
-  purrr::map(get_shaps, model_type = "ag") %>%
-  dplyr::bind_rows(.id = "profile") %>%
-  dplyr::mutate(profile = stringr::str_replace(profile, ".pred_", "NP-"),
-                vessel_fact = stringr::str_to_title(vessel_fact),
-                vessel_fact = ifelse(vessel_fact == "Motorised", "Unmotorised", "Motorised"))
-
-
-to_group <-
-  process_shap %>%
-  dplyr::mutate(
-    zero_dist = 0 - abs(habitat_gear_shap)
-  ) %>%
-  dplyr::group_by(habitat_gear_fact) %>%
-  dplyr::summarise(zero_dist = mean(zero_dist)) %>%
-  dplyr::slice_max(order_by = zero_dist, n = 15) %>%
-  magrittr::extract2("habitat_gear_fact")
-
-p1 <- 
-  process_shap %>% 
-  dplyr::mutate(habitat_gear_fact = ifelse(habitat_gear_fact %in% to_group, "Others", habitat_gear_fact)) %>% 
-  dplyr::group_by(profile, vessel_fact, habitat_gear_fact) %>%
-  dplyr::summarise(habitat_gear_shap = median(habitat_gear_shap, na.rm = T)) %>%
-  dplyr::ungroup() %>% 
-  dplyr::filter(habitat_gear_shap > 0) %>%
-  ggplot2::ggplot(ggplot2::aes(habitat_gear_shap, reorder(habitat_gear_fact, habitat_gear_shap), color = vessel_fact)) +
-  facet_grid(. ~ profile,
-             scales = "free"
-  ) +
-  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(habitat_gear_shap), size = habitat_gear_shap), ) +
-  ggplot2::theme_bw() +
-  ggplot2::scale_color_manual(values = c("grey50", "#bc4749")) +
-  ggplot2::coord_cartesian(expand = TRUE) +
-  ggplot2::labs(color = "Vessel type") +
-  ggplot2::theme(
-    panel.grid = ggplot2::element_blank(),
-    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
-    strip.text.x = ggplot2::element_text(face = "bold")
-  ) +
-  ggplot2::guides(
-    color = ggplot2::guide_legend(override.aes = list(size = 3)),
-    alpha = "none",
-    size = "none"
-  ) +
-  ggplot2::labs(x = "", y = "")
-
-
-process_shap <- 
-  sha_Mag %>%
-  purrr::map(get_shaps, model_type = "ag") %>%
-  dplyr::bind_rows(.id = "profile") %>%
-  dplyr::mutate(profile = stringr::str_replace(profile, ".pred_", "NP-"),
-                vessel_fact = stringr::str_to_title(vessel_fact),
-                vessel_fact = ifelse(vessel_fact == "Motorised", "Unmotorised", "Motorised"))
-
-to_group <-
-  process_shap %>%
-  dplyr::mutate(
-    zero_dist = 0 - abs(habitat_gear_shap)
-  ) %>%
-  dplyr::group_by(habitat_gear_fact) %>%
-  dplyr::summarise(zero_dist = mean(zero_dist)) %>%
-  dplyr::slice_max(order_by = zero_dist, n = 15) %>%
-  magrittr::extract2("habitat_gear_fact")
-
-p2 <- 
-  process_shap %>% 
-  dplyr::mutate(habitat_gear_fact = ifelse(habitat_gear_fact %in% to_group, "Others", habitat_gear_fact)) %>% 
-  dplyr::group_by(profile, vessel_fact, habitat_gear_fact) %>%
-  dplyr::summarise(habitat_gear_shap = median(habitat_gear_shap, na.rm = T)) %>%
-  dplyr::ungroup() %>% 
-  dplyr::filter(habitat_gear_shap > 0) %>%
-  ggplot2::ggplot(ggplot2::aes(habitat_gear_shap, reorder(habitat_gear_fact, habitat_gear_shap), color = vessel_fact)) +
-  facet_grid(. ~ profile,
-             scales = "free"
-  ) +
-  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(habitat_gear_shap), size = habitat_gear_shap), ) +
-  ggplot2::theme_bw() +
-  ggplot2::scale_color_manual(values = c("grey50", "#bc4749")) +
-  ggplot2::coord_cartesian(expand = TRUE) +
-  ggplot2::labs(color = "Vessel type") +
-  ggplot2::theme(
-    panel.grid = ggplot2::element_blank(),
-    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
-    strip.text.x = ggplot2::element_text(face = "bold")
-  ) +
-  ggplot2::guides(
-    color = ggplot2::guide_legend(override.aes = list(size = 3)),
-    alpha = "none",
-    size = "none"
-  ) +
-  ggplot2::labs(x = "", y = "")
-
-
-leg <- cowplot::get_legend(p2 +
-                             ggplot2::theme(
-                               plot.margin = unit(c(2, 0, 0, 0.9), "cm"),
-                               # legend.title = ggplot2::element_text(size = 11),
-                               legend.position = "right",
-                               legend.direction = "vertical",
-                               legend.justification = "right",
-                               legend.box.just = "right",
-                               legend.background = element_rect(fill = "transparent", colour = NA),
-                               legend.box.background = element_rect(fill = "transparent", colour = NA)
-                             ))
-
-base_plot <-
-  cowplot::plot_grid(
-    p1 + theme(
-      legend.position = "none",
-      plot.margin = unit(c(0, 0.5, -0.2, 0.9), "cm")
-    ),
-    p2 + theme(
-      legend.position = "none",
-      plot.margin = unit(c(-0.2, 0.5, 0, 0.9), "cm")
-    ),
-    ncol = 1,
-    labels = c("C", "D"),
-    hjust = -3.5,
-    vjust = 1.2,
-    align = "v"
-  )
-
-grid <-
-  cowplot::plot_grid(
-    base_plot,
-    leg,
-    # ncol = 2,
-    nrow = 1,
-    rel_widths = c(2, 0.3)
-  )
-
-pp2 <-
-  cowplot::ggdraw(ylim = c(-.05, NA)) +
-  cowplot::draw_plot(grid) +
-  cowplot::draw_label("Habitat x Gear type", x = 0.03, y = 0.7, angle = 90, hjust = 1, size = 12)+
-  cowplot::draw_label("SHAP value", x = 0.5, y = 0, size = 12)
-
-cowplot::plot_grid(pp1, pp2, ncol = 1, rel_heights = c(1.1, 1.3))
-```
-
-
-
-```{r eval=FALSE, fig.height=7, fig.width=8, message=FALSE, warning=FALSE, include=FALSE}
-plot_model_shaps(timor.nutrients::shap_results$model_atauro_AG,
-  model_type = "ag",
-  cols = 2,
-  alpha = 0.25,
-  drop_legend = TRUE
-)
-```
-
 
 ## Preliminary considerations
 

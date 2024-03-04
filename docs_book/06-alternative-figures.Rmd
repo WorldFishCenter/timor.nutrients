@@ -1,0 +1,377 @@
+---
+---
+---
+
+# Alternative figures {#afigures}
+
+```{r echo=FALSE, fig.cap="To define", fig.height=9, fig.width=11.75, message=FALSE, warning=FALSE}
+
+catch_groups_name <-
+  timor.nutrients::catch_groups %>%
+  dplyr::select(
+    grouped_taxa = interagency_code,
+    catch_name
+  )
+
+tot_catch <-
+  timor.nutrients::region_stats %>%
+  dplyr::mutate(year = lubridate::year(date_bin_start)) %>%
+  dplyr::group_by(grouped_taxa, year) %>%
+  dplyr::summarise(catch = sum(catch)) %>%
+  dplyr::group_by(grouped_taxa) %>%
+  dplyr::summarise(catch = mean(catch)) %>%
+  dplyr::left_join(catch_groups_name) %>%
+  dplyr::select(-grouped_taxa) %>%
+  dplyr::select(catch_name, catch) %>%
+  dplyr::mutate(catch = catch / 1000)
+
+base_plot <-
+  timor.nutrients::nutrients_table %>%
+  dplyr::left_join(catch_groups_name) %>%
+  dplyr::select(catch_name, grouped_taxa, Selenium_mu:Vitamin_A_mu) %>%
+  rename_nutrients_mu(hyphen = FALSE) %>%
+  tidyr::pivot_longer(-c(catch_name, grouped_taxa), names_to = "nutrient", values_to = "concentration") %>%
+  dplyr::filter(!nutrient == "selenium" & !catch_name %in% "Other") %>%
+  dplyr::left_join(RDI_tab) %>%
+  dplyr::mutate(
+    nutrient = stringr::str_to_title(nutrient),
+    nutrient = dplyr::case_when(
+      nutrient == "Omega3" ~ "Omega-3",
+      nutrient == "Vitamina" ~ "Vitamin-A",
+      TRUE ~ nutrient
+    )
+  ) %>%
+  dplyr::mutate(rdi = (concentration * 100) / conv_factor) %>%
+  dplyr::group_by(catch_name) %>%
+  dplyr::mutate(tot = sum(rdi, na.rm = T)) %>%
+  dplyr::arrange(-tot) %>%
+  dplyr::left_join(tot_catch) %>%
+  tidyr::replace_na(list(catch = 0)) %>%
+  dplyr::arrange(dplyr::desc(nutrient)) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(
+    fish_group = dplyr::case_when(
+      grouped_taxa %in% c("COZ", "CUX") ~ "Molluscs",
+      grouped_taxa %in% c("PEZ") ~ "Shrimps",
+      grouped_taxa %in% c("MZZ") ~ "Other",
+      grouped_taxa %in% c("SLV", "CRA") ~ "Crustaceans",
+      grouped_taxa %in% c("OCZ", "IAX") ~ "Cephalopods",
+      grouped_taxa %in% c("SKH", "SRX") ~ "Sharks and rays",
+      grouped_taxa %in% c("SNA", "GPX", "PWT", "GRX", "MUI", "BGX") ~ "Large demersals",
+      grouped_taxa %in% c("CGX", "TUN", "BEN", "LWX", "BAR", "SFA", "CBA", "DOX", "ECN", "DOS") ~ "Large pelagics",
+      grouped_taxa %in% c("YDX", "SPI", "EMP", "SUR", "TRI", "MOJ", "WRA", "BWH", "LGE", "MOB", "MHL", "GOX", "THO", "IHX", "APO", "IHX", "PUX", "DRZ") ~ "Small demersals",
+      grouped_taxa %in% c("RAX", "SDX", "CJX", "CLP", "GZP", "FLY", "KYX", "MOO", "CLP", "MUL", "DSF", "MIL", "THF") ~ "Small pelagics",
+      TRUE ~ NA_character_
+    ),
+    fish_group = ifelse(fish_group %in% c("Shrimps", "Molluscs", "Cephalopods", "Crustaceans"), "Other groups", fish_group),
+  )
+
+
+tot_catch_plot <-
+  base_plot %>%
+  dplyr::group_by(catch_name) %>% # Added .drop false to ensure that all factor levels remain in plot
+  dplyr::summarise(
+    catch_t = dplyr::first(catch),
+    tot_t = dplyr::first(tot)
+  )
+# base_plot %>% View()
+
+base_plot <-
+  dplyr::left_join(base_plot, tot_catch_plot, by = "catch_name") %>%
+  dplyr::filter(catch_t > 0) %>%
+  dplyr::mutate(
+    VarColor = dplyr::case_when(
+      fish_group == "Small pelagics" ~ "#bc4749",
+      fish_group == "Small demersals" ~ "#e9c46a",
+      fish_group == "Large pelagics" ~ "#2a9d8f",
+      fish_group == "Large demersals" ~ "#007ea7",
+      fish_group == "Sharks and rays" ~ "#264653",
+      fish_group == "Other groups" ~ "#898989",
+      TRUE ~ "#000000"
+    ),
+    ColoredVar = glue::glue("<span style='color:{VarColor}'>{catch_name}</span>"),
+    fish_group = factor(fish_group, levels = c(
+      "Small pelagics", "Large pelagics", "Small demersals", "Large demersals",
+      "Sharks and rays", "Other groups"
+    ))
+  )
+
+long_plot <-
+  ggplot2::ggplot() +
+  ggplot2::theme_bw() +
+  ggchicklet::geom_chicklet(base_plot,
+    mapping = ggplot2::aes(
+      y = rdi, x = reorder(ColoredVar, tot),
+      fill = nutrient,
+      color = nutrient
+    ),
+    position = ggplot2::position_stack(reverse = FALSE),
+    alpha = 0.8,
+    width = 1
+  ) +
+  geom_text(base_plot,
+    mapping = aes(y = rdi, x = reorder(ColoredVar, tot), label = round(rdi, 2) * 100),
+    position = position_stack(0.5),
+    color = "white",
+    size = 3
+  ) +
+  geom_text(base_plot,
+    mapping = aes(
+      y = tot_t, x = reorder(ColoredVar, tot_t),
+      label = scales::comma(round(catch_t, 1), suffix = " t"),
+      alpha = sqrt(catch_t)
+    ),
+    size = 3,
+    nudge_y = 0.1
+  ) +
+  facet_grid(fish_group ~ ., scales = "free", space = "free") +
+  coord_flip(expand = FALSE) +
+  ggplot2::scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
+  ggplot2::scale_color_manual(values = timor.nutrients::palettes$nutrients_palette) +
+  ggplot2::scale_y_continuous(labels = scales::percent, n.breaks = 10) +
+  ggplot2::labs(x = "", y = "Cumulative nutrient score", fill = "Nutrient") +
+  ggplot2::theme(
+    legend.position = "bottom",
+    panel.grid = element_blank(),
+    strip.background = ggplot2::element_blank(),
+    strip.text = ggplot2::element_blank(),
+    axis.text.y = ggtext::element_markdown(),
+    panel.spacing = unit(0.1, "lines")
+  ) +
+  guides(
+    alpha = "none",
+    color = "none"
+  )
+
+# groups_palette <- c("#2a9d8f", "#264653", "#007ea7", "#e9c46a", "#898989", "#bc4749")
+groups_palette <- c("#bc4749", "#2a9d8f", "#e9c46a", "#007ea7", "#264653", "#898989")
+
+
+groups_plot <-
+  timor.nutrients::region_stats %>%
+  dplyr::mutate(fish_group = dplyr::case_when(
+    grouped_taxa %in% c("COZ") ~ "Molluscs",
+    grouped_taxa %in% c("PEZ") ~ "Shrimps",
+    grouped_taxa %in% c("MZZ") ~ "Other",
+    grouped_taxa %in% c("SLV", "CRA") ~ "Crustaceans",
+    grouped_taxa %in% c("OCZ", "IAX") ~ "Cephalopods",
+    grouped_taxa %in% c("SKH", "SRX") ~ "Sharks and rays",
+    grouped_taxa %in% c("SNA", "GPX", "PWT", "GRX", "MUI", "BGX") ~ "Large demersals",
+    grouped_taxa %in% c("CGX", "TUN", "BEN", "LWX", "BAR", "SFA", "CBA", "DOX", "ECN", "DOS") ~ "Large pelagics",
+    grouped_taxa %in% c("YDX", "SPI", "EMP", "SUR", "TRI", "MOJ", "WRA", "BWH", "LGE", "MOB", "MHL", "GOX", "THO", "IHX", "APO", "IHX", "PUX", "DRZ") ~ "Small demersals",
+    grouped_taxa %in% c("RAX", "SDX", "CJX", "CLP", "GZP", "FLY", "KYX", "MOO", "CLP", "MUL", "DSF", "MIL", "THF") ~ "Small pelagics",
+    TRUE ~ NA_character_
+  )) %>%
+  dplyr::select(-grouped_taxa) %>%
+  dplyr::group_by(fish_group) %>%
+  dplyr::summarise(dplyr::across(dplyr::where(is.numeric), ~ sum(.x, na.rm = T))) %>%
+  na.omit() %>%
+  tidyr::pivot_longer(-c(fish_group, catch), names_to = "nutrient") %>%
+  dplyr::group_by(nutrient, fish_group) %>%
+  dplyr::summarise(value = sum(value)) %>%
+  dplyr::arrange(-value, .by_group = TRUE) %>%
+  dplyr::select(fish_group, nutrient, value) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(
+    nutrient = as.factor(nutrient),
+    fish_group = ifelse(fish_group %in% c("Shrimps", "Molluscs", "Cephalopods", "Crustaceans"), "Other groups", fish_group),
+    fish_group = factor(fish_group, levels = c(
+      "Shrimps", "Molluscs", "Cephalopods", "Crustaceans",
+      "Other groups", "Sharks and rays", "Large demersals",
+      "Small demersals", "Large pelagics", "Small pelagics"
+    ))
+  ) %>%
+  dplyr::filter(!nutrient == "selenium") %>%
+  dplyr::mutate(
+    nutrient = stringr::str_to_title(nutrient),
+    nutrient = dplyr::case_when(
+      nutrient == "Omega3" ~ "Omega-3",
+      nutrient == "Vitamina" ~ "Vitamin-A",
+      TRUE ~ nutrient
+    )
+  ) %>%
+  ggplot(aes(fish_group, value / 1000, fill = fish_group)) +
+  theme_bw() +
+  ggchicklet::geom_chicklet(
+    alpha = 0.8,
+    radius = grid::unit(5, "pt")
+  ) +
+  facet_wrap(. ~ nutrient, scales = "free", ncol = 2) +
+  labs(y = "Tons", x = "", fill = "Fish group") +
+  theme(
+    legend.position = "",
+    panel.grid = element_blank(),
+    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
+    strip.text.x = ggplot2::element_text(face = "bold"),
+    axis.text.y = ggplot2::element_blank(),
+    axis.ticks.y = ggplot2::element_blank(),
+    panel.spacing.x = unit(0.1, "lines"),
+    panel.spacing.y = unit(0.1, "lines")
+  ) +
+  scale_fill_manual(
+    values = groups_palette,
+    breaks = c(
+      "Small pelagics", "Large pelagics", "Small demersals", "Large demersals",
+      "Sharks and rays", "Other groups"
+    )
+  ) +
+  scale_y_continuous(n.breaks = 4) +
+  coord_flip(expand = F)
+
+###
+
+groups_palette <- c("#bc4749", "#2a9d8f", "#e9c46a", "#007ea7", "#264653", "#898989")
+
+top_groups <-
+  timor.nutrients::region_stats %>%
+  dplyr::select(grouped_taxa, catch) %>%
+  dplyr::mutate(
+    tot_catch = sum(catch, na.rm = T),
+    fish_group = dplyr::case_when(
+      grouped_taxa %in% c("COZ") ~ "Molluscs",
+      grouped_taxa %in% c("PEZ") ~ "Shrimps",
+      grouped_taxa %in% c("MZZ") ~ "Other",
+      grouped_taxa %in% c("SLV", "CRA") ~ "Crustaceans",
+      grouped_taxa %in% c("OCZ", "IAX") ~ "Cephalopods",
+      grouped_taxa %in% c("SKH", "SRX") ~ "Sharks and rays",
+      grouped_taxa %in% c("SNA", "GPX", "PWT", "GRX", "MUI", "BGX") ~ "Large demersals",
+      grouped_taxa %in% c("CGX", "TUN", "BEN", "LWX", "BAR", "SFA", "CBA", "DOX", "ECN", "DOS") ~ "Large pelagics",
+      grouped_taxa %in% c("YDX", "SPI", "EMP", "SUR", "TRI", "MOJ", "WRA", "BWH", "LGE", "MOB", "MHL", "GOX", "THO", "IHX", "APO", "IHX", "PUX", "DRZ") ~ "Small demersals",
+      grouped_taxa %in% c("RAX", "SDX", "CJX", "CLP", "GZP", "FLY", "KYX", "MOO", "CLP", "MUL", "DSF", "MIL", "THF") ~ "Small pelagics",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  dplyr::mutate(fish_group = ifelse(fish_group %in% c("Shrimps", "Molluscs", "Cephalopods", "Crustaceans"), "Other groups", fish_group)) %>%
+  dplyr::group_by(fish_group, grouped_taxa) %>%
+  dplyr::summarise(
+    tot_catch = dplyr::first(tot_catch),
+    catch = sum(catch, na.rm = T),
+    catch_percent = catch / tot_catch * 100
+  ) %>%
+  dplyr::group_by(fish_group) %>%
+  dplyr::slice_max(catch_percent, n = 1) %>%
+  dplyr::arrange(-catch_percent, .by_group = T) %>%
+  na.omit() %>%
+  dplyr::rename(interagency_code = "grouped_taxa") %>%
+  dplyr::left_join(timor.nutrients::catch_groups, by = "interagency_code") %>%
+  dplyr::select(fish_group, catch_name, interagency_code, catch_percent) %>%
+  dplyr::ungroup()
+
+revenue_dat <-
+  timor.nutrients::catch_data %>%
+  tidyr::unnest(landing_catch) %>%
+  tidyr::unnest(length_frequency) %>%
+  dplyr::filter(!is.na(.data$weight), !is.na(landing_value)) %>%
+  dplyr::group_by(landing_id) %>%
+  dplyr::mutate(n = dplyr::n()) %>%
+  dplyr::filter(n == 1) %>%
+  dplyr::select(-n) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(tot_obs = length(unique(landing_id))) %>%
+  dplyr::group_by(catch_taxon) %>%
+  dplyr::filter(catch_taxon %in% top_groups$interagency_code) %>%
+  dplyr::group_by(.data$landing_id, .data$catch_taxon) %>%
+  dplyr::summarise(
+    landing_value = dplyr::first(landing_value),
+    dplyr::across(
+      c(.data$weight:.data$Vitamin_A_mu),
+      ~ sum(.x)
+    )
+  )
+
+models <-
+  revenue_dat %>%
+  dplyr::ungroup() %>%
+  dplyr::select(catch_taxon, landing_value, weight) %>%
+  # dplyr::group_by(catch_taxon) %>%
+  # dplyr::mutate(model = broom::augment(stats::lm(formula = log(landing_value + 1) ~ log(weight / 1000 + 1)))) %>%
+  # dplyr::ungroup() %>%
+  # dplyr::mutate(cooksd = .data$model$`.cooksd`) %>%
+  # dplyr::select(-.data$model) %>%
+  # dplyr::mutate(out = dplyr::case_when(.data$cooksd > (5 * mean(.data$cooksd)) ~ 1, TRUE ~ 0)) %>%
+  # dplyr::filter(out == 0) %>%
+  # dplyr::select(-out, -cooksd) %>%
+  dplyr::select(catch_taxon, landing_value, weight) %>%
+  split(.$catch_taxon) %>%
+  purrr::map(~ lm(log(landing_value) ~ log(weight), data = .x)) %>%
+  purrr::map(~ predict(.x, data.frame(weight = log(1000)))) %>%
+  dplyr::bind_rows(.id = "catch_taxon") %>%
+  dplyr::rename(price = `1`) %>%
+  dplyr::mutate(price = round(exp(price) * 10, 2))
+
+
+revenue_dat <-
+  revenue_dat %>%
+  rename_nutrients_mu() %>%
+  tidyr::pivot_longer(-c(landing_id:weight), names_to = "nutrient") %>%
+  dplyr::filter(!nutrient == "selenium") %>%
+  dplyr::left_join(RDI_tab) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(
+    value = value / weight * 100,
+    inds = value / conv_factor * 100
+  ) %>%
+  dplyr::group_by(landing_id, catch_taxon) %>%
+  dplyr::mutate(inds_100 = sum(inds)) %>%
+  dplyr::group_by(catch_taxon) %>%
+  dplyr::summarise(
+    inds = dplyr::first(inds_100)
+  ) %>%
+  dplyr::left_join(models) %>%
+  dplyr::rename(interagency_code = catch_taxon) %>%
+  dplyr::left_join(timor.nutrients::catch_groups, by = "interagency_code") %>%
+  dplyr::left_join(top_groups, by = "catch_name") %>%
+  dplyr::select(fish_group, catch_name, price, inds, catch_percent)
+
+revenue_plot <-
+  revenue_dat %>%
+  dplyr::mutate(fish_group = factor(fish_group, levels = c(
+    "Small pelagics", "Large pelagics", "Small demersals", "Large demersals",
+    "Sharks and rays", "Other groups"
+  ))) %>%
+  # dplyr::filter(!catch_name %in% c("Stingrays")) %>%
+  ggplot(aes(inds, price, size = catch_percent, color = fish_group)) +
+  theme_bw() +
+  geom_point(stroke = 2, alpha = 0.5) +
+  geom_point(size = 1) +
+  geom_text(aes(label = catch_name, color = fish_group), size = 3.5, vjust = -2.2, show.legend = FALSE) +
+  scale_size(range = c(1, 15)) +
+  coord_cartesian(ylim = c(0, 11)) +
+  scale_x_continuous(labels = scales::label_percent(scale = 1), n.breaks = 8) +
+  scale_y_continuous(labels = scales::label_dollar(), n.breaks = 8) +
+  scale_color_manual(values = groups_palette) +
+  theme(
+    panel.grid = element_blank(),
+    legend.position = "bottom"
+  ) +
+  guides(
+    size = "none",
+    colour = guide_legend(override.aes = list(size = 5))
+  ) +
+  labs(
+    x = "Cumulative nutrient score",
+    y = "Price (USD / kg)",
+    color = ""
+  )
+
+
+second_row_plot <- cowplot::plot_grid(
+  groups_plot, #+ theme(plot.margin = unit(c(0, 0, 0, +2.2), "cm")),
+  revenue_plot,
+  ncol = 1,
+  align = "hv",
+  labels = c("B", "C"),
+  rel_heights = c(1.2, 1)
+)
+
+cowplot::plot_grid(
+  long_plot,
+  second_row_plot,
+  ncol = 2,
+  align = "hv",
+  rel_widths = c(1.75, 1),
+  labels = "AUTO"
+)
+
+```
+

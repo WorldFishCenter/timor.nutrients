@@ -76,7 +76,7 @@ region_stats <-
 trips <- get_merged_trips(pars) %>% dplyr::filter(!is.na(landing_id))
 
 kobo_trips <-
-  trips %>%
+  kobo_trips %>%
   dplyr::mutate(
     landing_period = lubridate::floor_date(landing_date, unit = "month"),
     landing_id = as.character(landing_id),
