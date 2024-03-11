@@ -11,6 +11,8 @@ Imports:
     broom,
     config,
     cowplot,
+    DALEX,
+    DALEXtra,
     dials,
     digest,
     doParallel,

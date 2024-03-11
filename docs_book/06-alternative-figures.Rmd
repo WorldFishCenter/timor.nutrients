@@ -2,7 +2,7 @@
 ---
 ---
 
-# Alternative figures {#afigures}
+# Other figures {#afigures}
 
 ```{r echo=FALSE, fig.cap="To define", fig.height=9, fig.width=11.75, message=FALSE, warning=FALSE}
 
@@ -375,3 +375,28 @@ cowplot::plot_grid(
 
 ```
 
+
+```{r echo=FALSE, fig.cap="To define", fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
+importance_plots <-
+  purrr::map(model_outputs[c(
+    "model_timor_GN",
+    "model_timor_AG",
+    "model_atauro_GN",
+    "model_atauro_AG"
+  )], ~ .x$importance_plot) %>%
+  purrr::map(~ . +
+    theme_bw() +
+    labs(y = "") +
+    theme(plot.margin = unit(c(0.1, 0.1, 1, 0.1), "cm"),
+          panel.grid = ggplot2::element_blank()))
+
+x_label <- cowplot::draw_label("Variable importance\n(Cross entropy loss after permutation)", x = 0.6, y = 0.05)
+
+cowplot::plot_grid(
+  plotlist = importance_plots,
+  ncol = 2,
+  align = "hv",
+  labels = "AUTO"
+) +
+  x_label
+```

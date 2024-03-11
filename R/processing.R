@@ -73,11 +73,11 @@ get_model_data <- function() {
       nutrients_g_per_kg = nutrients_kg_per_kg * 1000, # convert stand nutrients in grams
       people_rni_kg = nutrients_g_per_kg / conv_factor
     ) %>%
-    dplyr::select(landing_id, landing_date, vessel_type, habitat, gear_type, mesh_size, nutrient, people_rni_kg) %>%
+    dplyr::select(landing_id, landing_date, reporting_region, vessel_type, habitat, gear_type, mesh_size, nutrient, people_rni_kg) %>%
     tidyr::pivot_wider(names_from = "nutrient", values_from = "people_rni_kg") %>%
     dplyr::mutate(quarter = lubridate::quarter(landing_date)) %>%
     dplyr::select(landing_date, quarter, dplyr::everything()) %>%
-    dplyr::group_by(landing_id, landing_date, quarter, vessel_type, habitat, gear_type, mesh_size) %>%
+    dplyr::group_by(landing_id, landing_date, reporting_region, quarter, vessel_type, habitat, gear_type, mesh_size) %>%
     dplyr::summarise(dplyr::across(is.numeric, ~ median(.x, na.rm = T))) %>%
     dplyr::ungroup() %>%
     na.omit()
@@ -85,7 +85,7 @@ get_model_data <- function() {
   # factoextra::fviz_nbclust(df[, 8:13], kmeans, method = "wss")
   # 4
   set.seed(555)
-  k2 <- kmeans(df[, 8:13], centers = 5, nstart = 500)
+  k2 <- kmeans(df[, 9:14], centers = 5, nstart = 500)
 
   timor_GN_raw <-
     dplyr::tibble(
@@ -98,12 +98,12 @@ get_model_data <- function() {
       clusters = as.character(k2$cluster),
       df
     ) %>%
-    dplyr::select(quarter, habitat, mesh_size, vessel_type, cluster = clusters) %>%
-    dplyr::mutate(dplyr::across(.cols = c(quarter, habitat, vessel_type, cluster), ~ as.factor(.x)))
+    dplyr::select(reporting_region, quarter, habitat, mesh_size, vessel_type, cluster = clusters) %>%
+    dplyr::mutate(dplyr::across(.cols = c(reporting_region, quarter, habitat, vessel_type, cluster), ~ as.factor(.x)))
 
   profiles_plot_timor_GN <-
     factoextra::fviz_cluster(k2,
-      data = df[, 8:13],
+      data = df[, 9:14],
       geom = c("point"),
       shape = 19,
       alpha = 0.25,
@@ -128,18 +128,18 @@ get_model_data <- function() {
       nutrients_g_per_kg = nutrients_kg_per_kg * 1000, # convert stand nutrients in grams
       people_rni_kg = nutrients_g_per_kg / conv_factor
     ) %>%
-    dplyr::select(landing_id, landing_date, vessel_type, habitat, gear_type, nutrient, people_rni_kg) %>%
+    dplyr::select(landing_id, landing_date, reporting_region, vessel_type, habitat, gear_type, nutrient, people_rni_kg) %>%
     tidyr::pivot_wider(names_from = "nutrient", values_from = "people_rni_kg") %>%
     dplyr::mutate(quarter = lubridate::quarter(landing_date)) %>%
     dplyr::select(landing_date, quarter, dplyr::everything()) %>%
-    dplyr::group_by(landing_id, landing_date, quarter, vessel_type, habitat, gear_type) %>%
+    dplyr::group_by(landing_id, reporting_region, landing_date, quarter, vessel_type, habitat, gear_type) %>%
     dplyr::summarise(dplyr::across(is.numeric, ~ median(.x, na.rm = T))) %>%
     dplyr::ungroup() %>%
     na.omit()
 
   # factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
   set.seed(555)
-  k2 <- kmeans(df[, 7:12], centers = 5, nstart = 500)
+  k2 <- kmeans(df[, 8:13], centers = 5, nstart = 500)
 
   timor_AG_raw <-
     dplyr::tibble(
@@ -153,12 +153,12 @@ get_model_data <- function() {
       df
     ) %>%
     dplyr::mutate(habitat_gear = paste(habitat, gear_type, sep = "_")) %>%
-    dplyr::select(quarter, habitat_gear, habitat, gear_type, vessel_type, cluster = clusters) %>%
-    dplyr::mutate(dplyr::across(.cols = c(quarter, habitat_gear, habitat, gear_type, vessel_type, cluster), ~ as.factor(.x)))
+    dplyr::select(reporting_region, quarter, habitat_gear, habitat, gear_type, vessel_type, cluster = clusters) %>%
+    dplyr::mutate(dplyr::across(.cols = c(reporting_region, quarter, habitat_gear, habitat, gear_type, vessel_type, cluster), ~ as.factor(.x)))
 
   profiles_plot_timor_AG <-
     factoextra::fviz_cluster(k2,
-      data = df[, 7:12],
+      data = df[, 8:13],
       geom = c("point"),
       shape = 19,
       alpha = 0.25,
@@ -293,8 +293,8 @@ get_model_data <- function() {
   data_list_processed <- list(
     atauro_AG = list(dataframe = atauro_AG, step_other = c("habitat_gear", "habitat", "gear_type")),
     atauro_GN = list(dataframe = atauro_GN, step_other = "habitat"),
-    timor_AG = list(dataframe = timor_AG, step_other = c("habitat_gear", "habitat", "gear_type")),
-    timor_GN = list(dataframe = timor_GN, step_other = "habitat")
+    timor_AG = list(dataframe = timor_AG, step_other = c("reporting_region", "habitat_gear", "habitat", "gear_type")),
+    timor_GN = list(dataframe = timor_GN, step_other = c("reporting_region", "habitat"))
   )
 
   profiles_kmeans <- list(

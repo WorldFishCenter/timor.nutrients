@@ -73,10 +73,10 @@ region_stats <-
 #    vitaminA = (.data$Vitamin_A_mu * (.data$catch * 1000)) / 1000
 #  )
 
-trips <- get_merged_trips(pars) %>% dplyr::filter(!is.na(landing_id))
+#trips <- get_merged_trips(pars) %>% dplyr::filter(!is.na(landing_id))
 
 kobo_trips <-
-  kobo_trips %>%
+  timor.nutrients::kobo_trips %>%
   dplyr::mutate(
     landing_period = lubridate::floor_date(landing_date, unit = "month"),
     landing_id = as.character(landing_id),
@@ -106,10 +106,10 @@ kobo_trips <-
   dplyr::ungroup() %>%
   dplyr::mutate(habitat = ifelse(habitat == "Traditional FAD", "FAD", habitat))
 
-catch_data <-
-  trips %>%
-  dplyr::filter(landing_id %in% kobo_trips$landing_id) %>%
-  dplyr::select(landing_id, landing_value, landing_catch)
+#catch_data <-
+#  trips %>%
+#  dplyr::filter(landing_id %in% kobo_trips$landing_id) %>%
+#  dplyr::select(landing_id, landing_value, landing_catch)
 
 usethis::use_data(RDI_tab, overwrite = TRUE)
 usethis::use_data(catch_groups, overwrite = TRUE)
@@ -123,17 +123,17 @@ devtools::document()
 data_list <- get_model_data()
 
 #permanova
- set.seed(555)
- data_clusters <-
-  list(
-    atauro_AG_perm = dplyr::slice_sample(data_list$data_raw$atauro_AG_raw, prop = .5),
-    atauro_GN_perm = dplyr::slice_sample(data_list$data_raw$atauro_GN_raw, prop = .5),
-    timor_GN_perm = dplyr::slice_sample(data_list$data_raw$timor_GN_raw, prop = .5),
-    timor_AG_perm = dplyr::slice_sample(data_list$data_raw$timor_AG_raw, prop = .5)
-  )
- perm_results <- purrr::imap(data_clusters, ~ run_permanova_clusters(.x, permutations = 999, parallel = 8))
- usethis::use_data(perm_results, overwrite = T)
- devtools::document()
+# set.seed(555)
+# data_clusters <-
+#  list(
+#    atauro_AG_perm = dplyr::slice_sample(data_list$data_raw$atauro_AG_raw, prop = .5),
+#    timor_GN_perm = dplyr::slice_sample(data_list$data_raw$timor_GN_raw, prop = .5),
+#    atauro_GN_perm = dplyr::slice_sample(data_list$data_raw$atauro_GN_raw, prop = .5),
+#    timor_AG_perm = dplyr::slice_sample(data_list$data_raw$timor_AG_raw, prop = .5)
+#  )
+# perm_results <- purrr::imap(data_clusters, ~ run_permanova_clusters(.x, permutations = 999, parallel = 8))
+# usethis::use_data(perm_results, overwrite = T)
+# devtools::document()
 
 #Run XGBoost model
 data_list <- get_model_data()$data_processed

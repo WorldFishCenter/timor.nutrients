@@ -29,6 +29,7 @@
 run_xgmodel <- function(dataframe = NULL,
                         step_other = NULL,
                         n_cores = NULL) {
+
   logger::log_info("Splitting dataframe into train and test")
   set.seed(234)
   df_split <-
@@ -51,7 +52,7 @@ run_xgmodel <- function(dataframe = NULL,
     recipes::step_zv(recipes::all_numeric()) %>% # filter zero variance
     # recipes::step_normalize(recipes::all_numeric()) %>%
     recipes::step_other(step_other) %>%
-    recipes::step_dummy(recipes::all_nominal_predictors()) %>%
+    # recipes::step_dummy(recipes::all_nominal_predictors()) %>%
     themis::step_smote(cluster)
 
   # define model
@@ -109,12 +110,39 @@ run_xgmodel <- function(dataframe = NULL,
   best_auc <- tune::select_best(xgb_res, "roc_auc")
   final_xgb <- tune::finalize_workflow(xgb_wf, best_auc)
 
-  VI_plot <-
+  fit_mod <-
     final_xgb %>%
-    fit(data = train) %>%
-    hardhat::extract_fit_parsnip() %>%
-    vip::vip(geom = "point") +
-    ggplot2::theme_minimal()
+    fit(data = train)
+
+  explainer_mod <- DALEXtra::explain_tidymodels(
+    model = fit_mod,
+    data = train[, -ncol(train)],
+    y = train$cluster
+  )
+
+  vip_mod <- DALEX::model_parts(
+    explainer = explainer_mod,
+    type = "variable_importance",
+    n_sample = 2500
+  )
+
+  VI_plot_df <-
+    dplyr::tibble(variable = vip_mod$variable, importance = vip_mod$dropout_loss) %>%
+    dplyr::filter(!variable %in% c("_full_model_", "_baseline_"))
+
+  VI_plot <-
+    ggplot() +
+    theme_bw() +
+    geom_boxplot(VI_plot_df,
+      mapping = aes(x = reorder(variable, importance), y = importance),
+      alpha = 0.5, size = 0.5, fill = "#1985a1", color = "#1985a1"
+    ) +
+    geom_jitter(VI_plot_df,
+      mapping = aes(x = reorder(variable, importance), y = importance),
+      alpha = 0.2, color = "#b8860b"
+    ) +
+    coord_flip() +
+    labs(y = "Variable importance\n(Cross entropy loss after permutation)", x = "")
 
   logger::log_info("Fit model with best performance")
   final_rs <- tune::last_fit(final_xgb, df_split, metrics = members_metrics)
@@ -399,11 +427,11 @@ plot_model_shaps <- function(data_shaps = NULL, model_type = NULL, alpha = 0.2, 
 #' }
 get_shaps <- function(shap_object = NULL, model_type = NULL) {
   if (model_type == "gn") {
-  dplyr::tibble(
-    mesh_fact = shap_object$X$mesh_size,
-    habitat_fact = shap_object$X$habitat,
-    mesh_shap = shap_object$S[, 3]
-  )
+    dplyr::tibble(
+      mesh_fact = shap_object$X$mesh_size,
+      habitat_fact = shap_object$X$habitat,
+      mesh_shap = shap_object$S[, 3]
+    )
   } else {
     dplyr::tibble(
       habitat_gear_fact = as.character(shap_object$X$habitat_gear),
