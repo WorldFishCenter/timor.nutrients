@@ -4,8 +4,9 @@
 
 # Other figures {#afigures}
 
-```{r echo=FALSE, fig.cap="To define", fig.height=9, fig.width=11.75, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="To define", fig.height=8, fig.width=9, message=FALSE, warning=FALSE}
 
+library(ggplot2)
 catch_groups_name <-
   timor.nutrients::catch_groups %>%
   dplyr::select(
@@ -129,7 +130,7 @@ long_plot <-
   ggplot2::scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
   ggplot2::scale_color_manual(values = timor.nutrients::palettes$nutrients_palette) +
   ggplot2::scale_y_continuous(labels = scales::percent, n.breaks = 10) +
-  ggplot2::labs(x = "", y = "Cumulative nutrient score", fill = "Nutrient") +
+  ggplot2::labs(x = "", y = "", fill = "Nutrient") +
   ggplot2::theme(
     legend.position = "bottom",
     panel.grid = element_blank(),
@@ -142,6 +143,10 @@ long_plot <-
     alpha = "none",
     color = "none"
   )
+
+long_legend <- ggpubr::get_legend(long_plot)
+long_plot <- long_plot +
+  theme(legend.position = "none")
 
 # groups_palette <- c("#2a9d8f", "#264653", "#007ea7", "#e9c46a", "#898989", "#bc4749")
 groups_palette <- c("#bc4749", "#2a9d8f", "#e9c46a", "#007ea7", "#264653", "#898989")
@@ -197,7 +202,7 @@ groups_plot <-
     radius = grid::unit(5, "pt")
   ) +
   facet_wrap(. ~ nutrient, scales = "free", ncol = 2) +
-  labs(y = "Tons", x = "", fill = "Fish group") +
+  labs(y = "Tons (2018-2013)", x = "", fill = "Fish group") +
   theme(
     legend.position = "",
     panel.grid = element_blank(),
@@ -349,9 +354,55 @@ revenue_plot <-
     colour = guide_legend(override.aes = list(size = 5))
   ) +
   labs(
-    x = "Cumulative nutrient score",
+    x = "",
     y = "Price (USD / kg)",
-    color = ""
+    color = "Group"
+  )
+
+groups_leg <- ggpubr::get_legend(revenue_plot)
+revenue_plot <-
+  revenue_plot +
+  theme(legend.position = "none")
+
+habitat_plot <-
+  ggplot2::ggplot() +
+  ggplot2::theme_bw() +
+  ggchicklet::geom_chicklet(habitat_nutrients,
+    mapping = ggplot2::aes(
+      y = inds_kg,
+      x = reorder(habitat, inds_kg),
+      fill = nutrient,
+      color = nutrient
+    ),
+    position = ggplot2::position_stack(reverse = FALSE),
+    alpha = 0.8,
+    width = 0.8,
+    radius = grid::unit(3, "pt")
+  ) +
+  ggplot2::geom_text(habitat_nutrients,
+    mapping = ggplot2::aes(
+      y = inds_kg,
+      x = reorder(habitat, inds_kg),
+      label = round(inds_kg, 0),
+      group = nutrient
+    ),
+    position = ggplot2::position_stack(0.5, reverse = FALSE),
+    color = "white",
+    size = 2.5
+  ) +
+  ggplot2::scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
+  ggplot2::scale_color_manual(values = timor.nutrients::palettes$nutrients_palette) +
+  ggplot2::scale_y_continuous(labels = scales::label_percent(scale = 1)) +
+  ggplot2::coord_flip(expand = FALSE) +
+  ggplot2::theme(
+    legend.position = "",
+    panel.grid = ggplot2::element_blank()
+  ) +
+  ggplot2::labs(x = "", fill = "", y = "Cumulative nutrient density score") +
+  ggplot2::guides(
+    alpha = "none",
+    color = "none",
+    fill = guide_legend(override.aes = list(size = 7))
   )
 
 
@@ -364,15 +415,40 @@ second_row_plot <- cowplot::plot_grid(
   rel_heights = c(1.2, 1)
 )
 
-cowplot::plot_grid(
-  long_plot,
-  second_row_plot,
-  ncol = 2,
-  align = "hv",
-  rel_widths = c(1.75, 1),
-  labels = "AUTO"
-)
+p1 <-
+  cowplot::plot_grid(
+    long_plot,
+    second_row_plot,
+    ncol = 2,
+    align = "hv",
+    rel_widths = c(1.75, 1),
+    labels = "AUTO"
+  )
 
+
+p2 <-
+  cowplot::plot_grid(
+    p1 + theme(plot.margin = unit(c(0, 0, -0.5, 0), "cm")),
+    habitat_plot + theme(plot.margin = unit(c(0, 0.2, 0, 1.5), "cm")),
+    nrow = 2,
+    labels = c("", "D"),
+    # align = "h",
+    rel_heights = c(1, 0.2)
+  )
+
+
+legends <-
+  cowplot::plot_grid(
+    long_legend, groups_leg
+  )
+
+cowplot::plot_grid(
+  p2,
+  legends + theme(plot.margin = unit(c(0, 0.2, 0, 1.5), "cm")),
+  nrow = 2,
+  align = "h",
+  rel_heights = c(1, 0.1)
+)
 ```
 
 

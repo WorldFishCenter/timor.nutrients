@@ -30,6 +30,7 @@ run_xgmodel <- function(dataframe = NULL,
                         step_other = NULL,
                         n_cores = NULL) {
 
+  library(ggplot2)
   logger::log_info("Splitting dataframe into train and test")
   set.seed(234)
   df_split <-
@@ -86,7 +87,7 @@ run_xgmodel <- function(dataframe = NULL,
     dials::learn_rate(),
     dials::stop_iter(),
     dials::finalize(dials::mtry(), train),
-    size = 20
+    size = 40
   )
 
   # choose model performance metrics

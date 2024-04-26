@@ -73,10 +73,10 @@ region_stats <-
 #    vitaminA = (.data$Vitamin_A_mu * (.data$catch * 1000)) / 1000
 #  )
 
-#trips <- get_merged_trips(pars) %>% dplyr::filter(!is.na(landing_id))
+trips <- get_merged_trips(pars) %>% dplyr::filter(!is.na(landing_id))
 
 kobo_trips <-
-  timor.nutrients::kobo_trips %>%
+  trips %>%
   dplyr::mutate(
     landing_period = lubridate::floor_date(landing_date, unit = "month"),
     landing_id = as.character(landing_id),
@@ -104,12 +104,19 @@ kobo_trips <-
     )
   ) %>%
   dplyr::ungroup() %>%
-  dplyr::mutate(habitat = ifelse(habitat == "Traditional FAD", "FAD", habitat))
+  dplyr::mutate(
+    habitat = ifelse(habitat == "Traditional FAD", "FAD", habitat),
+    reporting_region = dplyr::case_when(
+      .data$reporting_region %in% c("Bobonaro", "Liquica", "Dili", "Baucau", "Oecusse", "Manatuto", "Lautem") ~ "North Coast",
+      .data$reporting_region == "Atauro" ~ "Atauro",
+      TRUE ~ "South Coast"
+    )
+  )
 
-#catch_data <-
-#  trips %>%
-#  dplyr::filter(landing_id %in% kobo_trips$landing_id) %>%
-#  dplyr::select(landing_id, landing_value, landing_catch)
+catch_data <-
+  trips %>%
+  dplyr::filter(landing_id %in% kobo_trips$landing_id) %>%
+  dplyr::select(landing_id, landing_value, landing_catch)
 
 usethis::use_data(RDI_tab, overwrite = TRUE)
 usethis::use_data(catch_groups, overwrite = TRUE)
@@ -119,10 +126,8 @@ usethis::use_data(region_stats, overwrite = TRUE)
 usethis::use_data(kobo_trips, overwrite = TRUE)
 usethis::use_data(catch_data, overwrite = TRUE)
 devtools::document()
-
-data_list <- get_model_data()
-
-#permanova
+# permanova
+# data_list <- get_model_data()
 # set.seed(555)
 # data_clusters <-
 #  list(
@@ -135,8 +140,9 @@ data_list <- get_model_data()
 # usethis::use_data(perm_results, overwrite = T)
 # devtools::document()
 
-#Run XGBoost model
+# Run XGBoost model
 data_list <- get_model_data()$data_processed
+
 model_outputs <-
   purrr::imap(
     data_list, ~ run_xgmodel
@@ -147,8 +153,7 @@ model_outputs <-
 usethis::use_data(model_outputs, overwrite = TRUE)
 devtools::document()
 
-
-#Get shap values
-shap_results <- purrr::map(timor.nutrients::model_outputs, run_kernelshap, parallel = TRUE, cores = 8)
+# Get shap values
+shap_results <- purrr::map(timor.nutrients::model_outputs, run_kernelshap, parallel = TRUE, cores = 6)
 usethis::use_data(shap_results, overwrite = T)
 devtools::document()
