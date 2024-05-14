@@ -108,6 +108,7 @@ ggplot2::ggplot() +
 ```{r echo=FALSE, fig.height=7, fig.width=7, message=FALSE, warning=FALSE, fig.cap="Sankey diagram showing the relative distribution of key nutrients across various marine habitats and the corresponding extraction by different fishing gear types used in Timor-Est small-scale fisheries."}
 parallel_plot <-
   timor.nutrients::kobo_trips %>%
+  dplyr::mutate(habitat = ifelse(habitat == "Pelagic", "Deep", habitat)) %>% 
   dplyr::select(habitat, gear_type, Selenium_mu:Vitamin_A_mu) %>%
   rename_nutrients_mu() %>%
   tidyr::pivot_longer(-c(habitat, gear_type), names_to = "nutrient", values_to = "concentration_g") %>%
@@ -156,7 +157,7 @@ parallel_plot$x <- factor(parallel_plot$x,
 
 parallel_plot$y <- factor(parallel_plot$y, levels = c(
   "Protein", "Omega-3", "Calcium", "Iron", "Vitamin-A", "Zinc", "Selenium",
-  "Pelagic", "Reef", "FAD", "Beach", "Traditional FAD", "Mangrove", "Seagrass",
+  "Deep", "Reef", "FAD", "Beach", "Traditional FAD", "Mangrove", "Seagrass",
   "gill net", "long line", "hand line", "seine net", "spear gun", "manual collection",
   "beach seine", "cast net", "trap"
 ))
@@ -198,8 +199,8 @@ groups_plot <-
     grouped_taxa %in% c("SKH", "SRX") ~ "Sharks and rays",
     grouped_taxa %in% c("SNA", "GPX", "PWT", "GRX", "MUI", "BGX") ~ "Large demersals",
     grouped_taxa %in% c("CGX", "TUN", "BEN", "LWX", "BAR", "SFA", "CBA", "DOX", "ECN", "DOS") ~ "Large pelagics",
-    grouped_taxa %in% c("YDX", "SPI", "EMP", "SUR", "TRI", "MOJ", "WRA", "MOO", "BWH", "LGE", "MOB", "MHL", "GOX", "THO", "IHX", "APO", "IHX", "PUX", "DRZ") ~ "Small demersals",
-    grouped_taxa %in% c("RAX", "SDX", "CJX", "CLP", "GZP", "FLY", "KYX", "CLP", "MUL", "DSF", "MIL", "THF") ~ "Small pelagics",
+    grouped_taxa %in% c("YDX", "SPI", "EMP", "SUR", "TRI", "MOJ", "WRA", "MOO", "BWH", "LGE", "MOB", "MHL", "GOX", "THO", "IHX", "APO", "IHX", "PUX", "DRZ", "DSF") ~ "Small demersals",
+    grouped_taxa %in% c("RAX", "SDX", "CJX", "CLP", "GZP", "FLY", "KYX", "CLP", "MUL", "MIL", "THF") ~ "Small pelagics",
     TRUE ~ NA_character_
   )) %>%
   dplyr::select(-grouped_taxa) %>% 

@@ -62,7 +62,7 @@ rename_nutrients_mu <- function(df = NULL, hyphen = FALSE) {
 get_model_data <- function() {
   df <-
     timor.nutrients::kobo_trips %>%
-    dplyr::filter(gear_type == "gill net" & !reporting_region == "Atauro") %>%
+    dplyr::filter(gear_type == "gill net") %>%
     dplyr::ungroup() %>%
     dplyr::select(-Selenium_mu) %>%
     rename_nutrients_mu() %>%
@@ -82,8 +82,7 @@ get_model_data <- function() {
     dplyr::ungroup() %>%
     na.omit()
 
-  # factoextra::fviz_nbclust(df[, 8:13], kmeans, method = "wss")
-  # 4
+  #factoextra::fviz_nbclust(df[, 8:13], kmeans, method = "wss")
   set.seed(555)
   k2 <- kmeans(df[, 8:13], centers = 5, nstart = 500)
 
@@ -117,7 +116,7 @@ get_model_data <- function() {
 
   df <-
     timor.nutrients::kobo_trips %>%
-    dplyr::filter(!gear_type == "gill net" & !reporting_region == "Atauro") %>%
+    dplyr::filter(!gear_type == "gill net") %>%
     dplyr::ungroup() %>%
     dplyr::select(-Selenium_mu) %>%
     rename_nutrients_mu() %>%
@@ -137,7 +136,7 @@ get_model_data <- function() {
     dplyr::ungroup() %>%
     na.omit()
 
-  # factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
+  #factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
   set.seed(555)
   k2 <- kmeans(df[, 7:12], centers = 5, nstart = 500)
 
@@ -170,138 +169,21 @@ get_model_data <- function() {
     ggplot2::labs(title = "") +
     ggplot2::theme(legend.position = "bottom")
 
-  df <-
-    timor.nutrients::kobo_trips %>%
-    dplyr::filter(gear_type == "gill net", reporting_region == "Atauro") %>%
-    dplyr::ungroup() %>%
-    dplyr::select(-Selenium_mu) %>%
-    rename_nutrients_mu() %>%
-    tidyr::pivot_longer(c(zinc:vitaminA), names_to = "nutrient", values_to = "kg") %>%
-    dplyr::left_join(RDI_tab, by = "nutrient") %>%
-    dplyr::mutate(
-      nutrients_kg_per_kg = kg / weight, # standardize nutrients for 1 kg of catch
-      nutrients_g_per_kg = nutrients_kg_per_kg * 1000, # convert stand nutrients in grams
-      people_rni_kg = nutrients_g_per_kg / conv_factor
-    ) %>%
-    dplyr::select(landing_id, landing_date, vessel_type, habitat, gear_type, mesh_size, nutrient, people_rni_kg) %>%
-    tidyr::pivot_wider(names_from = "nutrient", values_from = "people_rni_kg") %>%
-    dplyr::mutate(quarter = lubridate::quarter(landing_date)) %>%
-    dplyr::select(landing_date, quarter, dplyr::everything()) %>%
-    dplyr::group_by(landing_id, landing_date, quarter, vessel_type, habitat, gear_type, mesh_size) %>%
-    dplyr::summarise(dplyr::across(is.numeric, ~ median(.x, na.rm = T))) %>%
-    dplyr::ungroup() %>%
-    na.omit()
-
-  # factoextra::fviz_nbclust(df[, 8:13], kmeans, method = "wss")
-  set.seed(555)
-  k2 <- kmeans(df[, 8:13], centers = 5, nstart = 500)
-
-  atauro_GN_raw <-
-    dplyr::tibble(
-      clusters = as.character(k2$cluster),
-      df
-    )
-
-  atauro_GN <-
-    dplyr::tibble(
-      clusters = as.character(k2$cluster),
-      df
-    ) %>%
-    dplyr::select(quarter, habitat, mesh_size, vessel_type, cluster = clusters) %>%
-    dplyr::mutate(dplyr::across(.cols = c(quarter, habitat, vessel_type, cluster), ~ as.factor(.x)))
-
-  profiles_plot_atauro_GN <-
-    factoextra::fviz_cluster(k2,
-      data = df[, 8:13],
-      geom = c("point"),
-      shape = 19,
-      alpha = 0.25,
-      pointsize = 1.5
-    ) +
-    ggplot2::theme_minimal() +
-    ggplot2::scale_fill_manual(values = timor.nutrients::palettes$clusters_palette) +
-    ggplot2::scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
-    ggplot2::labs(title = "") +
-    ggplot2::theme(legend.position = "bottom")
-
-
-  df <-
-    timor.nutrients::kobo_trips %>%
-    dplyr::filter(!gear_type == "gill net" & reporting_region == "Atauro") %>%
-    dplyr::ungroup() %>%
-    dplyr::select(-Selenium_mu) %>%
-    rename_nutrients_mu() %>%
-    tidyr::pivot_longer(c(zinc:vitaminA), names_to = "nutrient", values_to = "kg") %>%
-    dplyr::left_join(RDI_tab, by = "nutrient") %>%
-    dplyr::mutate(
-      nutrients_kg_per_kg = kg / weight, # standardize nutrients for 1 kg of catch
-      nutrients_g_per_kg = nutrients_kg_per_kg * 1000, # convert stand nutrients in grams
-      people_rni_kg = nutrients_g_per_kg / conv_factor
-    ) %>%
-    dplyr::select(landing_id, landing_date, vessel_type, habitat, gear_type, nutrient, people_rni_kg) %>%
-    tidyr::pivot_wider(names_from = "nutrient", values_from = "people_rni_kg") %>%
-    dplyr::mutate(quarter = lubridate::quarter(landing_date)) %>%
-    dplyr::select(landing_date, quarter, dplyr::everything()) %>%
-    dplyr::group_by(landing_id, landing_date, quarter, vessel_type, habitat, gear_type) %>%
-    dplyr::summarise(dplyr::across(is.numeric, ~ median(.x, na.rm = T))) %>%
-    dplyr::ungroup() %>%
-    na.omit()
-
-  # factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
-  set.seed(555)
-  k2 <- kmeans(df[, 7:12], centers = 5, nstart = 500)
-
-
-  atauro_AG_raw <-
-    dplyr::tibble(
-      clusters = as.character(k2$cluster),
-      df
-    )
-
-  atauro_AG <-
-    dplyr::tibble(
-      clusters = as.character(k2$cluster),
-      df
-    ) %>%
-    dplyr::mutate(habitat_gear = paste(habitat, gear_type, sep = "_")) %>%
-    dplyr::select(quarter, habitat_gear, habitat, gear_type, vessel_type, cluster = clusters) %>%
-    dplyr::mutate(dplyr::across(.cols = c(quarter, habitat_gear, habitat, gear_type, vessel_type, cluster), ~ as.factor(.x)))
-
-  profiles_plot_atauro_AG <-
-    factoextra::fviz_cluster(k2,
-      data = df[, 7:12],
-      geom = c("point"),
-      shape = 19,
-      alpha = 0.25,
-      pointsize = 1.5
-    ) +
-    ggplot2::theme_minimal() +
-    ggplot2::scale_fill_manual(values = timor.nutrients::palettes$clusters_palette) +
-    ggplot2::scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
-    ggplot2::labs(title = "") +
-    ggplot2::theme(legend.position = "bottom")
-
   # Create a named list of dataframes and parameters
 
   data_list_raw <- list(
-    atauro_AG_raw = atauro_AG_raw,
-    atauro_GN_raw = atauro_GN_raw,
     timor_AG_raw = timor_AG_raw,
     timor_GN_raw = timor_GN_raw
   )
 
   data_list_processed <- list(
-    atauro_AG = list(dataframe = atauro_AG, step_other = c("habitat_gear", "habitat", "gear_type")),
-    atauro_GN = list(dataframe = atauro_GN, step_other = "habitat"),
     timor_AG = list(dataframe = timor_AG, step_other = c("habitat_gear", "habitat", "gear_type")),
     timor_GN = list(dataframe = timor_GN, step_other = "habitat")
   )
 
   profiles_kmeans <- list(
     kmeans_timor_GN = profiles_plot_timor_GN,
-    kmeans_timor_AG = profiles_plot_timor_AG,
-    kmeans_atauro_GN = profiles_plot_atauro_GN,
-    kmeans_atauro_AG = profiles_plot_atauro_AG
+    kmeans_timor_AG = profiles_plot_timor_AG
   )
 
   list(

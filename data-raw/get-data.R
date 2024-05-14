@@ -73,16 +73,19 @@ region_stats <-
 #    vitaminA = (.data$Vitamin_A_mu * (.data$catch * 1000)) / 1000
 #  )
 
-trips <- get_merged_trips(pars) %>% dplyr::filter(!is.na(landing_id))
+trips <-
+  get_merged_trips(pars) %>%
+  dplyr::filter(!is.na(landing_id))
 
 kobo_trips <-
-  kobo_trips %>%
+  trips %>%
   dplyr::mutate(
     landing_period = lubridate::floor_date(landing_date, unit = "month"),
     landing_id = as.character(landing_id),
     n_fishers = fisher_number_man + fisher_number_woman + fisher_number_child
   ) %>%
-  dplyr::filter(landing_period >= "2018-01-01" & landing_period <= "2023-12-31") %>%
+  dplyr::filter(landing_period >= "2018-01-01" & landing_period <= "2023-12-31",
+                reporting_region %in% c("Dili", "Atauro")) %>%
   tidyr::unnest(.data$landing_catch) %>%
   tidyr::unnest(.data$length_frequency) %>%
   dplyr::filter(!is.na(.data$weight)) %>%
@@ -126,12 +129,10 @@ data_list <- get_model_data()
  set.seed(555)
  data_clusters <-
   list(
-    atauro_AG_perm = dplyr::slice_sample(data_list$data_raw$atauro_AG_raw, prop = .5),
-    atauro_GN_perm = dplyr::slice_sample(data_list$data_raw$atauro_GN_raw, prop = .5),
     timor_GN_perm = dplyr::slice_sample(data_list$data_raw$timor_GN_raw, prop = .5),
     timor_AG_perm = dplyr::slice_sample(data_list$data_raw$timor_AG_raw, prop = .5)
   )
- perm_results <- purrr::imap(data_clusters, ~ run_permanova_clusters(.x, permutations = 999, parallel = 8))
+ perm_results <- purrr::imap(data_clusters, ~ run_permanova_clusters(.x, permutations = 999, parallel = 13))
  usethis::use_data(perm_results, overwrite = T)
  devtools::document()
 
@@ -140,7 +141,7 @@ data_list <- get_model_data()$data_processed
 model_outputs <-
   purrr::imap(
     data_list, ~ run_xgmodel
-    (dataframe = .x$dataframe, step_other = .x$step_other, n_cores = 7)
+    (dataframe = .x$dataframe, step_other = .x$step_other, n_cores = 13)
   ) %>%
   setNames(paste0("model_", names(.)))
 
@@ -149,6 +150,6 @@ devtools::document()
 
 
 #Get shap values
-shap_results <- purrr::map(timor.nutrients::model_outputs, run_kernelshap, parallel = TRUE, cores = 8)
+shap_results <- purrr::map(timor.nutrients::model_outputs, run_kernelshap, parallel = TRUE, cores = 13)
 usethis::use_data(shap_results, overwrite = T)
 devtools::document()
