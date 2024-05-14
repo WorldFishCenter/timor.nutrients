@@ -172,7 +172,8 @@ cloud_object_name <- function(prefix, version = "latest", extension = "",
     gcs_files <- googleCloudStorageR::gcs_list_objects(
       bucket = options$bucket,
       prefix = prefix
-    )
+    ) %>%
+      na.omit()
 
     if (nrow(gcs_files) == 0) {
       return(character(0))

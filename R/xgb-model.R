@@ -106,7 +106,7 @@ run_xgmodel <- function(dataframe = NULL,
     control = tune::control_grid(save_pred = TRUE)
   )
 
-  best_auc <- tune::select_best(xgb_res, "roc_auc")
+  best_auc <- tune::select_best(xgb_res, metric = "roc_auc")
   final_xgb <- tune::finalize_workflow(xgb_wf, best_auc)
 
   VI_plot <-
@@ -136,6 +136,14 @@ run_xgmodel <- function(dataframe = NULL,
     dplyr::select(-".pred_class") %>%
     names()
 
+  # show auc value
+  auc_value <-
+    final_rs %>%
+    tune::collect_predictions() %>%
+    yardstick::roc_auc(cluster, feat_names) %>%
+    janitor::clean_names() %>%
+    dplyr::mutate(estimate = round(estimate, 2))
+
   roc_curves <-
     final_rs %>%
     tune::collect_predictions() %>%
@@ -149,13 +157,6 @@ run_xgmodel <- function(dataframe = NULL,
     ggplot2::scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
     ggplot2::labs(color = "cluster")
 
-  # show auc value
-  auc_value <-
-    final_rs %>%
-    tune::collect_predictions() %>%
-    yardstick::roc_auc(cluster, feat_names) %>%
-    janitor::clean_names() %>%
-    dplyr::mutate(estimate = round(estimate, 2))
 
   list(
     raw_data = dataframe,

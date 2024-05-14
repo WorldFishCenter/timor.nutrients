@@ -47,10 +47,11 @@ For Atauro, considering all gear types (Panel a), the results demonstrate variab
 The mainland dataset utilizing all gear types (Panel c) also reveals a distinct distribution of nutrients. Clusters 1 and 2 have higher levels of calcium, with cluster 2 showing a particularly high value that surpasses other clusters, while cluster 1 is particular rich in omega-3. Vitamin A shows a significant peak in cluster 2, indicating a unique subset of catch composition in terms of this nutrient. Finally, focusing on the mainland using only gill net gear (Panel d), the data suggests a more even distribution of omega-3 across the clusters, with clusters 4 and 2 showing marginally higher values. Calcium have a higher occurrence in clusters 2 and 4, while zinc is considerably more prevalent in cluster 5. Iron, although present in all clusters, is most concentrated in cluster 4.
 
 
-```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients. The clusters are enumerated on the y-axis, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis and the white labels in the bars quantify the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutritional adequacy across clusters. Panels (A) through (D) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients. The clusters are enumerated on the y-axis, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis and the white labels in the bars quantify the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutritional adequacy across clusters. Panels (A) through (D) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=4.5, fig.width=10, message=FALSE, warning=FALSE}
 library(ggplot2)
 data <- get_model_data()
-
+data$data_raw$timor_GN_raw$clusters <- paste0("NP-", data$data_raw$timor_GN_raw$clusters)
+data$data_raw$timor_AG_raw$clusters <- paste0("NP-", data$data_raw$timor_AG_raw$clusters)
 
 plot_bars <- function(x) {
   x %>%
@@ -63,7 +64,7 @@ plot_bars <- function(x) {
     dplyr::group_by(clusters, name) %>%
     dplyr::summarise(value = median(value, na.rm = T)) %>%
     dplyr::mutate(labels = ifelse(value <= 0.5, NA_real_, value)) %>%
-    ggplot2::ggplot(ggplot2::aes(clusters, value, fill = name, color = name)) +
+    ggplot2::ggplot(ggplot2::aes(reorder(clusters, value), value, fill = name, color = name)) +
     ggplot2::theme_bw() +
     ggchicklet::geom_chicklet(
       radius = grid::unit(3, "pt"),
@@ -95,10 +96,8 @@ plots <- purrr::map(data$data_raw, plot_bars)
 
 plots <-
   list(
-    plots$atauro_AG_raw + ggplot2::labs(subtitle = "Atauro - All gears"),
-    plots$atauro_GN_raw + ggplot2::labs(subtitle = "Atauro - Gill net"),
-    plots$timor_AG_raw + ggplot2::labs(subtitle = "Mainland - All gears"),
-    plots$timor_GN_raw + ggplot2::labs(subtitle = "Mainland - Gill net")
+    plots$timor_GN_raw + ggplot2::labs(subtitle = "Gill nets"),
+    plots$timor_AG_raw + ggplot2::labs(subtitle = "Other gears")
   )
 
 
@@ -110,7 +109,7 @@ legend_plot <- cowplot::get_legend(plots[[1]] +
   ))
 combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "AUTO")
 
-x_label <- cowplot::draw_label("N. individuals meeting RNI per 1kg of catch", x = 0.5, y = 0.05)
+x_label <- cowplot::draw_label("Cumulative NDS per 1kg of catch", x = 0.5, y = 0.05)
 y_label <- cowplot::draw_label("Nutritional profile", x = 0.02, y = 0.5, angle = 90)
 
 final_plot <-
@@ -129,15 +128,13 @@ final_plot
 
 The scatter plot from the k-means clustering (Figure 5.2) showed the distribution of nutritional profiles across different clusters in each data subset. The first two principal components explained a significant portion of the variance, indicating distinct groupings in nutritional profiles among the fishing trips.
 
-```{r echo=FALSE, fig.height=7, fig.width=8, message=FALSE, warning=FALSE, fig.cap="Nutritional profile clustering of fishing trips by region and gear type. Each plot presents a k-means clustering analysis of fishing trip observations, grouped by their nutritional contributions to the Recommended Nutrient Intake (RNI) for six nutrients. The four panels, labeled (A) through (D), display data subsets for Atauro and the Mainland, utilizing all gear types and gill nets specifically. The scatter plots within each panel are charted in a two-dimensional space defined by the first two principal components, with the axes denoting the percentage of explained variance. Points are color-coded to denote distinct nutritional profile clusters derived from the k-means algorithm. Convex hulls define the periphery of each cluster, providing insight into the cluster density and separation. Convex hulls around the clusters aid in visualizing the distribution and delineation of nutritional profile groupings across different fishing methods and geographic areas."}
+```{r echo=FALSE, fig.height=5, fig.width=10, message=FALSE, warning=FALSE, fig.cap="Nutritional profile clustering of fishing trips by region and gear type. Each plot presents a k-means clustering analysis of fishing trip observations, grouped by their nutritional contributions to the Recommended Nutrient Intake (RNI) for six nutrients. The four panels, labeled (A) through (D), display data subsets for Atauro and the Mainland, utilizing all gear types and gill nets specifically. The scatter plots within each panel are charted in a two-dimensional space defined by the first two principal components, with the axes denoting the percentage of explained variance. Points are color-coded to denote distinct nutritional profile clusters derived from the k-means algorithm. Convex hulls define the periphery of each cluster, providing insight into the cluster density and separation. Convex hulls around the clusters aid in visualizing the distribution and delineation of nutritional profile groupings across different fishing methods and geographic areas."}
 kmean_plots <- data$kmeans_plots
 
 plots <-
   list(
-    kmean_plots$kmeans_atauro_AG + ggplot2::labs(subtitle = "Atauro - All gears"),
-    kmean_plots$kmeans_atauro_GN + ggplot2::labs(subtitle = "Atauro - Gill net"),
-    kmean_plots$kmeans_timor_AG + ggplot2::labs(subtitle = "Mainland - All gears"),
-    kmean_plots$kmeans_timor_GN + ggplot2::labs(subtitle = "Mainland - Gill net")
+    kmean_plots$kmeans_timor_AG + ggplot2::labs(subtitle = "Other gears"),
+    kmean_plots$kmeans_timor_GN + ggplot2::labs(subtitle = "Gill nets")
   )
 
 plots <- lapply(plots, function(x) {
@@ -220,13 +217,19 @@ The positive predictive value (PPV) and negative predictive value (NPV), which p
 
 The integrated analysis of Table 5.2 and Figure 5.3 reveals a differentiated performance of the XGBoost model across various subsets of fishing data. The model showcases commendable predictive strength in the Atauro subsets, with high AUC, accuracy, and kappa metrics indicating a reliable classification of nutritional profiles. The ROC curve analysis further supports this, with curves for Atauro subsets nearer to the desired top-left corner, denoting higher sensitivity and specificity. In contrast, the Mainland subsets, despite achieving moderate success, suggest an area for improvement, as seen by their relative distance from the optimal point on the ROC curves and lower performance metrics. This suggests that while the model is effective in identifying nutritional profiles in certain contexts, its performance is not uniformly high across all subsets.
 
-```{r model-settings, echo=FALSE, fig.cap="Receiver Operating Characteristic (ROC) Curves for evaluating the performance of a cluster-based XGBoost classification model across four distinct fishing datasets: Atauro with all gears (a), Atauro with gill nets (b), Mainland with all gears (c), and Mainland with gill nets (d). Each curve represents one of the five clusters obtained from the classification, with different colors marking each cluster. Data points on the curves indicate the trade-off between sensitivity (true positive rate) and 1-specificity (false positive rate) for each cluster. The proximity of the curves to the top-left corner reflects the accuracy of the model in classifying the nutritional profiles into the correct clusters.", fig.height=6.5, fig.width=8, message=FALSE, warning=FALSE}
+```{r model-settings, echo=FALSE, fig.cap="Receiver Operating Characteristic (ROC) Curves for evaluating the performance of a cluster-based XGBoost classification model across four distinct fishing datasets: Atauro with all gears (a), Atauro with gill nets (b), Mainland with all gears (c), and Mainland with gill nets (d). Each curve represents one of the five clusters obtained from the classification, with different colors marking each cluster. Data points on the curves indicate the trade-off between sensitivity (true positive rate) and 1-specificity (false positive rate) for each cluster. The proximity of the curves to the top-left corner reflects the accuracy of the model in classifying the nutritional profiles into the correct clusters.", fig.height=4, fig.width=10, message=FALSE, warning=FALSE}
+models_auc <-
+  timor.nutrients::model_outputs %>%
+  purrr::map(purrr::pluck(8)) %>%
+  dplyr::bind_rows(.id = "subset") %>%
+  dplyr::select(-estimator) %>%
+  tidyr::pivot_wider(names_from = subset, values_from = estimate)
+
+
 plots <-
   list(
-    timor.nutrients::model_outputs$model_atauro_AG$roc_curves + ggplot2::labs(subtitle = "Atauro - All gears"),
-    timor.nutrients::model_outputs$model_atauro_GN$roc_curves + ggplot2::labs(subtitle = "Atauro - Gill net"),
-    timor.nutrients::model_outputs$model_timor_AG$roc_curves + ggplot2::labs(subtitle = "Mainland - All gears"),
-    timor.nutrients::model_outputs$model_timor_GN$roc_curves + ggplot2::labs(subtitle = "Mainland - Gill net")
+    timor.nutrients::model_outputs$model_timor_GN$roc_curves + ggplot2::labs(subtitle = paste0("Gill nets", " (", models_auc$model_timor_GN, ")")),
+    timor.nutrients::model_outputs$model_timor_AG$roc_curves + ggplot2::labs(subtitle = paste0("Other gears", " (", models_auc$model_timor_AG, ")"))
   )
 plots <- lapply(plots, function(x) {
   x +
@@ -275,20 +278,11 @@ models_metrics <-
   dplyr::rename(metric = .metric) %>%
   na.omit()
 
-models_auc <-
-  timor.nutrients::model_outputs %>%
-  purrr::map(purrr::pluck(8)) %>%
-  dplyr::bind_rows(.id = "subset") %>%
-  dplyr::select(-estimator) %>%
-  tidyr::pivot_wider(names_from = subset, values_from = estimate)
-
 
 dplyr::bind_rows(models_auc, models_metrics) %>%
   dplyr::rename(
-    "Atauro AG" = model_atauro_AG,
-    "Mainland AG" = model_timor_AG,
-    "Atauro GN" = model_atauro_GN,
-    "Mainland GN" = model_timor_GN
+    "Other gears" = model_timor_AG,
+    "Gill nets" = model_timor_GN
   ) %>%
   dplyr::mutate(dplyr::across(.cols = dplyr::where(is.numeric), ~ round(.x, 2))) %>%
   reactable::reactable(
@@ -322,46 +316,8 @@ The SHAP value analysis for all fishing gear types other than gill nets reveals 
 In Mainland, the application of cast nets in reef habitats shows a strong link to nutritional profile NP-1. In FAD settings, nutritional profile NP-2 emerges as the most common outcome regardless of the gear type employed, with the notable exception of long lines, which instead suggest a higher likelihood of resulting in profile NP-3. The profiles NP-4 and NP-5 are distinctively aligned with certain fishing practices: NP-4 is closely associated with the use of hand lines in deep habitats, and NP-5 is characteristic of manual collection and spearfishing in littoral zones such as reefs and beaches.
 
 
-```{r echo=FALSE, fig.cap="Differential influence of mesh size and habitat x gear type interaction on the nutritional profile predictions in Atauro (A and C) and in Mainland (B and D). Panels A-B: These panels elucidate the impact of mesh size on the probability of observing various nutritional profiles in Atauro (Panel A) and Mainland (Panel B). Each panel includes five plots corresponding to distinct nutritional profiles (NP1-NP5), as forecasted by gill net XGBoost models. The plots exhibit distributions of SHAP values over a range of mesh sizes. Each data point is color-coded to represent different habitats (Beach, Deep, FAD, Mangrove, Reef and Seagrass), clarifying the mesh size's influence on the accuracy of predictions within each habitat. The y-axis details mesh size ranges, while the x-axis measures SHAP values, where higher values signal a stronger likelihood of a particular nutritional profile's presence. The size and opacity of each point are proportionate to the SHAP value's magnitude, visually indicating the significance of each data point in influencing the model's predictions. Panels C-D: In these panels, the interplay among habitat, gear type, and vessel type (motorized or unmotorized) is analyzed in relation to nutritional profiles in Atauro (Panel C) and Mainland (Panel D). Each plot showcases SHAP value distributions for the five nutritional profiles (NP1-NP5) predicted by XGBoost models applied to datasets encompassing all gear types, excluding gill nets. Data points are color-coded to differentiate between motorized and unmotorized vessels, shedding light on how vessel type, alongside habitat and gear interactions, modulates nutritional profile predictions. Echoing Panels A-B, elevated SHAP values on the x-axis indicate a heightened probability of a specific nutritional profile. Concurrently, the points' size and opacity correspond to the SHAP values, denoting their relative impact on the outcome prediction.", fig.height=9, fig.width=10, message=FALSE, warning=FALSE}
-sha_Agn <- shapviz::shapviz(timor.nutrients::shap_results$model_atauro_GN)
+```{r echo=FALSE, fig.cap="Differential influence of mesh size and habitat x gear type interaction on the nutritional profile predictions in Atauro (A and C) and in Mainland (B and D). Panels A-B: These panels elucidate the impact of mesh size on the probability of observing various nutritional profiles in Atauro (Panel A) and Mainland (Panel B). Each panel includes five plots corresponding to distinct nutritional profiles (NP1-NP5), as forecasted by gill net XGBoost models. The plots exhibit distributions of SHAP values over a range of mesh sizes. Each data point is color-coded to represent different habitats (Beach, Deep, FAD, Mangrove, Reef and Seagrass), clarifying the mesh size's influence on the accuracy of predictions within each habitat. The y-axis details mesh size ranges, while the x-axis measures SHAP values, where higher values signal a stronger likelihood of a particular nutritional profile's presence. The size and opacity of each point are proportionate to the SHAP value's magnitude, visually indicating the significance of each data point in influencing the model's predictions. Panels C-D: In these panels, the interplay among habitat, gear type, and vessel type (motorized or unmotorized) is analyzed in relation to nutritional profiles in Atauro (Panel C) and Mainland (Panel D). Each plot showcases SHAP value distributions for the five nutritional profiles (NP1-NP5) predicted by XGBoost models applied to datasets encompassing all gear types, excluding gill nets. Data points are color-coded to differentiate between motorized and unmotorized vessels, shedding light on how vessel type, alongside habitat and gear interactions, modulates nutritional profile predictions. Echoing Panels A-B, elevated SHAP values on the x-axis indicate a heightened probability of a specific nutritional profile. Concurrently, the points' size and opacity correspond to the SHAP values, denoting their relative impact on the outcome prediction.", fig.height=6, fig.width=10, message=FALSE, warning=FALSE}
 sha_Mgn <- shapviz::shapviz(timor.nutrients::shap_results$model_timor_GN)
-
-p1 <-
-  sha_Agn %>%
-  purrr::map(get_shaps, model_type = "gn") %>%
-  dplyr::bind_rows(.id = "profile") %>%
-  dplyr::mutate(profile = stringr::str_replace(profile, ".pred_", "NP-")) %>%
-  dplyr::group_by(profile, habitat_fact, mesh_fact) %>%
-  dplyr::summarise(mesh_shap = median(mesh_shap, na.rm = T)) %>%
-  dplyr::ungroup() %>%
-  dplyr::filter(mesh_shap > 0) %>%
-  dplyr::mutate(habitat_fact = dplyr::case_when(habitat_fact == "Deep" ~ "Pelagic", TRUE ~ habitat_fact)) %>%
-  ggplot2::ggplot(ggplot2::aes(mesh_shap, mesh_fact, color = habitat_fact)) +
-  facet_grid(. ~ factor(profile, levels = c("NP-2", "NP-3", "NP-4", "NP-5", "NP-1")),
-    scales = "free"
-  ) +
-  # ggplot2::geom_jitter(width = 2, alpha = alpha, size = 1.5, show.legend = FALSE) +
-  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(mesh_shap), size = mesh_shap), ) +
-  ggplot2::theme_bw() +
-  # ggplot2::geom_hline(yintercept = 0, linetype = 2, color = "grey50") +
-  ggplot2::scale_color_manual(values = c("#f28f3b", "#c27ba0", "#ffd5c2", "#588b8b", "#c8553d", "#2d3047", "#007ea7")) +
-  ggplot2::coord_cartesian(expand = TRUE) +
-  ggplot2::scale_y_reverse(n.breaks = 10) +
-  # ggplot2::scale_x_continuous(n.breaks = 5) +
-  ggplot2::labs(color = "Habitat") +
-  ggplot2::theme(
-    panel.grid = ggplot2::element_blank(),
-    # panel.border = element_blank(), # This removes the border around each facet panel
-    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
-    strip.text.x = ggplot2::element_text(face = "bold")
-  ) +
-  ggplot2::guides(
-    color = ggplot2::guide_legend(override.aes = list(size = 3)),
-    alpha = "none",
-    size = "none"
-  ) +
-  ggplot2::labs(x = "", y = "")
-
 
 p2 <-
   sha_Mgn %>%
@@ -374,7 +330,7 @@ p2 <-
   dplyr::filter(mesh_shap > 0) %>%
   dplyr::mutate(habitat_fact = dplyr::case_when(habitat_fact == "Deep" ~ "Pelagic", TRUE ~ habitat_fact)) %>%
   ggplot2::ggplot(ggplot2::aes(mesh_shap, mesh_fact, color = habitat_fact)) +
-  facet_grid(. ~ factor(profile, levels = c("NP-4", "NP-2", "NP-1", "NP-5", "NP-3")),
+  facet_grid(. ~ factor(profile, levels = c("NP-3", "NP-5", "NP-4", "NP-2", "NP-1")),
     scales = "free"
   ) +
   # ggplot2::geom_jitter(width = 2, alpha = alpha, size = 1.5, show.legend = FALSE) +
@@ -415,10 +371,6 @@ leg <- cowplot::get_legend(p2 +
 
 base_plot <-
   cowplot::plot_grid(
-    p1 + theme(
-      legend.position = "none",
-      plot.margin = unit(c(0, 0.5, -0.2, 0.9), "cm")
-    ),
     p2 + theme(
       legend.position = "none",
       plot.margin = unit(c(-0.2, 0.5, 0, 0.9), "cm")
@@ -444,71 +396,20 @@ pp1 <-
   cowplot::draw_plot(grid) +
   cowplot::draw_label("Mesh size (mm)", x = 0.03, y = 0.7, angle = 90, hjust = 1, size = 12)
 
-sha_Aag <- shapviz::shapviz(timor.nutrients::shap_results$model_atauro_AG)
 sha_Mag <- shapviz::shapviz(timor.nutrients::shap_results$model_timor_AG)
-
-
-process_shap <-
-  sha_Aag %>%
-  purrr::map(get_shaps, model_type = "ag") %>%
-  dplyr::bind_rows(.id = "profile") %>%
-  dplyr::mutate(
-    profile = stringr::str_replace(profile, ".pred_", "NP-"),
-    vessel_fact = stringr::str_to_title(vessel_fact),
-    vessel_fact = ifelse(vessel_fact == "Motorised", "Unmotorised", "Motorised"),
-    habitat_gear_fact = stringr::str_replace(habitat_gear_fact, "Deep", "Pelagic")
-  )
-
-
-to_group <-
-  process_shap %>%
-  dplyr::mutate(
-    zero_dist = 0 - abs(habitat_gear_shap)
-  ) %>%
-  dplyr::group_by(habitat_gear_fact) %>%
-  dplyr::summarise(zero_dist = mean(zero_dist)) %>%
-  dplyr::slice_max(order_by = zero_dist, n = 15) %>%
-  magrittr::extract2("habitat_gear_fact")
-
-p1 <-
-  process_shap %>%
-  dplyr::mutate(habitat_gear_fact = ifelse(habitat_gear_fact %in% to_group, "Others", habitat_gear_fact)) %>%
-  dplyr::group_by(profile, vessel_fact, habitat_gear_fact) %>%
-  dplyr::summarise(habitat_gear_shap = median(habitat_gear_shap, na.rm = T)) %>%
-  dplyr::ungroup() %>%
-  dplyr::filter(habitat_gear_shap > 0) %>%
-  ggplot2::ggplot(ggplot2::aes(habitat_gear_shap, reorder(habitat_gear_fact, habitat_gear_shap), color = vessel_fact)) +
-  facet_grid(. ~ profile,
-    scales = "free"
-  ) +
-  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(habitat_gear_shap), size = habitat_gear_shap), ) +
-  ggplot2::theme_bw() +
-  ggplot2::scale_color_manual(values = c("grey50", "#bc4749")) +
-  ggplot2::coord_cartesian(expand = TRUE) +
-  ggplot2::labs(color = "Vessel type") +
-  ggplot2::theme(
-    panel.grid = ggplot2::element_blank(),
-    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
-    strip.text.x = ggplot2::element_text(face = "bold")
-  ) +
-  ggplot2::guides(
-    color = ggplot2::guide_legend(override.aes = list(size = 3)),
-    alpha = "none",
-    size = "none"
-  ) +
-  ggplot2::labs(x = "", y = "")
-
 
 process_shap <-
   sha_Mag %>%
   purrr::map(get_shaps, model_type = "ag") %>%
   dplyr::bind_rows(.id = "profile") %>%
+  tidyr::separate(habitat_gear_fact, into = c("habitat", "gear_fact"), sep = "_") %>%
   dplyr::mutate(
+    gear_fact = stringr::str_to_title(gear_fact),
     profile = stringr::str_replace(profile, ".pred_", "NP-"),
-    vessel_fact = stringr::str_to_title(vessel_fact),
-    vessel_fact = ifelse(vessel_fact == "Motorised", "Unmotorised", "Motorised"),
+    habitat_gear_fact = paste0(habitat, " x ", gear_fact),
     habitat_gear_fact = stringr::str_replace(habitat_gear_fact, "Deep", "Pelagic")
   )
+
 to_group <-
   process_shap %>%
   dplyr::mutate(
@@ -522,26 +423,23 @@ to_group <-
 p2 <-
   process_shap %>%
   dplyr::mutate(habitat_gear_fact = ifelse(habitat_gear_fact %in% to_group, "Others", habitat_gear_fact)) %>%
-  dplyr::group_by(profile, vessel_fact, habitat_gear_fact) %>%
+  dplyr::group_by(profile, habitat_gear_fact) %>%
   dplyr::summarise(habitat_gear_shap = median(habitat_gear_shap, na.rm = T)) %>%
   dplyr::ungroup() %>%
   dplyr::filter(habitat_gear_shap > 0) %>%
-  ggplot2::ggplot(ggplot2::aes(habitat_gear_shap, reorder(habitat_gear_fact, habitat_gear_shap), color = vessel_fact)) +
+  ggplot2::ggplot(ggplot2::aes(habitat_gear_shap, reorder(habitat_gear_fact, habitat_gear_shap))) +
   facet_grid(. ~ profile,
     scales = "free"
   ) +
-  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(habitat_gear_shap), size = habitat_gear_shap), ) +
+  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(habitat_gear_shap), size = habitat_gear_shap), color = "#0b5394") +
   ggplot2::theme_bw() +
-  ggplot2::scale_color_manual(values = c("grey50", "#bc4749")) +
   ggplot2::coord_cartesian(expand = TRUE) +
-  ggplot2::labs(color = "Vessel type") +
   ggplot2::theme(
     panel.grid = ggplot2::element_blank(),
     strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
     strip.text.x = ggplot2::element_text(face = "bold")
   ) +
   ggplot2::guides(
-    color = ggplot2::guide_legend(override.aes = list(size = 3)),
     alpha = "none",
     size = "none"
   ) +
@@ -562,16 +460,12 @@ leg <- cowplot::get_legend(p2 +
 
 base_plot <-
   cowplot::plot_grid(
-    p1 + theme(
-      legend.position = "none",
-      plot.margin = unit(c(0, 0.5, -0.2, 0.9), "cm")
-    ),
     p2 + theme(
       legend.position = "none",
       plot.margin = unit(c(-0.2, 0.5, 0, 0.9), "cm")
     ),
     ncol = 1,
-    labels = c("C", "D"),
+    labels = c("B", "D"),
     hjust = -3.5,
     vjust = 1.2,
     align = "v"
@@ -592,13 +486,13 @@ pp2 <-
   cowplot::draw_label("Habitat x Gear type", x = 0.03, y = 0.7, angle = 90, hjust = 1, size = 12) +
   cowplot::draw_label("SHAP value", x = 0.5, y = 0, size = 12)
 
-cowplot::plot_grid(pp1, pp2, ncol = 1, rel_heights = c(1.1, 1.3))
+cowplot::plot_grid(pp1, pp2, ncol = 1)
 ```
 
 
 
 ```{r eval=FALSE, fig.height=7, fig.width=8, message=FALSE, warning=FALSE, include=FALSE}
-plot_model_shaps(timor.nutrients::shap_results$model_atauro_AG,
+plot_model_shaps(timor.nutrients::shap_results$model_timor_AG,
   model_type = "ag",
   cols = 2,
   alpha = 0.25,
