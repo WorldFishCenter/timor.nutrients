@@ -47,7 +47,7 @@ For Atauro, considering all gear types (Panel a), the results demonstrate variab
 The mainland dataset utilizing all gear types (Panel c) also reveals a distinct distribution of nutrients. Clusters 1 and 2 have higher levels of calcium, with cluster 2 showing a particularly high value that surpasses other clusters, while cluster 1 is particular rich in omega-3. Vitamin A shows a significant peak in cluster 2, indicating a unique subset of catch composition in terms of this nutrient. Finally, focusing on the mainland using only gill net gear (Panel d), the data suggests a more even distribution of omega-3 across the clusters, with clusters 4 and 2 showing marginally higher values. Calcium have a higher occurrence in clusters 2 and 4, while zinc is considerably more prevalent in cluster 5. Iron, although present in all clusters, is most concentrated in cluster 4.
 
 
-```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients. The clusters are enumerated on the y-axis, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis and the white labels in the bars quantify the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutritional adequacy across clusters. Panels (A) through (D) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=4.5, fig.width=10, message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients. The clusters are enumerated on the y-axis, fig.width=10, message=FALSE, warning=FALSE, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis and the white labels in the bars quantify the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutritional adequacy across clusters. Panels (A) through (D) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=4.5, include=FALSE}
 library(ggplot2)
 data <- get_model_data()
 data$data_raw$timor_GN_raw$clusters <- paste0("NP-", data$data_raw$timor_GN_raw$clusters)
@@ -124,6 +124,96 @@ final_plot <-
   y_label
 
 final_plot
+```
+
+```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients. The clusters are enumerated on the y-axis, message=FALSE, warning=FALSE, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis and the white labels in the bars quantify the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutritional adequacy across clusters. Panels (A) through (D) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=4.5, fig.width=10}
+
+library(ggplot2)
+data <- get_model_data()
+data$data_raw$timor_GN_raw$clusters <- paste0("NP-", data$data_raw$timor_GN_raw$clusters)
+data$data_raw$timor_AG_raw$clusters <- paste0("NP-", data$data_raw$timor_AG_raw$clusters)
+
+
+plot_profiles <- function(x) {
+  means_dat <-
+    x %>%
+    dplyr::rename_with(~ stringr::str_to_title(.x), .cols = c(.data$zinc:.data$vitaminA)) %>%
+    dplyr::rename(
+      "Vitamin-A" = .data$Vitamina,
+      "Omega-3" = .data$Omega3
+    ) %>%
+    tidyr::pivot_longer(c(Zinc:"Vitamin-A")) %>%
+    dplyr::group_by(clusters, name) %>%
+    dplyr::summarise(
+      mean = mean(value, na.rm = TRUE),
+      sd = sd(value, na.rm = TRUE),
+      n = dplyr::n(),
+      se = sd / sqrt(n),
+      ci_lower = mean - qt(0.99, df = n - 1) * se,
+      ci_upper = mean + qt(0.99, df = n - 1) * se
+    )
+
+  all_dat <-
+    x %>%
+    dplyr::rename_with(~ stringr::str_to_title(.x), .cols = c(.data$zinc:.data$vitaminA)) %>%
+    dplyr::rename(
+      "Vitamin-A" = .data$Vitamina,
+      "Omega-3" = .data$Omega3
+    ) %>%
+    tidyr::pivot_longer(c(Zinc:"Vitamin-A"))
+
+
+  ggplot() +
+    theme_bw() +
+    geom_jitter(data = all_dat, mapping = aes(x = value, y = name, color = clusters), alpha = 0.01, size = 1, position = position_dodge(width = 0.5)) +
+    geom_point(data = means_dat, mapping = aes(x = mean, y = name, color = clusters), size = 5, position = position_dodge(width = 0.5)) +
+    labs(
+      x = "",
+      y = "",
+      color = "Profiles"
+    ) +
+    ggplot2::theme(
+      legend.position = "",
+      plot.margin = unit(c(0, 0, 0, 0), "cm"),
+      panel.grid = ggplot2::element_blank()
+    ) +
+    coord_cartesian(xlim = c(0, 5)) +
+    scale_fill_manual(values = timor.nutrients::palettes$clusters_palette) +
+    scale_color_manual(values = timor.nutrients::palettes$clusters_palette)
+}
+
+plots <- purrr::map(data$data_raw, plot_profiles)
+
+plots <-
+  list(
+    plots$timor_GN_raw + ggplot2::labs(subtitle = "Gill nets"),
+    plots$timor_AG_raw + ggplot2::labs(subtitle = "Other gears")
+  )
+
+legend_plot <- cowplot::get_legend(plots[[1]] +
+  ggplot2::theme(
+    legend.position = "right",
+    legend.key.size = ggplot2::unit(0.55, "cm"),
+    legend.title = ggplot2::element_text(size = 12)
+  ))
+combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "AUTO")
+
+x_label <- cowplot::draw_label("NDS per 1kg of catch", x = 0.5, y = 0.05)
+y_label <- cowplot::draw_label("Nutrient", x = 0.04, y = 0.5, angle = 90)
+
+final_plot <-
+  cowplot::plot_grid(
+    combined_plots,
+    legend_plot,
+    ncol = 2,
+    rel_widths = c(1, 0.15),
+    scale = 0.9
+  ) +
+  x_label +
+  y_label
+
+final_plot
+
 ```
 
 The scatter plot from the k-means clustering (Figure 5.2) showed the distribution of nutritional profiles across different clusters in each data subset. The first two principal components explained a significant portion of the variance, indicating distinct groupings in nutritional profiles among the fishing trips.
@@ -330,7 +420,7 @@ p2 <-
   dplyr::filter(mesh_shap > 0) %>%
   dplyr::mutate(habitat_fact = dplyr::case_when(habitat_fact == "Deep" ~ "Pelagic", TRUE ~ habitat_fact)) %>%
   ggplot2::ggplot(ggplot2::aes(mesh_shap, mesh_fact, color = habitat_fact)) +
-  facet_grid(. ~ factor(profile, levels = c("NP-3", "NP-5", "NP-4", "NP-2", "NP-1")),
+  facet_grid(. ~ factor(profile, levels = c("NP-3", "NP-1", "NP-2")),
     scales = "free"
   ) +
   # ggplot2::geom_jitter(width = 2, alpha = alpha, size = 1.5, show.legend = FALSE) +

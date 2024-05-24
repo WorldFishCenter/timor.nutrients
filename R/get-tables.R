@@ -196,20 +196,20 @@ get_merged_trips <- function(pars, ...) {
   imei_regions <-
     trips %>%
     dplyr::filter(!is.na(.data$tracker_imei)) %>%
-    dplyr::select(.data$tracker_imei, .data$reporting_region) %>%
+    dplyr::select(.data$tracker_imei, .data$municipality) %>%
     dplyr::group_by(.data$tracker_imei) %>%
-    dplyr::count(.data$reporting_region) %>%
-    dplyr::filter(!is.na(.data$reporting_region)) %>%
+    dplyr::count(.data$municipality) %>%
+    dplyr::filter(!is.na(.data$municipality)) %>%
     dplyr::group_by(.data$tracker_imei) %>%
     dplyr::arrange(dplyr::desc(.data$n), .by_group = TRUE) %>%
-    dplyr::summarise(reporting_region = dplyr::first(.data$reporting_region)) %>%
+    dplyr::summarise(reporting_region = dplyr::first(.data$municipality)) %>%
     dplyr::rename(reporting_region_fill = .data$reporting_region) %>%
     dplyr::ungroup()
 
   dplyr::full_join(trips, imei_regions, by = "tracker_imei") %>%
     dplyr::mutate(reporting_region = dplyr::case_when(
-      is.na(.data$reporting_region) ~ .data$reporting_region_fill,
-      TRUE ~ reporting_region
+      is.na(.data$municipality) ~ .data$reporting_region_fill,
+      TRUE ~ municipality
     )) %>%
     dplyr::select(-.data$reporting_region_fill)
 }

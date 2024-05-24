@@ -336,7 +336,7 @@ plot_model_shaps <- function(data_shaps = NULL, model_type = NULL, alpha = 0.2, 
     hjust = 0,
     vjust = -0.5,
     align = "hv",
-    labels = c("NP1", "NP2", "NP3", "NP4", "NP5")
+    labels = c("NP1", "NP2", "NP3")
   )
 
   if (model_type == "gn") {

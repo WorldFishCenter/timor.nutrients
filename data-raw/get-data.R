@@ -73,9 +73,9 @@ region_stats <-
 #    vitaminA = (.data$Vitamin_A_mu * (.data$catch * 1000)) / 1000
 #  )
 
-trips <-
-  get_merged_trips(pars) %>%
-  dplyr::filter(!is.na(landing_id))
+#trips <-
+#  get_merged_trips(pars) %>%
+#  dplyr::filter(!is.na(landing_id))
 
 kobo_trips <-
   trips %>%
@@ -88,31 +88,31 @@ kobo_trips <-
                 reporting_region %in% c("Dili", "Atauro")) %>%
   tidyr::unnest(.data$landing_catch) %>%
   tidyr::unnest(.data$length_frequency) %>%
-  dplyr::filter(!is.na(.data$weight)) %>%
+  dplyr::filter(!is.na(.data$catch)) %>%
   dplyr::group_by(.data$landing_id, .data$landing_period) %>%
   dplyr::summarise(
     landing_id = dplyr::first(landing_id),
-    reporting_region = dplyr::first(reporting_region),
+    reporting_region = dplyr::first(municipality),
     landing_date = dplyr::first(landing_date),
-    trip_duration = dplyr::first(trip_duration),
+    trip_duration = dplyr::first(trip_length),
     n_fishers = dplyr::first(n_fishers),
     habitat = dplyr::first(habitat),
-    gear_type = dplyr::first(gear_type),
+    gear_type = dplyr::first(gear),
     mesh_size = dplyr::first(mesh_size),
-    vessel_type = dplyr::first(vessel_type),
-    landing_value = dplyr::first(landing_value),
+    vessel_type = dplyr::first(propulsion_gear),
+    landing_value = dplyr::first(landing_catch_price),
     dplyr::across(
-      c(.data$weight:.data$Vitamin_A_mu),
+      c(.data$catch:.data$Vitamin_A_mu),
       ~ sum(.x) / 1000
     )
   ) %>%
   dplyr::ungroup() %>%
   dplyr::mutate(habitat = ifelse(habitat == "Traditional FAD", "FAD", habitat))
 
-catch_data <-
-  trips %>%
-  dplyr::filter(landing_id %in% kobo_trips$landing_id) %>%
-  dplyr::select(landing_id, landing_value, landing_catch)
+#catch_data <-
+#  trips %>%
+#  dplyr::filter(landing_id %in% kobo_trips$landing_id) %>%
+#  dplyr::select(landing_id, landing_value, landing_catch)
 
 usethis::use_data(RDI_tab, overwrite = TRUE)
 usethis::use_data(catch_groups, overwrite = TRUE)
@@ -129,8 +129,8 @@ data_list <- get_model_data()
  set.seed(555)
  data_clusters <-
   list(
-    timor_GN_perm = dplyr::slice_sample(data_list$data_raw$timor_GN_raw, prop = .5),
-    timor_AG_perm = dplyr::slice_sample(data_list$data_raw$timor_AG_raw, prop = .5)
+    timor_GN_perm = dplyr::slice_sample(data_list$data_raw$timor_GN_raw, prop = .75),
+    timor_AG_perm = dplyr::slice_sample(data_list$data_raw$timor_AG_raw, prop = .75)
   )
  perm_results <- purrr::imap(data_clusters, ~ run_permanova_clusters(.x, permutations = 999, parallel = 13))
  usethis::use_data(perm_results, overwrite = T)

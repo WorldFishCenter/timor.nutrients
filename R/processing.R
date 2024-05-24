@@ -83,8 +83,9 @@ get_model_data <- function() {
     na.omit()
 
   #factoextra::fviz_nbclust(df[, 8:13], kmeans, method = "wss")
+  #wss 3; silhouette 3
   set.seed(555)
-  k2 <- kmeans(df[, 8:13], centers = 5, nstart = 500)
+  k2 <- kmeans(df[, 8:13], centers = 3, nstart = 500)
 
   timor_GN_raw <-
     dplyr::tibble(
@@ -138,7 +139,7 @@ get_model_data <- function() {
 
   #factoextra::fviz_nbclust(df[, 7:12], kmeans, method = "wss")
   set.seed(555)
-  k2 <- kmeans(df[, 7:12], centers = 5, nstart = 500)
+  k2 <- kmeans(df[, 7:12], centers = 3, nstart = 500)
 
   timor_AG_raw <-
     dplyr::tibble(
