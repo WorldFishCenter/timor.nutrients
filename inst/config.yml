@@ -25,4 +25,4 @@ default:
       vitaminA: 0.0007
       omega3: 1.1
     pal_nutrients: ["#E07A5F", "#3D405B", "#81B29A", "#F2CC8F", "#0a9396", "#b392ac"]
-    pal_clusters: ["#258ea6","#ac3931","#c9c94e","#e2b1b1","#b9c6ae"]
+    pal_clusters: ["#c3b99e", "#527995", "#b76366"]

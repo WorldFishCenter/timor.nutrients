@@ -182,20 +182,97 @@ plot_profiles <- function(x) {
     scale_color_manual(values = timor.nutrients::palettes$clusters_palette)
 }
 
-plots <- purrr::map(data$data_raw, plot_profiles)
+plots1 <- plot_profiles(data$data_raw$timor_AG_raw) #purrr::map(data$data_raw$timor_AG_raw, plot_profiles)
+
+means_dat <-
+  data$data_raw$timor_GN_raw %>%
+  dplyr::rename_with(~ stringr::str_to_title(.x), .cols = c(.data$zinc:.data$vitaminA)) %>%
+  dplyr::rename(
+    "Vitamin-A" = .data$Vitamina,
+    "Omega-3" = .data$Omega3
+  ) %>%
+  tidyr::pivot_longer(c(Zinc:"Vitamin-A")) %>%
+  dplyr::group_by(clusters, name) %>%
+  dplyr::summarise(
+    mean = mean(value, na.rm = TRUE),
+    sd = sd(value, na.rm = TRUE),
+    n = dplyr::n(),
+    se = sd / sqrt(n),
+    ci_lower = mean - qt(0.99, df = n - 1) * se,
+    ci_upper = mean + qt(0.99, df = n - 1) * se
+  )
+
+all_dat <-
+  data$data_raw$timor_GN_raw %>%
+  dplyr::rename_with(~ stringr::str_to_title(.x), .cols = c(.data$zinc:.data$vitaminA)) %>%
+  dplyr::rename(
+    "Vitamin-A" = .data$Vitamina,
+    "Omega-3" = .data$Omega3
+  ) %>%
+  tidyr::pivot_longer(c(Zinc:"Vitamin-A"))
+
+plots2 <-
+  ggplot() +
+  theme_bw() +
+  geom_jitter(data = all_dat, mapping = aes(x = value, y = name, color = clusters), alpha = 0.01, size = 1, position = position_dodge(width = 0.5)) +
+  geom_point(data = means_dat, mapping = aes(x = mean, y = name, color = clusters), size = 5, position = position_dodge(width = 0.5)) +
+  labs(
+    x = "",
+    y = "",
+    color = "Profiles"
+  ) +
+  ggplot2::theme(
+    legend.position = "",
+    plot.margin = unit(c(0, 0, 0, 0), "cm"),
+    panel.grid = ggplot2::element_blank()
+  ) +
+  coord_cartesian(xlim = c(0, 5)) +
+  scale_fill_manual(values = timor.nutrients::palettes$clusters_palette) +
+  scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
+  annotate(
+    'text',
+    x = 3.5,
+    y = 2.5,
+    label = 'On average NP-3 provides enough calcium\nfor 2.2 people per 1kg of catch,\nwhile NP-1 and NP-2 support\n1.5 and 1.7 people, respectively',
+    size = 2.5
+  ) +
+  annotate(
+    'rect',
+    xmin = 0,
+    xmax = 3,
+    ymin = 0.5,
+    ymax = 1.5,
+    #alpha = 0.5,
+    color = rgb(0, 0, 0, alpha = 0.85),
+    linewidth = 0.3,
+    fill = "transparent",
+    linetype = 2
+  ) +
+  annotate(
+    'curve',
+    x = 2, # Play around with the coordinates until you're satisfied
+    y = 2.4,
+    yend = 1.7,
+    xend = 1.5,
+    col = 'black',
+    curvature = 0.25,
+    linewidth = 0.3,
+    arrow = arrow(length = unit(0.25, 'cm'))
+  )
+
 
 plots <-
   list(
-    plots$timor_GN_raw + ggplot2::labs(subtitle = "Gill nets"),
-    plots$timor_AG_raw + ggplot2::labs(subtitle = "Other gears")
+    plots2 + ggplot2::labs(subtitle = "Gill nets"),
+    plots1 + ggplot2::labs(subtitle = "Other gears")
   )
 
 legend_plot <- cowplot::get_legend(plots[[1]] +
-  ggplot2::theme(
-    legend.position = "right",
-    legend.key.size = ggplot2::unit(0.55, "cm"),
-    legend.title = ggplot2::element_text(size = 12)
-  ))
+                                     ggplot2::theme(
+                                       legend.position = "right",
+                                       legend.key.size = ggplot2::unit(0.55, "cm"),
+                                       legend.title = ggplot2::element_text(size = 12)
+                                     ))
 combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "AUTO")
 
 x_label <- cowplot::draw_label("NDS per 1kg of catch", x = 0.5, y = 0.05)
