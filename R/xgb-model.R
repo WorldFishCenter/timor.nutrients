@@ -149,9 +149,9 @@ run_xgmodel <- function(dataframe = NULL,
     tune::collect_predictions() %>%
     yardstick::roc_curve(cluster, feat_names, event_level = "second") %>%
     ggplot2::ggplot(ggplot2::aes(1 - specificity, sensitivity, color = .level)) +
-    ggplot2::theme_minimal() +
-    ggplot2::geom_line() +
-    ggplot2::geom_point(size = 0.5) +
+    ggpubr::theme_pubr() +
+    ggplot2::geom_line(size = 1) +
+    ggplot2::geom_point(size = 1) +
     ggplot2::geom_abline(slope = 1, intercept = 0, color = "grey", linetype = "dashed") +
     ggplot2::coord_cartesian(expand = FALSE) +
     ggplot2::scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
