@@ -164,7 +164,7 @@ plot_profiles <- function(x) {
 
 
   ggplot() +
-    theme_bw() +
+    ggpubr::theme_pubr()+
     geom_jitter(data = all_dat, mapping = aes(x = value, y = name, color = clusters), alpha = 0.01, size = 1, position = position_dodge(width = 0.5)) +
     geom_point(data = means_dat, mapping = aes(x = mean, y = name, color = clusters), size = 5, position = position_dodge(width = 0.5)) +
     labs(
@@ -213,7 +213,7 @@ all_dat <-
 
 plots2 <-
   ggplot() +
-  theme_bw() +
+  ggpubr::theme_pubr()+
   geom_jitter(data = all_dat, mapping = aes(x = value, y = name, color = clusters), alpha = 0.01, size = 1, position = position_dodge(width = 0.5)) +
   geom_point(data = means_dat, mapping = aes(x = mean, y = name, color = clusters), size = 5, position = position_dodge(width = 0.5)) +
   labs(
@@ -233,29 +233,29 @@ plots2 <-
     'text',
     x = 3.5,
     y = 2.5,
-    label = 'On average NP-3 provides enough calcium\nfor 2.2 people per 1kg of catch,\nwhile NP-1 and NP-2 support\n1.5 and 1.7 people, respectively',
-    size = 2.5
+    label = 'On average NP-3 provides enoug\ncalcium for 2.2 people per 1kg of catch,\nwhile NP-1 and NP-2 support\n1.5 and 1.7 people, respectively',
+    size = 2.75
   ) +
-  annotate(
-    'rect',
-    xmin = 0,
-    xmax = 3,
-    ymin = 0.5,
-    ymax = 1.5,
+  #annotate(
+  #  'rect',
+  #  xmin = 0,
+  #  ymin = 0.5,
+  #  ymax = 1.5,
+  #  xmax = 4.5,
     #alpha = 0.5,
-    color = rgb(0, 0, 0, alpha = 0.85),
-    linewidth = 0.3,
-    fill = "transparent",
-    linetype = 2
-  ) +
+  #  color = rgb(0, 0, 0, alpha = 0.85),
+   # linewidth = 0.3,
+    #fill = "transparent",
+    #linetype = 2
+  #) +
   annotate(
     'curve',
-    x = 2, # Play around with the coordinates until you're satisfied
-    y = 2.4,
-    yend = 1.7,
-    xend = 1.5,
+    x = 3.4, # Play around with the coordinates until you're satisfied
+    y = 1.8,
+    yend = 1.3,
+    xend = 2.45,
     col = 'black',
-    curvature = 0.25,
+    curvature = -0.05,
     linewidth = 0.3,
     arrow = arrow(length = unit(0.25, 'cm'))
   )
@@ -306,7 +306,7 @@ plots <-
 
 plots <- lapply(plots, function(x) {
   x +
-    ggplot2::theme_bw(10) +
+    ggpubr::theme_pubr()+
     ggplot2::theme(
       legend.position = "none",
       plot.margin = unit(c(0, 0, 0, 0), "cm"),
@@ -400,7 +400,7 @@ plots <-
   )
 plots <- lapply(plots, function(x) {
   x +
-    ggplot2::theme_bw() +
+   ggpubr::theme_pubr()+ 
     ggplot2::theme(
       panel.grid = ggplot2::element_blank(),
       legend.position = "none",
@@ -486,33 +486,34 @@ In Mainland, the application of cast nets in reef habitats shows a strong link t
 ```{r echo=FALSE, fig.cap="Differential influence of mesh size and habitat x gear type interaction on the nutritional profile predictions in Atauro (A and C) and in Mainland (B and D). Panels A-B: These panels elucidate the impact of mesh size on the probability of observing various nutritional profiles in Atauro (Panel A) and Mainland (Panel B). Each panel includes five plots corresponding to distinct nutritional profiles (NP1-NP5), as forecasted by gill net XGBoost models. The plots exhibit distributions of SHAP values over a range of mesh sizes. Each data point is color-coded to represent different habitats (Beach, Deep, FAD, Mangrove, Reef and Seagrass), clarifying the mesh size's influence on the accuracy of predictions within each habitat. The y-axis details mesh size ranges, while the x-axis measures SHAP values, where higher values signal a stronger likelihood of a particular nutritional profile's presence. The size and opacity of each point are proportionate to the SHAP value's magnitude, visually indicating the significance of each data point in influencing the model's predictions. Panels C-D: In these panels, the interplay among habitat, gear type, and vessel type (motorized or unmotorized) is analyzed in relation to nutritional profiles in Atauro (Panel C) and Mainland (Panel D). Each plot showcases SHAP value distributions for the five nutritional profiles (NP1-NP5) predicted by XGBoost models applied to datasets encompassing all gear types, excluding gill nets. Data points are color-coded to differentiate between motorized and unmotorized vessels, shedding light on how vessel type, alongside habitat and gear interactions, modulates nutritional profile predictions. Echoing Panels A-B, elevated SHAP values on the x-axis indicate a heightened probability of a specific nutritional profile. Concurrently, the points' size and opacity correspond to the SHAP values, denoting their relative impact on the outcome prediction.", fig.height=6, fig.width=10, message=FALSE, warning=FALSE}
 sha_Mgn <- shapviz::shapviz(timor.nutrients::shap_results$model_timor_GN)
 
-p2 <-
-  sha_Mgn %>%
+annotation_data <- data.frame(
+  profile = "NP-3",
+  x = 0.175,
+  y = 110,
+  label = 'Using a 50.8 mm mesh size\nin reef habitats increases\nthe likelihood of achieving an NP-3 profile'
+)
+
+p2 <- 
+sha_Mgn %>%
   purrr::map(get_shaps, model_type = "gn") %>%
   dplyr::bind_rows(.id = "profile") %>%
   dplyr::mutate(profile = stringr::str_replace(profile, ".pred_", "NP-")) %>%
   dplyr::group_by(profile, habitat_fact, mesh_fact) %>%
-  dplyr::summarise(mesh_shap = median(mesh_shap, na.rm = T)) %>%
+  dplyr::summarise(mesh_shap = median(mesh_shap, na.rm = TRUE)) %>%
   dplyr::ungroup() %>%
   dplyr::filter(mesh_shap > 0) %>%
   dplyr::mutate(habitat_fact = dplyr::case_when(habitat_fact == "Deep" ~ "Pelagic", TRUE ~ habitat_fact)) %>%
   ggplot2::ggplot(ggplot2::aes(mesh_shap, mesh_fact, color = habitat_fact)) +
-  facet_grid(. ~ factor(profile, levels = c("NP-3", "NP-1", "NP-2")),
-    scales = "free"
-  ) +
-  # ggplot2::geom_jitter(width = 2, alpha = alpha, size = 1.5, show.legend = FALSE) +
-  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(mesh_shap), size = mesh_shap), ) +
-  ggplot2::theme_bw() +
-  # ggplot2::geom_hline(yintercept = 0, linetype = 2, color = "grey50") +
+  facet_grid(. ~ factor(profile, levels = c("NP-3", "NP-1", "NP-2")), scales = "free") +
+  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(mesh_shap), size = mesh_shap)) +
+  ggpubr::theme_pubr(border = TRUE) +
   ggplot2::scale_color_manual(values = c("#f28f3b", "#c27ba0", "#ffd5c2", "#588b8b", "#c8553d", "#2d3047", "#007ea7")) +
   ggplot2::coord_cartesian(expand = TRUE) +
   ggplot2::scale_y_reverse(n.breaks = 10) +
-  # ggplot2::scale_x_continuous(n.breaks = 5) +
   ggplot2::labs(color = "Habitat") +
   ggplot2::theme(
     panel.grid = ggplot2::element_blank(),
-    # panel.border = element_blank(), # This removes the border around each facet panel
-    strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
+    strip.background = ggplot2::element_blank(),
     strip.text.x = ggplot2::element_text(face = "bold")
   ) +
   ggplot2::guides(
@@ -520,21 +521,37 @@ p2 <-
     alpha = "none",
     size = "none"
   ) +
+  ggplot2::geom_text(
+    data = annotation_data,
+    aes(x = x, y = y, label = label),
+    size = 3,
+    fontface = "plain",
+    inherit.aes = FALSE
+  ) +
+  ggplot2::geom_curve(
+    data = annotation_data,
+    aes(x = 0.325, y = 57.5, xend = 0.29, yend = 90),
+    curvature = -0.1,
+    color = 'black',
+    linewidth = 0.3,
+    arrow = arrow(length = unit(0.25, 'cm')),
+    inherit.aes = FALSE
+  ) +
   ggplot2::labs(x = "", y = "")
 
 
 
 leg <- cowplot::get_legend(p2 +
-  ggplot2::theme(
-    plot.margin = unit(c(2, 0, 0, 0.9), "cm"),
-    # legend.title = ggplot2::element_text(size = 11),
-    legend.position = "right",
-    legend.direction = "vertical",
-    legend.justification = "right",
-    legend.box.just = "right",
-    legend.background = element_rect(fill = "transparent", colour = NA),
-    legend.box.background = element_rect(fill = "transparent", colour = NA)
-  ))
+                             ggplot2::theme(
+                               plot.margin = unit(c(2, 0, 0, 0.9), "cm"),
+                               # legend.title = ggplot2::element_text(size = 11),
+                               legend.position = "right",
+                               legend.direction = "vertical",
+                               legend.justification = "right",
+                               legend.box.just = "right",
+                               legend.background = element_rect(fill = "transparent", colour = NA),
+                               legend.box.background = element_rect(fill = "transparent", colour = NA)
+                             ))
 
 base_plot <-
   cowplot::plot_grid(
@@ -596,11 +613,12 @@ p2 <-
   dplyr::filter(habitat_gear_shap > 0) %>%
   ggplot2::ggplot(ggplot2::aes(habitat_gear_shap, reorder(habitat_gear_fact, habitat_gear_shap))) +
   facet_grid(. ~ profile,
-    scales = "free"
+             scales = "free"
   ) +
   ggplot2::geom_point(ggplot2::aes(alpha = sqrt(habitat_gear_shap), size = habitat_gear_shap), color = "#0b5394") +
-  ggplot2::theme_bw() +
+  ggpubr::theme_pubr(border = T)+
   ggplot2::coord_cartesian(expand = TRUE) +
+  ggplot2::scale_x_continuous(n.breaks = 3)+
   ggplot2::theme(
     panel.grid = ggplot2::element_blank(),
     strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
@@ -614,16 +632,16 @@ p2 <-
 
 
 leg <- cowplot::get_legend(p2 +
-  ggplot2::theme(
-    plot.margin = unit(c(2, 0, 0, 0.9), "cm"),
-    # legend.title = ggplot2::element_text(size = 11),
-    legend.position = "right",
-    legend.direction = "vertical",
-    legend.justification = "right",
-    legend.box.just = "right",
-    legend.background = element_rect(fill = "transparent", colour = NA),
-    legend.box.background = element_rect(fill = "transparent", colour = NA)
-  ))
+                             ggplot2::theme(
+                               plot.margin = unit(c(2, 0, 0, 0.9), "cm"),
+                               # legend.title = ggplot2::element_text(size = 11),
+                               legend.position = "right",
+                               legend.direction = "vertical",
+                               legend.justification = "right",
+                               legend.box.just = "right",
+                               legend.background = element_rect(fill = "transparent", colour = NA),
+                               legend.box.background = element_rect(fill = "transparent", colour = NA)
+                             ))
 
 base_plot <-
   cowplot::plot_grid(
@@ -654,6 +672,7 @@ pp2 <-
   cowplot::draw_label("SHAP value", x = 0.5, y = 0, size = 12)
 
 cowplot::plot_grid(pp1, pp2, ncol = 1)
+
 ```
 
 
