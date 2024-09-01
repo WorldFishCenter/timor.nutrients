@@ -5,6 +5,7 @@ This section presents the analyses that illustrates the distribution of nutrient
 ## Fish groups 
 
 ```{r echo=FALSE, fig.height=8, fig.width=7, message=FALSE, warning=FALSE, out.width='80%', fig.cap="The bar chart illustrates the contribution of a variety of marine food sources to the Recommended Nutrient Intake (RNI) for six fundamental nutrients, based on a 100g portion. Each bar is a color-segmented stacked visual, with distinct hues corresponding to individual nutrients, and white numbers within indicating the specific percentage contribution of each nutrient. The chart incorporates the mean annual catch in metric tons for each marine species from 2018 to 2023, presented at the end of each bar, providing a view of both the nutritional value and the harvest volume of these essential food sources. The transparency of these values is adjusted to reflect each species' relative contribution to the mean annual catch"}
+
 library(ggplot2)
 library(ggforce)
 
@@ -108,7 +109,7 @@ ggplot2::ggplot() +
 ```{r echo=FALSE, fig.height=7, fig.width=7, message=FALSE, warning=FALSE, fig.cap="Sankey diagram showing the relative distribution of key nutrients across various marine habitats and the corresponding extraction by different fishing gear types used in Timor-Est small-scale fisheries."}
 parallel_plot <-
   timor.nutrients::kobo_trips %>%
-  dplyr::mutate(habitat = ifelse(habitat == "Pelagic", "Deep", habitat)) %>% 
+  dplyr::mutate(habitat = ifelse(habitat == "Deep", "Pelagic", habitat)) %>% 
   dplyr::select(habitat, gear_type, Selenium_mu:Vitamin_A_mu) %>%
   rename_nutrients_mu() %>%
   tidyr::pivot_longer(-c(habitat, gear_type), names_to = "nutrient", values_to = "concentration_g") %>%
@@ -121,16 +122,6 @@ parallel_plot <-
     concentration_g = concentration_g / nutrient_sum * 100
   ) %>%
   dplyr::ungroup() %>%
-  # dplyr::mutate(concentration_g = dplyr::case_when(
-  #  nutrient == "calcium" ~ concentration_g * 1000,
-  #  nutrient == "iron" ~ concentration_g * 1000,
-  #  nutrient == "omega3" ~ concentration_g * 1,
-  #  nutrient == "protein" ~ concentration_g * 1,
-  #  nutrient == "selenium" ~ concentration_g * 1000000,
-  #  nutrient == "vitaminA" ~ concentration_g * 1000000,
-  #  nutrient == "zinc" ~ concentration_g * 1000,
-  #  TRUE ~ concentration_g
-  # )) %>%
   dplyr::mutate(dplyr::across(habitat:nutrient, ~ as.factor(.x))) %>%
   dplyr::mutate(
     nutrient = as.factor(nutrient)
@@ -151,13 +142,13 @@ parallel_plot <-
   ggforce::gather_set_data(c(3, 1, 2))
 
 parallel_plot$x <- factor(parallel_plot$x,
-  levels = c("3", "1", "2"),
-  labels = c("Nutrient", "Habitat", "Gear type")
+                          levels = c("3", "1", "2"),
+                          labels = c("Nutrient", "Habitat", "Gear type")
 )
 
 parallel_plot$y <- factor(parallel_plot$y, levels = c(
   "Protein", "Omega-3", "Calcium", "Iron", "Vitamin-A", "Zinc", "Selenium",
-  "Deep", "Reef", "FAD", "Beach", "Traditional FAD", "Mangrove", "Seagrass",
+  "Reef", "Pelagic", "FAD", "Beach", "Traditional FAD", "Mangrove", "Seagrass",
   "gill net", "long line", "hand line", "seine net", "spear gun", "manual collection",
   "beach seine", "cast net", "trap"
 ))
@@ -182,6 +173,7 @@ parallel_plot %>%
     axis.text = element_text(size = 12, color = "black")
   ) +
   labs(fill = "")
+
 ```
 
 ## Nutritional contribution and economic profiling

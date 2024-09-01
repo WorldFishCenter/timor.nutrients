@@ -1,7 +1,3 @@
----
----
----
-
 # Timor SSF nutritional profiles {#profiles}
 
 ## Methods
@@ -48,6 +44,7 @@ The mainland dataset utilizing all gear types (Panel c) also reveals a distinct 
 
 
 ```{r eval=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients. The clusters are enumerated on the y-axis, fig.width=10, message=FALSE, warning=FALSE, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis and the white labels in the bars quantify the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutritional adequacy across clusters. Panels (A) through (D) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=4.5, include=FALSE}
+
 library(ggplot2)
 data <- get_model_data()
 data$data_raw$timor_GN_raw$clusters <- paste0("NP-", data$data_raw$timor_GN_raw$clusters)
@@ -233,7 +230,7 @@ plots2 <-
     'text',
     x = 3.5,
     y = 2.5,
-    label = 'On average NP-3 provides enough\ncalcium for 2.2 people per 1kg of catch,\nwhile NP-1 and NP-2 support\n1.5 and 1.7 people, respectively',
+    label = 'On average, NP-3 provides enough\ncalcium for 2.2 people per 1kg of catch,\nwhile NP-1 and NP-2 support\n1.5 and 1.7 people, respectively',
     size = 2.75
   ) +
   #annotate(
@@ -489,12 +486,12 @@ sha_Mgn <- shapviz::shapviz(timor.nutrients::shap_results$model_timor_GN)
 annotation_data <- data.frame(
   profile = "NP-3",
   x = 0.175,
-  y = 110,
-  label = 'Using a 50.8 mm mesh size\nin reef habitats increases\nthe likelihood of achieving an NP-3 profile'
+  y = 120,
+  label = 'NP-3 profile likelihood increases\nwith <40mm mesh in pelagic and\nmangrove areas, and 50.8mm mesh\nin reef and FAD zones'
 )
 
 p2 <- 
-sha_Mgn %>%
+  sha_Mgn %>%
   purrr::map(get_shaps, model_type = "gn") %>%
   dplyr::bind_rows(.id = "profile") %>%
   dplyr::mutate(profile = stringr::str_replace(profile, ".pred_", "NP-")) %>%
@@ -528,17 +525,25 @@ sha_Mgn %>%
     fontface = "plain",
     inherit.aes = FALSE
   ) +
+  ggplot2::geom_rect(
+    data = annotation_data,
+    aes(xmin = 0.27, xmax = 0.36, ymin = 19, ymax = 57),
+    fill = "white",
+    alpha = 0.2,
+    color = "black",
+    inherit.aes = FALSE,
+    linetype = "dashed"
+  ) +
   ggplot2::geom_curve(
     data = annotation_data,
-    aes(x = 0.325, y = 57.5, xend = 0.29, yend = 90),
+    aes(x = 0.32, y = 60, xend = 0.29, yend = 90),
     curvature = -0.1,
     color = 'black',
-    linewidth = 0.3,
-    arrow = arrow(length = unit(0.25, 'cm')),
+    linewidth = 0.4,
+    arrow = arrow(length = unit(0.4, 'cm')),
     inherit.aes = FALSE
   ) +
   ggplot2::labs(x = "", y = "")
-
 
 
 leg <- cowplot::get_legend(p2 +
@@ -604,6 +609,13 @@ to_group <-
   dplyr::slice_max(order_by = zero_dist, n = 15) %>%
   magrittr::extract2("habitat_gear_fact")
 
+annotation_data <- data.frame(
+  profile = "NP-2",
+  x = 0.13,
+  y = 9,
+  label = 'Long lines in pelagic areas\nboost chances of obtaining\nNP-2 profile'
+)
+
 p2 <-
   process_shap %>%
   dplyr::mutate(habitat_gear_fact = ifelse(habitat_gear_fact %in% to_group, "Others", habitat_gear_fact)) %>%
@@ -623,6 +635,22 @@ p2 <-
     panel.grid = ggplot2::element_blank(),
     strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
     strip.text.x = ggplot2::element_text(face = "bold")
+  ) +
+  ggplot2::geom_text(
+    data = annotation_data,
+    aes(x = x, y = y, label = label),
+    size = 3,
+    fontface = "plain",
+    inherit.aes = FALSE
+  ) +
+  ggplot2::geom_curve(
+    data = annotation_data,
+    aes(x = 0.17, y = 13, xend = 0.13, yend = 11),
+    curvature = 0.3,
+    color = 'black',
+    linewidth = 0.4,
+    arrow = arrow(length = unit(0.4, 'cm')),
+    inherit.aes = FALSE
   ) +
   ggplot2::guides(
     alpha = "none",
