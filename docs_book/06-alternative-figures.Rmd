@@ -1,7 +1,9 @@
 # Other figures {#afigures}
 
-```{r echo=FALSE, fig.cap="To define", fig.height=8, fig.width=9, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="To define", fig.height=8, fig.width=9.5, message=FALSE, warning=FALSE}
 library(ggplot2)
+
+
 catch_groups_name <-
   timor.nutrients::catch_groups %>%
   dplyr::select(
@@ -59,9 +61,8 @@ base_plot <-
       grouped_taxa %in% c("RAX", "SDX", "CJX", "CLP", "GZP", "FLY", "KYX", "MOO", "CLP", "MUL", "MIL", "THF") ~ "Small pelagics",
       TRUE ~ NA_character_
     ),
-    fish_group = ifelse(fish_group %in% c("Shrimps", "Molluscs", "Cephalopods", "Crustaceans"), "Other groups", fish_group),
+    fish_group = ifelse(fish_group %in% c("Shrimps", "Molluscs", "Cephalopods", "Crustaceans"), "Marine invertebrates", fish_group),
   )
-
 
 tot_catch_plot <-
   base_plot %>%
@@ -82,13 +83,13 @@ base_plot <-
       fish_group == "Large pelagics" ~ "#2a9d8f",
       fish_group == "Large demersals" ~ "#007ea7",
       fish_group == "Sharks and rays" ~ "#264653",
-      fish_group == "Other groups" ~ "#898989",
+      fish_group == "Marine invertebrates" ~ "#898989",
       TRUE ~ "#000000"
     ),
     ColoredVar = glue::glue("<span style='color:{VarColor}'>{catch_name}</span>"),
     fish_group = factor(fish_group, levels = c(
       "Small pelagics", "Large pelagics", "Small demersals", "Large demersals",
-      "Sharks and rays", "Other groups"
+      "Sharks and rays", "Marine invertebrates"
     ))
   )
 
@@ -96,30 +97,30 @@ long_plot <-
   ggplot2::ggplot() +
   ggpubr::theme_pubr() +
   ggchicklet::geom_chicklet(base_plot,
-                            mapping = ggplot2::aes(
-                              y = rdi, x = reorder(ColoredVar, tot),
-                              fill = nutrient,
-                              color = nutrient
-                            ),
-                            position = ggplot2::position_stack(reverse = FALSE),
-                            alpha = 0.8,
-                            width = 1
+    mapping = ggplot2::aes(
+      y = rdi, x = reorder(ColoredVar, tot),
+      fill = nutrient,
+      color = nutrient
+    ),
+    position = ggplot2::position_stack(reverse = FALSE),
+    alpha = 0.8,
+    width = 1
   ) +
   geom_text(base_plot,
-            mapping = aes(y = rdi, x = reorder(ColoredVar, tot), label = round(rdi, 2) * 100),
-            position = position_stack(0.5),
-            color = "white",
-            size = 3
+    mapping = aes(y = rdi, x = reorder(ColoredVar, tot), label = round(rdi, 2) * 100),
+    position = position_stack(0.5),
+    color = "white",
+    size = 3
   ) +
   geom_text(base_plot,
-            mapping = aes(
-              y = tot_t, x = reorder(ColoredVar, tot_t),
-              label = ifelse(catch_t < 1, "<1", scales::comma(round(catch_t, 0))),
-              alpha = sqrt(catch_t)
-            ),
-            size = 3,
-            nudge_y = 0.075,
-            hjust = 1
+    mapping = aes(
+      y = tot_t, x = reorder(ColoredVar, tot_t),
+      label = ifelse(catch_t < 1, "<1", scales::comma(round(catch_t, 0))),
+      alpha = sqrt(catch_t)
+    ),
+    size = 3,
+    nudge_y = 0.075,
+    hjust = 1
   ) +
   facet_grid(fish_group ~ ., scales = "free", space = "free") +
   coord_flip(expand = FALSE, ylim = c(0, 1.5)) +
@@ -176,10 +177,10 @@ groups_plot <-
   dplyr::ungroup() %>%
   dplyr::mutate(
     nutrient = as.factor(nutrient),
-    fish_group = ifelse(fish_group %in% c("Shrimps", "Molluscs", "Cephalopods", "Crustaceans"), "Other groups", fish_group),
+    fish_group = ifelse(fish_group %in% c("Shrimps", "Molluscs", "Cephalopods", "Crustaceans"), "Marine invertebrates", fish_group),
     fish_group = factor(fish_group, levels = c(
       "Shrimps", "Molluscs", "Cephalopods", "Crustaceans",
-      "Other groups", "Sharks and rays", "Large demersals",
+      "Marine invertebrates", "Sharks and rays", "Large demersals",
       "Small demersals", "Large pelagics", "Small pelagics"
     ))
   ) %>%
@@ -197,10 +198,10 @@ groups_plot <-
       fish_group == "Small demersals" ~ "SD",
       fish_group == "Large demersals" ~ "LD",
       fish_group == "Sharks and rays" ~ "SR",
-      fish_group == "Other groups" ~ "OG"
+      fish_group == "Marine invertebrates" ~ "MI"
     ),
     fish_label = factor(fish_label, levels = rev(c(
-      "SP", "LP", "SD", "LD", "SR", "OG"
+      "SP", "LP", "SD", "LD", "SR", "MI"
     )))
   ) %>%
   ggplot(aes(fish_label, value / 1000, fill = fish_label)) +
@@ -226,7 +227,7 @@ groups_plot <-
     values = groups_palette,
     breaks = c(
       "SP", "LP", "SD", "LD",
-      "SR", "OG"
+      "SR", "MI"
     )
   ) +
   scale_y_continuous(n.breaks = 3) +
@@ -255,7 +256,7 @@ top_groups <-
       TRUE ~ NA_character_
     )
   ) %>%
-  dplyr::mutate(fish_group = ifelse(fish_group %in% c("Shrimps", "Molluscs", "Cephalopods", "Crustaceans"), "Other groups", fish_group)) %>%
+  dplyr::mutate(fish_group = ifelse(fish_group %in% c("Shrimps", "Molluscs", "Cephalopods", "Crustaceans"), "Marine invertebrates", fish_group)) %>%
   dplyr::group_by(fish_group, grouped_taxa) %>%
   dplyr::summarise(
     tot_catch = dplyr::first(tot_catch),
@@ -341,7 +342,7 @@ revenue_plot <-
   revenue_dat %>%
   dplyr::mutate(fish_group = factor(fish_group, levels = c(
     "Small pelagics", "Large pelagics", "Small demersals", "Large demersals",
-    "Sharks and rays", "Other groups"
+    "Sharks and rays", "Marine invertebrates"
   ))) %>%
   # dplyr::filter(!catch_name %in% c("Stingrays")) %>%
   ggplot(aes(inds, price, size = catch_percent, color = fish_group)) +
@@ -406,27 +407,27 @@ habitat_plot <-
   ggplot2::ggplot() +
   ggpubr::theme_pubr() +
   ggchicklet::geom_chicklet(habitat_nutrients,
-                            mapping = ggplot2::aes(
-                              y = inds_kg,
-                              x = reorder(habitat, inds_kg),
-                              fill = nutrient,
-                              color = nutrient
-                            ),
-                            position = ggplot2::position_stack(reverse = FALSE),
-                            alpha = 0.8,
-                            width = 0.8,
-                            radius = grid::unit(3, "pt")
+    mapping = ggplot2::aes(
+      y = inds_kg,
+      x = reorder(habitat, inds_kg),
+      fill = nutrient,
+      color = nutrient
+    ),
+    position = ggplot2::position_stack(reverse = FALSE),
+    alpha = 0.8,
+    width = 0.8,
+    radius = grid::unit(3, "pt")
   ) +
   ggplot2::geom_text(habitat_nutrients,
-                     mapping = ggplot2::aes(
-                       y = inds_kg,
-                       x = reorder(habitat, inds_kg),
-                       label = round(inds_kg, 0),
-                       group = nutrient
-                     ),
-                     position = ggplot2::position_stack(0.5, reverse = FALSE),
-                     color = "white",
-                     size = 2.5
+    mapping = ggplot2::aes(
+      y = inds_kg,
+      x = reorder(habitat, inds_kg),
+      label = round(inds_kg, 0),
+      group = nutrient
+    ),
+    position = ggplot2::position_stack(0.5, reverse = FALSE),
+    color = "white",
+    size = 2.5
   ) +
   ggplot2::scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
   ggplot2::scale_color_manual(values = timor.nutrients::palettes$nutrients_palette) +
@@ -439,6 +440,74 @@ habitat_plot <-
     plot.subtitle = element_text(face = "bold")
   ) +
   ggplot2::labs(x = "", fill = "", y = "Cumulative nutrient density score", subtitle = "Habitat and nutrient density") +
+  ggplot2::guides(
+    alpha = "none",
+    color = "none",
+    fill = guide_legend(override.aes = list(size = 7))
+  )
+
+gear_nutrients <-
+  timor.nutrients::kobo_trips %>%
+  dplyr::select(gear_type, weight:Vitamin_A_mu) %>%
+  rename_nutrients_mu() %>%
+  tidyr::pivot_longer(-c(gear_type, weight), names_to = "nutrient") %>%
+  dplyr::left_join(RDI_tab) %>%
+  dplyr::mutate(
+    value = value / weight,
+    inds_kg = (value * 1000) / conv_factor
+  ) %>%
+  dplyr::group_by(gear_type, nutrient) %>%
+  dplyr::summarise(inds_kg = median(inds_kg, na.rm = T) / 10) %>%
+  dplyr::mutate(inds_kg = inds_kg * 100) %>%
+  dplyr::filter(!nutrient == "selenium") %>%
+  dplyr::mutate(
+    nutrient = stringr::str_to_title(nutrient),
+    nutrient = dplyr::case_when(
+      nutrient == "Omega3" ~ "Omega-3",
+      nutrient == "Vitamina" ~ "Vitamin-A",
+      TRUE ~ nutrient
+    )
+  ) %>%
+  dplyr::mutate(gear_type = stringr::str_to_title(gear_type)) %>%
+  dplyr::ungroup()
+
+gear_nutrients <-
+  ggplot2::ggplot() +
+  ggpubr::theme_pubr() +
+  ggchicklet::geom_chicklet(gear_nutrients,
+    mapping = ggplot2::aes(
+      y = inds_kg,
+      x = reorder(gear_type, inds_kg),
+      fill = nutrient,
+      color = nutrient
+    ),
+    position = ggplot2::position_stack(reverse = FALSE),
+    alpha = 0.8,
+    width = 0.8,
+    radius = grid::unit(3, "pt")
+  ) +
+  ggplot2::geom_text(gear_nutrients,
+    mapping = ggplot2::aes(
+      y = inds_kg,
+      x = reorder(gear_type, inds_kg),
+      label = round(inds_kg, 0),
+      group = nutrient
+    ),
+    position = ggplot2::position_stack(0.5, reverse = FALSE),
+    color = "white",
+    size = 2.5
+  ) +
+  ggplot2::scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
+  ggplot2::scale_color_manual(values = timor.nutrients::palettes$nutrients_palette) +
+  ggplot2::scale_y_continuous(labels = scales::label_percent(scale = 1)) +
+  ggplot2::coord_flip(expand = FALSE) +
+  ggplot2::theme(
+    legend.position = "",
+    panel.grid = ggplot2::element_blank(),
+    axis.text.y = element_text(size = 7.75),
+    plot.subtitle = element_text(face = "bold")
+  ) +
+  ggplot2::labs(x = "", fill = "", y = "Cumulative nutrient density score", subtitle = "Gear type and nutrient density") +
   ggplot2::guides(
     alpha = "none",
     color = "none",
@@ -465,30 +534,41 @@ p1 <-
     labels = "AUTO"
   )
 
+bottom_row_plot <- cowplot::plot_grid(
+  habitat_plot + labs(y = ""),
+  gear_nutrients + labs(y = ""),
+  ncol = 2,
+  align = "hv",
+  labels = c("", ""),
+  rel_heights = c(1, 1)
+)
 
-p2 <-
-  cowplot::plot_grid(
-    p1 + theme(plot.margin = unit(c(0, 0, -0.5, 0), "cm")),
-    habitat_plot + theme(plot.margin = unit(c(0, 0.2, 0, 1.5), "cm")),
-    nrow = 2,
-    labels = c("", "D"),
-    # align = "h",
-    rel_heights = c(1, 0.25)
-  )
-
+p2 <- cowplot::plot_grid(
+  p1 + theme(plot.margin = unit(c(0, 0, 0, 0), "cm")),
+  bottom_row_plot + theme(plot.margin = unit(c(-0.5, 0, 0, 0), "cm")),
+  nrow = 2,
+  labels = c("A", "D"),
+  rel_heights = c(1, 0.25),
+  align = "v" # align vertically
+)
 
 legends <-
   cowplot::plot_grid(
     long_legend, groups_leg
   )
 
+x_label <- cowplot::draw_label("Cumulative nutrient density score", x = 0.55, y = 0.02)
+
 cowplot::plot_grid(
+  legends + theme(plot.margin = unit(c(0, 0.6, 0, 1.5), "cm")),
   p2,
-  legends + theme(plot.margin = unit(c(0, 0.2, 0, 1.5), "cm")),
   nrow = 2,
   align = "h",
-  rel_heights = c(1, 0.1)
-)
+  rel_heights = c(0.1, 1)
+) +
+  x_label
+
+
 ```
 
 
