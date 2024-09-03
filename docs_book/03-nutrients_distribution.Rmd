@@ -149,8 +149,8 @@ parallel_plot$x <- factor(parallel_plot$x,
 parallel_plot$y <- factor(parallel_plot$y, levels = c(
   "Protein", "Omega-3", "Calcium", "Iron", "Vitamin-A", "Zinc", "Selenium",
   "Reef", "Pelagic", "FAD", "Beach", "Traditional FAD", "Mangrove", "Seagrass",
-  "gill net", "long line", "hand line", "seine net", "spear gun", "manual collection",
-  "beach seine", "cast net", "trap"
+  "gill net", "seine net", "spear gun", "hand line", "long line", "manual collection",
+  "beach seine", "trap", "cast net"
 ))
 
 parallel_plot %>%
