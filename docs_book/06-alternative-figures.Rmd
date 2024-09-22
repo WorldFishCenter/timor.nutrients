@@ -1,6 +1,6 @@
 # Other figures {#afigures}
 
-```{r echo=FALSE, fig.cap="To define", fig.height=8, fig.width=9.5, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="To define", fig.height=9, fig.width=9.3, message=FALSE, warning=FALSE}
 library(ggplot2)
 
 
@@ -93,34 +93,39 @@ base_plot <-
     ))
   )
 
+tons_label <- cowplot::draw_label("Mean annual\ncatch (tons)", x = 0.941, y = 0.98, size = 9)
+
 long_plot <-
-  ggplot2::ggplot() +
+ggplot2::ggplot() +
   ggpubr::theme_pubr() +
   ggchicklet::geom_chicklet(base_plot,
-    mapping = ggplot2::aes(
-      y = rdi, x = reorder(ColoredVar, tot),
-      fill = nutrient,
-      color = nutrient
-    ),
-    position = ggplot2::position_stack(reverse = FALSE),
-    alpha = 0.8,
-    width = 1
+                            mapping = ggplot2::aes(
+                              y = rdi, x = reorder(ColoredVar, tot),
+                              fill = nutrient,
+                              color = nutrient
+                            ),
+                            position = ggplot2::position_stack(reverse = FALSE),
+                            alpha = 0.8,
+                            width = 1
   ) +
   geom_text(base_plot,
-    mapping = aes(y = rdi, x = reorder(ColoredVar, tot), label = round(rdi, 2) * 100),
-    position = position_stack(0.5),
-    color = "white",
-    size = 3
+            mapping = aes(y = rdi, x = reorder(ColoredVar, tot), label = round(rdi, 2) * 100),
+            position = position_stack(0.5),
+            color = "white",
+            size = 3
   ) +
-  geom_text(base_plot,
+  geom_text(
+    data = base_plot,
     mapping = aes(
-      y = tot_t, x = reorder(ColoredVar, tot_t),
+      # Set y to a fixed position above the bars
+      y = 1.35,  # Adjust this value if needed
+      x = reorder(ColoredVar, tot_t),
       label = ifelse(catch_t < 1, "<1", scales::comma(round(catch_t, 0))),
-      alpha = sqrt(catch_t)
+      alpha = sqrt(catch_t),
     ),
     size = 3,
-    nudge_y = 0.075,
-    hjust = 1
+    hjust = 0,        # Left-align the text
+    nudge_y = 0.05
   ) +
   facet_grid(fish_group ~ ., scales = "free", space = "free") +
   coord_flip(expand = FALSE, ylim = c(0, 1.5)) +
@@ -130,7 +135,7 @@ long_plot <-
   ggplot2::labs(x = "", y = "", fill = "Nutrient", subtitle = "Groups nutrient density") +
   ggplot2::theme(
     legend.position = "bottom",
-    panel.grid = element_blank(),
+    panel.grid.major.y = element_line(linetype = "dashed"),
     strip.background = ggplot2::element_blank(),
     strip.text = ggplot2::element_blank(),
     axis.text.y = ggtext::element_markdown(size = 9),
@@ -145,6 +150,9 @@ long_plot <-
 long_legend <- ggpubr::get_legend(long_plot)
 long_plot <- long_plot +
   theme(legend.position = "none")
+
+long_plot <- cowplot::plot_grid(long_plot) + tons_label
+
 
 # groups_palette <- c("#2a9d8f", "#264653", "#007ea7", "#e9c46a", "#898989", "#bc4749")
 groups_palette <- c("#bc4749", "#2a9d8f", "#e9c46a", "#007ea7", "#264653", "#898989")
@@ -216,11 +224,10 @@ groups_plot <-
     legend.position = "",
     panel.grid = element_blank(),
     strip.background = ggplot2::element_blank(), # This removes the background from the facet titles
-    strip.text.x = ggplot2::element_text(face = "bold"),
-    axis.text.y = element_text(size = 6.8),
+    axis.text.y = element_text(size = 7),
     axis.ticks.y = ggplot2::element_blank(),
     panel.spacing.x = unit(0.1, "lines"),
-    panel.spacing.y = unit(0.1, "lines"),
+    panel.spacing.y = unit(0, "lines"),
     plot.subtitle = element_text(face = "bold")
   ) +
   scale_fill_manual(
@@ -557,14 +564,14 @@ legends <-
     long_legend, groups_leg
   )
 
-x_label <- cowplot::draw_label("Cumulative nutrient density score", x = 0.55, y = 0.02)
+x_label <- cowplot::draw_label("Cumulative nutrient density score", x = 0.55, y = 0.095)
 
 cowplot::plot_grid(
-  legends + theme(plot.margin = unit(c(0, 0.6, 0, 1.5), "cm")),
   p2,
+  legends + theme(plot.margin = unit(c(0.18, 0, 0, -1), "cm")),
   nrow = 2,
   align = "h",
-  rel_heights = c(0.1, 1)
+  rel_heights = c(1.3, 0.1)
 ) +
   x_label
 

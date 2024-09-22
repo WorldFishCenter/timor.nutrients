@@ -230,7 +230,7 @@ plots2 <-
     'text',
     x = 3.5,
     y = 2.5,
-    label = 'On average, NP-3 provides enough\ncalcium for 2.2 people per 1kg of catch,\nwhile NP-1 and NP-2 support\n1.5 and 1.7 people, respectively',
+    label = 'On average, NP-3 provides enough\ncalcium for 2.2 people per 1kg of catch,\nwhile NP-1 and NP-2 support\n0.4 and 0.6 people, respectively',
     size = 2.75
   ) +
   #annotate(
@@ -297,8 +297,8 @@ kmean_plots <- data$kmeans_plots
 
 plots <-
   list(
-    kmean_plots$kmeans_timor_AG + ggplot2::labs(subtitle = "Other gears"),
-    kmean_plots$kmeans_timor_GN + ggplot2::labs(subtitle = "Gill nets")
+    kmean_plots$kmeans_timor_GN + ggplot2::labs(subtitle = "Gill nets"),
+    kmean_plots$kmeans_timor_AG + ggplot2::labs(subtitle = "Other gears")
   )
 
 plots <- lapply(plots, function(x) {
