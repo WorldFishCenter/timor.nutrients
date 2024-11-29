@@ -1,0 +1,876 @@
+# Timor SSF nutritional profiles {#profiles}
+
+## Methods
+
+```{r eval=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients. The clusters are enumerated on the y-axis, fig.width=10, message=FALSE, warning=FALSE, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis and the white labels in the bars quantify the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutritional adequacy across clusters. Panels (A) through (D) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=4.5, include=FALSE}
+
+library(ggplot2)
+data <- get_model_data()
+data$data_raw$timor_GN_raw$clusters <- paste0("FNP-", data$data_raw$timor_GN_raw$clusters)
+data$data_raw$timor_AG_raw$clusters <- paste0("FNP-", data$data_raw$timor_AG_raw$clusters)
+
+plot_bars <- function(x) {
+  x %>%
+    dplyr::rename_with(~ stringr::str_to_title(.x), .cols = c(.data$zinc:.data$vitaminA)) %>%
+    dplyr::rename(
+      "Vitamin-A" = .data$Vitamina,
+      "Omega-3" = .data$Omega3
+    ) %>%
+    tidyr::pivot_longer(c(Zinc:"Vitamin-A")) %>%
+    dplyr::group_by(clusters, name) %>%
+    dplyr::summarise(value = median(value, na.rm = T)) %>%
+    dplyr::mutate(labels = ifelse(value <= 0.5, NA_real_, value)) %>%
+    ggplot2::ggplot(ggplot2::aes(reorder(clusters, value), value, fill = name, color = name)) +
+    ggplot2::theme_bw() +
+    ggchicklet::geom_chicklet(
+      radius = grid::unit(3, "pt"),
+      alpha = 0.9,
+      position = ggplot2::position_stack(reverse = FALSE),
+      size = 0.4
+    ) +
+    ggplot2::geom_text(
+      mapping = aes(x = clusters, y = value, label = round(labels, 1)),
+      position = position_stack(0.5),
+      color = "white",
+      size = 2.5
+    ) +
+    ggplot2::scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
+    ggplot2::scale_color_manual(values = timor.nutrients::palettes$nutrients_palette) +
+    ggplot2::scale_y_continuous(n.breaks = 8) +
+    ggplot2::coord_flip(expand = FALSE, ylim = c(0, 13)) +
+    ggplot2::theme(legend.position = "bottom") +
+    ggplot2::labs(fill = "Nutrient", x = "", y = "") +
+    ggplot2::theme(
+      legend.position = "",
+      plot.margin = unit(c(0, 0, 0, 0), "cm"),
+      panel.grid = ggplot2::element_blank()
+    ) +
+    ggplot2::guides(color = FALSE)
+}
+
+plots <- purrr::map(data$data_raw, plot_bars)
+
+plots <-
+  list(
+    plots$timor_GN_raw + ggplot2::labs(subtitle = "Gill nets"),
+    plots$timor_AG_raw + ggplot2::labs(subtitle = "Other gears")
+  )
+
+
+legend_plot <- cowplot::get_legend(plots[[1]] +
+  ggplot2::theme(
+    legend.position = "right",
+    legend.key.size = ggplot2::unit(0.55, "cm"),
+    legend.title = ggplot2::element_text(size = 12)
+  ))
+combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "AUTO")
+
+x_label <- cowplot::draw_label("Cumulative NDS per 1kg of catch", x = 0.5, y = 0.05)
+y_label <- cowplot::draw_label("Nutritional profile", x = 0.02, y = 0.5, angle = 90)
+
+final_plot <-
+  cowplot::plot_grid(
+    combined_plots,
+    legend_plot,
+    ncol = 2,
+    rel_widths = c(1, 0.15),
+    scale = 0.9
+  ) +
+  x_label +
+  y_label
+
+final_plot
+```
+
+```{r echo=FALSE, fig.cap="Distribution of nutrient adequacy across k-means clusters. The bar chart delineates the number of individuals meeting the Recommended Nutrient Intake (RNI) per 1kg of catch within identified k-means clusters. Each bar is categorized into six segments corresponding to the evaluated nutrients. The clusters are enumerated on the y-axis, message=FALSE, warning=FALSE, each representing a group with a distinct nutritional profile as determined by the cluster analysis. The x-axis and the white labels in the bars quantify the count of individuals within each cluster that meet the RNI for the respective nutrients, underlining the variability in nutritional adequacy across clusters. Panels (A) through (D) compare these distributions across different fishing practices and locations, namely Atauro and the Mainland, using all gear types or exclusively gill nets.", fig.height=4.5, fig.width=10}
+
+library(ggplot2)
+data <- get_model_data()
+data$data_raw$timor_GN_raw$clusters <- paste0("FNP-", data$data_raw$timor_GN_raw$clusters)
+data$data_raw$timor_AG_raw$clusters <- paste0("FNP-", data$data_raw$timor_AG_raw$clusters)
+
+
+plot_profiles <- function(x) {
+  means_dat <-
+    x %>%
+    dplyr::rename_with(~ stringr::str_to_title(.x), .cols = c(.data$zinc:.data$vitaminA)) %>%
+    dplyr::rename(
+      "Vitamin-A" = .data$Vitamina,
+      "Omega-3" = .data$Omega3
+    ) %>%
+    tidyr::pivot_longer(c(Zinc:"Vitamin-A")) %>%
+    dplyr::group_by(clusters, name) %>%
+    dplyr::summarise(
+      mean = mean(value, na.rm = TRUE),
+      sd = sd(value, na.rm = TRUE),
+      n = dplyr::n(),
+      se = sd / sqrt(n),
+      ci_lower = mean - qt(0.99, df = n - 1) * se,
+      ci_upper = mean + qt(0.99, df = n - 1) * se
+    )
+
+  all_dat <-
+    x %>%
+    dplyr::rename_with(~ stringr::str_to_title(.x), .cols = c(.data$zinc:.data$vitaminA)) %>%
+    dplyr::rename(
+      "Vitamin-A" = .data$Vitamina,
+      "Omega-3" = .data$Omega3
+    ) %>%
+    tidyr::pivot_longer(c(Zinc:"Vitamin-A"))
+
+
+  ggplot() +
+    ggpubr::theme_pubr()+
+    geom_jitter(data = all_dat, mapping = aes(x = value, y = name, color = clusters), alpha = 0.01, size = 1, position = position_dodge(width = 0.5)) +
+    geom_point(data = means_dat, mapping = aes(x = mean, y = name, color = clusters), size = 5, position = position_dodge(width = 0.5)) +
+    labs(
+      x = "",
+      y = "",
+      color = "Profiles"
+    ) +
+    ggplot2::theme(
+      legend.position = "",
+      plot.margin = unit(c(0, 0, 0, 0), "cm"),
+      panel.grid = ggplot2::element_blank()
+    ) +
+    coord_cartesian(xlim = c(0, 5)) +
+    scale_fill_manual(values = timor.nutrients::palettes$clusters_palette) +
+    scale_color_manual(values = timor.nutrients::palettes$clusters_palette)
+}
+
+plots1 <- plot_profiles(data$data_raw$timor_AG_raw) #purrr::map(data$data_raw$timor_AG_raw, plot_profiles)
+
+means_dat <-
+  data$data_raw$timor_GN_raw %>%
+  dplyr::rename_with(~ stringr::str_to_title(.x), .cols = c(.data$zinc:.data$vitaminA)) %>%
+  dplyr::rename(
+    "Vitamin-A" = .data$Vitamina,
+    "Omega-3" = .data$Omega3
+  ) %>%
+  tidyr::pivot_longer(c(Zinc:"Vitamin-A")) %>%
+  dplyr::group_by(clusters, name) %>%
+  dplyr::summarise(
+    mean = mean(value, na.rm = TRUE),
+    sd = sd(value, na.rm = TRUE),
+    n = dplyr::n(),
+    se = sd / sqrt(n),
+    ci_lower = mean - qt(0.99, df = n - 1) * se,
+    ci_upper = mean + qt(0.99, df = n - 1) * se
+  )
+
+all_dat <-
+  data$data_raw$timor_GN_raw %>%
+  dplyr::rename_with(~ stringr::str_to_title(.x), .cols = c(.data$zinc:.data$vitaminA)) %>%
+  dplyr::rename(
+    "Vitamin-A" = .data$Vitamina,
+    "Omega-3" = .data$Omega3
+  ) %>%
+  tidyr::pivot_longer(c(Zinc:"Vitamin-A"))
+
+plots2 <-
+  ggplot() +
+  ggpubr::theme_pubr()+
+  geom_jitter(data = all_dat, mapping = aes(x = value, y = name, color = clusters), alpha = 0.01, size = 1, position = position_dodge(width = 0.5)) +
+  geom_point(data = means_dat, mapping = aes(x = mean, y = name, color = clusters), size = 5, position = position_dodge(width = 0.5)) +
+  labs(
+    x = "",
+    y = "",
+    color = "Profiles"
+  ) +
+  ggplot2::theme(
+    legend.position = "",
+    plot.margin = unit(c(0, 0, 0, 0), "cm"),
+    panel.grid = ggplot2::element_blank()
+  ) +
+  coord_cartesian(xlim = c(0, 5)) +
+  scale_fill_manual(values = timor.nutrients::palettes$clusters_palette) +
+  scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
+  annotate(
+    'text',
+    x = 3.5,
+    y = 2.5,
+    label = 'On average, FNP-3 provides enough\ncalcium for 2.2 people per 1kg of catch,\nwhile FNP-1 and FNP-2 support\n0.4 and 0.6 people, respectively',
+    size = 2.75
+  ) +
+  #annotate(
+  #  'rect',
+  #  xmin = 0,
+  #  ymin = 0.5,
+  #  ymax = 1.5,
+  #  xmax = 4.5,
+    #alpha = 0.5,
+  #  color = rgb(0, 0, 0, alpha = 0.85),
+   # linewidth = 0.3,
+    #fill = "transparent",
+    #linetype = 2
+  #) +
+  annotate(
+    'curve',
+    x = 3.4, # Play around with the coordinates until you're satisfied
+    y = 1.8,
+    yend = 1.3,
+    xend = 2.45,
+    col = 'black',
+    curvature = -0.05,
+    linewidth = 0.3,
+    arrow = arrow(length = unit(0.25, 'cm'))
+  )
+
+
+plots <-
+  list(
+    plots2 + ggplot2::labs(subtitle = "Gill nets"),
+    plots1 + ggplot2::labs(subtitle = "Other gears")
+  )
+
+legend_plot <- cowplot::get_legend(plots[[1]] +
+                                     ggplot2::theme(
+                                       legend.position = "right",
+                                       legend.key.size = ggplot2::unit(0.55, "cm"),
+                                       legend.title = ggplot2::element_text(size = 12)
+                                     ))
+combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "AUTO")
+
+x_label <- cowplot::draw_label("NDS per 1kg of catch", x = 0.5, y = 0.05)
+y_label <- cowplot::draw_label("Nutrient", x = 0.04, y = 0.5, angle = 90)
+
+final_plot <-
+  cowplot::plot_grid(
+    combined_plots,
+    legend_plot,
+    ncol = 2,
+    rel_widths = c(1, 0.15),
+    scale = 0.9
+  ) +
+  x_label +
+  y_label
+
+final_plot
+
+```
+
+
+```{r echo=FALSE, fig.height=5, fig.width=10, message=FALSE, warning=FALSE, fig.cap="Nutritional profile clustering of fishing trips by region and gear type. Each plot presents a k-means clustering analysis of fishing trip observations, grouped by their nutritional contributions to the Recommended Nutrient Intake (RNI) for six nutrients. The four panels, labeled (A) through (D), display data subsets for Atauro and the Mainland, utilizing all gear types and gill nets specifically. The scatter plots within each panel are charted in a two-dimensional space defined by the first two principal components, with the axes denoting the percentage of explained variance. Points are color-coded to denote distinct nutritional profile clusters derived from the k-means algorithm. Convex hulls define the periphery of each cluster, providing insight into the cluster density and separation. Convex hulls around the clusters aid in visualizing the distribution and delineation of nutritional profile groupings across different fishing methods and geographic areas."}
+kmean_plots <- data$kmeans_plots
+
+plots <-
+  list(
+    kmean_plots$kmeans_timor_GN + ggplot2::labs(subtitle = "Gill nets"),
+    kmean_plots$kmeans_timor_AG + ggplot2::labs(subtitle = "Other gears")
+  )
+
+plots <- lapply(plots, function(x) {
+  x +
+    ggpubr::theme_pubr()+
+    ggplot2::theme(
+      legend.position = "none",
+      plot.margin = unit(c(0, 0, 0, 0), "cm"),
+      panel.grid = ggplot2::element_blank()
+    ) +
+    ggplot2::labs(
+      fill = "Profiles",
+      color = "Profiles"
+    )+
+    ggplot2::scale_color_manual(
+      values = timor.nutrients::palettes$clusters_palette,
+      labels = function(x) paste0("FNP-", x)
+    ) +
+    ggplot2::scale_fill_manual(
+      values = timor.nutrients::palettes$clusters_palette,
+      labels = function(x) paste0("FNP-", x)
+    )
+  })
+
+legend_plot <- cowplot::get_legend(plots[[1]] +
+  ggplot2::theme(
+    legend.position = "right",
+    legend.key.size = ggplot2::unit(0.6, "cm"),
+    legend.title = ggplot2::element_text(size = 12)
+  ))
+combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "AUTO")
+
+# x_label <- cowplot::draw_label("1 - Specificity", x = 0.5, y = 0.05)
+# y_label <- cowplot::draw_label("Sensitivity", x = 0.02, y = 0.5, angle = 90)
+
+final_plot <-
+  cowplot::plot_grid(
+    combined_plots,
+    legend_plot,
+    ncol = 2,
+    rel_widths = c(1, 0.1),
+    scale = 0.9
+  )
+
+final_plot
+```
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+timor.nutrients::perm_results %>%
+  dplyr::bind_rows(.id = "subset") %>%
+  dplyr::mutate(dplyr::across(c(SumOfSqs, R2, statistic), ~ round(.x, 2)),
+    p.value = ifelse(p.value <= 0.001, "< 0.001", p.value),
+    subset = stringr::str_remove(subset, "_perm"),
+    subset = stringr::str_replace(subset, "timor", "mainland")
+  ) %>%
+  reactable::reactable(
+    theme = reactablefmtr::fivethirtyeight(centered = TRUE),
+    groupBy = "subset",
+    defaultExpanded = TRUE,
+    pagination = FALSE,
+    compact = FALSE,
+    borderless = FALSE,
+    striped = FALSE,
+    defaultColDef = reactable::colDef(
+      align = "center"
+    ),
+    columns = list(
+      subset = reactable::colDef(
+        minWidth = 120
+      )
+    )
+  )
+```
+
+### XGBoost model performance
+
+
+```{r model-settings, echo=FALSE, fig.cap="Receiver Operating Characteristic (ROC) Curves for evaluating the performance of a cluster-based XGBoost classification model across four distinct fishing datasets: Atauro with all gears (a), Atauro with gill nets (b), Mainland with all gears (c), and Mainland with gill nets (d). Each curve represents one of the five clusters obtained from the classification, with different colors marking each cluster. Data points on the curves indicate the trade-off between sensitivity (true positive rate) and 1-specificity (false positive rate) for each cluster. The proximity of the curves to the top-left corner reflects the accuracy of the model in classifying the nutritional profiles into the correct clusters.", fig.height=4, fig.width=10, message=FALSE, warning=FALSE}
+models_auc <-
+  timor.nutrients::model_outputs %>%
+  purrr::map(purrr::pluck(8)) %>%
+  dplyr::bind_rows(.id = "subset") %>%
+  dplyr::select(-estimator) %>%
+  tidyr::pivot_wider(names_from = subset, values_from = estimate)
+
+
+plots <-
+  list(
+    timor.nutrients::model_outputs$model_timor_GN$roc_curves + ggplot2::labs(subtitle = paste0("Gill nets", " (", models_auc$model_timor_GN, ")")),
+    timor.nutrients::model_outputs$model_timor_AG$roc_curves + ggplot2::labs(subtitle = paste0("Other gears", " (", models_auc$model_timor_AG, ")"))
+  )
+plots <- lapply(plots, function(x) {
+  x +
+   ggpubr::theme_pubr()+ 
+    ggplot2::theme(
+      panel.grid = ggplot2::element_blank(),
+      legend.position = "none",
+      plot.margin = unit(c(0, 0, 0, -0.1), "cm")
+    ) +
+    ggplot2::coord_cartesian(expand = T) +
+    ggplot2::labs(x = "", y = "", color = "Profiles")+
+      ggplot2::scale_color_manual(
+      values = timor.nutrients::palettes$clusters_palette,,
+      labels = function(x) paste0("FNP-", x)
+    ) +
+    ggplot2::scale_fill_manual(
+      values = timor.nutrients::palettes$clusters_palette,,
+      labels = function(x) paste0("FNP-", x)
+    )
+})
+legend_plot <- cowplot::get_legend(plots[[1]] +
+  ggplot2::theme(
+    legend.position = "right",
+    legend.key.size = ggplot2::unit(0.8, "cm"),
+    legend.title = ggplot2::element_text(size = 12)
+  ))
+combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "AUTO", vjust = 0.2)
+
+x_label <- cowplot::draw_label("1 - Specificity", x = 0.5, y = 0.05)
+y_label <- cowplot::draw_label("Sensitivity", x = 0.02, y = 0.5, angle = 90)
+
+final_plot <-
+  cowplot::plot_grid(
+    combined_plots,
+    legend_plot,
+    ncol = 2,
+    rel_widths = c(1, 0.15),
+    scale = 0.9
+  ) +
+  x_label +
+  y_label
+
+final_plot
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+models_metrics <-
+  timor.nutrients::model_outputs %>%
+  purrr::map(purrr::pluck(4)) %>%
+  purrr::imap(~ summary(.x)) %>%
+  dplyr::bind_rows(.id = "subset") %>%
+  dplyr::select(-.estimator) %>%
+  tidyr::pivot_wider(names_from = subset, values_from = .estimate) %>%
+  dplyr::rename(metric = .metric) %>%
+  na.omit()
+
+
+dplyr::bind_rows(models_auc, models_metrics) %>%
+  dplyr::rename(
+    "Other gears" = model_timor_AG,
+    "Gill nets" = model_timor_GN
+  ) %>%
+  dplyr::mutate(dplyr::across(.cols = dplyr::where(is.numeric), ~ round(.x, 2))) %>%
+  reactable::reactable(
+    theme = reactablefmtr::fivethirtyeight(centered = TRUE),
+    defaultExpanded = TRUE,
+    pagination = FALSE,
+    compact = FALSE,
+    borderless = FALSE,
+    striped = FALSE,
+    defaultColDef = reactable::colDef(
+      align = "center"
+    ),
+    columns = list(
+      metric = reactable::colDef(
+        minWidth = 120
+      )
+    )
+  )
+```
+
+
+#### Models explanation
+
+```{r echo=FALSE, fig.cap="To define", fig.height=4, fig.width=9, message=FALSE, warning=FALSE}
+importance_ag <-
+  model_outputs$model_timor_AG$fit %>%
+  workflows::extract_fit_parsnip() %>%
+  vip::vi() %>%
+  dplyr::mutate(
+    category = dplyr::case_when(
+      stringr::str_detect(Variable, "gear_type") ~ "gear_type",
+      stringr::str_detect(Variable, "habitat_gear") ~ "habitat_gear",
+      stringr::str_detect(Variable, "habitat") ~ "habitat",
+      stringr::str_detect(Variable, "quarter") ~ "quarter",
+      stringr::str_detect(Variable, "vessel_type") ~ "vessel_type",
+      TRUE ~ "other"
+    )
+  ) %>%
+  dplyr::group_by(category) %>%
+  dplyr::summarize(Aggregated_Importance = sum(Importance)) %>%
+  dplyr::arrange(dplyr::desc(Aggregated_Importance))
+
+importance_gn <-
+  model_outputs$model_timor_GN$fit %>%
+  workflows::extract_fit_parsnip() %>%
+  vip::vi() %>%
+  dplyr::mutate(
+    category = dplyr::case_when(
+      stringr::str_detect(Variable, "mesh_size") ~ "mesh_size",
+      stringr::str_detect(Variable, "habitat_mesh") ~ "habitat_mesh",
+      stringr::str_detect(Variable, "habitat") ~ "habitat",
+      stringr::str_detect(Variable, "quarter") ~ "quarter",
+      stringr::str_detect(Variable, "vessel_type") ~ "vessel_type",
+      TRUE ~ "other"
+    )
+  ) %>%
+  dplyr::group_by(category) %>%
+  dplyr::summarize(Aggregated_Importance = sum(Importance)) %>%
+  dplyr::arrange(dplyr::desc(Aggregated_Importance))
+
+importance_plot <-
+  dplyr::bind_rows(
+    importance_ag %>% dplyr::mutate(model = "Other gears"),
+    importance_gn %>% dplyr::mutate(model = "Gill nets")
+  ) %>% 
+  dplyr::mutate(category = dplyr::case_when(category == "habitat_gear" ~ "habitat x gear type",
+                                            category == "habitat_mesh" ~ "habitat x mesh size",
+                                            TRUE ~ category),
+                category = stringr::str_replace(category, "_", " "),
+                category = stringr::str_to_title(category)
+                ) %>% 
+  ggplot(aes(x = reorder(category, Aggregated_Importance), y = Aggregated_Importance)) +
+  ggpubr::theme_pubr(border = TRUE) +
+  facet_wrap(~model, scales = "free") +
+  geom_col(width = 0.2, fill = "#1c8097", alpha = 0.75) +
+  coord_flip() +
+  labs(
+    x = "Predictor",
+    y = "Aggregated Feature Importance\n(XGBoost Gain)"
+  ) +
+  theme(
+    panel.grid.major.y = element_line(linetype = "dashed"),
+    strip.background = ggplot2::element_blank(),
+    strip.text = element_text(size = 12),
+    axis.text.y = ggtext::element_markdown(size = 9),
+    panel.spacing = unit(0.1, "lines"),
+  )
+
+importance_plot
+```
+
+
+```{r echo=FALSE, fig.cap="Differential influence of mesh size and habitat x gear type interaction on the nutritional profile predictions in Atauro (A and C) and in Mainland (B and D). Panels A-B: These panels elucidate the impact of mesh size on the probability of observing various nutritional profiles in Atauro (Panel A) and Mainland (Panel B). Each panel includes five plots corresponding to distinct nutritional profiles (NP1-NP5), as forecasted by gill net XGBoost models. The plots exhibit distributions of SHAP values over a range of mesh sizes. Each data point is color-coded to represent different habitats (Beach, Deep, FAD, Mangrove, Reef and Seagrass), clarifying the mesh size's influence on the accuracy of predictions within each habitat. The y-axis details mesh size ranges, while the x-axis measures SHAP values, where higher values signal a stronger likelihood of a particular nutritional profile's presence. The size and opacity of each point are proportionate to the SHAP value's magnitude, visually indicating the significance of each data point in influencing the model's predictions. Panels C-D: In these panels, the interplay among habitat, gear type, and vessel type (motorized or unmotorized) is analyzed in relation to nutritional profiles in Atauro (Panel C) and Mainland (Panel D). Each plot showcases SHAP value distributions for the five nutritional profiles (NP1-NP5) predicted by XGBoost models applied to datasets encompassing all gear types, excluding gill nets. Data points are color-coded to differentiate between motorized and unmotorized vessels, shedding light on how vessel type, alongside habitat and gear interactions, modulates nutritional profile predictions. Echoing Panels A-B, elevated SHAP values on the x-axis indicate a heightened probability of a specific nutritional profile. Concurrently, the points' size and opacity correspond to the SHAP values, denoting their relative impact on the outcome prediction.", fig.height=6, fig.width=10, message=FALSE, warning=FALSE}
+sha_Mgn <- shapviz::shapviz(timor.nutrients::shap_results$model_timor_GN)
+
+annotation_data <- data.frame(
+  profile = "FNP-3",
+  x = 0.175,
+  y = 120,
+  label = 'FNP-3 profile likelihood increases\nwith <40mm mesh in pelagic and\nmangrove areas, and 50.8mm mesh\nin reef and FAD zones'
+)
+
+p2 <- 
+  sha_Mgn %>%
+  purrr::map(get_shaps, model_type = "gn") %>%
+  dplyr::bind_rows(.id = "profile") %>%
+  dplyr::mutate(profile = stringr::str_replace(profile, ".pred_", "FNP-")) %>%
+  dplyr::group_by(profile, habitat_fact, mesh_fact) %>%
+  dplyr::summarise(mesh_shap = median(mesh_shap, na.rm = TRUE)) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(mesh_shap > 0) %>%
+  dplyr::mutate(habitat_fact = dplyr::case_when(habitat_fact == "Deep" ~ "Pelagic", TRUE ~ habitat_fact)) %>%
+  ggplot2::ggplot(ggplot2::aes(mesh_shap, mesh_fact, color = habitat_fact)) +
+  facet_grid(. ~ factor(profile, levels = c("FNP-3", "FNP-1", "FNP-2")), scales = "free") +
+  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(mesh_shap), size = mesh_shap)) +
+  ggpubr::theme_pubr(border = TRUE) +
+  ggplot2::scale_color_manual(values = c("#f28f3b", "#c27ba0", "#ffd5c2", "#588b8b", "#c8553d", "#2d3047", "#007ea7")) +
+  ggplot2::coord_cartesian(expand = TRUE) +
+  ggplot2::scale_y_reverse(n.breaks = 10) +
+  ggplot2::labs(color = "Habitat") +
+  ggplot2::theme(
+    panel.grid = ggplot2::element_blank(),
+    strip.background = ggplot2::element_blank(),
+    strip.text.x = ggplot2::element_text(face = "bold")
+  ) +
+  ggplot2::guides(
+    color = ggplot2::guide_legend(override.aes = list(size = 3)),
+    alpha = "none",
+    size = "none"
+  ) +
+  ggplot2::geom_text(
+    data = annotation_data,
+    aes(x = x, y = y, label = label),
+    size = 3,
+    fontface = "plain",
+    inherit.aes = FALSE
+  ) +
+  ggplot2::geom_rect(
+    data = annotation_data,
+    aes(xmin = 0.27, xmax = 0.36, ymin = 19, ymax = 57),
+    fill = "white",
+    alpha = 0.2,
+    color = "black",
+    inherit.aes = FALSE,
+    linetype = "dashed"
+  ) +
+  ggplot2::geom_curve(
+    data = annotation_data,
+    aes(x = 0.32, y = 60, xend = 0.29, yend = 90),
+    curvature = -0.1,
+    color = 'black',
+    linewidth = 0.4,
+    arrow = arrow(length = unit(0.4, 'cm')),
+    inherit.aes = FALSE
+  ) +
+  ggplot2::labs(x = "", y = "")
+
+
+leg <- cowplot::get_legend(p2 +
+                             ggplot2::theme(
+                               plot.margin = unit(c(2, 0, 0, 0.9), "cm"),
+                               # legend.title = ggplot2::element_text(size = 11),
+                               legend.position = "right",
+                               legend.direction = "vertical",
+                               legend.justification = "right",
+                               legend.box.just = "right",
+                               legend.background = element_rect(fill = "transparent", colour = NA),
+                               legend.box.background = element_rect(fill = "transparent", colour = NA)
+                             ))
+
+base_plot <-
+  cowplot::plot_grid(
+    p2 + theme(
+      legend.position = "none",
+      plot.margin = unit(c(-0.2, 0.5, 0, 0.9), "cm")
+    ),
+    ncol = 1,
+    labels = c("A", "B"),
+    hjust = -3.5,
+    vjust = 1.2,
+    align = "v"
+  )
+
+grid <-
+  cowplot::plot_grid(
+    base_plot,
+    nrow = 1
+  )
+
+pp1 <-
+  cowplot::ggdraw() +
+  cowplot::draw_plot(grid) +
+  cowplot::draw_label("Mesh size (mm)", x = 0.03, y = 0.7, angle = 90, hjust = 1, size = 12)
+
+sha_Mag <- shapviz::shapviz(timor.nutrients::shap_results$model_timor_AG)
+
+process_shap <-
+  sha_Mag %>%
+  purrr::map(get_shaps, model_type = "ag") %>%
+  dplyr::bind_rows(.id = "profile") %>%
+  tidyr::separate(habitat_gear_fact, into = c("habitat", "gear_fact"), sep = "_") %>%
+  dplyr::mutate(
+    gear_fact = stringr::str_to_title(gear_fact),
+    profile = stringr::str_replace(profile, ".pred_", "FNP-"),
+    habitat_gear_fact = paste0(habitat, " x ", gear_fact),
+    habitat_gear_fact = stringr::str_replace(habitat_gear_fact, "Deep", "Pelagic")
+  )
+
+to_group <-
+  process_shap %>%
+  dplyr::mutate(
+    zero_dist = 0 - abs(gear_fact_shap)
+  ) %>%
+  dplyr::group_by(gear_fact) %>%
+  dplyr::summarise(zero_dist = mean(zero_dist)) %>%
+  dplyr::slice_max(order_by = zero_dist, n = 15) %>%
+  magrittr::extract2("gear_fact")
+
+annotation_data <- data.frame(
+  profile = "FNP-2",
+  x = 0.171,
+  y = 5.3,
+  label = 'Long lines in pelagic, FADs\nand magroves areas boost chances\nof obtaining FNP-2 profile'
+)
+
+p2 <-
+  process_shap %>%
+  dplyr::mutate(gear_fact_shap = ifelse(gear_fact_shap %in% to_group, "Others", gear_fact_shap)) %>%
+  dplyr::group_by(profile, gear_fact, habitat_fact) %>%
+  dplyr::summarise(gear_fact_shap = median(gear_fact_shap, na.rm = TRUE)) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(gear_fact_shap > 0) %>%
+  dplyr::mutate(habitat_fact = dplyr::case_when(habitat_fact == "Deep" ~ "Pelagic", TRUE ~ habitat_fact)) %>%
+  ggplot2::ggplot(ggplot2::aes(gear_fact_shap, gear_fact, color = habitat_fact)) +
+  facet_grid(. ~ profile, scales = "free") +
+  ggplot2::geom_point(ggplot2::aes(alpha = sqrt(gear_fact_shap), size = gear_fact_shap)) +
+  ggpubr::theme_pubr(border = TRUE) +
+  ggplot2::scale_color_manual(values = c("#f28f3b", "#c27ba0", "#ffd5c2", "#588b8b", "#c8553d", "#2d3047", "#007ea7")) +
+  ggplot2::coord_cartesian(expand = TRUE) +
+  ggplot2::scale_x_continuous(n.breaks = 4) +
+  ggplot2::labs(color = "Habitat") +
+  ggplot2::theme(
+    panel.grid = ggplot2::element_blank(),
+    strip.background = ggplot2::element_blank(),
+    strip.text.x = ggplot2::element_text(face = "bold")
+  ) +
+  ggplot2::geom_text(
+    data = annotation_data,
+    aes(x = x, y = y, label = label),
+    size = 3,
+    fontface = "plain",
+    inherit.aes = FALSE
+  ) +
+  ggplot2::geom_curve(
+    data = annotation_data,
+    aes(x = 0.174, y = 3, xend = 0.172, yend = 4.2),
+    curvature = -0.2,
+    color = 'black',
+    linewidth = 0.4,
+    arrow = arrow(length = unit(0.4, 'cm')),
+    inherit.aes = FALSE
+  ) +
+  ggplot2::geom_rect(
+    data = annotation_data,
+    aes(xmin = 0.1745, xmax = 0.178, ymin = 2.5, ymax = 3.5),
+    fill = "white",
+    alpha = 0.2,
+    color = "black",
+    inherit.aes = FALSE,
+    linetype = "dashed"
+  ) +
+  ggplot2::guides(
+    color = ggplot2::guide_legend(override.aes = list(size = 3)),
+    alpha = "none",
+    size = "none"
+  ) +
+  ggplot2::labs(x = "", y = "")
+
+leg <- cowplot::get_legend(p2 +
+                             ggplot2::theme(
+                               plot.margin = unit(c(2, 0, 0, 0.9), "cm"),
+                               # legend.title = ggplot2::element_text(size = 11),
+                               legend.position = "right",
+                               legend.direction = "vertical",
+                               legend.justification = "right",
+                               legend.box.just = "right",
+                               legend.background = element_rect(fill = "transparent", colour = NA),
+                               legend.box.background = element_rect(fill = "transparent", colour = NA)
+                             ))
+
+base_plot <-
+  cowplot::plot_grid(
+    p2 + theme(
+      legend.position = "none",
+      plot.margin = unit(c(-0.2, 0.5, 0, 0.9), "cm")
+    ),
+    ncol = 1,
+    labels = c("B", "D"),
+    hjust = -3.5,
+    vjust = 1.2,
+    align = "v"
+  )
+
+grid <-
+  cowplot::plot_grid(
+    base_plot,
+    nrow = 1
+  )
+
+pp2 <-
+  cowplot::ggdraw(ylim = c(-.05, NA)) +
+  cowplot::draw_plot(grid) +
+  cowplot::draw_label("Gear type", x = 0.03, y = 0.7, angle = 90, hjust = 1, size = 12) +
+  cowplot::draw_label("SHAP value", x = 0.5, y = 0, size = 12)
+
+# Extract the shared legend with larger text and key sizes
+shared_legend <- cowplot::get_legend(
+  p2 +
+    ggplot2::theme(
+      legend.position = "right",                # Position the legend on the right
+      legend.direction = "vertical",           # Vertical orientation
+      legend.justification = "center",
+      legend.box.just = "center",
+      legend.text = ggplot2::element_text(size = 12),  # Increase text size
+      legend.title = ggplot2::element_text(size = 14), # Increase title size
+      legend.key.size = unit(1.5, "lines"),    # Increase legend key size
+      legend.background = ggplot2::element_rect(fill = "transparent", colour = NA),
+      legend.box.background = ggplot2::element_rect(fill = "transparent", colour = NA)
+    )
+)
+
+# Remove legends from individual plots
+pp1_no_legend <- 
+  pp1 + 
+  ggplot2::theme(legend.position = "none")
+
+pp2_no_legend <- 
+  pp2 + 
+  ggplot2::theme(legend.position = "none")
+
+# Combine the two plots vertically without legends
+plots_combined <- cowplot::plot_grid(
+  pp1_no_legend,
+  pp2_no_legend,
+  align = "v",          # Align the plots vertically
+  ncol = 1,             # Stack in one column
+  rel_heights = c(1, 1) # Adjust heights if necessary
+)
+
+# Add the shared legend to the right
+final_plot <- cowplot::plot_grid(
+  plots_combined,
+  shared_legend,
+  ncol = 2,             # Add legend to the right of the plots
+  rel_widths = c(3, 0.5) # Adjust widths for the plots and legend
+)
+
+# Display the final plot
+print(final_plot)
+```
+
+
+
+```{r eval=FALSE, fig.height=7, fig.width=8, message=FALSE, warning=FALSE, include=FALSE}
+plot_model_shaps(timor.nutrients::shap_results$model_timor_AG,
+  model_type = "ag",
+  cols = 2,
+  alpha = 0.25,
+  drop_legend = TRUE
+)
+```
+
+```{r eval=FALSE, fig.cap="Differential influence of mesh size on nutritional profile predictions across habitats. The figure compiles subplots for five distinct nutritional profiles (FNP1-FNP5) as predicted by gill net XGBoost models", fig.height=7, fig.width=8, message=FALSE, warning=FALSE, include=FALSE}
+# atauro gn
+sha <- shapviz::shapviz(timor.nutrients::shap_results$model_atauro_GN)
+shapviz_object <- purrr::map(sha, plot_shap, model_type = "gn", alpha = 0.3)
+
+plots <- lapply(shapviz_object, function(x) {
+  x +
+    ggplot2::theme(
+      legend.position = "none",
+      plot.margin = unit(c(0, 0, 0, 0), "cm"),
+      panel.grid = ggplot2::element_blank()
+    ) +
+    ggplot2::labs(x = "", y = "")
+})
+
+combined_plots_atauro <- cowplot::plot_grid(
+  plotlist = plots,
+  ncol = 1,
+  label_fontface = "bold",
+  label_size = 6.5,
+  hjust = -0.5,
+  vjust = -0.5,
+  align = "hv",
+  labels = c("FNP1", "FNP2", "FNP3", "FNP4", "FNP5")
+)
+
+# timor gn
+sha <- shapviz::shapviz(timor.nutrients::shap_results$model_timor_GN)
+shapviz_object <- purrr::map(sha, plot_shap, model_type = "gn", alpha = 0.3)
+
+plots <- lapply(shapviz_object, function(x) {
+  x +
+    ggplot2::theme(
+      legend.position = "none",
+      plot.margin = unit(c(0, 0, 0, 0), "cm"),
+      panel.grid = ggplot2::element_blank()
+    ) +
+    ggplot2::labs(x = "", y = "")
+})
+
+legend_plot <- cowplot::get_legend(plots[[1]] +
+  ggplot2::theme(
+    plot.margin = unit(c(0, 0, 0, 0), "cm"),
+    legend.title = ggplot2::element_text(size = 11),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.justification = "center",
+    legend.box.just = "bottom"
+  ))
+combined_plots_timor <- cowplot::plot_grid(
+  plotlist = plots,
+  ncol = 1,
+  label_fontface = "bold",
+  label_size = 6.5,
+  hjust = -0.5,
+  vjust = -0.5,
+  align = "hv",
+  labels = c("FNP1", "FNP2", "FNP3", "FNP4", "FNP5")
+)
+
+gn_plots <- cowplot::plot_grid(combined_plots_atauro,
+  combined_plots_timor,
+  labels = c("Atauro GN", "Mainland GN"),
+  align = "hv",
+  label_size = 9,
+  scale = 0.9,
+  hjust = -1.5
+)
+
+
+x_label <- cowplot::draw_label("Mesh size (mm)", x = 0.5, y = 0.025)
+# } else {
+#  x_label <- cowplot::draw_label("Habitat x Gear type ", x = 0.5, y = 0.05)
+# }
+y_label <- cowplot::draw_label("SHAP value", x = 0.015, y = 0.5, angle = 90)
+
+body_plot <-
+  gn_plots +
+  x_label +
+  y_label
+
+final_plot <-
+  cowplot::plot_grid(
+    body_plot,
+    legend_plot,
+    ncol = 1,
+    nrow = 2,
+    rel_heights = c(2.5, 0.15),
+    greedy = FALSE
+  )
+final_plot
+```
+

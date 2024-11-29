@@ -407,9 +407,10 @@ get_shaps <- function(shap_object = NULL, model_type = NULL) {
   )
   } else {
     dplyr::tibble(
+      gear_fact = shap_object$X$gear,
       habitat_gear_fact = as.character(shap_object$X$habitat_gear),
-      vessel_fact = shap_object$X$vessel_type,
-      habitat_gear_shap = shap_object$S[, 2]
+      habitat_fact = shap_object$X$habitat,
+      gear_fact_shap = shap_object$S[, 4]
     )
   }
 }

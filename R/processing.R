@@ -98,8 +98,9 @@ get_model_data <- function() {
       clusters = as.character(k2$cluster),
       df
     ) %>%
-    dplyr::select(quarter, habitat, mesh_size, vessel_type, cluster = clusters) %>%
-    dplyr::mutate(dplyr::across(.cols = c(quarter, habitat, vessel_type, cluster), ~ as.factor(.x)))
+    dplyr::mutate(habitat_mesh = paste(habitat, mesh_size, sep = "_")) %>%
+    dplyr::select(quarter, habitat, habitat_mesh, mesh_size, vessel_type, cluster = clusters) %>%
+    dplyr::mutate(dplyr::across(.cols = c(quarter, habitat, habitat_mesh, vessel_type, cluster), ~ as.factor(.x)))
 
   profiles_plot_timor_GN <-
     factoextra::fviz_cluster(k2,
@@ -179,7 +180,7 @@ get_model_data <- function() {
 
   data_list_processed <- list(
     timor_AG = list(dataframe = timor_AG, step_other = c("habitat_gear", "habitat", "gear_type")),
-    timor_GN = list(dataframe = timor_GN, step_other = "habitat")
+    timor_GN = list(dataframe = timor_GN, step_other = "habitat", "habitat_mesh")
   )
 
   profiles_kmeans <- list(
