@@ -289,8 +289,8 @@ legend_plot <- cowplot::get_legend(plots[[1]] +
   ))
 combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "AUTO")
 
-# x_label <- cowplot::draw_label("1 - Specificity", x = 0.5, y = 0.05)
-# y_label <- cowplot::draw_label("Sensitivity", x = 0.02, y = 0.5, angle = 90)
+# x_label <- cowplot::draw_label("False positive rate\n(1 - Specificity)", x = 0.5, y = 0.05)
+# y_label <- cowplot::draw_label("True positive rate\n(Sensitivity)", x = 0.02, y = 0.5, angle = 90)
 
 final_plot <-
   cowplot::plot_grid(
@@ -376,8 +376,8 @@ legend_plot <- cowplot::get_legend(plots[[1]] +
   ))
 combined_plots <- cowplot::plot_grid(plotlist = plots, ncol = 2, labels = "AUTO", vjust = 0.2)
 
-x_label <- cowplot::draw_label("1 - Specificity", x = 0.5, y = 0.05)
-y_label <- cowplot::draw_label("Sensitivity", x = 0.02, y = 0.5, angle = 90)
+x_label <- cowplot::draw_label("False positive rate (1 - Specificity)", x = 0.5, y = 0.05)
+y_label <- cowplot::draw_label("True positive rate (Sensitivity)", x = 0.02, y = 0.5, angle = 90)
 
 final_plot <-
   cowplot::plot_grid(
