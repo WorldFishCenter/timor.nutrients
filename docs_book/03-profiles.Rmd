@@ -728,7 +728,7 @@ pp2 <-
   cowplot::ggdraw(ylim = c(-.05, NA)) +
   cowplot::draw_plot(grid) +
   cowplot::draw_label("Gear type", x = 0.03, y = 0.7, angle = 90, hjust = 1, size = 12) +
-  cowplot::draw_label("SHAP value", x = 0.5, y = 0, size = 12)
+  cowplot::draw_label("Impact on model output (SHAP value)", x = 0.5, y = 0, size = 12)
 
 # Extract the shared legend with larger text and key sizes
 shared_legend <- cowplot::get_legend(
