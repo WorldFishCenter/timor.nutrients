@@ -1,13 +1,4 @@
-fig:unnamed-chunk-2
-fig:unnamed-chunk-3
 content
 highlight
-timor-est-ssf-nutritional-scenario
 distribution
-fish-groups
-habitat-and-gear-type
-nutritional-contribution-and-economic-profiling
 profiles
-methods
-xgboost-model-performance
-models-explanation

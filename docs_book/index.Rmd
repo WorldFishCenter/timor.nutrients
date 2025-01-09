@@ -1,11 +1,12 @@
 ---
-title: "Modelling scenarios for nutrient-sensitive fisheries management"
+title: "Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management"
 author: "Lorenzo Longobardi"
 date: "Last update: `r Sys.Date()`"
 site: bookdown::bookdown_site
 output:
   bookdown::gitbook:
     css: style.css
+    code_folding: hide
     config:
       toc:
         before: |
@@ -28,6 +29,6 @@ github-repo: WorldFishCenter/timor.nutrients
 ---
 # Content
 
-This book contains analyses and reports of the paper '***Modelling scenarios for nutrient-sensitive fisheries management***'.
+This book contains the code and the results for the study '***Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management***'.
 
-All data and code to generate the analyses are in organised in <https://github.com/WorldFishCenter/timor.nutrients>.
+All data and code to generate the analyses are in organised in this [repository](https://github.com/WorldFishCenter/timor.nutrients). The repository is a R package and contains both the data used for the analysis and the code used to generate the results. In order to replicate the analyses you can clone the repo and run the code.

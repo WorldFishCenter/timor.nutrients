@@ -1,8 +1,6 @@
-# Timor SSF nutritional profiles {#profiles}
+# Nutritional profiles {#profiles}
 
-## Methods
-
-```{r eval=FALSE, fig.height=4.5, include=FALSE}
+```{r eval=FALSE, fig.height=4.5, include=FALSE, warning=FALSE}
 
 library(ggplot2)
 data <- get_model_data()
@@ -82,7 +80,7 @@ final_plot <-
 final_plot
 ```
 
-```{r echo=FALSE, fig.height=4.5, fig.width=10}
+```{r echo=TRUE, fig.height=4.5, fig.width=10, warning=FALSE}
 
 library(ggplot2)
 data <- get_model_data()
@@ -249,8 +247,7 @@ final_plot
 
 ```
 
-
-```{r echo=FALSE, fig.height=5, fig.width=10, message=FALSE, warning=FALSE}
+```{r echo=TRUE, fig.height=5, fig.width=10, message=FALSE, warning=FALSE}
 kmean_plots <- data$kmeans_plots
 
 plots <-
@@ -304,8 +301,7 @@ final_plot <-
 final_plot
 ```
 
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
 timor.nutrients::perm_results %>%
   dplyr::bind_rows(.id = "subset") %>%
   dplyr::mutate(dplyr::across(c(SumOfSqs, R2, statistic), ~ round(.x, 2)),
@@ -332,10 +328,7 @@ timor.nutrients::perm_results %>%
   )
 ```
 
-### XGBoost model performance
-
-
-```{r model-settings, echo=FALSE, fig.height=4, fig.width=10, message=FALSE, warning=FALSE}
+```{r model-settings, echo=TRUE, fig.height=4, fig.width=10, message=FALSE, warning=FALSE}
 models_auc <-
   timor.nutrients::model_outputs %>%
   purrr::map(purrr::pluck(8)) %>%
@@ -393,7 +386,7 @@ final_plot <-
 final_plot
 ```
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
 models_metrics <-
   timor.nutrients::model_outputs %>%
   purrr::map(purrr::pluck(4)) %>%
@@ -429,10 +422,7 @@ dplyr::bind_rows(models_auc, models_metrics) %>%
   )
 ```
 
-
-#### Models explanation
-
-```{r echo=FALSE, fig.height=4, fig.width=9, message=FALSE, warning=FALSE}
+```{r echo=TRUE, fig.height=4, fig.width=9, message=FALSE, warning=FALSE}
 importance_ag <-
   model_outputs$model_timor_AG$fit %>%
   workflows::extract_fit_parsnip() %>%
@@ -506,8 +496,7 @@ cowplot::ggdraw(importance_plot) +
   )
 ```
 
-
-```{r echo=FALSE, fig.height=6, fig.width=10, message=FALSE, warning=FALSE}
+```{r echo=TRUE, fig.height=6, fig.width=10, message=FALSE, warning=FALSE}
 sha_Mgn <- shapviz::shapviz(timor.nutrients::shap_results$model_timor_GN)
 
 annotation_data <- data.frame(
@@ -775,8 +764,6 @@ final_plot <- cowplot::plot_grid(
 # Display the final plot
 print(final_plot)
 ```
-
-
 
 ```{r eval=FALSE, fig.height=7, fig.width=8, message=FALSE, warning=FALSE, include=FALSE}
 plot_model_shaps(timor.nutrients::shap_results$model_timor_AG,

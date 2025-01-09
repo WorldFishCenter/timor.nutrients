@@ -1,8 +1,6 @@
-# Nutrients distribution {#distribution}
+# Nutritional contribution and economic profiling {#distribution}
 
-## Fish groups 
-
-```{r echo=FALSE, fig.cap="To define", fig.height=9, fig.width=9.3, message=FALSE, warning=FALSE}
+```{r echo=TRUE, fig.height=9, fig.width=9.3, message=FALSE, warning=FALSE}
 library(ggplot2)
 
 
@@ -580,83 +578,7 @@ cowplot::plot_grid(
 
 ```
 
-
-
-## Habitat and gear type
-
-```{r echo=FALSE, fig.height=7, fig.width=7, message=FALSE, warning=FALSE}
-parallel_plot <-
-  timor.nutrients::kobo_trips %>%
-  dplyr::mutate(habitat = ifelse(habitat == "Deep", "Pelagic", habitat)) %>% 
-  dplyr::select(habitat, gear_type, Selenium_mu:Vitamin_A_mu) %>%
-  rename_nutrients_mu() %>%
-  tidyr::pivot_longer(-c(habitat, gear_type), names_to = "nutrient", values_to = "concentration_g") %>%
-  dplyr::group_by(habitat, gear_type, nutrient) %>%
-  dplyr::summarise(concentration_g = sum(concentration_g, na.rm = T)) %>%
-  # get relative values
-  dplyr::group_by(nutrient) %>%
-  dplyr::mutate(
-    nutrient_sum = sum(concentration_g),
-    concentration_g = concentration_g / nutrient_sum * 100
-  ) %>%
-  dplyr::ungroup() %>%
-  dplyr::mutate(dplyr::across(habitat:nutrient, ~ as.factor(.x))) %>%
-  dplyr::mutate(
-    nutrient = as.factor(nutrient)
-  ) %>%
-  dplyr::mutate(
-    nutrient = stringr::str_to_title(nutrient),
-    nutrient = dplyr::case_when(
-      nutrient == "Omega3" ~ "Omega-3",
-      nutrient == "Vitamina" ~ "Vitamin-A",
-      TRUE ~ nutrient
-    )
-  ) %>%
-  dplyr::rename(
-    "Nutrient" = nutrient,
-    "Habitat" = habitat,
-    "Gear type" = gear_type
-  ) %>%
-  ggforce::gather_set_data(c(3, 1, 2))
-
-parallel_plot$x <- factor(parallel_plot$x,
-                          levels = c("3", "1", "2"),
-                          labels = c("Nutrient", "Habitat", "Gear type")
-)
-
-parallel_plot$y <- factor(parallel_plot$y, levels = c(
-  "Protein", "Omega-3", "Calcium", "Iron", "Vitamin-A", "Zinc", "Selenium",
-  "Reef", "Pelagic", "FAD", "Beach", "Traditional FAD", "Mangrove", "Seagrass",
-  "gill net", "seine net", "spear gun", "hand line", "long line", "manual collection",
-  "beach seine", "trap", "cast net"
-))
-
-parallel_plot %>%
-  dplyr::filter(!Nutrient == "Selenium") %>%
-  na.omit() %>%
-  ggplot(aes(x, id = id, split = y, value = concentration_g)) +
-  ggforce::geom_parallel_sets(aes(fill = Nutrient), alpha = 0.7, axis.width = 0.1) +
-  ggforce::geom_parallel_sets_axes(axis.width = 0.25, fill = "grey95") +
-  ggforce::geom_parallel_sets_labels(colour = "grey30", angle = 0, size = 3.5) +
-  scale_x_discrete(name = NULL, expand = c(0, 0.2)) +
-  scale_y_continuous(breaks = NULL, expand = c(0.05, 0)) +
-  theme_minimal(12) +
-  scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
-  # scale_fill_manual(values = c("#508AA8", "grey95", "#BD9391")) +
-  theme(
-    axis.line = element_blank(),
-    axis.ticks = element_blank(),
-    legend.position = "bottom",
-    panel.grid.major = element_blank(),
-    axis.text = element_text(size = 12, color = "black")
-  ) +
-  labs(fill = "")
-
-```
-
-## Nutritional contribution and economic profiling
-
-```{r echo=FALSE, fig.height=5, fig.width=9, message=FALSE, warning=FALSE}
+```{r echo=TRUE, fig.height=5, fig.width=9, message=FALSE, warning=FALSE, include = FALSE}
 
 groups_plot <- 
   timor.nutrients::region_stats %>%
@@ -881,3 +803,74 @@ cowplot::plot_grid(
 )
 
 ```
+
+```{r echo=TRUE, fig.height=7, fig.width=7, message=FALSE, warning=FALSE}
+parallel_plot <-
+  timor.nutrients::kobo_trips %>%
+  dplyr::mutate(habitat = ifelse(habitat == "Deep", "Pelagic", habitat)) %>% 
+  dplyr::select(habitat, gear_type, Selenium_mu:Vitamin_A_mu) %>%
+  rename_nutrients_mu() %>%
+  tidyr::pivot_longer(-c(habitat, gear_type), names_to = "nutrient", values_to = "concentration_g") %>%
+  dplyr::group_by(habitat, gear_type, nutrient) %>%
+  dplyr::summarise(concentration_g = sum(concentration_g, na.rm = T)) %>%
+  # get relative values
+  dplyr::group_by(nutrient) %>%
+  dplyr::mutate(
+    nutrient_sum = sum(concentration_g),
+    concentration_g = concentration_g / nutrient_sum * 100
+  ) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(dplyr::across(habitat:nutrient, ~ as.factor(.x))) %>%
+  dplyr::mutate(
+    nutrient = as.factor(nutrient)
+  ) %>%
+  dplyr::mutate(
+    nutrient = stringr::str_to_title(nutrient),
+    nutrient = dplyr::case_when(
+      nutrient == "Omega3" ~ "Omega-3",
+      nutrient == "Vitamina" ~ "Vitamin-A",
+      TRUE ~ nutrient
+    )
+  ) %>%
+  dplyr::rename(
+    "Nutrient" = nutrient,
+    "Habitat" = habitat,
+    "Gear type" = gear_type
+  ) %>%
+  ggforce::gather_set_data(c(3, 1, 2))
+
+parallel_plot$x <- factor(parallel_plot$x,
+                          levels = c("3", "1", "2"),
+                          labels = c("Nutrient", "Habitat", "Gear type")
+)
+
+parallel_plot$y <- factor(parallel_plot$y, levels = c(
+  "Protein", "Omega-3", "Calcium", "Iron", "Vitamin-A", "Zinc", "Selenium",
+  "Reef", "Pelagic", "FAD", "Beach", "Traditional FAD", "Mangrove", "Seagrass",
+  "gill net", "seine net", "spear gun", "hand line", "long line", "manual collection",
+  "beach seine", "trap", "cast net"
+))
+
+parallel_plot %>%
+  dplyr::filter(!Nutrient == "Selenium") %>%
+  na.omit() %>%
+  ggplot(aes(x, id = id, split = y, value = concentration_g)) +
+  ggforce::geom_parallel_sets(aes(fill = Nutrient), alpha = 0.7, axis.width = 0.1) +
+  ggforce::geom_parallel_sets_axes(axis.width = 0.25, fill = "grey95") +
+  ggforce::geom_parallel_sets_labels(colour = "grey30", angle = 0, size = 3.5) +
+  scale_x_discrete(name = NULL, expand = c(0, 0.2)) +
+  scale_y_continuous(breaks = NULL, expand = c(0.05, 0)) +
+  theme_minimal(12) +
+  scale_fill_manual(values = timor.nutrients::palettes$nutrients_palette) +
+  # scale_fill_manual(values = c("#508AA8", "grey95", "#BD9391")) +
+  theme(
+    axis.line = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = "bottom",
+    panel.grid.major = element_blank(),
+    axis.text = element_text(size = 12, color = "black")
+  ) +
+  labs(fill = "")
+
+```
+

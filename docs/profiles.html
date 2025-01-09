@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4 Timor SSF nutritional profiles | Modelling scenarios for nutrient-sensitive fisheries management</title>
-  <meta name="description" content="4 Timor SSF nutritional profiles | Modelling scenarios for nutrient-sensitive fisheries management" />
+  <title>4 Nutritional profiles | Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management</title>
+  <meta name="description" content="4 Nutritional profiles | Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management" />
   <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4 Timor SSF nutritional profiles | Modelling scenarios for nutrient-sensitive fisheries management" />
+  <meta property="og:title" content="4 Nutritional profiles | Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="WorldFishCenter/timor.nutrients" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4 Timor SSF nutritional profiles | Modelling scenarios for nutrient-sensitive fisheries management" />
+  <meta name="twitter:title" content="4 Nutritional profiles | Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management" />
   
   
   
@@ -30,7 +30,7 @@
   
   
 <link rel="prev" href="distribution.html"/>
-<link rel="next" href="references.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -48,6 +48,7 @@
 
 
 
+<link href="libs/codefolding-lua-1.1/codefolding-lua.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -61,6 +62,70 @@
 <script src="libs/reactable-binding-0.4.4/reactable.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
   
@@ -84,24 +149,9 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Content</a></li>
-<li class="chapter" data-level="2" data-path="highlight.html"><a href="highlight.html"><i class="fa fa-check"></i><b>2</b> Highlight statistics</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="highlight.html"><a href="highlight.html#timor-est-ssf-nutritional-scenario"><i class="fa fa-check"></i><b>2.1</b> Timor-Est SSF nutritional scenario</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="distribution.html"><a href="distribution.html"><i class="fa fa-check"></i><b>3</b> Nutrients distribution</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="distribution.html"><a href="distribution.html#fish-groups"><i class="fa fa-check"></i><b>3.1</b> Fish groups</a></li>
-<li class="chapter" data-level="3.2" data-path="distribution.html"><a href="distribution.html#habitat-and-gear-type"><i class="fa fa-check"></i><b>3.2</b> Habitat and gear type</a></li>
-<li class="chapter" data-level="3.3" data-path="distribution.html"><a href="distribution.html#nutritional-contribution-and-economic-profiling"><i class="fa fa-check"></i><b>3.3</b> Nutritional contribution and economic profiling</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="profiles.html"><a href="profiles.html"><i class="fa fa-check"></i><b>4</b> Timor SSF nutritional profiles</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="profiles.html"><a href="profiles.html#methods"><i class="fa fa-check"></i><b>4.1</b> Methods</a>
-<ul>
-<li class="chapter" data-level="4.1.1" data-path="profiles.html"><a href="profiles.html#xgboost-model-performance"><i class="fa fa-check"></i><b>4.1.1</b> XGBoost model performance</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="2" data-path="highlight.html"><a href="highlight.html"><i class="fa fa-check"></i><b>2</b> Timor-Est nutritional maps</a></li>
+<li class="chapter" data-level="3" data-path="distribution.html"><a href="distribution.html"><i class="fa fa-check"></i><b>3</b> Nutritional contribution and economic profiling</a></li>
+<li class="chapter" data-level="4" data-path="profiles.html"><a href="profiles.html"><i class="fa fa-check"></i><b>4</b> Nutritional profiles</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/WorldFishCenter/timor.nutrients" target="blank">GitHub</a></li>
 
@@ -114,7 +164,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Modelling scenarios for nutrient-sensitive fisheries management</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management</a>
           </h1>
         </div>
 
@@ -123,35 +173,701 @@
 
             <section class="normal" id="section-">
 <div id="profiles" class="section level1 hasAnchor" number="4">
-<h1><span class="header-section-number">4</span> Timor SSF nutritional profiles<a href="profiles.html#profiles" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="methods" class="section level2 hasAnchor" number="4.1">
-<h2><span class="header-section-number">4.1</span> Methods<a href="profiles.html#methods" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<pre><code>## Warning in get_plot_component(plot, &quot;guide-box&quot;): Multiple components found; returning the first one. To return all, use `return_all = TRUE`.</code></pre>
+<h1><span class="header-section-number">4</span> Nutritional profiles<a href="profiles.html#profiles" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="profiles.html#cb4-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-2"><a href="profiles.html#cb4-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">get_model_data</span>()</span>
+<span id="cb4-3"><a href="profiles.html#cb4-3" tabindex="-1"></a>data<span class="sc">$</span>data_raw<span class="sc">$</span>timor_GN_raw<span class="sc">$</span>clusters <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;FNP-&quot;</span>, data<span class="sc">$</span>data_raw<span class="sc">$</span>timor_GN_raw<span class="sc">$</span>clusters)</span>
+<span id="cb4-4"><a href="profiles.html#cb4-4" tabindex="-1"></a>data<span class="sc">$</span>data_raw<span class="sc">$</span>timor_AG_raw<span class="sc">$</span>clusters <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;FNP-&quot;</span>, data<span class="sc">$</span>data_raw<span class="sc">$</span>timor_AG_raw<span class="sc">$</span>clusters)</span>
+<span id="cb4-5"><a href="profiles.html#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="profiles.html#cb4-6" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="profiles.html#cb4-7" tabindex="-1"></a>plot_profiles <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb4-8"><a href="profiles.html#cb4-8" tabindex="-1"></a>  means_dat <span class="ot">&lt;-</span></span>
+<span id="cb4-9"><a href="profiles.html#cb4-9" tabindex="-1"></a>    x <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="profiles.html#cb4-10" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">rename_with</span>(<span class="sc">~</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(.x), <span class="at">.cols =</span> <span class="fu">c</span>(.data<span class="sc">$</span>zinc<span class="sc">:</span>.data<span class="sc">$</span>vitaminA)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-11"><a href="profiles.html#cb4-11" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">rename</span>(</span>
+<span id="cb4-12"><a href="profiles.html#cb4-12" tabindex="-1"></a>      <span class="st">&quot;Vitamin-A&quot;</span> <span class="ot">=</span> .data<span class="sc">$</span>Vitamina,</span>
+<span id="cb4-13"><a href="profiles.html#cb4-13" tabindex="-1"></a>      <span class="st">&quot;Omega-3&quot;</span> <span class="ot">=</span> .data<span class="sc">$</span>Omega3</span>
+<span id="cb4-14"><a href="profiles.html#cb4-14" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-15"><a href="profiles.html#cb4-15" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="fu">c</span>(Zinc<span class="sc">:</span><span class="st">&quot;Vitamin-A&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-16"><a href="profiles.html#cb4-16" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">group_by</span>(clusters, name) <span class="sc">%&gt;%</span></span>
+<span id="cb4-17"><a href="profiles.html#cb4-17" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb4-18"><a href="profiles.html#cb4-18" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-19"><a href="profiles.html#cb4-19" tabindex="-1"></a>      <span class="at">sd =</span> <span class="fu">sd</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-20"><a href="profiles.html#cb4-20" tabindex="-1"></a>      <span class="at">n =</span> dplyr<span class="sc">::</span><span class="fu">n</span>(),</span>
+<span id="cb4-21"><a href="profiles.html#cb4-21" tabindex="-1"></a>      <span class="at">se =</span> sd <span class="sc">/</span> <span class="fu">sqrt</span>(n),</span>
+<span id="cb4-22"><a href="profiles.html#cb4-22" tabindex="-1"></a>      <span class="at">ci_lower =</span> mean <span class="sc">-</span> <span class="fu">qt</span>(<span class="fl">0.99</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se,</span>
+<span id="cb4-23"><a href="profiles.html#cb4-23" tabindex="-1"></a>      <span class="at">ci_upper =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="fl">0.99</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se</span>
+<span id="cb4-24"><a href="profiles.html#cb4-24" tabindex="-1"></a>    )</span>
+<span id="cb4-25"><a href="profiles.html#cb4-25" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="profiles.html#cb4-26" tabindex="-1"></a>  all_dat <span class="ot">&lt;-</span></span>
+<span id="cb4-27"><a href="profiles.html#cb4-27" tabindex="-1"></a>    x <span class="sc">%&gt;%</span></span>
+<span id="cb4-28"><a href="profiles.html#cb4-28" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">rename_with</span>(<span class="sc">~</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(.x), <span class="at">.cols =</span> <span class="fu">c</span>(.data<span class="sc">$</span>zinc<span class="sc">:</span>.data<span class="sc">$</span>vitaminA)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-29"><a href="profiles.html#cb4-29" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">rename</span>(</span>
+<span id="cb4-30"><a href="profiles.html#cb4-30" tabindex="-1"></a>      <span class="st">&quot;Vitamin-A&quot;</span> <span class="ot">=</span> .data<span class="sc">$</span>Vitamina,</span>
+<span id="cb4-31"><a href="profiles.html#cb4-31" tabindex="-1"></a>      <span class="st">&quot;Omega-3&quot;</span> <span class="ot">=</span> .data<span class="sc">$</span>Omega3</span>
+<span id="cb4-32"><a href="profiles.html#cb4-32" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-33"><a href="profiles.html#cb4-33" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="fu">c</span>(Zinc<span class="sc">:</span><span class="st">&quot;Vitamin-A&quot;</span>))</span>
+<span id="cb4-34"><a href="profiles.html#cb4-34" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="profiles.html#cb4-35" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="profiles.html#cb4-36" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-37"><a href="profiles.html#cb4-37" tabindex="-1"></a>    ggpubr<span class="sc">::</span><span class="fu">theme_pubr</span>()<span class="sc">+</span></span>
+<span id="cb4-38"><a href="profiles.html#cb4-38" tabindex="-1"></a>    <span class="fu">geom_jitter</span>(<span class="at">data =</span> all_dat, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">y =</span> name, <span class="at">color =</span> clusters), <span class="at">alpha =</span> <span class="fl">0.01</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb4-39"><a href="profiles.html#cb4-39" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> means_dat, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mean, <span class="at">y =</span> name, <span class="at">color =</span> clusters), <span class="at">size =</span> <span class="dv">5</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb4-40"><a href="profiles.html#cb4-40" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb4-41"><a href="profiles.html#cb4-41" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb4-42"><a href="profiles.html#cb4-42" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb4-43"><a href="profiles.html#cb4-43" tabindex="-1"></a>      <span class="at">color =</span> <span class="st">&quot;Profiles&quot;</span></span>
+<span id="cb4-44"><a href="profiles.html#cb4-44" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb4-45"><a href="profiles.html#cb4-45" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb4-46"><a href="profiles.html#cb4-46" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb4-47"><a href="profiles.html#cb4-47" tabindex="-1"></a>      <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb4-48"><a href="profiles.html#cb4-48" tabindex="-1"></a>      <span class="at">panel.grid =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>()</span>
+<span id="cb4-49"><a href="profiles.html#cb4-49" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb4-50"><a href="profiles.html#cb4-50" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb4-51"><a href="profiles.html#cb4-51" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>clusters_palette) <span class="sc">+</span></span>
+<span id="cb4-52"><a href="profiles.html#cb4-52" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>clusters_palette)</span>
+<span id="cb4-53"><a href="profiles.html#cb4-53" tabindex="-1"></a>}</span>
+<span id="cb4-54"><a href="profiles.html#cb4-54" tabindex="-1"></a></span>
+<span id="cb4-55"><a href="profiles.html#cb4-55" tabindex="-1"></a>plots1 <span class="ot">&lt;-</span> <span class="fu">plot_profiles</span>(data<span class="sc">$</span>data_raw<span class="sc">$</span>timor_AG_raw) <span class="co">#purrr::map(data$data_raw$timor_AG_raw, plot_profiles)</span></span>
+<span id="cb4-56"><a href="profiles.html#cb4-56" tabindex="-1"></a></span>
+<span id="cb4-57"><a href="profiles.html#cb4-57" tabindex="-1"></a>means_dat <span class="ot">&lt;-</span></span>
+<span id="cb4-58"><a href="profiles.html#cb4-58" tabindex="-1"></a>  data<span class="sc">$</span>data_raw<span class="sc">$</span>timor_GN_raw <span class="sc">%&gt;%</span></span>
+<span id="cb4-59"><a href="profiles.html#cb4-59" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename_with</span>(<span class="sc">~</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(.x), <span class="at">.cols =</span> <span class="fu">c</span>(.data<span class="sc">$</span>zinc<span class="sc">:</span>.data<span class="sc">$</span>vitaminA)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-60"><a href="profiles.html#cb4-60" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(</span>
+<span id="cb4-61"><a href="profiles.html#cb4-61" tabindex="-1"></a>    <span class="st">&quot;Vitamin-A&quot;</span> <span class="ot">=</span> .data<span class="sc">$</span>Vitamina,</span>
+<span id="cb4-62"><a href="profiles.html#cb4-62" tabindex="-1"></a>    <span class="st">&quot;Omega-3&quot;</span> <span class="ot">=</span> .data<span class="sc">$</span>Omega3</span>
+<span id="cb4-63"><a href="profiles.html#cb4-63" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-64"><a href="profiles.html#cb4-64" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="fu">c</span>(Zinc<span class="sc">:</span><span class="st">&quot;Vitamin-A&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-65"><a href="profiles.html#cb4-65" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(clusters, name) <span class="sc">%&gt;%</span></span>
+<span id="cb4-66"><a href="profiles.html#cb4-66" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb4-67"><a href="profiles.html#cb4-67" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-68"><a href="profiles.html#cb4-68" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-69"><a href="profiles.html#cb4-69" tabindex="-1"></a>    <span class="at">n =</span> dplyr<span class="sc">::</span><span class="fu">n</span>(),</span>
+<span id="cb4-70"><a href="profiles.html#cb4-70" tabindex="-1"></a>    <span class="at">se =</span> sd <span class="sc">/</span> <span class="fu">sqrt</span>(n),</span>
+<span id="cb4-71"><a href="profiles.html#cb4-71" tabindex="-1"></a>    <span class="at">ci_lower =</span> mean <span class="sc">-</span> <span class="fu">qt</span>(<span class="fl">0.99</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se,</span>
+<span id="cb4-72"><a href="profiles.html#cb4-72" tabindex="-1"></a>    <span class="at">ci_upper =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="fl">0.99</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se</span>
+<span id="cb4-73"><a href="profiles.html#cb4-73" tabindex="-1"></a>  )</span>
+<span id="cb4-74"><a href="profiles.html#cb4-74" tabindex="-1"></a></span>
+<span id="cb4-75"><a href="profiles.html#cb4-75" tabindex="-1"></a>all_dat <span class="ot">&lt;-</span></span>
+<span id="cb4-76"><a href="profiles.html#cb4-76" tabindex="-1"></a>  data<span class="sc">$</span>data_raw<span class="sc">$</span>timor_GN_raw <span class="sc">%&gt;%</span></span>
+<span id="cb4-77"><a href="profiles.html#cb4-77" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename_with</span>(<span class="sc">~</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(.x), <span class="at">.cols =</span> <span class="fu">c</span>(.data<span class="sc">$</span>zinc<span class="sc">:</span>.data<span class="sc">$</span>vitaminA)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-78"><a href="profiles.html#cb4-78" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(</span>
+<span id="cb4-79"><a href="profiles.html#cb4-79" tabindex="-1"></a>    <span class="st">&quot;Vitamin-A&quot;</span> <span class="ot">=</span> .data<span class="sc">$</span>Vitamina,</span>
+<span id="cb4-80"><a href="profiles.html#cb4-80" tabindex="-1"></a>    <span class="st">&quot;Omega-3&quot;</span> <span class="ot">=</span> .data<span class="sc">$</span>Omega3</span>
+<span id="cb4-81"><a href="profiles.html#cb4-81" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-82"><a href="profiles.html#cb4-82" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="fu">c</span>(Zinc<span class="sc">:</span><span class="st">&quot;Vitamin-A&quot;</span>))</span>
+<span id="cb4-83"><a href="profiles.html#cb4-83" tabindex="-1"></a></span>
+<span id="cb4-84"><a href="profiles.html#cb4-84" tabindex="-1"></a>plots2 <span class="ot">&lt;-</span></span>
+<span id="cb4-85"><a href="profiles.html#cb4-85" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-86"><a href="profiles.html#cb4-86" tabindex="-1"></a>  ggpubr<span class="sc">::</span><span class="fu">theme_pubr</span>()<span class="sc">+</span></span>
+<span id="cb4-87"><a href="profiles.html#cb4-87" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data =</span> all_dat, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">y =</span> name, <span class="at">color =</span> clusters), <span class="at">alpha =</span> <span class="fl">0.01</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb4-88"><a href="profiles.html#cb4-88" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> means_dat, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mean, <span class="at">y =</span> name, <span class="at">color =</span> clusters), <span class="at">size =</span> <span class="dv">5</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb4-89"><a href="profiles.html#cb4-89" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-90"><a href="profiles.html#cb4-90" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb4-91"><a href="profiles.html#cb4-91" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb4-92"><a href="profiles.html#cb4-92" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Profiles&quot;</span></span>
+<span id="cb4-93"><a href="profiles.html#cb4-93" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-94"><a href="profiles.html#cb4-94" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb4-95"><a href="profiles.html#cb4-95" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb4-96"><a href="profiles.html#cb4-96" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb4-97"><a href="profiles.html#cb4-97" tabindex="-1"></a>    <span class="at">panel.grid =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>()</span>
+<span id="cb4-98"><a href="profiles.html#cb4-98" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-99"><a href="profiles.html#cb4-99" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb4-100"><a href="profiles.html#cb4-100" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>clusters_palette) <span class="sc">+</span></span>
+<span id="cb4-101"><a href="profiles.html#cb4-101" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>clusters_palette) <span class="sc">+</span></span>
+<span id="cb4-102"><a href="profiles.html#cb4-102" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb4-103"><a href="profiles.html#cb4-103" tabindex="-1"></a>    <span class="st">&#39;text&#39;</span>,</span>
+<span id="cb4-104"><a href="profiles.html#cb4-104" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">3.5</span>,</span>
+<span id="cb4-105"><a href="profiles.html#cb4-105" tabindex="-1"></a>    <span class="at">y =</span> <span class="fl">2.5</span>,</span>
+<span id="cb4-106"><a href="profiles.html#cb4-106" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&#39;On average, FNP-3 provides enough</span><span class="sc">\n</span><span class="st">calcium for 2.2 people per 1kg of catch,</span><span class="sc">\n</span><span class="st">while FNP-1 and FNP-2 support</span><span class="sc">\n</span><span class="st">0.4 and 0.6 people, respectively&#39;</span>,</span>
+<span id="cb4-107"><a href="profiles.html#cb4-107" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">2.75</span></span>
+<span id="cb4-108"><a href="profiles.html#cb4-108" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-109"><a href="profiles.html#cb4-109" tabindex="-1"></a>  <span class="co">#annotate(</span></span>
+<span id="cb4-110"><a href="profiles.html#cb4-110" tabindex="-1"></a>  <span class="co">#  &#39;rect&#39;,</span></span>
+<span id="cb4-111"><a href="profiles.html#cb4-111" tabindex="-1"></a>  <span class="co">#  xmin = 0,</span></span>
+<span id="cb4-112"><a href="profiles.html#cb4-112" tabindex="-1"></a>  <span class="co">#  ymin = 0.5,</span></span>
+<span id="cb4-113"><a href="profiles.html#cb4-113" tabindex="-1"></a>  <span class="co">#  ymax = 1.5,</span></span>
+<span id="cb4-114"><a href="profiles.html#cb4-114" tabindex="-1"></a>  <span class="co">#  xmax = 4.5,</span></span>
+<span id="cb4-115"><a href="profiles.html#cb4-115" tabindex="-1"></a>    <span class="co">#alpha = 0.5,</span></span>
+<span id="cb4-116"><a href="profiles.html#cb4-116" tabindex="-1"></a>  <span class="co">#  color = rgb(0, 0, 0, alpha = 0.85),</span></span>
+<span id="cb4-117"><a href="profiles.html#cb4-117" tabindex="-1"></a>   <span class="co"># linewidth = 0.3,</span></span>
+<span id="cb4-118"><a href="profiles.html#cb4-118" tabindex="-1"></a>    <span class="co">#fill = &quot;transparent&quot;,</span></span>
+<span id="cb4-119"><a href="profiles.html#cb4-119" tabindex="-1"></a>    <span class="co">#linetype = 2</span></span>
+<span id="cb4-120"><a href="profiles.html#cb4-120" tabindex="-1"></a>  <span class="co">#) +</span></span>
+<span id="cb4-121"><a href="profiles.html#cb4-121" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb4-122"><a href="profiles.html#cb4-122" tabindex="-1"></a>    <span class="st">&#39;curve&#39;</span>,</span>
+<span id="cb4-123"><a href="profiles.html#cb4-123" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">3.4</span>, <span class="co"># Play around with the coordinates until you&#39;re satisfied</span></span>
+<span id="cb4-124"><a href="profiles.html#cb4-124" tabindex="-1"></a>    <span class="at">y =</span> <span class="fl">1.8</span>,</span>
+<span id="cb4-125"><a href="profiles.html#cb4-125" tabindex="-1"></a>    <span class="at">yend =</span> <span class="fl">1.3</span>,</span>
+<span id="cb4-126"><a href="profiles.html#cb4-126" tabindex="-1"></a>    <span class="at">xend =</span> <span class="fl">2.45</span>,</span>
+<span id="cb4-127"><a href="profiles.html#cb4-127" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&#39;black&#39;</span>,</span>
+<span id="cb4-128"><a href="profiles.html#cb4-128" tabindex="-1"></a>    <span class="at">curvature =</span> <span class="sc">-</span><span class="fl">0.05</span>,</span>
+<span id="cb4-129"><a href="profiles.html#cb4-129" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.3</span>,</span>
+<span id="cb4-130"><a href="profiles.html#cb4-130" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.25</span>, <span class="st">&#39;cm&#39;</span>))</span>
+<span id="cb4-131"><a href="profiles.html#cb4-131" tabindex="-1"></a>  )</span>
+<span id="cb4-132"><a href="profiles.html#cb4-132" tabindex="-1"></a></span>
+<span id="cb4-133"><a href="profiles.html#cb4-133" tabindex="-1"></a></span>
+<span id="cb4-134"><a href="profiles.html#cb4-134" tabindex="-1"></a>plots <span class="ot">&lt;-</span></span>
+<span id="cb4-135"><a href="profiles.html#cb4-135" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb4-136"><a href="profiles.html#cb4-136" tabindex="-1"></a>    plots2 <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Gill nets&quot;</span>),</span>
+<span id="cb4-137"><a href="profiles.html#cb4-137" tabindex="-1"></a>    plots1 <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Other gears&quot;</span>)</span>
+<span id="cb4-138"><a href="profiles.html#cb4-138" tabindex="-1"></a>  )</span>
+<span id="cb4-139"><a href="profiles.html#cb4-139" tabindex="-1"></a></span>
+<span id="cb4-140"><a href="profiles.html#cb4-140" tabindex="-1"></a>legend_plot <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">get_legend</span>(plots[[<span class="dv">1</span>]] <span class="sc">+</span></span>
+<span id="cb4-141"><a href="profiles.html#cb4-141" tabindex="-1"></a>                                     ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb4-142"><a href="profiles.html#cb4-142" tabindex="-1"></a>                                       <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb4-143"><a href="profiles.html#cb4-143" tabindex="-1"></a>                                       <span class="at">legend.key.size =</span> ggplot2<span class="sc">::</span><span class="fu">unit</span>(<span class="fl">0.55</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb4-144"><a href="profiles.html#cb4-144" tabindex="-1"></a>                                       <span class="at">legend.title =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>)</span>
+<span id="cb4-145"><a href="profiles.html#cb4-145" tabindex="-1"></a>                                     ))</span>
+<span id="cb4-146"><a href="profiles.html#cb4-146" tabindex="-1"></a>combined_plots <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(<span class="at">plotlist =</span> plots, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">labels =</span> <span class="st">&quot;AUTO&quot;</span>)</span>
+<span id="cb4-147"><a href="profiles.html#cb4-147" tabindex="-1"></a></span>
+<span id="cb4-148"><a href="profiles.html#cb4-148" tabindex="-1"></a>x_label <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">draw_label</span>(<span class="st">&quot;NDS per 1kg of catch&quot;</span>, <span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> <span class="fl">0.05</span>)</span>
+<span id="cb4-149"><a href="profiles.html#cb4-149" tabindex="-1"></a>y_label <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">draw_label</span>(<span class="st">&quot;Nutrient&quot;</span>, <span class="at">x =</span> <span class="fl">0.04</span>, <span class="at">y =</span> <span class="fl">0.5</span>, <span class="at">angle =</span> <span class="dv">90</span>)</span>
+<span id="cb4-150"><a href="profiles.html#cb4-150" tabindex="-1"></a></span>
+<span id="cb4-151"><a href="profiles.html#cb4-151" tabindex="-1"></a>final_plot <span class="ot">&lt;-</span></span>
+<span id="cb4-152"><a href="profiles.html#cb4-152" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb4-153"><a href="profiles.html#cb4-153" tabindex="-1"></a>    combined_plots,</span>
+<span id="cb4-154"><a href="profiles.html#cb4-154" tabindex="-1"></a>    legend_plot,</span>
+<span id="cb4-155"><a href="profiles.html#cb4-155" tabindex="-1"></a>    <span class="at">ncol =</span> <span class="dv">2</span>,</span>
+<span id="cb4-156"><a href="profiles.html#cb4-156" tabindex="-1"></a>    <span class="at">rel_widths =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.15</span>),</span>
+<span id="cb4-157"><a href="profiles.html#cb4-157" tabindex="-1"></a>    <span class="at">scale =</span> <span class="fl">0.9</span></span>
+<span id="cb4-158"><a href="profiles.html#cb4-158" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-159"><a href="profiles.html#cb4-159" tabindex="-1"></a>  x_label <span class="sc">+</span></span>
+<span id="cb4-160"><a href="profiles.html#cb4-160" tabindex="-1"></a>  y_label</span>
+<span id="cb4-161"><a href="profiles.html#cb4-161" tabindex="-1"></a></span>
+<span id="cb4-162"><a href="profiles.html#cb4-162" tabindex="-1"></a>final_plot</span></code></pre></div>
+</details>
 <p><img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/unnamed-chunk-7-1.png" width="960" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="profiles.html#cb5-1" tabindex="-1"></a>kmean_plots <span class="ot">&lt;-</span> data<span class="sc">$</span>kmeans_plots</span>
+<span id="cb5-2"><a href="profiles.html#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="profiles.html#cb5-3" tabindex="-1"></a>plots <span class="ot">&lt;-</span></span>
+<span id="cb5-4"><a href="profiles.html#cb5-4" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb5-5"><a href="profiles.html#cb5-5" tabindex="-1"></a>    kmean_plots<span class="sc">$</span>kmeans_timor_GN <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Gill nets&quot;</span>),</span>
+<span id="cb5-6"><a href="profiles.html#cb5-6" tabindex="-1"></a>    kmean_plots<span class="sc">$</span>kmeans_timor_AG <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Other gears&quot;</span>)</span>
+<span id="cb5-7"><a href="profiles.html#cb5-7" tabindex="-1"></a>  )</span>
+<span id="cb5-8"><a href="profiles.html#cb5-8" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="profiles.html#cb5-9" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">lapply</span>(plots, <span class="cf">function</span>(x) {</span>
+<span id="cb5-10"><a href="profiles.html#cb5-10" tabindex="-1"></a>  x <span class="sc">+</span></span>
+<span id="cb5-11"><a href="profiles.html#cb5-11" tabindex="-1"></a>    ggpubr<span class="sc">::</span><span class="fu">theme_pubr</span>()<span class="sc">+</span></span>
+<span id="cb5-12"><a href="profiles.html#cb5-12" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb5-13"><a href="profiles.html#cb5-13" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb5-14"><a href="profiles.html#cb5-14" tabindex="-1"></a>      <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb5-15"><a href="profiles.html#cb5-15" tabindex="-1"></a>      <span class="at">panel.grid =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>()</span>
+<span id="cb5-16"><a href="profiles.html#cb5-16" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb5-17"><a href="profiles.html#cb5-17" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
+<span id="cb5-18"><a href="profiles.html#cb5-18" tabindex="-1"></a>      <span class="at">fill =</span> <span class="st">&quot;Profiles&quot;</span>,</span>
+<span id="cb5-19"><a href="profiles.html#cb5-19" tabindex="-1"></a>      <span class="at">color =</span> <span class="st">&quot;Profiles&quot;</span></span>
+<span id="cb5-20"><a href="profiles.html#cb5-20" tabindex="-1"></a>    )<span class="sc">+</span></span>
+<span id="cb5-21"><a href="profiles.html#cb5-21" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_color_manual</span>(</span>
+<span id="cb5-22"><a href="profiles.html#cb5-22" tabindex="-1"></a>      <span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>clusters_palette,</span>
+<span id="cb5-23"><a href="profiles.html#cb5-23" tabindex="-1"></a>      <span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">paste0</span>(<span class="st">&quot;FNP-&quot;</span>, x)</span>
+<span id="cb5-24"><a href="profiles.html#cb5-24" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb5-25"><a href="profiles.html#cb5-25" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_fill_manual</span>(</span>
+<span id="cb5-26"><a href="profiles.html#cb5-26" tabindex="-1"></a>      <span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>clusters_palette,</span>
+<span id="cb5-27"><a href="profiles.html#cb5-27" tabindex="-1"></a>      <span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">paste0</span>(<span class="st">&quot;FNP-&quot;</span>, x)</span>
+<span id="cb5-28"><a href="profiles.html#cb5-28" tabindex="-1"></a>    )</span>
+<span id="cb5-29"><a href="profiles.html#cb5-29" tabindex="-1"></a>  })</span>
+<span id="cb5-30"><a href="profiles.html#cb5-30" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="profiles.html#cb5-31" tabindex="-1"></a>legend_plot <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">get_legend</span>(plots[[<span class="dv">1</span>]] <span class="sc">+</span></span>
+<span id="cb5-32"><a href="profiles.html#cb5-32" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb5-33"><a href="profiles.html#cb5-33" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb5-34"><a href="profiles.html#cb5-34" tabindex="-1"></a>    <span class="at">legend.key.size =</span> ggplot2<span class="sc">::</span><span class="fu">unit</span>(<span class="fl">0.6</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb5-35"><a href="profiles.html#cb5-35" tabindex="-1"></a>    <span class="at">legend.title =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>)</span>
+<span id="cb5-36"><a href="profiles.html#cb5-36" tabindex="-1"></a>  ))</span>
+<span id="cb5-37"><a href="profiles.html#cb5-37" tabindex="-1"></a>combined_plots <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(<span class="at">plotlist =</span> plots, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">labels =</span> <span class="st">&quot;AUTO&quot;</span>)</span>
+<span id="cb5-38"><a href="profiles.html#cb5-38" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="profiles.html#cb5-39" tabindex="-1"></a><span class="co"># x_label &lt;- cowplot::draw_label(&quot;False positive rate\n(1 - Specificity)&quot;, x = 0.5, y = 0.05)</span></span>
+<span id="cb5-40"><a href="profiles.html#cb5-40" tabindex="-1"></a><span class="co"># y_label &lt;- cowplot::draw_label(&quot;True positive rate\n(Sensitivity)&quot;, x = 0.02, y = 0.5, angle = 90)</span></span>
+<span id="cb5-41"><a href="profiles.html#cb5-41" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="profiles.html#cb5-42" tabindex="-1"></a>final_plot <span class="ot">&lt;-</span></span>
+<span id="cb5-43"><a href="profiles.html#cb5-43" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb5-44"><a href="profiles.html#cb5-44" tabindex="-1"></a>    combined_plots,</span>
+<span id="cb5-45"><a href="profiles.html#cb5-45" tabindex="-1"></a>    legend_plot,</span>
+<span id="cb5-46"><a href="profiles.html#cb5-46" tabindex="-1"></a>    <span class="at">ncol =</span> <span class="dv">2</span>,</span>
+<span id="cb5-47"><a href="profiles.html#cb5-47" tabindex="-1"></a>    <span class="at">rel_widths =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.1</span>),</span>
+<span id="cb5-48"><a href="profiles.html#cb5-48" tabindex="-1"></a>    <span class="at">scale =</span> <span class="fl">0.9</span></span>
+<span id="cb5-49"><a href="profiles.html#cb5-49" tabindex="-1"></a>  )</span>
+<span id="cb5-50"><a href="profiles.html#cb5-50" tabindex="-1"></a></span>
+<span id="cb5-51"><a href="profiles.html#cb5-51" tabindex="-1"></a>final_plot</span></code></pre></div>
+</details>
 <p><img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="profiles.html#cb6-1" tabindex="-1"></a>timor.nutrients<span class="sc">::</span>perm_results <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="profiles.html#cb6-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">&quot;subset&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="profiles.html#cb6-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(dplyr<span class="sc">::</span><span class="fu">across</span>(<span class="fu">c</span>(SumOfSqs, R2, statistic), <span class="sc">~</span> <span class="fu">round</span>(.x, <span class="dv">2</span>)),</span>
+<span id="cb6-4"><a href="profiles.html#cb6-4" tabindex="-1"></a>    <span class="at">p.value =</span> <span class="fu">ifelse</span>(p.value <span class="sc">&lt;=</span> <span class="fl">0.001</span>, <span class="st">&quot;&lt; 0.001&quot;</span>, p.value),</span>
+<span id="cb6-5"><a href="profiles.html#cb6-5" tabindex="-1"></a>    <span class="at">subset =</span> stringr<span class="sc">::</span><span class="fu">str_remove</span>(subset, <span class="st">&quot;_perm&quot;</span>),</span>
+<span id="cb6-6"><a href="profiles.html#cb6-6" tabindex="-1"></a>    <span class="at">subset =</span> stringr<span class="sc">::</span><span class="fu">str_replace</span>(subset, <span class="st">&quot;timor&quot;</span>, <span class="st">&quot;mainland&quot;</span>)</span>
+<span id="cb6-7"><a href="profiles.html#cb6-7" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="profiles.html#cb6-8" tabindex="-1"></a>  reactable<span class="sc">::</span><span class="fu">reactable</span>(</span>
+<span id="cb6-9"><a href="profiles.html#cb6-9" tabindex="-1"></a>    <span class="at">theme =</span> reactablefmtr<span class="sc">::</span><span class="fu">fivethirtyeight</span>(<span class="at">centered =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-10"><a href="profiles.html#cb6-10" tabindex="-1"></a>    <span class="at">groupBy =</span> <span class="st">&quot;subset&quot;</span>,</span>
+<span id="cb6-11"><a href="profiles.html#cb6-11" tabindex="-1"></a>    <span class="at">defaultExpanded =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-12"><a href="profiles.html#cb6-12" tabindex="-1"></a>    <span class="at">pagination =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-13"><a href="profiles.html#cb6-13" tabindex="-1"></a>    <span class="at">compact =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-14"><a href="profiles.html#cb6-14" tabindex="-1"></a>    <span class="at">borderless =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-15"><a href="profiles.html#cb6-15" tabindex="-1"></a>    <span class="at">striped =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-16"><a href="profiles.html#cb6-16" tabindex="-1"></a>    <span class="at">defaultColDef =</span> reactable<span class="sc">::</span><span class="fu">colDef</span>(</span>
+<span id="cb6-17"><a href="profiles.html#cb6-17" tabindex="-1"></a>      <span class="at">align =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb6-18"><a href="profiles.html#cb6-18" tabindex="-1"></a>    ),</span>
+<span id="cb6-19"><a href="profiles.html#cb6-19" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">list</span>(</span>
+<span id="cb6-20"><a href="profiles.html#cb6-20" tabindex="-1"></a>      <span class="at">subset =</span> reactable<span class="sc">::</span><span class="fu">colDef</span>(</span>
+<span id="cb6-21"><a href="profiles.html#cb6-21" tabindex="-1"></a>        <span class="at">minWidth =</span> <span class="dv">120</span></span>
+<span id="cb6-22"><a href="profiles.html#cb6-22" tabindex="-1"></a>      )</span>
+<span id="cb6-23"><a href="profiles.html#cb6-23" tabindex="-1"></a>    )</span>
+<span id="cb6-24"><a href="profiles.html#cb6-24" tabindex="-1"></a>  )</span></code></pre></div>
+</details>
 <div class="reactable html-widget html-fill-item" id="htmlwidget-063f6b1d31ff8cfb5835" style="width:auto;height:auto;"></div>
 <script type="application/json" data-for="htmlwidget-063f6b1d31ff8cfb5835">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"subset":["mainland_GN","mainland_GN","mainland_GN","mainland_AG","mainland_AG","mainland_AG"],"term":["clusters","Residual","Total","clusters","Residual","Total"],"df":[2,10168,10170,2,5479,5481],"SumOfSqs":[12464.94,5914.55,18379.48,9487.81,3303.11,12790.93],"R2":[0.68,0.32,1,0.74,0.26,1],"statistic":[10714.55,"NA","NA",7868.9,"NA","NA"],"p.value":["< 0.001",null,null,"< 0.001",null,null]},"columns":[{"id":"subset","name":"subset","type":"character","align":"center","minWidth":120},{"id":"term","name":"term","type":"character","align":"center"},{"id":"df","name":"df","type":"numeric","align":"center"},{"id":"SumOfSqs","name":"SumOfSqs","type":"numeric","align":"center"},{"id":"R2","name":"R2","type":"numeric","align":"center"},{"id":"statistic","name":"statistic","type":"numeric","align":"center"},{"id":"p.value","name":"p.value","type":"character","align":"center"}],"groupBy":["subset"],"pagination":false,"defaultExpanded":true,"theme":{"color":"#222222","backgroundColor":"#ffffff","borderColor":"#dddddd","borderWidth":"1px","stripedColor":"#dddddd","highlightColor":"#f0f0f0","cellPadding":5,"tableStyle":{"fontSize":14,"borderBottom":"3px solid #222222"},"headerStyle":{"borderWidth":"3px","paddingTop":"12px","verticalAlign":"bottom","textAlign":"bottom","background":"#ffffff","textTransform":"uppercase","borderColor":"#222222","color":"#000000","&:hover":{"background":"#dddddd"},"&[aria-sort='ascending'], &[aria-sort='descending']":{"background":"#5b5e5f","color":"#ffffff"},"borderColor.1":"#333","fontSize":12},"groupHeaderStyle":{"&:not(:empty)":{"paddingBottom":"3px","verticalAlign":"bottom","textAlign":"bottom","backgroundColor":"#ffffff","textTransform":"uppercase","fontSize":12,"color":"#222222"}},"rowSelectedStyle":{"backgroundColor":"#dddddd"},"cellStyle":{"display":"flex","flexDirection":"column","justifyContent":"center"},"inputStyle":{"backgroundColor":"#ffffff","color":"#222222"},"searchInputStyle":{"textTransform":"uppercase","color":"#222222","fontSize":"14px"},"paginationStyle":{"textTransform":"uppercase","fontSize":"14px"},"pageButtonStyle":{"textTransform":"uppercase","fontSize":"14px"}},"dataKey":"9f1a6d5a3b9d4ce58ac59b0aad5b65f9"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
-<div id="xgboost-model-performance" class="section level3 hasAnchor" number="4.1.1">
-<h3><span class="header-section-number">4.1.1</span> XGBoost model performance<a href="profiles.html#xgboost-model-performance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="profiles.html#cb7-1" tabindex="-1"></a>models_auc <span class="ot">&lt;-</span></span>
+<span id="cb7-2"><a href="profiles.html#cb7-2" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>model_outputs <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="profiles.html#cb7-3" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(purrr<span class="sc">::</span><span class="fu">pluck</span>(<span class="dv">8</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="profiles.html#cb7-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">&quot;subset&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="profiles.html#cb7-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>estimator) <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="profiles.html#cb7-6" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> subset, <span class="at">values_from =</span> estimate)</span>
+<span id="cb7-7"><a href="profiles.html#cb7-7" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="profiles.html#cb7-8" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="profiles.html#cb7-9" tabindex="-1"></a>plots <span class="ot">&lt;-</span></span>
+<span id="cb7-10"><a href="profiles.html#cb7-10" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb7-11"><a href="profiles.html#cb7-11" tabindex="-1"></a>    timor.nutrients<span class="sc">::</span>model_outputs<span class="sc">$</span>model_timor_GN<span class="sc">$</span>roc_curves <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">&quot;Gill nets&quot;</span>, <span class="st">&quot; (&quot;</span>, models_auc<span class="sc">$</span>model_timor_GN, <span class="st">&quot;)&quot;</span>)),</span>
+<span id="cb7-12"><a href="profiles.html#cb7-12" tabindex="-1"></a>    timor.nutrients<span class="sc">::</span>model_outputs<span class="sc">$</span>model_timor_AG<span class="sc">$</span>roc_curves <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">&quot;Other gears&quot;</span>, <span class="st">&quot; (&quot;</span>, models_auc<span class="sc">$</span>model_timor_AG, <span class="st">&quot;)&quot;</span>))</span>
+<span id="cb7-13"><a href="profiles.html#cb7-13" tabindex="-1"></a>  )</span>
+<span id="cb7-14"><a href="profiles.html#cb7-14" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">lapply</span>(plots, <span class="cf">function</span>(x) {</span>
+<span id="cb7-15"><a href="profiles.html#cb7-15" tabindex="-1"></a>  x <span class="sc">+</span></span>
+<span id="cb7-16"><a href="profiles.html#cb7-16" tabindex="-1"></a>   ggpubr<span class="sc">::</span><span class="fu">theme_pubr</span>()<span class="sc">+</span> </span>
+<span id="cb7-17"><a href="profiles.html#cb7-17" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb7-18"><a href="profiles.html#cb7-18" tabindex="-1"></a>      <span class="at">panel.grid =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb7-19"><a href="profiles.html#cb7-19" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb7-20"><a href="profiles.html#cb7-20" tabindex="-1"></a>      <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="fl">0.1</span>), <span class="st">&quot;cm&quot;</span>)</span>
+<span id="cb7-21"><a href="profiles.html#cb7-21" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb7-22"><a href="profiles.html#cb7-22" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">coord_cartesian</span>(<span class="at">expand =</span> T) <span class="sc">+</span></span>
+<span id="cb7-23"><a href="profiles.html#cb7-23" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">color =</span> <span class="st">&quot;Profiles&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-24"><a href="profiles.html#cb7-24" tabindex="-1"></a>      ggplot2<span class="sc">::</span><span class="fu">scale_color_manual</span>(</span>
+<span id="cb7-25"><a href="profiles.html#cb7-25" tabindex="-1"></a>      <span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>clusters_palette,,</span>
+<span id="cb7-26"><a href="profiles.html#cb7-26" tabindex="-1"></a>      <span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">paste0</span>(<span class="st">&quot;FNP-&quot;</span>, x)</span>
+<span id="cb7-27"><a href="profiles.html#cb7-27" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb7-28"><a href="profiles.html#cb7-28" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_fill_manual</span>(</span>
+<span id="cb7-29"><a href="profiles.html#cb7-29" tabindex="-1"></a>      <span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>clusters_palette,,</span>
+<span id="cb7-30"><a href="profiles.html#cb7-30" tabindex="-1"></a>      <span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">paste0</span>(<span class="st">&quot;FNP-&quot;</span>, x)</span>
+<span id="cb7-31"><a href="profiles.html#cb7-31" tabindex="-1"></a>    )</span>
+<span id="cb7-32"><a href="profiles.html#cb7-32" tabindex="-1"></a>})</span>
+<span id="cb7-33"><a href="profiles.html#cb7-33" tabindex="-1"></a>legend_plot <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">get_legend</span>(plots[[<span class="dv">1</span>]] <span class="sc">+</span></span>
+<span id="cb7-34"><a href="profiles.html#cb7-34" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb7-35"><a href="profiles.html#cb7-35" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb7-36"><a href="profiles.html#cb7-36" tabindex="-1"></a>    <span class="at">legend.key.size =</span> ggplot2<span class="sc">::</span><span class="fu">unit</span>(<span class="fl">0.8</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb7-37"><a href="profiles.html#cb7-37" tabindex="-1"></a>    <span class="at">legend.title =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>)</span>
+<span id="cb7-38"><a href="profiles.html#cb7-38" tabindex="-1"></a>  ))</span>
+<span id="cb7-39"><a href="profiles.html#cb7-39" tabindex="-1"></a>combined_plots <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(<span class="at">plotlist =</span> plots, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">labels =</span> <span class="st">&quot;AUTO&quot;</span>, <span class="at">vjust =</span> <span class="fl">0.2</span>)</span>
+<span id="cb7-40"><a href="profiles.html#cb7-40" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="profiles.html#cb7-41" tabindex="-1"></a>x_label <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">draw_label</span>(<span class="st">&quot;False positive rate (1 - Specificity)&quot;</span>, <span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> <span class="fl">0.05</span>)</span>
+<span id="cb7-42"><a href="profiles.html#cb7-42" tabindex="-1"></a>y_label <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">draw_label</span>(<span class="st">&quot;True positive rate (Sensitivity)&quot;</span>, <span class="at">x =</span> <span class="fl">0.02</span>, <span class="at">y =</span> <span class="fl">0.5</span>, <span class="at">angle =</span> <span class="dv">90</span>)</span>
+<span id="cb7-43"><a href="profiles.html#cb7-43" tabindex="-1"></a></span>
+<span id="cb7-44"><a href="profiles.html#cb7-44" tabindex="-1"></a>final_plot <span class="ot">&lt;-</span></span>
+<span id="cb7-45"><a href="profiles.html#cb7-45" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb7-46"><a href="profiles.html#cb7-46" tabindex="-1"></a>    combined_plots,</span>
+<span id="cb7-47"><a href="profiles.html#cb7-47" tabindex="-1"></a>    legend_plot,</span>
+<span id="cb7-48"><a href="profiles.html#cb7-48" tabindex="-1"></a>    <span class="at">ncol =</span> <span class="dv">2</span>,</span>
+<span id="cb7-49"><a href="profiles.html#cb7-49" tabindex="-1"></a>    <span class="at">rel_widths =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.15</span>),</span>
+<span id="cb7-50"><a href="profiles.html#cb7-50" tabindex="-1"></a>    <span class="at">scale =</span> <span class="fl">0.9</span></span>
+<span id="cb7-51"><a href="profiles.html#cb7-51" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-52"><a href="profiles.html#cb7-52" tabindex="-1"></a>  x_label <span class="sc">+</span></span>
+<span id="cb7-53"><a href="profiles.html#cb7-53" tabindex="-1"></a>  y_label</span>
+<span id="cb7-54"><a href="profiles.html#cb7-54" tabindex="-1"></a></span>
+<span id="cb7-55"><a href="profiles.html#cb7-55" tabindex="-1"></a>final_plot</span></code></pre></div>
+</details>
 <p><img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/model-settings-1.png" width="960" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="profiles.html#cb8-1" tabindex="-1"></a>models_metrics <span class="ot">&lt;-</span></span>
+<span id="cb8-2"><a href="profiles.html#cb8-2" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>model_outputs <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="profiles.html#cb8-3" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(purrr<span class="sc">::</span><span class="fu">pluck</span>(<span class="dv">4</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="profiles.html#cb8-4" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">imap</span>(<span class="sc">~</span> <span class="fu">summary</span>(.x)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="profiles.html#cb8-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">&quot;subset&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="profiles.html#cb8-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>.estimator) <span class="sc">%&gt;%</span></span>
+<span id="cb8-7"><a href="profiles.html#cb8-7" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> subset, <span class="at">values_from =</span> .estimate) <span class="sc">%&gt;%</span></span>
+<span id="cb8-8"><a href="profiles.html#cb8-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">metric =</span> .metric) <span class="sc">%&gt;%</span></span>
+<span id="cb8-9"><a href="profiles.html#cb8-9" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb8-10"><a href="profiles.html#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="profiles.html#cb8-11" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="profiles.html#cb8-12" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(models_auc, models_metrics) <span class="sc">%&gt;%</span></span>
+<span id="cb8-13"><a href="profiles.html#cb8-13" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(</span>
+<span id="cb8-14"><a href="profiles.html#cb8-14" tabindex="-1"></a>    <span class="st">&quot;Other gears&quot;</span> <span class="ot">=</span> model_timor_AG,</span>
+<span id="cb8-15"><a href="profiles.html#cb8-15" tabindex="-1"></a>    <span class="st">&quot;Gill nets&quot;</span> <span class="ot">=</span> model_timor_GN</span>
+<span id="cb8-16"><a href="profiles.html#cb8-16" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb8-17"><a href="profiles.html#cb8-17" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(dplyr<span class="sc">::</span><span class="fu">across</span>(<span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">where</span>(is.numeric), <span class="sc">~</span> <span class="fu">round</span>(.x, <span class="dv">2</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb8-18"><a href="profiles.html#cb8-18" tabindex="-1"></a>  reactable<span class="sc">::</span><span class="fu">reactable</span>(</span>
+<span id="cb8-19"><a href="profiles.html#cb8-19" tabindex="-1"></a>    <span class="at">theme =</span> reactablefmtr<span class="sc">::</span><span class="fu">fivethirtyeight</span>(<span class="at">centered =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-20"><a href="profiles.html#cb8-20" tabindex="-1"></a>    <span class="at">defaultExpanded =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-21"><a href="profiles.html#cb8-21" tabindex="-1"></a>    <span class="at">pagination =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb8-22"><a href="profiles.html#cb8-22" tabindex="-1"></a>    <span class="at">compact =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb8-23"><a href="profiles.html#cb8-23" tabindex="-1"></a>    <span class="at">borderless =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb8-24"><a href="profiles.html#cb8-24" tabindex="-1"></a>    <span class="at">striped =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb8-25"><a href="profiles.html#cb8-25" tabindex="-1"></a>    <span class="at">defaultColDef =</span> reactable<span class="sc">::</span><span class="fu">colDef</span>(</span>
+<span id="cb8-26"><a href="profiles.html#cb8-26" tabindex="-1"></a>      <span class="at">align =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb8-27"><a href="profiles.html#cb8-27" tabindex="-1"></a>    ),</span>
+<span id="cb8-28"><a href="profiles.html#cb8-28" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">list</span>(</span>
+<span id="cb8-29"><a href="profiles.html#cb8-29" tabindex="-1"></a>      <span class="at">metric =</span> reactable<span class="sc">::</span><span class="fu">colDef</span>(</span>
+<span id="cb8-30"><a href="profiles.html#cb8-30" tabindex="-1"></a>        <span class="at">minWidth =</span> <span class="dv">120</span></span>
+<span id="cb8-31"><a href="profiles.html#cb8-31" tabindex="-1"></a>      )</span>
+<span id="cb8-32"><a href="profiles.html#cb8-32" tabindex="-1"></a>    )</span>
+<span id="cb8-33"><a href="profiles.html#cb8-33" tabindex="-1"></a>  )</span></code></pre></div>
+</details>
 <div class="reactable html-widget html-fill-item" id="htmlwidget-c5f94e8006ca4b7c2e18" style="width:auto;height:auto;"></div>
 <script type="application/json" data-for="htmlwidget-c5f94e8006ca4b7c2e18">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"metric":["roc_auc","accuracy","kap","sens","spec","ppv","npv","mcc","j_index","bal_accuracy","detection_prevalence","precision","recall","f_meas"],"Other gears":[0.91,0.8,0.7,0.81,0.9,0.8,0.9,0.7,0.71,0.86,0.33,0.8,0.81,0.8],"Gill nets":[0.92,0.76,0.62,0.77,0.88,0.74,0.87,0.62,0.65,0.82,0.33,0.74,0.77,0.75]},"columns":[{"id":"metric","name":"metric","type":"character","align":"center","minWidth":120},{"id":"Other gears","name":"Other gears","type":"numeric","align":"center"},{"id":"Gill nets","name":"Gill nets","type":"numeric","align":"center"}],"pagination":false,"defaultExpanded":true,"theme":{"color":"#222222","backgroundColor":"#ffffff","borderColor":"#dddddd","borderWidth":"1px","stripedColor":"#dddddd","highlightColor":"#f0f0f0","cellPadding":5,"tableStyle":{"fontSize":14,"borderBottom":"3px solid #222222"},"headerStyle":{"borderWidth":"3px","paddingTop":"12px","verticalAlign":"bottom","textAlign":"bottom","background":"#ffffff","textTransform":"uppercase","borderColor":"#222222","color":"#000000","&:hover":{"background":"#dddddd"},"&[aria-sort='ascending'], &[aria-sort='descending']":{"background":"#5b5e5f","color":"#ffffff"},"borderColor.1":"#333","fontSize":12},"groupHeaderStyle":{"&:not(:empty)":{"paddingBottom":"3px","verticalAlign":"bottom","textAlign":"bottom","backgroundColor":"#ffffff","textTransform":"uppercase","fontSize":12,"color":"#222222"}},"rowSelectedStyle":{"backgroundColor":"#dddddd"},"cellStyle":{"display":"flex","flexDirection":"column","justifyContent":"center"},"inputStyle":{"backgroundColor":"#ffffff","color":"#222222"},"searchInputStyle":{"textTransform":"uppercase","color":"#222222","fontSize":"14px"},"paginationStyle":{"textTransform":"uppercase","fontSize":"14px"},"pageButtonStyle":{"textTransform":"uppercase","fontSize":"14px"}},"dataKey":"01eb1f9aa58abaeaff0139fbc23daed4"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
-<div id="models-explanation" class="section level4 hasAnchor" number="4.1.1.1">
-<h4><span class="header-section-number">4.1.1.1</span> Models explanation<a href="profiles.html#models-explanation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="profiles.html#cb9-1" tabindex="-1"></a>importance_ag <span class="ot">&lt;-</span></span>
+<span id="cb9-2"><a href="profiles.html#cb9-2" tabindex="-1"></a>  model_outputs<span class="sc">$</span>model_timor_AG<span class="sc">$</span>fit <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="profiles.html#cb9-3" tabindex="-1"></a>  workflows<span class="sc">::</span><span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="profiles.html#cb9-4" tabindex="-1"></a>  vip<span class="sc">::</span><span class="fu">vi</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="profiles.html#cb9-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb9-6"><a href="profiles.html#cb9-6" tabindex="-1"></a>    <span class="at">category =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb9-7"><a href="profiles.html#cb9-7" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_detect</span>(Variable, <span class="st">&quot;gear_type&quot;</span>) <span class="sc">~</span> <span class="st">&quot;gear_type&quot;</span>,</span>
+<span id="cb9-8"><a href="profiles.html#cb9-8" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_detect</span>(Variable, <span class="st">&quot;habitat_gear&quot;</span>) <span class="sc">~</span> <span class="st">&quot;habitat_gear&quot;</span>,</span>
+<span id="cb9-9"><a href="profiles.html#cb9-9" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_detect</span>(Variable, <span class="st">&quot;habitat&quot;</span>) <span class="sc">~</span> <span class="st">&quot;habitat&quot;</span>,</span>
+<span id="cb9-10"><a href="profiles.html#cb9-10" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_detect</span>(Variable, <span class="st">&quot;quarter&quot;</span>) <span class="sc">~</span> <span class="st">&quot;quarter&quot;</span>,</span>
+<span id="cb9-11"><a href="profiles.html#cb9-11" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_detect</span>(Variable, <span class="st">&quot;vessel_type&quot;</span>) <span class="sc">~</span> <span class="st">&quot;vessel_type&quot;</span>,</span>
+<span id="cb9-12"><a href="profiles.html#cb9-12" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;other&quot;</span></span>
+<span id="cb9-13"><a href="profiles.html#cb9-13" tabindex="-1"></a>    )</span>
+<span id="cb9-14"><a href="profiles.html#cb9-14" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb9-15"><a href="profiles.html#cb9-15" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(category) <span class="sc">%&gt;%</span></span>
+<span id="cb9-16"><a href="profiles.html#cb9-16" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">Aggregated_Importance =</span> <span class="fu">sum</span>(Importance)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-17"><a href="profiles.html#cb9-17" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(Aggregated_Importance))</span>
+<span id="cb9-18"><a href="profiles.html#cb9-18" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="profiles.html#cb9-19" tabindex="-1"></a>importance_gn <span class="ot">&lt;-</span></span>
+<span id="cb9-20"><a href="profiles.html#cb9-20" tabindex="-1"></a>  model_outputs<span class="sc">$</span>model_timor_GN<span class="sc">$</span>fit <span class="sc">%&gt;%</span></span>
+<span id="cb9-21"><a href="profiles.html#cb9-21" tabindex="-1"></a>  workflows<span class="sc">::</span><span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-22"><a href="profiles.html#cb9-22" tabindex="-1"></a>  vip<span class="sc">::</span><span class="fu">vi</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-23"><a href="profiles.html#cb9-23" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb9-24"><a href="profiles.html#cb9-24" tabindex="-1"></a>    <span class="at">category =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb9-25"><a href="profiles.html#cb9-25" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_detect</span>(Variable, <span class="st">&quot;mesh_size&quot;</span>) <span class="sc">~</span> <span class="st">&quot;mesh_size&quot;</span>,</span>
+<span id="cb9-26"><a href="profiles.html#cb9-26" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_detect</span>(Variable, <span class="st">&quot;habitat_mesh&quot;</span>) <span class="sc">~</span> <span class="st">&quot;habitat_mesh&quot;</span>,</span>
+<span id="cb9-27"><a href="profiles.html#cb9-27" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_detect</span>(Variable, <span class="st">&quot;habitat&quot;</span>) <span class="sc">~</span> <span class="st">&quot;habitat&quot;</span>,</span>
+<span id="cb9-28"><a href="profiles.html#cb9-28" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_detect</span>(Variable, <span class="st">&quot;quarter&quot;</span>) <span class="sc">~</span> <span class="st">&quot;quarter&quot;</span>,</span>
+<span id="cb9-29"><a href="profiles.html#cb9-29" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_detect</span>(Variable, <span class="st">&quot;vessel_type&quot;</span>) <span class="sc">~</span> <span class="st">&quot;vessel_type&quot;</span>,</span>
+<span id="cb9-30"><a href="profiles.html#cb9-30" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;other&quot;</span></span>
+<span id="cb9-31"><a href="profiles.html#cb9-31" tabindex="-1"></a>    )</span>
+<span id="cb9-32"><a href="profiles.html#cb9-32" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb9-33"><a href="profiles.html#cb9-33" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(category) <span class="sc">%&gt;%</span></span>
+<span id="cb9-34"><a href="profiles.html#cb9-34" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">Aggregated_Importance =</span> <span class="fu">sum</span>(Importance)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-35"><a href="profiles.html#cb9-35" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(Aggregated_Importance))</span>
+<span id="cb9-36"><a href="profiles.html#cb9-36" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="profiles.html#cb9-37" tabindex="-1"></a>importance_plot <span class="ot">&lt;-</span></span>
+<span id="cb9-38"><a href="profiles.html#cb9-38" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(</span>
+<span id="cb9-39"><a href="profiles.html#cb9-39" tabindex="-1"></a>    importance_ag <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">&quot;Other gears&quot;</span>),</span>
+<span id="cb9-40"><a href="profiles.html#cb9-40" tabindex="-1"></a>    importance_gn <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">&quot;Gill nets&quot;</span>)</span>
+<span id="cb9-41"><a href="profiles.html#cb9-41" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-42"><a href="profiles.html#cb9-42" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">category =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(category <span class="sc">==</span> <span class="st">&quot;habitat_gear&quot;</span> <span class="sc">~</span> <span class="st">&quot;habitat x gear type&quot;</span>,</span>
+<span id="cb9-43"><a href="profiles.html#cb9-43" tabindex="-1"></a>                                            category <span class="sc">==</span> <span class="st">&quot;habitat_mesh&quot;</span> <span class="sc">~</span> <span class="st">&quot;habitat x mesh size&quot;</span>,</span>
+<span id="cb9-44"><a href="profiles.html#cb9-44" tabindex="-1"></a>                                            <span class="cn">TRUE</span> <span class="sc">~</span> category),</span>
+<span id="cb9-45"><a href="profiles.html#cb9-45" tabindex="-1"></a>                <span class="at">category =</span> stringr<span class="sc">::</span><span class="fu">str_replace</span>(category, <span class="st">&quot;_&quot;</span>, <span class="st">&quot; &quot;</span>),</span>
+<span id="cb9-46"><a href="profiles.html#cb9-46" tabindex="-1"></a>                <span class="at">category =</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(category)</span>
+<span id="cb9-47"><a href="profiles.html#cb9-47" tabindex="-1"></a>                ) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-48"><a href="profiles.html#cb9-48" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(category, Aggregated_Importance), <span class="at">y =</span> Aggregated_Importance)) <span class="sc">+</span></span>
+<span id="cb9-49"><a href="profiles.html#cb9-49" tabindex="-1"></a>  ggpubr<span class="sc">::</span><span class="fu">theme_pubr</span>(<span class="at">border =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb9-50"><a href="profiles.html#cb9-50" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>model, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-51"><a href="profiles.html#cb9-51" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> <span class="st">&quot;#1c8097&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb9-52"><a href="profiles.html#cb9-52" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb9-53"><a href="profiles.html#cb9-53" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-54"><a href="profiles.html#cb9-54" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Predictor&quot;</span>,</span>
+<span id="cb9-55"><a href="profiles.html#cb9-55" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Aggregated Feature Importance</span><span class="sc">\n</span><span class="st">(XGBoost Gain)&quot;</span></span>
+<span id="cb9-56"><a href="profiles.html#cb9-56" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-57"><a href="profiles.html#cb9-57" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb9-58"><a href="profiles.html#cb9-58" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>),</span>
+<span id="cb9-59"><a href="profiles.html#cb9-59" tabindex="-1"></a>    <span class="at">strip.background =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb9-60"><a href="profiles.html#cb9-60" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb9-61"><a href="profiles.html#cb9-61" tabindex="-1"></a>    <span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb9-62"><a href="profiles.html#cb9-62" tabindex="-1"></a>    <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb9-63"><a href="profiles.html#cb9-63" tabindex="-1"></a>  )</span>
+<span id="cb9-64"><a href="profiles.html#cb9-64" tabindex="-1"></a></span>
+<span id="cb9-65"><a href="profiles.html#cb9-65" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">ggdraw</span>(importance_plot) <span class="sc">+</span></span>
+<span id="cb9-66"><a href="profiles.html#cb9-66" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">draw_plot_label</span>(</span>
+<span id="cb9-67"><a href="profiles.html#cb9-67" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb9-68"><a href="profiles.html#cb9-68" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.52</span>),  <span class="co"># Adjust the x position of labels</span></span>
+<span id="cb9-69"><a href="profiles.html#cb9-69" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">c</span>(<span class="fl">0.98</span>, <span class="fl">0.98</span>),  <span class="co"># Adjust the y position of labels</span></span>
+<span id="cb9-70"><a href="profiles.html#cb9-70" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">15</span></span>
+<span id="cb9-71"><a href="profiles.html#cb9-71" tabindex="-1"></a>  )</span></code></pre></div>
+</details>
 <p><img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/unnamed-chunk-11-1.png" width="864" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="profiles.html#cb10-1" tabindex="-1"></a>sha_Mgn <span class="ot">&lt;-</span> shapviz<span class="sc">::</span><span class="fu">shapviz</span>(timor.nutrients<span class="sc">::</span>shap_results<span class="sc">$</span>model_timor_GN)</span>
+<span id="cb10-2"><a href="profiles.html#cb10-2" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="profiles.html#cb10-3" tabindex="-1"></a>annotation_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-4"><a href="profiles.html#cb10-4" tabindex="-1"></a>  <span class="at">profile =</span> <span class="st">&quot;FNP-3&quot;</span>,</span>
+<span id="cb10-5"><a href="profiles.html#cb10-5" tabindex="-1"></a>  <span class="at">x =</span> <span class="fl">0.175</span>,</span>
+<span id="cb10-6"><a href="profiles.html#cb10-6" tabindex="-1"></a>  <span class="at">y =</span> <span class="dv">120</span>,</span>
+<span id="cb10-7"><a href="profiles.html#cb10-7" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&#39;FNP-3 profile likelihood increases</span><span class="sc">\n</span><span class="st">with &lt;40mm mesh in pelagic and</span><span class="sc">\n</span><span class="st">mangrove areas, and 50.8mm mesh</span><span class="sc">\n</span><span class="st">in reef and FAD zones&#39;</span></span>
+<span id="cb10-8"><a href="profiles.html#cb10-8" tabindex="-1"></a>)</span>
+<span id="cb10-9"><a href="profiles.html#cb10-9" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="profiles.html#cb10-10" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> </span>
+<span id="cb10-11"><a href="profiles.html#cb10-11" tabindex="-1"></a>  sha_Mgn <span class="sc">%&gt;%</span></span>
+<span id="cb10-12"><a href="profiles.html#cb10-12" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(get_shaps, <span class="at">model_type =</span> <span class="st">&quot;gn&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-13"><a href="profiles.html#cb10-13" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">&quot;profile&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-14"><a href="profiles.html#cb10-14" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">profile =</span> stringr<span class="sc">::</span><span class="fu">str_replace</span>(profile, <span class="st">&quot;.pred_&quot;</span>, <span class="st">&quot;FNP-&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-15"><a href="profiles.html#cb10-15" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(profile, habitat_fact, mesh_fact) <span class="sc">%&gt;%</span></span>
+<span id="cb10-16"><a href="profiles.html#cb10-16" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">mesh_shap =</span> <span class="fu">median</span>(mesh_shap, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-17"><a href="profiles.html#cb10-17" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-18"><a href="profiles.html#cb10-18" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(mesh_shap <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-19"><a href="profiles.html#cb10-19" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">habitat_fact =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(habitat_fact <span class="sc">==</span> <span class="st">&quot;Deep&quot;</span> <span class="sc">~</span> <span class="st">&quot;Pelagic&quot;</span>, <span class="cn">TRUE</span> <span class="sc">~</span> habitat_fact)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-20"><a href="profiles.html#cb10-20" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(mesh_shap, mesh_fact, <span class="at">color =</span> habitat_fact)) <span class="sc">+</span></span>
+<span id="cb10-21"><a href="profiles.html#cb10-21" tabindex="-1"></a>  <span class="fu">facet_grid</span>(. <span class="sc">~</span> <span class="fu">factor</span>(profile, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;FNP-3&quot;</span>, <span class="st">&quot;FNP-1&quot;</span>, <span class="st">&quot;FNP-2&quot;</span>)), <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-22"><a href="profiles.html#cb10-22" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">alpha =</span> <span class="fu">sqrt</span>(mesh_shap), <span class="at">size =</span> mesh_shap)) <span class="sc">+</span></span>
+<span id="cb10-23"><a href="profiles.html#cb10-23" tabindex="-1"></a>  ggpubr<span class="sc">::</span><span class="fu">theme_pubr</span>(<span class="at">border =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb10-24"><a href="profiles.html#cb10-24" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#f28f3b&quot;</span>, <span class="st">&quot;#c27ba0&quot;</span>, <span class="st">&quot;#ffd5c2&quot;</span>, <span class="st">&quot;#588b8b&quot;</span>, <span class="st">&quot;#c8553d&quot;</span>, <span class="st">&quot;#2d3047&quot;</span>, <span class="st">&quot;#007ea7&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb10-25"><a href="profiles.html#cb10-25" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">coord_cartesian</span>(<span class="at">expand =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb10-26"><a href="profiles.html#cb10-26" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_reverse</span>(<span class="at">n.breaks =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb10-27"><a href="profiles.html#cb10-27" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Habitat&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-28"><a href="profiles.html#cb10-28" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb10-29"><a href="profiles.html#cb10-29" tabindex="-1"></a>    <span class="at">panel.grid =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb10-30"><a href="profiles.html#cb10-30" tabindex="-1"></a>    <span class="at">strip.background =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb10-31"><a href="profiles.html#cb10-31" tabindex="-1"></a>    <span class="at">strip.text.x =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb10-32"><a href="profiles.html#cb10-32" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-33"><a href="profiles.html#cb10-33" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">guides</span>(</span>
+<span id="cb10-34"><a href="profiles.html#cb10-34" tabindex="-1"></a>    <span class="at">color =</span> ggplot2<span class="sc">::</span><span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">3</span>)),</span>
+<span id="cb10-35"><a href="profiles.html#cb10-35" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb10-36"><a href="profiles.html#cb10-36" tabindex="-1"></a>    <span class="at">size =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb10-37"><a href="profiles.html#cb10-37" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-38"><a href="profiles.html#cb10-38" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_text</span>(</span>
+<span id="cb10-39"><a href="profiles.html#cb10-39" tabindex="-1"></a>    <span class="at">data =</span> annotation_data,</span>
+<span id="cb10-40"><a href="profiles.html#cb10-40" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> label),</span>
+<span id="cb10-41"><a href="profiles.html#cb10-41" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb10-42"><a href="profiles.html#cb10-42" tabindex="-1"></a>    <span class="at">fontface =</span> <span class="st">&quot;plain&quot;</span>,</span>
+<span id="cb10-43"><a href="profiles.html#cb10-43" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-44"><a href="profiles.html#cb10-44" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-45"><a href="profiles.html#cb10-45" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_rect</span>(</span>
+<span id="cb10-46"><a href="profiles.html#cb10-46" tabindex="-1"></a>    <span class="at">data =</span> annotation_data,</span>
+<span id="cb10-47"><a href="profiles.html#cb10-47" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xmin =</span> <span class="fl">0.27</span>, <span class="at">xmax =</span> <span class="fl">0.36</span>, <span class="at">ymin =</span> <span class="dv">19</span>, <span class="at">ymax =</span> <span class="dv">57</span>),</span>
+<span id="cb10-48"><a href="profiles.html#cb10-48" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb10-49"><a href="profiles.html#cb10-49" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.2</span>,</span>
+<span id="cb10-50"><a href="profiles.html#cb10-50" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb10-51"><a href="profiles.html#cb10-51" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-52"><a href="profiles.html#cb10-52" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span></span>
+<span id="cb10-53"><a href="profiles.html#cb10-53" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-54"><a href="profiles.html#cb10-54" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_curve</span>(</span>
+<span id="cb10-55"><a href="profiles.html#cb10-55" tabindex="-1"></a>    <span class="at">data =</span> annotation_data,</span>
+<span id="cb10-56"><a href="profiles.html#cb10-56" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">0.32</span>, <span class="at">y =</span> <span class="dv">60</span>, <span class="at">xend =</span> <span class="fl">0.29</span>, <span class="at">yend =</span> <span class="dv">90</span>),</span>
+<span id="cb10-57"><a href="profiles.html#cb10-57" tabindex="-1"></a>    <span class="at">curvature =</span> <span class="sc">-</span><span class="fl">0.1</span>,</span>
+<span id="cb10-58"><a href="profiles.html#cb10-58" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&#39;black&#39;</span>,</span>
+<span id="cb10-59"><a href="profiles.html#cb10-59" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.4</span>,</span>
+<span id="cb10-60"><a href="profiles.html#cb10-60" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.4</span>, <span class="st">&#39;cm&#39;</span>)),</span>
+<span id="cb10-61"><a href="profiles.html#cb10-61" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-62"><a href="profiles.html#cb10-62" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-63"><a href="profiles.html#cb10-63" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb10-64"><a href="profiles.html#cb10-64" tabindex="-1"></a></span>
+<span id="cb10-65"><a href="profiles.html#cb10-65" tabindex="-1"></a></span>
+<span id="cb10-66"><a href="profiles.html#cb10-66" tabindex="-1"></a>leg <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">get_legend</span>(p2 <span class="sc">+</span></span>
+<span id="cb10-67"><a href="profiles.html#cb10-67" tabindex="-1"></a>                             ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb10-68"><a href="profiles.html#cb10-68" tabindex="-1"></a>                               <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.9</span>), <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb10-69"><a href="profiles.html#cb10-69" tabindex="-1"></a>                               <span class="co"># legend.title = ggplot2::element_text(size = 11),</span></span>
+<span id="cb10-70"><a href="profiles.html#cb10-70" tabindex="-1"></a>                               <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb10-71"><a href="profiles.html#cb10-71" tabindex="-1"></a>                               <span class="at">legend.direction =</span> <span class="st">&quot;vertical&quot;</span>,</span>
+<span id="cb10-72"><a href="profiles.html#cb10-72" tabindex="-1"></a>                               <span class="at">legend.justification =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb10-73"><a href="profiles.html#cb10-73" tabindex="-1"></a>                               <span class="at">legend.box.just =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb10-74"><a href="profiles.html#cb10-74" tabindex="-1"></a>                               <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;transparent&quot;</span>, <span class="at">colour =</span> <span class="cn">NA</span>),</span>
+<span id="cb10-75"><a href="profiles.html#cb10-75" tabindex="-1"></a>                               <span class="at">legend.box.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;transparent&quot;</span>, <span class="at">colour =</span> <span class="cn">NA</span>)</span>
+<span id="cb10-76"><a href="profiles.html#cb10-76" tabindex="-1"></a>                             ))</span>
+<span id="cb10-77"><a href="profiles.html#cb10-77" tabindex="-1"></a></span>
+<span id="cb10-78"><a href="profiles.html#cb10-78" tabindex="-1"></a>base_plot <span class="ot">&lt;-</span></span>
+<span id="cb10-79"><a href="profiles.html#cb10-79" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb10-80"><a href="profiles.html#cb10-80" tabindex="-1"></a>    p2 <span class="sc">+</span> <span class="fu">theme</span>(</span>
+<span id="cb10-81"><a href="profiles.html#cb10-81" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb10-82"><a href="profiles.html#cb10-82" tabindex="-1"></a>      <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.9</span>), <span class="st">&quot;cm&quot;</span>)</span>
+<span id="cb10-83"><a href="profiles.html#cb10-83" tabindex="-1"></a>    ),</span>
+<span id="cb10-84"><a href="profiles.html#cb10-84" tabindex="-1"></a>    <span class="at">ncol =</span> <span class="dv">1</span>,</span>
+<span id="cb10-85"><a href="profiles.html#cb10-85" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb10-86"><a href="profiles.html#cb10-86" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">3.5</span>,</span>
+<span id="cb10-87"><a href="profiles.html#cb10-87" tabindex="-1"></a>    <span class="at">vjust =</span> <span class="fl">1.2</span>,</span>
+<span id="cb10-88"><a href="profiles.html#cb10-88" tabindex="-1"></a>    <span class="at">align =</span> <span class="st">&quot;v&quot;</span></span>
+<span id="cb10-89"><a href="profiles.html#cb10-89" tabindex="-1"></a>  )</span>
+<span id="cb10-90"><a href="profiles.html#cb10-90" tabindex="-1"></a></span>
+<span id="cb10-91"><a href="profiles.html#cb10-91" tabindex="-1"></a>grid <span class="ot">&lt;-</span></span>
+<span id="cb10-92"><a href="profiles.html#cb10-92" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb10-93"><a href="profiles.html#cb10-93" tabindex="-1"></a>    base_plot,</span>
+<span id="cb10-94"><a href="profiles.html#cb10-94" tabindex="-1"></a>    <span class="at">nrow =</span> <span class="dv">1</span></span>
+<span id="cb10-95"><a href="profiles.html#cb10-95" tabindex="-1"></a>  )</span>
+<span id="cb10-96"><a href="profiles.html#cb10-96" tabindex="-1"></a></span>
+<span id="cb10-97"><a href="profiles.html#cb10-97" tabindex="-1"></a>pp1 <span class="ot">&lt;-</span></span>
+<span id="cb10-98"><a href="profiles.html#cb10-98" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">ggdraw</span>() <span class="sc">+</span></span>
+<span id="cb10-99"><a href="profiles.html#cb10-99" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">draw_plot</span>(grid) <span class="sc">+</span></span>
+<span id="cb10-100"><a href="profiles.html#cb10-100" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">draw_label</span>(<span class="st">&quot;Mesh size (mm)&quot;</span>, <span class="at">x =</span> <span class="fl">0.03</span>, <span class="at">y =</span> <span class="fl">0.7</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">12</span>)</span>
+<span id="cb10-101"><a href="profiles.html#cb10-101" tabindex="-1"></a></span>
+<span id="cb10-102"><a href="profiles.html#cb10-102" tabindex="-1"></a>sha_Mag <span class="ot">&lt;-</span> shapviz<span class="sc">::</span><span class="fu">shapviz</span>(timor.nutrients<span class="sc">::</span>shap_results<span class="sc">$</span>model_timor_AG)</span>
+<span id="cb10-103"><a href="profiles.html#cb10-103" tabindex="-1"></a></span>
+<span id="cb10-104"><a href="profiles.html#cb10-104" tabindex="-1"></a>process_shap <span class="ot">&lt;-</span></span>
+<span id="cb10-105"><a href="profiles.html#cb10-105" tabindex="-1"></a>  sha_Mag <span class="sc">%&gt;%</span></span>
+<span id="cb10-106"><a href="profiles.html#cb10-106" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(get_shaps, <span class="at">model_type =</span> <span class="st">&quot;ag&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-107"><a href="profiles.html#cb10-107" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">&quot;profile&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-108"><a href="profiles.html#cb10-108" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate</span>(habitat_gear_fact, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;habitat&quot;</span>, <span class="st">&quot;gear_fact&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-109"><a href="profiles.html#cb10-109" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb10-110"><a href="profiles.html#cb10-110" tabindex="-1"></a>    <span class="at">gear_fact =</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(gear_fact),</span>
+<span id="cb10-111"><a href="profiles.html#cb10-111" tabindex="-1"></a>    <span class="at">profile =</span> stringr<span class="sc">::</span><span class="fu">str_replace</span>(profile, <span class="st">&quot;.pred_&quot;</span>, <span class="st">&quot;FNP-&quot;</span>),</span>
+<span id="cb10-112"><a href="profiles.html#cb10-112" tabindex="-1"></a>    <span class="at">habitat_gear_fact =</span> <span class="fu">paste0</span>(habitat, <span class="st">&quot; x &quot;</span>, gear_fact),</span>
+<span id="cb10-113"><a href="profiles.html#cb10-113" tabindex="-1"></a>    <span class="at">habitat_gear_fact =</span> stringr<span class="sc">::</span><span class="fu">str_replace</span>(habitat_gear_fact, <span class="st">&quot;Deep&quot;</span>, <span class="st">&quot;Pelagic&quot;</span>)</span>
+<span id="cb10-114"><a href="profiles.html#cb10-114" tabindex="-1"></a>  )</span>
+<span id="cb10-115"><a href="profiles.html#cb10-115" tabindex="-1"></a></span>
+<span id="cb10-116"><a href="profiles.html#cb10-116" tabindex="-1"></a>to_group <span class="ot">&lt;-</span></span>
+<span id="cb10-117"><a href="profiles.html#cb10-117" tabindex="-1"></a>  process_shap <span class="sc">%&gt;%</span></span>
+<span id="cb10-118"><a href="profiles.html#cb10-118" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb10-119"><a href="profiles.html#cb10-119" tabindex="-1"></a>    <span class="at">zero_dist =</span> <span class="dv">0</span> <span class="sc">-</span> <span class="fu">abs</span>(gear_fact_shap)</span>
+<span id="cb10-120"><a href="profiles.html#cb10-120" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb10-121"><a href="profiles.html#cb10-121" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(gear_fact) <span class="sc">%&gt;%</span></span>
+<span id="cb10-122"><a href="profiles.html#cb10-122" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">zero_dist =</span> <span class="fu">mean</span>(zero_dist)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-123"><a href="profiles.html#cb10-123" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">slice_max</span>(<span class="at">order_by =</span> zero_dist, <span class="at">n =</span> <span class="dv">15</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-124"><a href="profiles.html#cb10-124" tabindex="-1"></a>  magrittr<span class="sc">::</span><span class="fu">extract2</span>(<span class="st">&quot;gear_fact&quot;</span>)</span>
+<span id="cb10-125"><a href="profiles.html#cb10-125" tabindex="-1"></a></span>
+<span id="cb10-126"><a href="profiles.html#cb10-126" tabindex="-1"></a>annotation_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-127"><a href="profiles.html#cb10-127" tabindex="-1"></a>  <span class="at">profile =</span> <span class="st">&quot;FNP-2&quot;</span>,</span>
+<span id="cb10-128"><a href="profiles.html#cb10-128" tabindex="-1"></a>  <span class="at">x =</span> <span class="fl">0.171</span>,</span>
+<span id="cb10-129"><a href="profiles.html#cb10-129" tabindex="-1"></a>  <span class="at">y =</span> <span class="fl">5.3</span>,</span>
+<span id="cb10-130"><a href="profiles.html#cb10-130" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&#39;Long lines in pelagic, FADs</span><span class="sc">\n</span><span class="st">and magroves areas boost chances</span><span class="sc">\n</span><span class="st">of obtaining FNP-2 profile&#39;</span></span>
+<span id="cb10-131"><a href="profiles.html#cb10-131" tabindex="-1"></a>)</span>
+<span id="cb10-132"><a href="profiles.html#cb10-132" tabindex="-1"></a></span>
+<span id="cb10-133"><a href="profiles.html#cb10-133" tabindex="-1"></a>p2 <span class="ot">&lt;-</span></span>
+<span id="cb10-134"><a href="profiles.html#cb10-134" tabindex="-1"></a>  process_shap <span class="sc">%&gt;%</span></span>
+<span id="cb10-135"><a href="profiles.html#cb10-135" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">gear_fact_shap =</span> <span class="fu">ifelse</span>(gear_fact_shap <span class="sc">%in%</span> to_group, <span class="st">&quot;Others&quot;</span>, gear_fact_shap)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-136"><a href="profiles.html#cb10-136" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(profile, gear_fact, habitat_fact) <span class="sc">%&gt;%</span></span>
+<span id="cb10-137"><a href="profiles.html#cb10-137" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">gear_fact_shap =</span> <span class="fu">median</span>(gear_fact_shap, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-138"><a href="profiles.html#cb10-138" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-139"><a href="profiles.html#cb10-139" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(gear_fact_shap <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-140"><a href="profiles.html#cb10-140" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">habitat_fact =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(habitat_fact <span class="sc">==</span> <span class="st">&quot;Deep&quot;</span> <span class="sc">~</span> <span class="st">&quot;Pelagic&quot;</span>, <span class="cn">TRUE</span> <span class="sc">~</span> habitat_fact)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-141"><a href="profiles.html#cb10-141" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(gear_fact_shap, gear_fact, <span class="at">color =</span> habitat_fact)) <span class="sc">+</span></span>
+<span id="cb10-142"><a href="profiles.html#cb10-142" tabindex="-1"></a>  <span class="fu">facet_grid</span>(. <span class="sc">~</span> profile, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-143"><a href="profiles.html#cb10-143" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">alpha =</span> <span class="fu">sqrt</span>(gear_fact_shap), <span class="at">size =</span> gear_fact_shap)) <span class="sc">+</span></span>
+<span id="cb10-144"><a href="profiles.html#cb10-144" tabindex="-1"></a>  ggpubr<span class="sc">::</span><span class="fu">theme_pubr</span>(<span class="at">border =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb10-145"><a href="profiles.html#cb10-145" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#f28f3b&quot;</span>, <span class="st">&quot;#c27ba0&quot;</span>, <span class="st">&quot;#ffd5c2&quot;</span>, <span class="st">&quot;#588b8b&quot;</span>, <span class="st">&quot;#c8553d&quot;</span>, <span class="st">&quot;#2d3047&quot;</span>, <span class="st">&quot;#007ea7&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb10-146"><a href="profiles.html#cb10-146" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">coord_cartesian</span>(<span class="at">expand =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb10-147"><a href="profiles.html#cb10-147" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_x_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb10-148"><a href="profiles.html#cb10-148" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Habitat&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-149"><a href="profiles.html#cb10-149" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb10-150"><a href="profiles.html#cb10-150" tabindex="-1"></a>    <span class="at">panel.grid =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb10-151"><a href="profiles.html#cb10-151" tabindex="-1"></a>    <span class="at">strip.background =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb10-152"><a href="profiles.html#cb10-152" tabindex="-1"></a>    <span class="at">strip.text.x =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb10-153"><a href="profiles.html#cb10-153" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-154"><a href="profiles.html#cb10-154" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_text</span>(</span>
+<span id="cb10-155"><a href="profiles.html#cb10-155" tabindex="-1"></a>    <span class="at">data =</span> annotation_data,</span>
+<span id="cb10-156"><a href="profiles.html#cb10-156" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> label),</span>
+<span id="cb10-157"><a href="profiles.html#cb10-157" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb10-158"><a href="profiles.html#cb10-158" tabindex="-1"></a>    <span class="at">fontface =</span> <span class="st">&quot;plain&quot;</span>,</span>
+<span id="cb10-159"><a href="profiles.html#cb10-159" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-160"><a href="profiles.html#cb10-160" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-161"><a href="profiles.html#cb10-161" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_curve</span>(</span>
+<span id="cb10-162"><a href="profiles.html#cb10-162" tabindex="-1"></a>    <span class="at">data =</span> annotation_data,</span>
+<span id="cb10-163"><a href="profiles.html#cb10-163" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">0.174</span>, <span class="at">y =</span> <span class="dv">3</span>, <span class="at">xend =</span> <span class="fl">0.172</span>, <span class="at">yend =</span> <span class="fl">4.2</span>),</span>
+<span id="cb10-164"><a href="profiles.html#cb10-164" tabindex="-1"></a>    <span class="at">curvature =</span> <span class="sc">-</span><span class="fl">0.2</span>,</span>
+<span id="cb10-165"><a href="profiles.html#cb10-165" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&#39;black&#39;</span>,</span>
+<span id="cb10-166"><a href="profiles.html#cb10-166" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.4</span>,</span>
+<span id="cb10-167"><a href="profiles.html#cb10-167" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.4</span>, <span class="st">&#39;cm&#39;</span>)),</span>
+<span id="cb10-168"><a href="profiles.html#cb10-168" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-169"><a href="profiles.html#cb10-169" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-170"><a href="profiles.html#cb10-170" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_rect</span>(</span>
+<span id="cb10-171"><a href="profiles.html#cb10-171" tabindex="-1"></a>    <span class="at">data =</span> annotation_data,</span>
+<span id="cb10-172"><a href="profiles.html#cb10-172" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xmin =</span> <span class="fl">0.1745</span>, <span class="at">xmax =</span> <span class="fl">0.178</span>, <span class="at">ymin =</span> <span class="fl">2.5</span>, <span class="at">ymax =</span> <span class="fl">3.5</span>),</span>
+<span id="cb10-173"><a href="profiles.html#cb10-173" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb10-174"><a href="profiles.html#cb10-174" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.2</span>,</span>
+<span id="cb10-175"><a href="profiles.html#cb10-175" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb10-176"><a href="profiles.html#cb10-176" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-177"><a href="profiles.html#cb10-177" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span></span>
+<span id="cb10-178"><a href="profiles.html#cb10-178" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-179"><a href="profiles.html#cb10-179" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">guides</span>(</span>
+<span id="cb10-180"><a href="profiles.html#cb10-180" tabindex="-1"></a>    <span class="at">color =</span> ggplot2<span class="sc">::</span><span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">3</span>)),</span>
+<span id="cb10-181"><a href="profiles.html#cb10-181" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb10-182"><a href="profiles.html#cb10-182" tabindex="-1"></a>    <span class="at">size =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb10-183"><a href="profiles.html#cb10-183" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-184"><a href="profiles.html#cb10-184" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb10-185"><a href="profiles.html#cb10-185" tabindex="-1"></a></span>
+<span id="cb10-186"><a href="profiles.html#cb10-186" tabindex="-1"></a>leg <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">get_legend</span>(p2 <span class="sc">+</span></span>
+<span id="cb10-187"><a href="profiles.html#cb10-187" tabindex="-1"></a>                             ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb10-188"><a href="profiles.html#cb10-188" tabindex="-1"></a>                               <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.9</span>), <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb10-189"><a href="profiles.html#cb10-189" tabindex="-1"></a>                               <span class="co"># legend.title = ggplot2::element_text(size = 11),</span></span>
+<span id="cb10-190"><a href="profiles.html#cb10-190" tabindex="-1"></a>                               <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb10-191"><a href="profiles.html#cb10-191" tabindex="-1"></a>                               <span class="at">legend.direction =</span> <span class="st">&quot;vertical&quot;</span>,</span>
+<span id="cb10-192"><a href="profiles.html#cb10-192" tabindex="-1"></a>                               <span class="at">legend.justification =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb10-193"><a href="profiles.html#cb10-193" tabindex="-1"></a>                               <span class="at">legend.box.just =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb10-194"><a href="profiles.html#cb10-194" tabindex="-1"></a>                               <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;transparent&quot;</span>, <span class="at">colour =</span> <span class="cn">NA</span>),</span>
+<span id="cb10-195"><a href="profiles.html#cb10-195" tabindex="-1"></a>                               <span class="at">legend.box.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;transparent&quot;</span>, <span class="at">colour =</span> <span class="cn">NA</span>)</span>
+<span id="cb10-196"><a href="profiles.html#cb10-196" tabindex="-1"></a>                             ))</span>
+<span id="cb10-197"><a href="profiles.html#cb10-197" tabindex="-1"></a></span>
+<span id="cb10-198"><a href="profiles.html#cb10-198" tabindex="-1"></a>base_plot <span class="ot">&lt;-</span></span>
+<span id="cb10-199"><a href="profiles.html#cb10-199" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb10-200"><a href="profiles.html#cb10-200" tabindex="-1"></a>    p2 <span class="sc">+</span> <span class="fu">theme</span>(</span>
+<span id="cb10-201"><a href="profiles.html#cb10-201" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb10-202"><a href="profiles.html#cb10-202" tabindex="-1"></a>      <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.9</span>), <span class="st">&quot;cm&quot;</span>)</span>
+<span id="cb10-203"><a href="profiles.html#cb10-203" tabindex="-1"></a>    ),</span>
+<span id="cb10-204"><a href="profiles.html#cb10-204" tabindex="-1"></a>    <span class="at">ncol =</span> <span class="dv">1</span>,</span>
+<span id="cb10-205"><a href="profiles.html#cb10-205" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
+<span id="cb10-206"><a href="profiles.html#cb10-206" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">3.5</span>,</span>
+<span id="cb10-207"><a href="profiles.html#cb10-207" tabindex="-1"></a>    <span class="at">vjust =</span> <span class="fl">1.2</span>,</span>
+<span id="cb10-208"><a href="profiles.html#cb10-208" tabindex="-1"></a>    <span class="at">align =</span> <span class="st">&quot;v&quot;</span></span>
+<span id="cb10-209"><a href="profiles.html#cb10-209" tabindex="-1"></a>  )</span>
+<span id="cb10-210"><a href="profiles.html#cb10-210" tabindex="-1"></a></span>
+<span id="cb10-211"><a href="profiles.html#cb10-211" tabindex="-1"></a>grid <span class="ot">&lt;-</span></span>
+<span id="cb10-212"><a href="profiles.html#cb10-212" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb10-213"><a href="profiles.html#cb10-213" tabindex="-1"></a>    base_plot,</span>
+<span id="cb10-214"><a href="profiles.html#cb10-214" tabindex="-1"></a>    <span class="at">nrow =</span> <span class="dv">1</span></span>
+<span id="cb10-215"><a href="profiles.html#cb10-215" tabindex="-1"></a>  )</span>
+<span id="cb10-216"><a href="profiles.html#cb10-216" tabindex="-1"></a></span>
+<span id="cb10-217"><a href="profiles.html#cb10-217" tabindex="-1"></a>pp2 <span class="ot">&lt;-</span></span>
+<span id="cb10-218"><a href="profiles.html#cb10-218" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">ggdraw</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">05</span>, <span class="cn">NA</span>)) <span class="sc">+</span></span>
+<span id="cb10-219"><a href="profiles.html#cb10-219" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">draw_plot</span>(grid) <span class="sc">+</span></span>
+<span id="cb10-220"><a href="profiles.html#cb10-220" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">draw_label</span>(<span class="st">&quot;Gear type&quot;</span>, <span class="at">x =</span> <span class="fl">0.03</span>, <span class="at">y =</span> <span class="fl">0.7</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb10-221"><a href="profiles.html#cb10-221" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">draw_label</span>(<span class="st">&quot;Impact on model output (SHAP value)&quot;</span>, <span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">12</span>)</span>
+<span id="cb10-222"><a href="profiles.html#cb10-222" tabindex="-1"></a></span>
+<span id="cb10-223"><a href="profiles.html#cb10-223" tabindex="-1"></a><span class="co"># Extract the shared legend with larger text and key sizes</span></span>
+<span id="cb10-224"><a href="profiles.html#cb10-224" tabindex="-1"></a>shared_legend <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">get_legend</span>(</span>
+<span id="cb10-225"><a href="profiles.html#cb10-225" tabindex="-1"></a>  p2 <span class="sc">+</span></span>
+<span id="cb10-226"><a href="profiles.html#cb10-226" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb10-227"><a href="profiles.html#cb10-227" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,                <span class="co"># Position the legend on the right</span></span>
+<span id="cb10-228"><a href="profiles.html#cb10-228" tabindex="-1"></a>      <span class="at">legend.direction =</span> <span class="st">&quot;vertical&quot;</span>,           <span class="co"># Vertical orientation</span></span>
+<span id="cb10-229"><a href="profiles.html#cb10-229" tabindex="-1"></a>      <span class="at">legend.justification =</span> <span class="st">&quot;center&quot;</span>,</span>
+<span id="cb10-230"><a href="profiles.html#cb10-230" tabindex="-1"></a>      <span class="at">legend.box.just =</span> <span class="st">&quot;center&quot;</span>,</span>
+<span id="cb10-231"><a href="profiles.html#cb10-231" tabindex="-1"></a>      <span class="at">legend.text =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),  <span class="co"># Increase text size</span></span>
+<span id="cb10-232"><a href="profiles.html#cb10-232" tabindex="-1"></a>      <span class="at">legend.title =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), <span class="co"># Increase title size</span></span>
+<span id="cb10-233"><a href="profiles.html#cb10-233" tabindex="-1"></a>      <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">1.5</span>, <span class="st">&quot;lines&quot;</span>),    <span class="co"># Increase legend key size</span></span>
+<span id="cb10-234"><a href="profiles.html#cb10-234" tabindex="-1"></a>      <span class="at">legend.background =</span> ggplot2<span class="sc">::</span><span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;transparent&quot;</span>, <span class="at">colour =</span> <span class="cn">NA</span>),</span>
+<span id="cb10-235"><a href="profiles.html#cb10-235" tabindex="-1"></a>      <span class="at">legend.box.background =</span> ggplot2<span class="sc">::</span><span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;transparent&quot;</span>, <span class="at">colour =</span> <span class="cn">NA</span>)</span>
+<span id="cb10-236"><a href="profiles.html#cb10-236" tabindex="-1"></a>    )</span>
+<span id="cb10-237"><a href="profiles.html#cb10-237" tabindex="-1"></a>)</span>
+<span id="cb10-238"><a href="profiles.html#cb10-238" tabindex="-1"></a></span>
+<span id="cb10-239"><a href="profiles.html#cb10-239" tabindex="-1"></a><span class="co"># Remove legends from individual plots</span></span>
+<span id="cb10-240"><a href="profiles.html#cb10-240" tabindex="-1"></a>pp1_no_legend <span class="ot">&lt;-</span> </span>
+<span id="cb10-241"><a href="profiles.html#cb10-241" tabindex="-1"></a>  pp1 <span class="sc">+</span> </span>
+<span id="cb10-242"><a href="profiles.html#cb10-242" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb10-243"><a href="profiles.html#cb10-243" tabindex="-1"></a></span>
+<span id="cb10-244"><a href="profiles.html#cb10-244" tabindex="-1"></a>pp2_no_legend <span class="ot">&lt;-</span> </span>
+<span id="cb10-245"><a href="profiles.html#cb10-245" tabindex="-1"></a>  pp2 <span class="sc">+</span> </span>
+<span id="cb10-246"><a href="profiles.html#cb10-246" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb10-247"><a href="profiles.html#cb10-247" tabindex="-1"></a></span>
+<span id="cb10-248"><a href="profiles.html#cb10-248" tabindex="-1"></a><span class="co"># Combine the two plots vertically without legends</span></span>
+<span id="cb10-249"><a href="profiles.html#cb10-249" tabindex="-1"></a>plots_combined <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb10-250"><a href="profiles.html#cb10-250" tabindex="-1"></a>  pp1_no_legend,</span>
+<span id="cb10-251"><a href="profiles.html#cb10-251" tabindex="-1"></a>  pp2_no_legend,</span>
+<span id="cb10-252"><a href="profiles.html#cb10-252" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">&quot;v&quot;</span>,          <span class="co"># Align the plots vertically</span></span>
+<span id="cb10-253"><a href="profiles.html#cb10-253" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">1</span>,             <span class="co"># Stack in one column</span></span>
+<span id="cb10-254"><a href="profiles.html#cb10-254" tabindex="-1"></a>  <span class="at">rel_heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>) <span class="co"># Adjust heights if necessary</span></span>
+<span id="cb10-255"><a href="profiles.html#cb10-255" tabindex="-1"></a>)</span>
+<span id="cb10-256"><a href="profiles.html#cb10-256" tabindex="-1"></a></span>
+<span id="cb10-257"><a href="profiles.html#cb10-257" tabindex="-1"></a><span class="co"># Add the shared legend to the right</span></span>
+<span id="cb10-258"><a href="profiles.html#cb10-258" tabindex="-1"></a>final_plot <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb10-259"><a href="profiles.html#cb10-259" tabindex="-1"></a>  plots_combined,</span>
+<span id="cb10-260"><a href="profiles.html#cb10-260" tabindex="-1"></a>  shared_legend,</span>
+<span id="cb10-261"><a href="profiles.html#cb10-261" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">2</span>,             <span class="co"># Add legend to the right of the plots</span></span>
+<span id="cb10-262"><a href="profiles.html#cb10-262" tabindex="-1"></a>  <span class="at">rel_widths =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="fl">0.5</span>) <span class="co"># Adjust widths for the plots and legend</span></span>
+<span id="cb10-263"><a href="profiles.html#cb10-263" tabindex="-1"></a>)</span>
+<span id="cb10-264"><a href="profiles.html#cb10-264" tabindex="-1"></a></span>
+<span id="cb10-265"><a href="profiles.html#cb10-265" tabindex="-1"></a><span class="co"># Display the final plot</span></span>
+<span id="cb10-266"><a href="profiles.html#cb10-266" tabindex="-1"></a><span class="fu">print</span>(final_plot)</span></code></pre></div>
+</details>
 <p><img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/unnamed-chunk-12-1.png" width="960" /></p>
 
-</div>
-</div>
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="distribution.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="distribution.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

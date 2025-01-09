@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3 Nutrients distribution | Modelling scenarios for nutrient-sensitive fisheries management</title>
-  <meta name="description" content="3 Nutrients distribution | Modelling scenarios for nutrient-sensitive fisheries management" />
+  <title>3 Nutritional contribution and economic profiling | Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management</title>
+  <meta name="description" content="3 Nutritional contribution and economic profiling | Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management" />
   <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3 Nutrients distribution | Modelling scenarios for nutrient-sensitive fisheries management" />
+  <meta property="og:title" content="3 Nutritional contribution and economic profiling | Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="WorldFishCenter/timor.nutrients" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3 Nutrients distribution | Modelling scenarios for nutrient-sensitive fisheries management" />
+  <meta name="twitter:title" content="3 Nutritional contribution and economic profiling | Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management" />
   
   
   
@@ -48,6 +48,7 @@
 
 
 
+<link href="libs/codefolding-lua-1.1/codefolding-lua.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -61,6 +62,70 @@
 <script src="libs/reactable-binding-0.4.4/reactable.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
   
@@ -84,24 +149,9 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Content</a></li>
-<li class="chapter" data-level="2" data-path="highlight.html"><a href="highlight.html"><i class="fa fa-check"></i><b>2</b> Highlight statistics</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="highlight.html"><a href="highlight.html#timor-est-ssf-nutritional-scenario"><i class="fa fa-check"></i><b>2.1</b> Timor-Est SSF nutritional scenario</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="distribution.html"><a href="distribution.html"><i class="fa fa-check"></i><b>3</b> Nutrients distribution</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="distribution.html"><a href="distribution.html#fish-groups"><i class="fa fa-check"></i><b>3.1</b> Fish groups</a></li>
-<li class="chapter" data-level="3.2" data-path="distribution.html"><a href="distribution.html#habitat-and-gear-type"><i class="fa fa-check"></i><b>3.2</b> Habitat and gear type</a></li>
-<li class="chapter" data-level="3.3" data-path="distribution.html"><a href="distribution.html#nutritional-contribution-and-economic-profiling"><i class="fa fa-check"></i><b>3.3</b> Nutritional contribution and economic profiling</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="profiles.html"><a href="profiles.html"><i class="fa fa-check"></i><b>4</b> Timor SSF nutritional profiles</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="profiles.html"><a href="profiles.html#methods"><i class="fa fa-check"></i><b>4.1</b> Methods</a>
-<ul>
-<li class="chapter" data-level="4.1.1" data-path="profiles.html"><a href="profiles.html#xgboost-model-performance"><i class="fa fa-check"></i><b>4.1.1</b> XGBoost model performance</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="2" data-path="highlight.html"><a href="highlight.html"><i class="fa fa-check"></i><b>2</b> Timor-Est nutritional maps</a></li>
+<li class="chapter" data-level="3" data-path="distribution.html"><a href="distribution.html"><i class="fa fa-check"></i><b>3</b> Nutritional contribution and economic profiling</a></li>
+<li class="chapter" data-level="4" data-path="profiles.html"><a href="profiles.html"><i class="fa fa-check"></i><b>4</b> Nutritional profiles</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/WorldFishCenter/timor.nutrients" target="blank">GitHub</a></li>
 
@@ -114,7 +164,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Modelling scenarios for nutrient-sensitive fisheries management</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management</a>
           </h1>
         </div>
 
@@ -123,25 +173,653 @@
 
             <section class="normal" id="section-">
 <div id="distribution" class="section level1 hasAnchor" number="3">
-<h1><span class="header-section-number">3</span> Nutrients distribution<a href="distribution.html#distribution" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="fish-groups" class="section level2 hasAnchor" number="3.1">
-<h2><span class="header-section-number">3.1</span> Fish groups<a href="distribution.html#fish-groups" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-3"></span>
-<img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/unnamed-chunk-3-1.png" alt="To define" width="892.8" />
-<p class="caption">
-Figure 3.1: To define
-</p>
-</div>
-</div>
-<div id="habitat-and-gear-type" class="section level2 hasAnchor" number="3.2">
-<h2><span class="header-section-number">3.2</span> Habitat and gear type<a href="distribution.html#habitat-and-gear-type" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-</div>
-<div id="nutritional-contribution-and-economic-profiling" class="section level2 hasAnchor" number="3.3">
-<h2><span class="header-section-number">3.3</span> Nutritional contribution and economic profiling<a href="distribution.html#nutritional-contribution-and-economic-profiling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
+<h1><span class="header-section-number">3</span> Nutritional contribution and economic profiling<a href="distribution.html#distribution" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="distribution.html#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="distribution.html#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="distribution.html#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="distribution.html#cb2-4" tabindex="-1"></a>catch_groups_name <span class="ot">&lt;-</span></span>
+<span id="cb2-5"><a href="distribution.html#cb2-5" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>catch_groups <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="distribution.html#cb2-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb2-7"><a href="distribution.html#cb2-7" tabindex="-1"></a>    <span class="at">grouped_taxa =</span> interagency_code,</span>
+<span id="cb2-8"><a href="distribution.html#cb2-8" tabindex="-1"></a>    catch_name</span>
+<span id="cb2-9"><a href="distribution.html#cb2-9" tabindex="-1"></a>  )</span>
+<span id="cb2-10"><a href="distribution.html#cb2-10" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="distribution.html#cb2-11" tabindex="-1"></a>tot_catch <span class="ot">&lt;-</span></span>
+<span id="cb2-12"><a href="distribution.html#cb2-12" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>region_stats <span class="sc">%&gt;%</span></span>
+<span id="cb2-13"><a href="distribution.html#cb2-13" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date_bin_start)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-14"><a href="distribution.html#cb2-14" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(grouped_taxa, year) <span class="sc">%&gt;%</span></span>
+<span id="cb2-15"><a href="distribution.html#cb2-15" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">catch =</span> <span class="fu">sum</span>(catch)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-16"><a href="distribution.html#cb2-16" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(grouped_taxa) <span class="sc">%&gt;%</span></span>
+<span id="cb2-17"><a href="distribution.html#cb2-17" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">catch =</span> <span class="fu">mean</span>(catch)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-18"><a href="distribution.html#cb2-18" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(catch_groups_name) <span class="sc">%&gt;%</span></span>
+<span id="cb2-19"><a href="distribution.html#cb2-19" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>grouped_taxa) <span class="sc">%&gt;%</span></span>
+<span id="cb2-20"><a href="distribution.html#cb2-20" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(catch_name, catch) <span class="sc">%&gt;%</span></span>
+<span id="cb2-21"><a href="distribution.html#cb2-21" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">catch =</span> catch <span class="sc">/</span> <span class="dv">1000</span>)</span>
+<span id="cb2-22"><a href="distribution.html#cb2-22" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="distribution.html#cb2-23" tabindex="-1"></a>base_plot <span class="ot">&lt;-</span></span>
+<span id="cb2-24"><a href="distribution.html#cb2-24" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>nutrients_table <span class="sc">%&gt;%</span></span>
+<span id="cb2-25"><a href="distribution.html#cb2-25" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(catch_groups_name) <span class="sc">%&gt;%</span></span>
+<span id="cb2-26"><a href="distribution.html#cb2-26" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(catch_name, grouped_taxa, Selenium_mu<span class="sc">:</span>Vitamin_A_mu) <span class="sc">%&gt;%</span></span>
+<span id="cb2-27"><a href="distribution.html#cb2-27" tabindex="-1"></a>  <span class="fu">rename_nutrients_mu</span>(<span class="at">hyphen =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-28"><a href="distribution.html#cb2-28" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(catch_name, grouped_taxa), <span class="at">names_to =</span> <span class="st">&quot;nutrient&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;concentration&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-29"><a href="distribution.html#cb2-29" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>nutrient <span class="sc">==</span> <span class="st">&quot;selenium&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span>catch_name <span class="sc">%in%</span> <span class="st">&quot;Other&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-30"><a href="distribution.html#cb2-30" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(RDI_tab) <span class="sc">%&gt;%</span></span>
+<span id="cb2-31"><a href="distribution.html#cb2-31" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-32"><a href="distribution.html#cb2-32" tabindex="-1"></a>    <span class="at">nutrient =</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(nutrient),</span>
+<span id="cb2-33"><a href="distribution.html#cb2-33" tabindex="-1"></a>    <span class="at">nutrient =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb2-34"><a href="distribution.html#cb2-34" tabindex="-1"></a>      nutrient <span class="sc">==</span> <span class="st">&quot;Omega3&quot;</span> <span class="sc">~</span> <span class="st">&quot;Omega-3&quot;</span>,</span>
+<span id="cb2-35"><a href="distribution.html#cb2-35" tabindex="-1"></a>      nutrient <span class="sc">==</span> <span class="st">&quot;Vitamina&quot;</span> <span class="sc">~</span> <span class="st">&quot;Vitamin-A&quot;</span>,</span>
+<span id="cb2-36"><a href="distribution.html#cb2-36" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> nutrient</span>
+<span id="cb2-37"><a href="distribution.html#cb2-37" tabindex="-1"></a>    )</span>
+<span id="cb2-38"><a href="distribution.html#cb2-38" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-39"><a href="distribution.html#cb2-39" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">rdi =</span> (concentration <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">/</span> conv_factor) <span class="sc">%&gt;%</span></span>
+<span id="cb2-40"><a href="distribution.html#cb2-40" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(catch_name) <span class="sc">%&gt;%</span></span>
+<span id="cb2-41"><a href="distribution.html#cb2-41" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">tot =</span> <span class="fu">sum</span>(rdi, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-42"><a href="distribution.html#cb2-42" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(<span class="sc">-</span>tot) <span class="sc">%&gt;%</span></span>
+<span id="cb2-43"><a href="distribution.html#cb2-43" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(tot_catch) <span class="sc">%&gt;%</span></span>
+<span id="cb2-44"><a href="distribution.html#cb2-44" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">catch =</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-45"><a href="distribution.html#cb2-45" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(nutrient)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-46"><a href="distribution.html#cb2-46" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-47"><a href="distribution.html#cb2-47" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-48"><a href="distribution.html#cb2-48" tabindex="-1"></a>    <span class="at">fish_group =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb2-49"><a href="distribution.html#cb2-49" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;COZ&quot;</span>, <span class="st">&quot;CUX&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Molluscs&quot;</span>,</span>
+<span id="cb2-50"><a href="distribution.html#cb2-50" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;PEZ&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Shrimps&quot;</span>,</span>
+<span id="cb2-51"><a href="distribution.html#cb2-51" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;MZZ&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Other&quot;</span>,</span>
+<span id="cb2-52"><a href="distribution.html#cb2-52" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SLV&quot;</span>, <span class="st">&quot;CRA&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Crustaceans&quot;</span>,</span>
+<span id="cb2-53"><a href="distribution.html#cb2-53" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;OCZ&quot;</span>, <span class="st">&quot;IAX&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Cephalopods&quot;</span>,</span>
+<span id="cb2-54"><a href="distribution.html#cb2-54" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SKH&quot;</span>, <span class="st">&quot;SRX&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Sharks and rays&quot;</span>,</span>
+<span id="cb2-55"><a href="distribution.html#cb2-55" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SNA&quot;</span>, <span class="st">&quot;GPX&quot;</span>, <span class="st">&quot;PWT&quot;</span>, <span class="st">&quot;GRX&quot;</span>, <span class="st">&quot;MUI&quot;</span>, <span class="st">&quot;BGX&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Large demersals&quot;</span>,</span>
+<span id="cb2-56"><a href="distribution.html#cb2-56" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CGX&quot;</span>, <span class="st">&quot;TUN&quot;</span>, <span class="st">&quot;BEN&quot;</span>, <span class="st">&quot;LWX&quot;</span>, <span class="st">&quot;BAR&quot;</span>, <span class="st">&quot;SFA&quot;</span>, <span class="st">&quot;CBA&quot;</span>, <span class="st">&quot;DOX&quot;</span>, <span class="st">&quot;ECN&quot;</span>, <span class="st">&quot;DOS&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Large pelagics&quot;</span>,</span>
+<span id="cb2-57"><a href="distribution.html#cb2-57" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;YDX&quot;</span>, <span class="st">&quot;SPI&quot;</span>, <span class="st">&quot;EMP&quot;</span>, <span class="st">&quot;SUR&quot;</span>, <span class="st">&quot;TRI&quot;</span>, <span class="st">&quot;MOJ&quot;</span>, <span class="st">&quot;WRA&quot;</span>, <span class="st">&quot;BWH&quot;</span>, <span class="st">&quot;LGE&quot;</span>, <span class="st">&quot;MOB&quot;</span>, <span class="st">&quot;MHL&quot;</span>, <span class="st">&quot;GOX&quot;</span>, <span class="st">&quot;THO&quot;</span>, <span class="st">&quot;IHX&quot;</span>, <span class="st">&quot;APO&quot;</span>, <span class="st">&quot;IHX&quot;</span>, <span class="st">&quot;PUX&quot;</span>, <span class="st">&quot;DRZ&quot;</span>, <span class="st">&quot;DSF&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Small demersals&quot;</span>,</span>
+<span id="cb2-58"><a href="distribution.html#cb2-58" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;RAX&quot;</span>, <span class="st">&quot;SDX&quot;</span>, <span class="st">&quot;CJX&quot;</span>, <span class="st">&quot;CLP&quot;</span>, <span class="st">&quot;GZP&quot;</span>, <span class="st">&quot;FLY&quot;</span>, <span class="st">&quot;KYX&quot;</span>, <span class="st">&quot;MOO&quot;</span>, <span class="st">&quot;CLP&quot;</span>, <span class="st">&quot;MUL&quot;</span>, <span class="st">&quot;MIL&quot;</span>, <span class="st">&quot;THF&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Small pelagics&quot;</span>,</span>
+<span id="cb2-59"><a href="distribution.html#cb2-59" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb2-60"><a href="distribution.html#cb2-60" tabindex="-1"></a>    ),</span>
+<span id="cb2-61"><a href="distribution.html#cb2-61" tabindex="-1"></a>    <span class="at">fish_group =</span> <span class="fu">ifelse</span>(fish_group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Shrimps&quot;</span>, <span class="st">&quot;Molluscs&quot;</span>, <span class="st">&quot;Cephalopods&quot;</span>, <span class="st">&quot;Crustaceans&quot;</span>), <span class="st">&quot;Marine invertebrates&quot;</span>, fish_group),</span>
+<span id="cb2-62"><a href="distribution.html#cb2-62" tabindex="-1"></a>  )</span>
+<span id="cb2-63"><a href="distribution.html#cb2-63" tabindex="-1"></a></span>
+<span id="cb2-64"><a href="distribution.html#cb2-64" tabindex="-1"></a>tot_catch_plot <span class="ot">&lt;-</span></span>
+<span id="cb2-65"><a href="distribution.html#cb2-65" tabindex="-1"></a>  base_plot <span class="sc">%&gt;%</span></span>
+<span id="cb2-66"><a href="distribution.html#cb2-66" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(catch_name) <span class="sc">%&gt;%</span> <span class="co"># Added .drop false to ensure that all factor levels remain in plot</span></span>
+<span id="cb2-67"><a href="distribution.html#cb2-67" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb2-68"><a href="distribution.html#cb2-68" tabindex="-1"></a>    <span class="at">catch_t =</span> dplyr<span class="sc">::</span><span class="fu">first</span>(catch),</span>
+<span id="cb2-69"><a href="distribution.html#cb2-69" tabindex="-1"></a>    <span class="at">tot_t =</span> dplyr<span class="sc">::</span><span class="fu">first</span>(tot)</span>
+<span id="cb2-70"><a href="distribution.html#cb2-70" tabindex="-1"></a>  )</span>
+<span id="cb2-71"><a href="distribution.html#cb2-71" tabindex="-1"></a><span class="co"># base_plot %&gt;% View()</span></span>
+<span id="cb2-72"><a href="distribution.html#cb2-72" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="distribution.html#cb2-73" tabindex="-1"></a>base_plot <span class="ot">&lt;-</span></span>
+<span id="cb2-74"><a href="distribution.html#cb2-74" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(base_plot, tot_catch_plot, <span class="at">by =</span> <span class="st">&quot;catch_name&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-75"><a href="distribution.html#cb2-75" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(catch_t <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-76"><a href="distribution.html#cb2-76" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-77"><a href="distribution.html#cb2-77" tabindex="-1"></a>    <span class="at">VarColor =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb2-78"><a href="distribution.html#cb2-78" tabindex="-1"></a>      fish_group <span class="sc">==</span> <span class="st">&quot;Small pelagics&quot;</span> <span class="sc">~</span> <span class="st">&quot;#bc4749&quot;</span>,</span>
+<span id="cb2-79"><a href="distribution.html#cb2-79" tabindex="-1"></a>      fish_group <span class="sc">==</span> <span class="st">&quot;Small demersals&quot;</span> <span class="sc">~</span> <span class="st">&quot;#e9c46a&quot;</span>,</span>
+<span id="cb2-80"><a href="distribution.html#cb2-80" tabindex="-1"></a>      fish_group <span class="sc">==</span> <span class="st">&quot;Large pelagics&quot;</span> <span class="sc">~</span> <span class="st">&quot;#2a9d8f&quot;</span>,</span>
+<span id="cb2-81"><a href="distribution.html#cb2-81" tabindex="-1"></a>      fish_group <span class="sc">==</span> <span class="st">&quot;Large demersals&quot;</span> <span class="sc">~</span> <span class="st">&quot;#007ea7&quot;</span>,</span>
+<span id="cb2-82"><a href="distribution.html#cb2-82" tabindex="-1"></a>      fish_group <span class="sc">==</span> <span class="st">&quot;Sharks and rays&quot;</span> <span class="sc">~</span> <span class="st">&quot;#264653&quot;</span>,</span>
+<span id="cb2-83"><a href="distribution.html#cb2-83" tabindex="-1"></a>      fish_group <span class="sc">==</span> <span class="st">&quot;Marine invertebrates&quot;</span> <span class="sc">~</span> <span class="st">&quot;#898989&quot;</span>,</span>
+<span id="cb2-84"><a href="distribution.html#cb2-84" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;#000000&quot;</span></span>
+<span id="cb2-85"><a href="distribution.html#cb2-85" tabindex="-1"></a>    ),</span>
+<span id="cb2-86"><a href="distribution.html#cb2-86" tabindex="-1"></a>    <span class="at">ColoredVar =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">&quot;&lt;span style=&#39;color:{VarColor}&#39;&gt;{catch_name}&lt;/span&gt;&quot;</span>),</span>
+<span id="cb2-87"><a href="distribution.html#cb2-87" tabindex="-1"></a>    <span class="at">fish_group =</span> <span class="fu">factor</span>(fish_group, <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb2-88"><a href="distribution.html#cb2-88" tabindex="-1"></a>      <span class="st">&quot;Small pelagics&quot;</span>, <span class="st">&quot;Large pelagics&quot;</span>, <span class="st">&quot;Small demersals&quot;</span>, <span class="st">&quot;Large demersals&quot;</span>,</span>
+<span id="cb2-89"><a href="distribution.html#cb2-89" tabindex="-1"></a>      <span class="st">&quot;Sharks and rays&quot;</span>, <span class="st">&quot;Marine invertebrates&quot;</span></span>
+<span id="cb2-90"><a href="distribution.html#cb2-90" tabindex="-1"></a>    ))</span>
+<span id="cb2-91"><a href="distribution.html#cb2-91" tabindex="-1"></a>  )</span>
+<span id="cb2-92"><a href="distribution.html#cb2-92" tabindex="-1"></a></span>
+<span id="cb2-93"><a href="distribution.html#cb2-93" tabindex="-1"></a>tons_label <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">draw_label</span>(<span class="st">&quot;Mean annual</span><span class="sc">\n</span><span class="st">catch (tons)&quot;</span>, <span class="at">x =</span> <span class="fl">0.941</span>, <span class="at">y =</span> <span class="fl">0.98</span>, <span class="at">size =</span> <span class="dv">9</span>)</span>
+<span id="cb2-94"><a href="distribution.html#cb2-94" tabindex="-1"></a></span>
+<span id="cb2-95"><a href="distribution.html#cb2-95" tabindex="-1"></a>long_plot <span class="ot">&lt;-</span></span>
+<span id="cb2-96"><a href="distribution.html#cb2-96" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb2-97"><a href="distribution.html#cb2-97" tabindex="-1"></a>  ggpubr<span class="sc">::</span><span class="fu">theme_pubr</span>() <span class="sc">+</span></span>
+<span id="cb2-98"><a href="distribution.html#cb2-98" tabindex="-1"></a>  ggchicklet<span class="sc">::</span><span class="fu">geom_chicklet</span>(base_plot,</span>
+<span id="cb2-99"><a href="distribution.html#cb2-99" tabindex="-1"></a>                            <span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb2-100"><a href="distribution.html#cb2-100" tabindex="-1"></a>                              <span class="at">y =</span> rdi, <span class="at">x =</span> <span class="fu">reorder</span>(ColoredVar, tot),</span>
+<span id="cb2-101"><a href="distribution.html#cb2-101" tabindex="-1"></a>                              <span class="at">fill =</span> nutrient,</span>
+<span id="cb2-102"><a href="distribution.html#cb2-102" tabindex="-1"></a>                              <span class="at">color =</span> nutrient</span>
+<span id="cb2-103"><a href="distribution.html#cb2-103" tabindex="-1"></a>                            ),</span>
+<span id="cb2-104"><a href="distribution.html#cb2-104" tabindex="-1"></a>                            <span class="at">position =</span> ggplot2<span class="sc">::</span><span class="fu">position_stack</span>(<span class="at">reverse =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb2-105"><a href="distribution.html#cb2-105" tabindex="-1"></a>                            <span class="at">alpha =</span> <span class="fl">0.8</span>,</span>
+<span id="cb2-106"><a href="distribution.html#cb2-106" tabindex="-1"></a>                            <span class="at">width =</span> <span class="dv">1</span></span>
+<span id="cb2-107"><a href="distribution.html#cb2-107" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-108"><a href="distribution.html#cb2-108" tabindex="-1"></a>  <span class="fu">geom_text</span>(base_plot,</span>
+<span id="cb2-109"><a href="distribution.html#cb2-109" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> rdi, <span class="at">x =</span> <span class="fu">reorder</span>(ColoredVar, tot), <span class="at">label =</span> <span class="fu">round</span>(rdi, <span class="dv">2</span>) <span class="sc">*</span> <span class="dv">100</span>),</span>
+<span id="cb2-110"><a href="distribution.html#cb2-110" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="fl">0.5</span>),</span>
+<span id="cb2-111"><a href="distribution.html#cb2-111" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb2-112"><a href="distribution.html#cb2-112" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb2-113"><a href="distribution.html#cb2-113" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-114"><a href="distribution.html#cb2-114" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb2-115"><a href="distribution.html#cb2-115" tabindex="-1"></a>    <span class="at">data =</span> base_plot,</span>
+<span id="cb2-116"><a href="distribution.html#cb2-116" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb2-117"><a href="distribution.html#cb2-117" tabindex="-1"></a>      <span class="co"># Set y to a fixed position above the bars</span></span>
+<span id="cb2-118"><a href="distribution.html#cb2-118" tabindex="-1"></a>      <span class="at">y =</span> <span class="fl">1.35</span>,  <span class="co"># Adjust this value if needed</span></span>
+<span id="cb2-119"><a href="distribution.html#cb2-119" tabindex="-1"></a>      <span class="at">x =</span> <span class="fu">reorder</span>(ColoredVar, tot_t),</span>
+<span id="cb2-120"><a href="distribution.html#cb2-120" tabindex="-1"></a>      <span class="at">label =</span> <span class="fu">ifelse</span>(catch_t <span class="sc">&lt;</span> <span class="dv">1</span>, <span class="st">&quot;&lt;1&quot;</span>, scales<span class="sc">::</span><span class="fu">comma</span>(<span class="fu">round</span>(catch_t, <span class="dv">0</span>))),</span>
+<span id="cb2-121"><a href="distribution.html#cb2-121" tabindex="-1"></a>      <span class="at">alpha =</span> <span class="fu">sqrt</span>(catch_t),</span>
+<span id="cb2-122"><a href="distribution.html#cb2-122" tabindex="-1"></a>    ),</span>
+<span id="cb2-123"><a href="distribution.html#cb2-123" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb2-124"><a href="distribution.html#cb2-124" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="dv">0</span>,        <span class="co"># Left-align the text</span></span>
+<span id="cb2-125"><a href="distribution.html#cb2-125" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="fl">0.05</span></span>
+<span id="cb2-126"><a href="distribution.html#cb2-126" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-127"><a href="distribution.html#cb2-127" tabindex="-1"></a>  <span class="fu">facet_grid</span>(fish_group <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">space =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-128"><a href="distribution.html#cb2-128" tabindex="-1"></a>  <span class="fu">coord_flip</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.5</span>)) <span class="sc">+</span></span>
+<span id="cb2-129"><a href="distribution.html#cb2-129" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_fill_manual</span>(<span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>nutrients_palette) <span class="sc">+</span></span>
+<span id="cb2-130"><a href="distribution.html#cb2-130" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_color_manual</span>(<span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>nutrients_palette) <span class="sc">+</span></span>
+<span id="cb2-131"><a href="distribution.html#cb2-131" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent, <span class="at">n.breaks =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb2-132"><a href="distribution.html#cb2-132" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Nutrient&quot;</span>, <span class="at">subtitle =</span> <span class="st">&quot;Groups nutrient density&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-133"><a href="distribution.html#cb2-133" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb2-134"><a href="distribution.html#cb2-134" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb2-135"><a href="distribution.html#cb2-135" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>),</span>
+<span id="cb2-136"><a href="distribution.html#cb2-136" tabindex="-1"></a>    <span class="at">strip.background =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb2-137"><a href="distribution.html#cb2-137" tabindex="-1"></a>    <span class="at">strip.text =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb2-138"><a href="distribution.html#cb2-138" tabindex="-1"></a>    <span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb2-139"><a href="distribution.html#cb2-139" tabindex="-1"></a>    <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb2-140"><a href="distribution.html#cb2-140" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb2-141"><a href="distribution.html#cb2-141" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-142"><a href="distribution.html#cb2-142" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb2-143"><a href="distribution.html#cb2-143" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb2-144"><a href="distribution.html#cb2-144" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb2-145"><a href="distribution.html#cb2-145" tabindex="-1"></a>  )</span>
+<span id="cb2-146"><a href="distribution.html#cb2-146" tabindex="-1"></a></span>
+<span id="cb2-147"><a href="distribution.html#cb2-147" tabindex="-1"></a>long_legend <span class="ot">&lt;-</span> ggpubr<span class="sc">::</span><span class="fu">get_legend</span>(long_plot)</span>
+<span id="cb2-148"><a href="distribution.html#cb2-148" tabindex="-1"></a>long_plot <span class="ot">&lt;-</span> long_plot <span class="sc">+</span></span>
+<span id="cb2-149"><a href="distribution.html#cb2-149" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb2-150"><a href="distribution.html#cb2-150" tabindex="-1"></a></span>
+<span id="cb2-151"><a href="distribution.html#cb2-151" tabindex="-1"></a>long_plot <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(long_plot) <span class="sc">+</span> tons_label</span>
+<span id="cb2-152"><a href="distribution.html#cb2-152" tabindex="-1"></a></span>
+<span id="cb2-153"><a href="distribution.html#cb2-153" tabindex="-1"></a></span>
+<span id="cb2-154"><a href="distribution.html#cb2-154" tabindex="-1"></a><span class="co"># groups_palette &lt;- c(&quot;#2a9d8f&quot;, &quot;#264653&quot;, &quot;#007ea7&quot;, &quot;#e9c46a&quot;, &quot;#898989&quot;, &quot;#bc4749&quot;)</span></span>
+<span id="cb2-155"><a href="distribution.html#cb2-155" tabindex="-1"></a>groups_palette <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#bc4749&quot;</span>, <span class="st">&quot;#2a9d8f&quot;</span>, <span class="st">&quot;#e9c46a&quot;</span>, <span class="st">&quot;#007ea7&quot;</span>, <span class="st">&quot;#264653&quot;</span>, <span class="st">&quot;#898989&quot;</span>)</span>
+<span id="cb2-156"><a href="distribution.html#cb2-156" tabindex="-1"></a></span>
+<span id="cb2-157"><a href="distribution.html#cb2-157" tabindex="-1"></a></span>
+<span id="cb2-158"><a href="distribution.html#cb2-158" tabindex="-1"></a>groups_plot <span class="ot">&lt;-</span></span>
+<span id="cb2-159"><a href="distribution.html#cb2-159" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>region_stats <span class="sc">%&gt;%</span></span>
+<span id="cb2-160"><a href="distribution.html#cb2-160" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">fish_group =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb2-161"><a href="distribution.html#cb2-161" tabindex="-1"></a>    grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;COZ&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Molluscs&quot;</span>,</span>
+<span id="cb2-162"><a href="distribution.html#cb2-162" tabindex="-1"></a>    grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;PEZ&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Shrimps&quot;</span>,</span>
+<span id="cb2-163"><a href="distribution.html#cb2-163" tabindex="-1"></a>    grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;MZZ&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Other&quot;</span>,</span>
+<span id="cb2-164"><a href="distribution.html#cb2-164" tabindex="-1"></a>    grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SLV&quot;</span>, <span class="st">&quot;CRA&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Crustaceans&quot;</span>,</span>
+<span id="cb2-165"><a href="distribution.html#cb2-165" tabindex="-1"></a>    grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;OCZ&quot;</span>, <span class="st">&quot;IAX&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Cephalopods&quot;</span>,</span>
+<span id="cb2-166"><a href="distribution.html#cb2-166" tabindex="-1"></a>    grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SKH&quot;</span>, <span class="st">&quot;SRX&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Sharks and rays&quot;</span>,</span>
+<span id="cb2-167"><a href="distribution.html#cb2-167" tabindex="-1"></a>    grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SNA&quot;</span>, <span class="st">&quot;GPX&quot;</span>, <span class="st">&quot;PWT&quot;</span>, <span class="st">&quot;GRX&quot;</span>, <span class="st">&quot;MUI&quot;</span>, <span class="st">&quot;BGX&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Large demersals&quot;</span>,</span>
+<span id="cb2-168"><a href="distribution.html#cb2-168" tabindex="-1"></a>    grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CGX&quot;</span>, <span class="st">&quot;TUN&quot;</span>, <span class="st">&quot;BEN&quot;</span>, <span class="st">&quot;LWX&quot;</span>, <span class="st">&quot;BAR&quot;</span>, <span class="st">&quot;SFA&quot;</span>, <span class="st">&quot;CBA&quot;</span>, <span class="st">&quot;DOX&quot;</span>, <span class="st">&quot;ECN&quot;</span>, <span class="st">&quot;DOS&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Large pelagics&quot;</span>,</span>
+<span id="cb2-169"><a href="distribution.html#cb2-169" tabindex="-1"></a>    grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;YDX&quot;</span>, <span class="st">&quot;SPI&quot;</span>, <span class="st">&quot;EMP&quot;</span>, <span class="st">&quot;SUR&quot;</span>, <span class="st">&quot;TRI&quot;</span>, <span class="st">&quot;MOJ&quot;</span>, <span class="st">&quot;WRA&quot;</span>, <span class="st">&quot;BWH&quot;</span>, <span class="st">&quot;LGE&quot;</span>, <span class="st">&quot;MOB&quot;</span>, <span class="st">&quot;MHL&quot;</span>, <span class="st">&quot;GOX&quot;</span>, <span class="st">&quot;THO&quot;</span>, <span class="st">&quot;IHX&quot;</span>, <span class="st">&quot;APO&quot;</span>, <span class="st">&quot;IHX&quot;</span>, <span class="st">&quot;PUX&quot;</span>, <span class="st">&quot;DRZ&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Small demersals&quot;</span>,</span>
+<span id="cb2-170"><a href="distribution.html#cb2-170" tabindex="-1"></a>    grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;RAX&quot;</span>, <span class="st">&quot;SDX&quot;</span>, <span class="st">&quot;CJX&quot;</span>, <span class="st">&quot;CLP&quot;</span>, <span class="st">&quot;GZP&quot;</span>, <span class="st">&quot;FLY&quot;</span>, <span class="st">&quot;KYX&quot;</span>, <span class="st">&quot;MOO&quot;</span>, <span class="st">&quot;CLP&quot;</span>, <span class="st">&quot;MUL&quot;</span>, <span class="st">&quot;DSF&quot;</span>, <span class="st">&quot;MIL&quot;</span>, <span class="st">&quot;THF&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Small pelagics&quot;</span>,</span>
+<span id="cb2-171"><a href="distribution.html#cb2-171" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb2-172"><a href="distribution.html#cb2-172" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb2-173"><a href="distribution.html#cb2-173" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>grouped_taxa) <span class="sc">%&gt;%</span></span>
+<span id="cb2-174"><a href="distribution.html#cb2-174" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(fish_group) <span class="sc">%&gt;%</span></span>
+<span id="cb2-175"><a href="distribution.html#cb2-175" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(dplyr<span class="sc">::</span><span class="fu">across</span>(dplyr<span class="sc">::</span><span class="fu">where</span>(is.numeric), <span class="sc">~</span> <span class="fu">sum</span>(.x, <span class="at">na.rm =</span> T))) <span class="sc">%&gt;%</span></span>
+<span id="cb2-176"><a href="distribution.html#cb2-176" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-177"><a href="distribution.html#cb2-177" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(fish_group, catch), <span class="at">names_to =</span> <span class="st">&quot;nutrient&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-178"><a href="distribution.html#cb2-178" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(nutrient, fish_group) <span class="sc">%&gt;%</span></span>
+<span id="cb2-179"><a href="distribution.html#cb2-179" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">value =</span> <span class="fu">sum</span>(value)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-180"><a href="distribution.html#cb2-180" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(<span class="sc">-</span>value, <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-181"><a href="distribution.html#cb2-181" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(fish_group, nutrient, value) <span class="sc">%&gt;%</span></span>
+<span id="cb2-182"><a href="distribution.html#cb2-182" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-183"><a href="distribution.html#cb2-183" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-184"><a href="distribution.html#cb2-184" tabindex="-1"></a>    <span class="at">nutrient =</span> <span class="fu">as.factor</span>(nutrient),</span>
+<span id="cb2-185"><a href="distribution.html#cb2-185" tabindex="-1"></a>    <span class="at">fish_group =</span> <span class="fu">ifelse</span>(fish_group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Shrimps&quot;</span>, <span class="st">&quot;Molluscs&quot;</span>, <span class="st">&quot;Cephalopods&quot;</span>, <span class="st">&quot;Crustaceans&quot;</span>), <span class="st">&quot;Marine invertebrates&quot;</span>, fish_group),</span>
+<span id="cb2-186"><a href="distribution.html#cb2-186" tabindex="-1"></a>    <span class="at">fish_group =</span> <span class="fu">factor</span>(fish_group, <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb2-187"><a href="distribution.html#cb2-187" tabindex="-1"></a>      <span class="st">&quot;Shrimps&quot;</span>, <span class="st">&quot;Molluscs&quot;</span>, <span class="st">&quot;Cephalopods&quot;</span>, <span class="st">&quot;Crustaceans&quot;</span>,</span>
+<span id="cb2-188"><a href="distribution.html#cb2-188" tabindex="-1"></a>      <span class="st">&quot;Marine invertebrates&quot;</span>, <span class="st">&quot;Sharks and rays&quot;</span>, <span class="st">&quot;Large demersals&quot;</span>,</span>
+<span id="cb2-189"><a href="distribution.html#cb2-189" tabindex="-1"></a>      <span class="st">&quot;Small demersals&quot;</span>, <span class="st">&quot;Large pelagics&quot;</span>, <span class="st">&quot;Small pelagics&quot;</span></span>
+<span id="cb2-190"><a href="distribution.html#cb2-190" tabindex="-1"></a>    ))</span>
+<span id="cb2-191"><a href="distribution.html#cb2-191" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-192"><a href="distribution.html#cb2-192" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>nutrient <span class="sc">==</span> <span class="st">&quot;selenium&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-193"><a href="distribution.html#cb2-193" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-194"><a href="distribution.html#cb2-194" tabindex="-1"></a>    <span class="at">nutrient =</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(nutrient),</span>
+<span id="cb2-195"><a href="distribution.html#cb2-195" tabindex="-1"></a>    <span class="at">nutrient =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb2-196"><a href="distribution.html#cb2-196" tabindex="-1"></a>      nutrient <span class="sc">==</span> <span class="st">&quot;Omega3&quot;</span> <span class="sc">~</span> <span class="st">&quot;Omega-3&quot;</span>,</span>
+<span id="cb2-197"><a href="distribution.html#cb2-197" tabindex="-1"></a>      nutrient <span class="sc">==</span> <span class="st">&quot;Vitamina&quot;</span> <span class="sc">~</span> <span class="st">&quot;Vitamin-A&quot;</span>,</span>
+<span id="cb2-198"><a href="distribution.html#cb2-198" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> nutrient</span>
+<span id="cb2-199"><a href="distribution.html#cb2-199" tabindex="-1"></a>    ),</span>
+<span id="cb2-200"><a href="distribution.html#cb2-200" tabindex="-1"></a>    <span class="at">fish_label =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb2-201"><a href="distribution.html#cb2-201" tabindex="-1"></a>      fish_group <span class="sc">==</span> <span class="st">&quot;Small pelagics&quot;</span> <span class="sc">~</span> <span class="st">&quot;SP&quot;</span>,</span>
+<span id="cb2-202"><a href="distribution.html#cb2-202" tabindex="-1"></a>      fish_group <span class="sc">==</span> <span class="st">&quot;Large pelagics&quot;</span> <span class="sc">~</span> <span class="st">&quot;LP&quot;</span>,</span>
+<span id="cb2-203"><a href="distribution.html#cb2-203" tabindex="-1"></a>      fish_group <span class="sc">==</span> <span class="st">&quot;Small demersals&quot;</span> <span class="sc">~</span> <span class="st">&quot;SD&quot;</span>,</span>
+<span id="cb2-204"><a href="distribution.html#cb2-204" tabindex="-1"></a>      fish_group <span class="sc">==</span> <span class="st">&quot;Large demersals&quot;</span> <span class="sc">~</span> <span class="st">&quot;LD&quot;</span>,</span>
+<span id="cb2-205"><a href="distribution.html#cb2-205" tabindex="-1"></a>      fish_group <span class="sc">==</span> <span class="st">&quot;Sharks and rays&quot;</span> <span class="sc">~</span> <span class="st">&quot;SR&quot;</span>,</span>
+<span id="cb2-206"><a href="distribution.html#cb2-206" tabindex="-1"></a>      fish_group <span class="sc">==</span> <span class="st">&quot;Marine invertebrates&quot;</span> <span class="sc">~</span> <span class="st">&quot;MI&quot;</span></span>
+<span id="cb2-207"><a href="distribution.html#cb2-207" tabindex="-1"></a>    ),</span>
+<span id="cb2-208"><a href="distribution.html#cb2-208" tabindex="-1"></a>    <span class="at">fish_label =</span> <span class="fu">factor</span>(fish_label, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">c</span>(</span>
+<span id="cb2-209"><a href="distribution.html#cb2-209" tabindex="-1"></a>      <span class="st">&quot;SP&quot;</span>, <span class="st">&quot;LP&quot;</span>, <span class="st">&quot;SD&quot;</span>, <span class="st">&quot;LD&quot;</span>, <span class="st">&quot;SR&quot;</span>, <span class="st">&quot;MI&quot;</span></span>
+<span id="cb2-210"><a href="distribution.html#cb2-210" tabindex="-1"></a>    )))</span>
+<span id="cb2-211"><a href="distribution.html#cb2-211" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-212"><a href="distribution.html#cb2-212" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fish_label, value <span class="sc">/</span> <span class="dv">1000</span>, <span class="at">fill =</span> fish_label)) <span class="sc">+</span></span>
+<span id="cb2-213"><a href="distribution.html#cb2-213" tabindex="-1"></a>  ggpubr<span class="sc">::</span><span class="fu">theme_pubr</span>() <span class="sc">+</span></span>
+<span id="cb2-214"><a href="distribution.html#cb2-214" tabindex="-1"></a>  ggchicklet<span class="sc">::</span><span class="fu">geom_chicklet</span>(</span>
+<span id="cb2-215"><a href="distribution.html#cb2-215" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span>,</span>
+<span id="cb2-216"><a href="distribution.html#cb2-216" tabindex="-1"></a>    <span class="at">radius =</span> grid<span class="sc">::</span><span class="fu">unit</span>(<span class="dv">5</span>, <span class="st">&quot;pt&quot;</span>)</span>
+<span id="cb2-217"><a href="distribution.html#cb2-217" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-218"><a href="distribution.html#cb2-218" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(. <span class="sc">~</span> nutrient, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb2-219"><a href="distribution.html#cb2-219" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Tons (2018-2023)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Functional</span><span class="sc">\n</span><span class="st">group&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Fish group&quot;</span>, <span class="at">subtitle =</span> <span class="st">&quot;Nutrient yield&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-220"><a href="distribution.html#cb2-220" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb2-221"><a href="distribution.html#cb2-221" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb2-222"><a href="distribution.html#cb2-222" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-223"><a href="distribution.html#cb2-223" tabindex="-1"></a>    <span class="at">strip.background =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(), <span class="co"># This removes the background from the facet titles</span></span>
+<span id="cb2-224"><a href="distribution.html#cb2-224" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>),</span>
+<span id="cb2-225"><a href="distribution.html#cb2-225" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb2-226"><a href="distribution.html#cb2-226" tabindex="-1"></a>    <span class="at">panel.spacing.x =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb2-227"><a href="distribution.html#cb2-227" tabindex="-1"></a>    <span class="at">panel.spacing.y =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb2-228"><a href="distribution.html#cb2-228" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb2-229"><a href="distribution.html#cb2-229" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-230"><a href="distribution.html#cb2-230" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb2-231"><a href="distribution.html#cb2-231" tabindex="-1"></a>    <span class="at">values =</span> groups_palette,</span>
+<span id="cb2-232"><a href="distribution.html#cb2-232" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(</span>
+<span id="cb2-233"><a href="distribution.html#cb2-233" tabindex="-1"></a>      <span class="st">&quot;SP&quot;</span>, <span class="st">&quot;LP&quot;</span>, <span class="st">&quot;SD&quot;</span>, <span class="st">&quot;LD&quot;</span>,</span>
+<span id="cb2-234"><a href="distribution.html#cb2-234" tabindex="-1"></a>      <span class="st">&quot;SR&quot;</span>, <span class="st">&quot;MI&quot;</span></span>
+<span id="cb2-235"><a href="distribution.html#cb2-235" tabindex="-1"></a>    )</span>
+<span id="cb2-236"><a href="distribution.html#cb2-236" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-237"><a href="distribution.html#cb2-237" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb2-238"><a href="distribution.html#cb2-238" tabindex="-1"></a>  <span class="fu">coord_flip</span>(<span class="at">expand =</span> F)</span>
+<span id="cb2-239"><a href="distribution.html#cb2-239" tabindex="-1"></a></span>
+<span id="cb2-240"><a href="distribution.html#cb2-240" tabindex="-1"></a><span class="do">###</span></span>
+<span id="cb2-241"><a href="distribution.html#cb2-241" tabindex="-1"></a></span>
+<span id="cb2-242"><a href="distribution.html#cb2-242" tabindex="-1"></a>groups_palette <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#bc4749&quot;</span>, <span class="st">&quot;#2a9d8f&quot;</span>, <span class="st">&quot;#e9c46a&quot;</span>, <span class="st">&quot;#007ea7&quot;</span>, <span class="st">&quot;#264653&quot;</span>, <span class="st">&quot;#898989&quot;</span>)</span>
+<span id="cb2-243"><a href="distribution.html#cb2-243" tabindex="-1"></a></span>
+<span id="cb2-244"><a href="distribution.html#cb2-244" tabindex="-1"></a>top_groups <span class="ot">&lt;-</span></span>
+<span id="cb2-245"><a href="distribution.html#cb2-245" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>region_stats <span class="sc">%&gt;%</span></span>
+<span id="cb2-246"><a href="distribution.html#cb2-246" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(grouped_taxa, catch) <span class="sc">%&gt;%</span></span>
+<span id="cb2-247"><a href="distribution.html#cb2-247" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-248"><a href="distribution.html#cb2-248" tabindex="-1"></a>    <span class="at">tot_catch =</span> <span class="fu">sum</span>(catch, <span class="at">na.rm =</span> T),</span>
+<span id="cb2-249"><a href="distribution.html#cb2-249" tabindex="-1"></a>    <span class="at">fish_group =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb2-250"><a href="distribution.html#cb2-250" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;COZ&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Molluscs&quot;</span>,</span>
+<span id="cb2-251"><a href="distribution.html#cb2-251" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;PEZ&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Shrimps&quot;</span>,</span>
+<span id="cb2-252"><a href="distribution.html#cb2-252" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;MZZ&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Other&quot;</span>,</span>
+<span id="cb2-253"><a href="distribution.html#cb2-253" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SLV&quot;</span>, <span class="st">&quot;CRA&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Crustaceans&quot;</span>,</span>
+<span id="cb2-254"><a href="distribution.html#cb2-254" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;OCZ&quot;</span>, <span class="st">&quot;IAX&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Cephalopods&quot;</span>,</span>
+<span id="cb2-255"><a href="distribution.html#cb2-255" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SKH&quot;</span>, <span class="st">&quot;SRX&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Sharks and rays&quot;</span>,</span>
+<span id="cb2-256"><a href="distribution.html#cb2-256" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SNA&quot;</span>, <span class="st">&quot;GPX&quot;</span>, <span class="st">&quot;PWT&quot;</span>, <span class="st">&quot;GRX&quot;</span>, <span class="st">&quot;MUI&quot;</span>, <span class="st">&quot;BGX&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Large demersals&quot;</span>,</span>
+<span id="cb2-257"><a href="distribution.html#cb2-257" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CGX&quot;</span>, <span class="st">&quot;TUN&quot;</span>, <span class="st">&quot;BEN&quot;</span>, <span class="st">&quot;LWX&quot;</span>, <span class="st">&quot;BAR&quot;</span>, <span class="st">&quot;SFA&quot;</span>, <span class="st">&quot;CBA&quot;</span>, <span class="st">&quot;DOX&quot;</span>, <span class="st">&quot;ECN&quot;</span>, <span class="st">&quot;DOS&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Large pelagics&quot;</span>,</span>
+<span id="cb2-258"><a href="distribution.html#cb2-258" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;YDX&quot;</span>, <span class="st">&quot;SPI&quot;</span>, <span class="st">&quot;EMP&quot;</span>, <span class="st">&quot;SUR&quot;</span>, <span class="st">&quot;TRI&quot;</span>, <span class="st">&quot;MOJ&quot;</span>, <span class="st">&quot;WRA&quot;</span>, <span class="st">&quot;BWH&quot;</span>, <span class="st">&quot;LGE&quot;</span>, <span class="st">&quot;MOB&quot;</span>, <span class="st">&quot;MHL&quot;</span>, <span class="st">&quot;GOX&quot;</span>, <span class="st">&quot;THO&quot;</span>, <span class="st">&quot;IHX&quot;</span>, <span class="st">&quot;APO&quot;</span>, <span class="st">&quot;IHX&quot;</span>, <span class="st">&quot;PUX&quot;</span>, <span class="st">&quot;DRZ&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Small demersals&quot;</span>,</span>
+<span id="cb2-259"><a href="distribution.html#cb2-259" tabindex="-1"></a>      grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;RAX&quot;</span>, <span class="st">&quot;SDX&quot;</span>, <span class="st">&quot;CJX&quot;</span>, <span class="st">&quot;CLP&quot;</span>, <span class="st">&quot;GZP&quot;</span>, <span class="st">&quot;FLY&quot;</span>, <span class="st">&quot;KYX&quot;</span>, <span class="st">&quot;MOO&quot;</span>, <span class="st">&quot;CLP&quot;</span>, <span class="st">&quot;MUL&quot;</span>, <span class="st">&quot;DSF&quot;</span>, <span class="st">&quot;MIL&quot;</span>, <span class="st">&quot;THF&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Small pelagics&quot;</span>,</span>
+<span id="cb2-260"><a href="distribution.html#cb2-260" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb2-261"><a href="distribution.html#cb2-261" tabindex="-1"></a>    )</span>
+<span id="cb2-262"><a href="distribution.html#cb2-262" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-263"><a href="distribution.html#cb2-263" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">fish_group =</span> <span class="fu">ifelse</span>(fish_group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Shrimps&quot;</span>, <span class="st">&quot;Molluscs&quot;</span>, <span class="st">&quot;Cephalopods&quot;</span>, <span class="st">&quot;Crustaceans&quot;</span>), <span class="st">&quot;Marine invertebrates&quot;</span>, fish_group)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-264"><a href="distribution.html#cb2-264" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(fish_group, grouped_taxa) <span class="sc">%&gt;%</span></span>
+<span id="cb2-265"><a href="distribution.html#cb2-265" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb2-266"><a href="distribution.html#cb2-266" tabindex="-1"></a>    <span class="at">tot_catch =</span> dplyr<span class="sc">::</span><span class="fu">first</span>(tot_catch),</span>
+<span id="cb2-267"><a href="distribution.html#cb2-267" tabindex="-1"></a>    <span class="at">catch =</span> <span class="fu">sum</span>(catch, <span class="at">na.rm =</span> T),</span>
+<span id="cb2-268"><a href="distribution.html#cb2-268" tabindex="-1"></a>    <span class="at">catch_percent =</span> catch <span class="sc">/</span> tot_catch <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb2-269"><a href="distribution.html#cb2-269" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-270"><a href="distribution.html#cb2-270" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(fish_group) <span class="sc">%&gt;%</span></span>
+<span id="cb2-271"><a href="distribution.html#cb2-271" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">slice_max</span>(catch_percent, <span class="at">n =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-272"><a href="distribution.html#cb2-272" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(<span class="sc">-</span>catch_percent, <span class="at">.by_group =</span> T) <span class="sc">%&gt;%</span></span>
+<span id="cb2-273"><a href="distribution.html#cb2-273" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-274"><a href="distribution.html#cb2-274" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">interagency_code =</span> <span class="st">&quot;grouped_taxa&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-275"><a href="distribution.html#cb2-275" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(timor.nutrients<span class="sc">::</span>catch_groups, <span class="at">by =</span> <span class="st">&quot;interagency_code&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-276"><a href="distribution.html#cb2-276" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(fish_group, catch_name, interagency_code, catch_percent) <span class="sc">%&gt;%</span></span>
+<span id="cb2-277"><a href="distribution.html#cb2-277" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span>
+<span id="cb2-278"><a href="distribution.html#cb2-278" tabindex="-1"></a></span>
+<span id="cb2-279"><a href="distribution.html#cb2-279" tabindex="-1"></a>revenue_dat <span class="ot">&lt;-</span></span>
+<span id="cb2-280"><a href="distribution.html#cb2-280" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>catch_data <span class="sc">%&gt;%</span></span>
+<span id="cb2-281"><a href="distribution.html#cb2-281" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">unnest</span>(landing_catch) <span class="sc">%&gt;%</span></span>
+<span id="cb2-282"><a href="distribution.html#cb2-282" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">unnest</span>(length_frequency) <span class="sc">%&gt;%</span></span>
+<span id="cb2-283"><a href="distribution.html#cb2-283" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(.data<span class="sc">$</span>weight), <span class="sc">!</span><span class="fu">is.na</span>(landing_value)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-284"><a href="distribution.html#cb2-284" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(landing_id) <span class="sc">%&gt;%</span></span>
+<span id="cb2-285"><a href="distribution.html#cb2-285" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">n =</span> dplyr<span class="sc">::</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb2-286"><a href="distribution.html#cb2-286" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-287"><a href="distribution.html#cb2-287" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>n) <span class="sc">%&gt;%</span></span>
+<span id="cb2-288"><a href="distribution.html#cb2-288" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-289"><a href="distribution.html#cb2-289" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">tot_obs =</span> <span class="fu">length</span>(<span class="fu">unique</span>(landing_id))) <span class="sc">%&gt;%</span></span>
+<span id="cb2-290"><a href="distribution.html#cb2-290" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(catch_taxon) <span class="sc">%&gt;%</span></span>
+<span id="cb2-291"><a href="distribution.html#cb2-291" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(catch_taxon <span class="sc">%in%</span> top_groups<span class="sc">$</span>interagency_code) <span class="sc">%&gt;%</span></span>
+<span id="cb2-292"><a href="distribution.html#cb2-292" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(.data<span class="sc">$</span>landing_id, .data<span class="sc">$</span>catch_taxon) <span class="sc">%&gt;%</span></span>
+<span id="cb2-293"><a href="distribution.html#cb2-293" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb2-294"><a href="distribution.html#cb2-294" tabindex="-1"></a>    <span class="at">landing_value =</span> dplyr<span class="sc">::</span><span class="fu">first</span>(landing_value),</span>
+<span id="cb2-295"><a href="distribution.html#cb2-295" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb2-296"><a href="distribution.html#cb2-296" tabindex="-1"></a>      <span class="fu">c</span>(.data<span class="sc">$</span>weight<span class="sc">:</span>.data<span class="sc">$</span>Vitamin_A_mu),</span>
+<span id="cb2-297"><a href="distribution.html#cb2-297" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">sum</span>(.x)</span>
+<span id="cb2-298"><a href="distribution.html#cb2-298" tabindex="-1"></a>    )</span>
+<span id="cb2-299"><a href="distribution.html#cb2-299" tabindex="-1"></a>  )</span>
+<span id="cb2-300"><a href="distribution.html#cb2-300" tabindex="-1"></a></span>
+<span id="cb2-301"><a href="distribution.html#cb2-301" tabindex="-1"></a>models <span class="ot">&lt;-</span></span>
+<span id="cb2-302"><a href="distribution.html#cb2-302" tabindex="-1"></a>  revenue_dat <span class="sc">%&gt;%</span></span>
+<span id="cb2-303"><a href="distribution.html#cb2-303" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-304"><a href="distribution.html#cb2-304" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(catch_taxon, landing_value, weight) <span class="sc">%&gt;%</span></span>
+<span id="cb2-305"><a href="distribution.html#cb2-305" tabindex="-1"></a>  <span class="co"># dplyr::group_by(catch_taxon) %&gt;%</span></span>
+<span id="cb2-306"><a href="distribution.html#cb2-306" tabindex="-1"></a>  <span class="co"># dplyr::mutate(model = broom::augment(stats::lm(formula = log(landing_value + 1) ~ log(weight / 1000 + 1)))) %&gt;%</span></span>
+<span id="cb2-307"><a href="distribution.html#cb2-307" tabindex="-1"></a>  <span class="co"># dplyr::ungroup() %&gt;%</span></span>
+<span id="cb2-308"><a href="distribution.html#cb2-308" tabindex="-1"></a>  <span class="co"># dplyr::mutate(cooksd = .data$model$`.cooksd`) %&gt;%</span></span>
+<span id="cb2-309"><a href="distribution.html#cb2-309" tabindex="-1"></a>  <span class="co"># dplyr::select(-.data$model) %&gt;%</span></span>
+<span id="cb2-310"><a href="distribution.html#cb2-310" tabindex="-1"></a>  <span class="co"># dplyr::mutate(out = dplyr::case_when(.data$cooksd &gt; (5 * mean(.data$cooksd)) ~ 1, TRUE ~ 0)) %&gt;%</span></span>
+<span id="cb2-311"><a href="distribution.html#cb2-311" tabindex="-1"></a>  <span class="co"># dplyr::filter(out == 0) %&gt;%</span></span>
+<span id="cb2-312"><a href="distribution.html#cb2-312" tabindex="-1"></a>  <span class="co"># dplyr::select(-out, -cooksd) %&gt;%</span></span>
+<span id="cb2-313"><a href="distribution.html#cb2-313" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(catch_taxon, landing_value, weight) <span class="sc">%&gt;%</span></span>
+<span id="cb2-314"><a href="distribution.html#cb2-314" tabindex="-1"></a>  <span class="fu">split</span>(.<span class="sc">$</span>catch_taxon) <span class="sc">%&gt;%</span></span>
+<span id="cb2-315"><a href="distribution.html#cb2-315" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(<span class="sc">~</span> <span class="fu">lm</span>(<span class="fu">log</span>(landing_value) <span class="sc">~</span> <span class="fu">log</span>(weight), <span class="at">data =</span> .x)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-316"><a href="distribution.html#cb2-316" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(<span class="sc">~</span> <span class="fu">predict</span>(.x, <span class="fu">data.frame</span>(<span class="at">weight =</span> <span class="fu">log</span>(<span class="dv">1000</span>)))) <span class="sc">%&gt;%</span></span>
+<span id="cb2-317"><a href="distribution.html#cb2-317" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">&quot;catch_taxon&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-318"><a href="distribution.html#cb2-318" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">price =</span> <span class="st">`</span><span class="at">1</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-319"><a href="distribution.html#cb2-319" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">price =</span> <span class="fu">round</span>(<span class="fu">exp</span>(price) <span class="sc">*</span> <span class="dv">10</span>, <span class="dv">2</span>))</span>
+<span id="cb2-320"><a href="distribution.html#cb2-320" tabindex="-1"></a></span>
+<span id="cb2-321"><a href="distribution.html#cb2-321" tabindex="-1"></a></span>
+<span id="cb2-322"><a href="distribution.html#cb2-322" tabindex="-1"></a>revenue_dat <span class="ot">&lt;-</span></span>
+<span id="cb2-323"><a href="distribution.html#cb2-323" tabindex="-1"></a>  revenue_dat <span class="sc">%&gt;%</span></span>
+<span id="cb2-324"><a href="distribution.html#cb2-324" tabindex="-1"></a>  <span class="fu">rename_nutrients_mu</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-325"><a href="distribution.html#cb2-325" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(landing_id<span class="sc">:</span>weight), <span class="at">names_to =</span> <span class="st">&quot;nutrient&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-326"><a href="distribution.html#cb2-326" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>nutrient <span class="sc">==</span> <span class="st">&quot;selenium&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-327"><a href="distribution.html#cb2-327" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(RDI_tab) <span class="sc">%&gt;%</span></span>
+<span id="cb2-328"><a href="distribution.html#cb2-328" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-329"><a href="distribution.html#cb2-329" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-330"><a href="distribution.html#cb2-330" tabindex="-1"></a>    <span class="at">value =</span> value <span class="sc">/</span> weight <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb2-331"><a href="distribution.html#cb2-331" tabindex="-1"></a>    <span class="at">inds =</span> value <span class="sc">/</span> conv_factor <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb2-332"><a href="distribution.html#cb2-332" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-333"><a href="distribution.html#cb2-333" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(landing_id, catch_taxon) <span class="sc">%&gt;%</span></span>
+<span id="cb2-334"><a href="distribution.html#cb2-334" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">inds_100 =</span> <span class="fu">sum</span>(inds)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-335"><a href="distribution.html#cb2-335" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(catch_taxon) <span class="sc">%&gt;%</span></span>
+<span id="cb2-336"><a href="distribution.html#cb2-336" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb2-337"><a href="distribution.html#cb2-337" tabindex="-1"></a>    <span class="at">inds =</span> dplyr<span class="sc">::</span><span class="fu">first</span>(inds_100)</span>
+<span id="cb2-338"><a href="distribution.html#cb2-338" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-339"><a href="distribution.html#cb2-339" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(models) <span class="sc">%&gt;%</span></span>
+<span id="cb2-340"><a href="distribution.html#cb2-340" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">interagency_code =</span> catch_taxon) <span class="sc">%&gt;%</span></span>
+<span id="cb2-341"><a href="distribution.html#cb2-341" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(timor.nutrients<span class="sc">::</span>catch_groups, <span class="at">by =</span> <span class="st">&quot;interagency_code&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-342"><a href="distribution.html#cb2-342" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(top_groups, <span class="at">by =</span> <span class="st">&quot;catch_name&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-343"><a href="distribution.html#cb2-343" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(fish_group, catch_name, price, inds, catch_percent)</span>
+<span id="cb2-344"><a href="distribution.html#cb2-344" tabindex="-1"></a></span>
+<span id="cb2-345"><a href="distribution.html#cb2-345" tabindex="-1"></a>revenue_plot <span class="ot">&lt;-</span></span>
+<span id="cb2-346"><a href="distribution.html#cb2-346" tabindex="-1"></a>  revenue_dat <span class="sc">%&gt;%</span></span>
+<span id="cb2-347"><a href="distribution.html#cb2-347" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">fish_group =</span> <span class="fu">factor</span>(fish_group, <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb2-348"><a href="distribution.html#cb2-348" tabindex="-1"></a>    <span class="st">&quot;Small pelagics&quot;</span>, <span class="st">&quot;Large pelagics&quot;</span>, <span class="st">&quot;Small demersals&quot;</span>, <span class="st">&quot;Large demersals&quot;</span>,</span>
+<span id="cb2-349"><a href="distribution.html#cb2-349" tabindex="-1"></a>    <span class="st">&quot;Sharks and rays&quot;</span>, <span class="st">&quot;Marine invertebrates&quot;</span></span>
+<span id="cb2-350"><a href="distribution.html#cb2-350" tabindex="-1"></a>  ))) <span class="sc">%&gt;%</span></span>
+<span id="cb2-351"><a href="distribution.html#cb2-351" tabindex="-1"></a>  <span class="co"># dplyr::filter(!catch_name %in% c(&quot;Stingrays&quot;)) %&gt;%</span></span>
+<span id="cb2-352"><a href="distribution.html#cb2-352" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(inds, price, <span class="at">size =</span> catch_percent, <span class="at">color =</span> fish_group)) <span class="sc">+</span></span>
+<span id="cb2-353"><a href="distribution.html#cb2-353" tabindex="-1"></a>  ggpubr<span class="sc">::</span><span class="fu">theme_pubr</span>() <span class="sc">+</span></span>
+<span id="cb2-354"><a href="distribution.html#cb2-354" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stroke =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb2-355"><a href="distribution.html#cb2-355" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb2-356"><a href="distribution.html#cb2-356" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> catch_name, <span class="at">color =</span> fish_group), <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">2.2</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb2-357"><a href="distribution.html#cb2-357" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">15</span>)) <span class="sc">+</span></span>
+<span id="cb2-358"><a href="distribution.html#cb2-358" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(</span>
+<span id="cb2-359"><a href="distribution.html#cb2-359" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">12</span>),</span>
+<span id="cb2-360"><a href="distribution.html#cb2-360" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">65</span>, <span class="dv">145</span>)</span>
+<span id="cb2-361"><a href="distribution.html#cb2-361" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-362"><a href="distribution.html#cb2-362" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>), <span class="at">n.breaks =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb2-363"><a href="distribution.html#cb2-363" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_dollar</span>(), <span class="at">n.breaks =</span> <span class="dv">8</span>) <span class="sc">+</span></span>
+<span id="cb2-364"><a href="distribution.html#cb2-364" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> groups_palette) <span class="sc">+</span></span>
+<span id="cb2-365"><a href="distribution.html#cb2-365" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb2-366"><a href="distribution.html#cb2-366" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-367"><a href="distribution.html#cb2-367" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb2-368"><a href="distribution.html#cb2-368" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb2-369"><a href="distribution.html#cb2-369" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-370"><a href="distribution.html#cb2-370" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb2-371"><a href="distribution.html#cb2-371" tabindex="-1"></a>    <span class="at">size =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb2-372"><a href="distribution.html#cb2-372" tabindex="-1"></a>    <span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">5</span>))</span>
+<span id="cb2-373"><a href="distribution.html#cb2-373" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-374"><a href="distribution.html#cb2-374" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-375"><a href="distribution.html#cb2-375" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb2-376"><a href="distribution.html#cb2-376" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Price (USD / kg)&quot;</span>,</span>
+<span id="cb2-377"><a href="distribution.html#cb2-377" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Affordability and nutrient density&quot;</span>,</span>
+<span id="cb2-378"><a href="distribution.html#cb2-378" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Functional</span><span class="sc">\n</span><span class="st">group&quot;</span></span>
+<span id="cb2-379"><a href="distribution.html#cb2-379" tabindex="-1"></a>  )</span>
+<span id="cb2-380"><a href="distribution.html#cb2-380" tabindex="-1"></a></span>
+<span id="cb2-381"><a href="distribution.html#cb2-381" tabindex="-1"></a></span>
+<span id="cb2-382"><a href="distribution.html#cb2-382" tabindex="-1"></a>groups_leg <span class="ot">&lt;-</span> ggpubr<span class="sc">::</span><span class="fu">get_legend</span>(revenue_plot)</span>
+<span id="cb2-383"><a href="distribution.html#cb2-383" tabindex="-1"></a>revenue_plot <span class="ot">&lt;-</span></span>
+<span id="cb2-384"><a href="distribution.html#cb2-384" tabindex="-1"></a>  revenue_plot <span class="sc">+</span></span>
+<span id="cb2-385"><a href="distribution.html#cb2-385" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb2-386"><a href="distribution.html#cb2-386" tabindex="-1"></a></span>
+<span id="cb2-387"><a href="distribution.html#cb2-387" tabindex="-1"></a>habitat_nutrients <span class="ot">&lt;-</span></span>
+<span id="cb2-388"><a href="distribution.html#cb2-388" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>kobo_trips <span class="sc">%&gt;%</span></span>
+<span id="cb2-389"><a href="distribution.html#cb2-389" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(habitat, weight<span class="sc">:</span>Vitamin_A_mu) <span class="sc">%&gt;%</span></span>
+<span id="cb2-390"><a href="distribution.html#cb2-390" tabindex="-1"></a>  <span class="fu">rename_nutrients_mu</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-391"><a href="distribution.html#cb2-391" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(habitat, weight), <span class="at">names_to =</span> <span class="st">&quot;nutrient&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-392"><a href="distribution.html#cb2-392" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(RDI_tab) <span class="sc">%&gt;%</span></span>
+<span id="cb2-393"><a href="distribution.html#cb2-393" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-394"><a href="distribution.html#cb2-394" tabindex="-1"></a>    <span class="at">value =</span> value <span class="sc">/</span> weight,</span>
+<span id="cb2-395"><a href="distribution.html#cb2-395" tabindex="-1"></a>    <span class="at">inds_kg =</span> (value <span class="sc">*</span> <span class="dv">1000</span>) <span class="sc">/</span> conv_factor</span>
+<span id="cb2-396"><a href="distribution.html#cb2-396" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-397"><a href="distribution.html#cb2-397" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(habitat, nutrient) <span class="sc">%&gt;%</span></span>
+<span id="cb2-398"><a href="distribution.html#cb2-398" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">inds_kg =</span> <span class="fu">median</span>(inds_kg, <span class="at">na.rm =</span> T) <span class="sc">/</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-399"><a href="distribution.html#cb2-399" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">inds_kg =</span> inds_kg <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-400"><a href="distribution.html#cb2-400" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>nutrient <span class="sc">==</span> <span class="st">&quot;selenium&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-401"><a href="distribution.html#cb2-401" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-402"><a href="distribution.html#cb2-402" tabindex="-1"></a>    <span class="at">habitat =</span> <span class="fu">ifelse</span>(habitat <span class="sc">==</span> <span class="st">&quot;Deep&quot;</span>, <span class="st">&quot;Pelagic&quot;</span>, habitat),</span>
+<span id="cb2-403"><a href="distribution.html#cb2-403" tabindex="-1"></a>    <span class="at">nutrient =</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(nutrient),</span>
+<span id="cb2-404"><a href="distribution.html#cb2-404" tabindex="-1"></a>    <span class="at">nutrient =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb2-405"><a href="distribution.html#cb2-405" tabindex="-1"></a>      nutrient <span class="sc">==</span> <span class="st">&quot;Omega3&quot;</span> <span class="sc">~</span> <span class="st">&quot;Omega-3&quot;</span>,</span>
+<span id="cb2-406"><a href="distribution.html#cb2-406" tabindex="-1"></a>      nutrient <span class="sc">==</span> <span class="st">&quot;Vitamina&quot;</span> <span class="sc">~</span> <span class="st">&quot;Vitamin-A&quot;</span>,</span>
+<span id="cb2-407"><a href="distribution.html#cb2-407" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> nutrient</span>
+<span id="cb2-408"><a href="distribution.html#cb2-408" tabindex="-1"></a>    )</span>
+<span id="cb2-409"><a href="distribution.html#cb2-409" tabindex="-1"></a>  )</span>
+<span id="cb2-410"><a href="distribution.html#cb2-410" tabindex="-1"></a>habitat_plot <span class="ot">&lt;-</span></span>
+<span id="cb2-411"><a href="distribution.html#cb2-411" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb2-412"><a href="distribution.html#cb2-412" tabindex="-1"></a>  ggpubr<span class="sc">::</span><span class="fu">theme_pubr</span>() <span class="sc">+</span></span>
+<span id="cb2-413"><a href="distribution.html#cb2-413" tabindex="-1"></a>  ggchicklet<span class="sc">::</span><span class="fu">geom_chicklet</span>(habitat_nutrients,</span>
+<span id="cb2-414"><a href="distribution.html#cb2-414" tabindex="-1"></a>    <span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb2-415"><a href="distribution.html#cb2-415" tabindex="-1"></a>      <span class="at">y =</span> inds_kg,</span>
+<span id="cb2-416"><a href="distribution.html#cb2-416" tabindex="-1"></a>      <span class="at">x =</span> <span class="fu">reorder</span>(habitat, inds_kg),</span>
+<span id="cb2-417"><a href="distribution.html#cb2-417" tabindex="-1"></a>      <span class="at">fill =</span> nutrient,</span>
+<span id="cb2-418"><a href="distribution.html#cb2-418" tabindex="-1"></a>      <span class="at">color =</span> nutrient</span>
+<span id="cb2-419"><a href="distribution.html#cb2-419" tabindex="-1"></a>    ),</span>
+<span id="cb2-420"><a href="distribution.html#cb2-420" tabindex="-1"></a>    <span class="at">position =</span> ggplot2<span class="sc">::</span><span class="fu">position_stack</span>(<span class="at">reverse =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb2-421"><a href="distribution.html#cb2-421" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span>,</span>
+<span id="cb2-422"><a href="distribution.html#cb2-422" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.8</span>,</span>
+<span id="cb2-423"><a href="distribution.html#cb2-423" tabindex="-1"></a>    <span class="at">radius =</span> grid<span class="sc">::</span><span class="fu">unit</span>(<span class="dv">3</span>, <span class="st">&quot;pt&quot;</span>)</span>
+<span id="cb2-424"><a href="distribution.html#cb2-424" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-425"><a href="distribution.html#cb2-425" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_text</span>(habitat_nutrients,</span>
+<span id="cb2-426"><a href="distribution.html#cb2-426" tabindex="-1"></a>    <span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb2-427"><a href="distribution.html#cb2-427" tabindex="-1"></a>      <span class="at">y =</span> inds_kg,</span>
+<span id="cb2-428"><a href="distribution.html#cb2-428" tabindex="-1"></a>      <span class="at">x =</span> <span class="fu">reorder</span>(habitat, inds_kg),</span>
+<span id="cb2-429"><a href="distribution.html#cb2-429" tabindex="-1"></a>      <span class="at">label =</span> <span class="fu">round</span>(inds_kg, <span class="dv">0</span>),</span>
+<span id="cb2-430"><a href="distribution.html#cb2-430" tabindex="-1"></a>      <span class="at">group =</span> nutrient</span>
+<span id="cb2-431"><a href="distribution.html#cb2-431" tabindex="-1"></a>    ),</span>
+<span id="cb2-432"><a href="distribution.html#cb2-432" tabindex="-1"></a>    <span class="at">position =</span> ggplot2<span class="sc">::</span><span class="fu">position_stack</span>(<span class="fl">0.5</span>, <span class="at">reverse =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb2-433"><a href="distribution.html#cb2-433" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb2-434"><a href="distribution.html#cb2-434" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">2.5</span></span>
+<span id="cb2-435"><a href="distribution.html#cb2-435" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-436"><a href="distribution.html#cb2-436" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_fill_manual</span>(<span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>nutrients_palette) <span class="sc">+</span></span>
+<span id="cb2-437"><a href="distribution.html#cb2-437" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_color_manual</span>(<span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>nutrients_palette) <span class="sc">+</span></span>
+<span id="cb2-438"><a href="distribution.html#cb2-438" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb2-439"><a href="distribution.html#cb2-439" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">coord_flip</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb2-440"><a href="distribution.html#cb2-440" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb2-441"><a href="distribution.html#cb2-441" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb2-442"><a href="distribution.html#cb2-442" tabindex="-1"></a>    <span class="at">panel.grid =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb2-443"><a href="distribution.html#cb2-443" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">7.75</span>),</span>
+<span id="cb2-444"><a href="distribution.html#cb2-444" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb2-445"><a href="distribution.html#cb2-445" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-446"><a href="distribution.html#cb2-446" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cumulative nutrient density score&quot;</span>, <span class="at">subtitle =</span> <span class="st">&quot;Habitat and nutrient density&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-447"><a href="distribution.html#cb2-447" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">guides</span>(</span>
+<span id="cb2-448"><a href="distribution.html#cb2-448" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb2-449"><a href="distribution.html#cb2-449" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb2-450"><a href="distribution.html#cb2-450" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">7</span>))</span>
+<span id="cb2-451"><a href="distribution.html#cb2-451" tabindex="-1"></a>  )</span>
+<span id="cb2-452"><a href="distribution.html#cb2-452" tabindex="-1"></a></span>
+<span id="cb2-453"><a href="distribution.html#cb2-453" tabindex="-1"></a>gear_nutrients <span class="ot">&lt;-</span></span>
+<span id="cb2-454"><a href="distribution.html#cb2-454" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>kobo_trips <span class="sc">%&gt;%</span></span>
+<span id="cb2-455"><a href="distribution.html#cb2-455" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(gear_type, weight<span class="sc">:</span>Vitamin_A_mu) <span class="sc">%&gt;%</span></span>
+<span id="cb2-456"><a href="distribution.html#cb2-456" tabindex="-1"></a>  <span class="fu">rename_nutrients_mu</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-457"><a href="distribution.html#cb2-457" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(gear_type, weight), <span class="at">names_to =</span> <span class="st">&quot;nutrient&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-458"><a href="distribution.html#cb2-458" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(RDI_tab) <span class="sc">%&gt;%</span></span>
+<span id="cb2-459"><a href="distribution.html#cb2-459" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-460"><a href="distribution.html#cb2-460" tabindex="-1"></a>    <span class="at">value =</span> value <span class="sc">/</span> weight,</span>
+<span id="cb2-461"><a href="distribution.html#cb2-461" tabindex="-1"></a>    <span class="at">inds_kg =</span> (value <span class="sc">*</span> <span class="dv">1000</span>) <span class="sc">/</span> conv_factor</span>
+<span id="cb2-462"><a href="distribution.html#cb2-462" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-463"><a href="distribution.html#cb2-463" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(gear_type, nutrient) <span class="sc">%&gt;%</span></span>
+<span id="cb2-464"><a href="distribution.html#cb2-464" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">inds_kg =</span> <span class="fu">median</span>(inds_kg, <span class="at">na.rm =</span> T) <span class="sc">/</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-465"><a href="distribution.html#cb2-465" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">inds_kg =</span> inds_kg <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-466"><a href="distribution.html#cb2-466" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>nutrient <span class="sc">==</span> <span class="st">&quot;selenium&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-467"><a href="distribution.html#cb2-467" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-468"><a href="distribution.html#cb2-468" tabindex="-1"></a>    <span class="at">nutrient =</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(nutrient),</span>
+<span id="cb2-469"><a href="distribution.html#cb2-469" tabindex="-1"></a>    <span class="at">nutrient =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb2-470"><a href="distribution.html#cb2-470" tabindex="-1"></a>      nutrient <span class="sc">==</span> <span class="st">&quot;Omega3&quot;</span> <span class="sc">~</span> <span class="st">&quot;Omega-3&quot;</span>,</span>
+<span id="cb2-471"><a href="distribution.html#cb2-471" tabindex="-1"></a>      nutrient <span class="sc">==</span> <span class="st">&quot;Vitamina&quot;</span> <span class="sc">~</span> <span class="st">&quot;Vitamin-A&quot;</span>,</span>
+<span id="cb2-472"><a href="distribution.html#cb2-472" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> nutrient</span>
+<span id="cb2-473"><a href="distribution.html#cb2-473" tabindex="-1"></a>    )</span>
+<span id="cb2-474"><a href="distribution.html#cb2-474" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-475"><a href="distribution.html#cb2-475" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">gear_type =</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(gear_type)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-476"><a href="distribution.html#cb2-476" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span>
+<span id="cb2-477"><a href="distribution.html#cb2-477" tabindex="-1"></a></span>
+<span id="cb2-478"><a href="distribution.html#cb2-478" tabindex="-1"></a>gear_nutrients <span class="ot">&lt;-</span></span>
+<span id="cb2-479"><a href="distribution.html#cb2-479" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb2-480"><a href="distribution.html#cb2-480" tabindex="-1"></a>  ggpubr<span class="sc">::</span><span class="fu">theme_pubr</span>() <span class="sc">+</span></span>
+<span id="cb2-481"><a href="distribution.html#cb2-481" tabindex="-1"></a>  ggchicklet<span class="sc">::</span><span class="fu">geom_chicklet</span>(gear_nutrients,</span>
+<span id="cb2-482"><a href="distribution.html#cb2-482" tabindex="-1"></a>    <span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb2-483"><a href="distribution.html#cb2-483" tabindex="-1"></a>      <span class="at">y =</span> inds_kg,</span>
+<span id="cb2-484"><a href="distribution.html#cb2-484" tabindex="-1"></a>      <span class="at">x =</span> <span class="fu">reorder</span>(gear_type, inds_kg),</span>
+<span id="cb2-485"><a href="distribution.html#cb2-485" tabindex="-1"></a>      <span class="at">fill =</span> nutrient,</span>
+<span id="cb2-486"><a href="distribution.html#cb2-486" tabindex="-1"></a>      <span class="at">color =</span> nutrient</span>
+<span id="cb2-487"><a href="distribution.html#cb2-487" tabindex="-1"></a>    ),</span>
+<span id="cb2-488"><a href="distribution.html#cb2-488" tabindex="-1"></a>    <span class="at">position =</span> ggplot2<span class="sc">::</span><span class="fu">position_stack</span>(<span class="at">reverse =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb2-489"><a href="distribution.html#cb2-489" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span>,</span>
+<span id="cb2-490"><a href="distribution.html#cb2-490" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.8</span>,</span>
+<span id="cb2-491"><a href="distribution.html#cb2-491" tabindex="-1"></a>    <span class="at">radius =</span> grid<span class="sc">::</span><span class="fu">unit</span>(<span class="dv">3</span>, <span class="st">&quot;pt&quot;</span>)</span>
+<span id="cb2-492"><a href="distribution.html#cb2-492" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-493"><a href="distribution.html#cb2-493" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_text</span>(gear_nutrients,</span>
+<span id="cb2-494"><a href="distribution.html#cb2-494" tabindex="-1"></a>    <span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb2-495"><a href="distribution.html#cb2-495" tabindex="-1"></a>      <span class="at">y =</span> inds_kg,</span>
+<span id="cb2-496"><a href="distribution.html#cb2-496" tabindex="-1"></a>      <span class="at">x =</span> <span class="fu">reorder</span>(gear_type, inds_kg),</span>
+<span id="cb2-497"><a href="distribution.html#cb2-497" tabindex="-1"></a>      <span class="at">label =</span> <span class="fu">round</span>(inds_kg, <span class="dv">0</span>),</span>
+<span id="cb2-498"><a href="distribution.html#cb2-498" tabindex="-1"></a>      <span class="at">group =</span> nutrient</span>
+<span id="cb2-499"><a href="distribution.html#cb2-499" tabindex="-1"></a>    ),</span>
+<span id="cb2-500"><a href="distribution.html#cb2-500" tabindex="-1"></a>    <span class="at">position =</span> ggplot2<span class="sc">::</span><span class="fu">position_stack</span>(<span class="fl">0.5</span>, <span class="at">reverse =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb2-501"><a href="distribution.html#cb2-501" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb2-502"><a href="distribution.html#cb2-502" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">2.5</span></span>
+<span id="cb2-503"><a href="distribution.html#cb2-503" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-504"><a href="distribution.html#cb2-504" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_fill_manual</span>(<span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>nutrients_palette) <span class="sc">+</span></span>
+<span id="cb2-505"><a href="distribution.html#cb2-505" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_color_manual</span>(<span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>nutrients_palette) <span class="sc">+</span></span>
+<span id="cb2-506"><a href="distribution.html#cb2-506" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb2-507"><a href="distribution.html#cb2-507" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">coord_flip</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb2-508"><a href="distribution.html#cb2-508" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb2-509"><a href="distribution.html#cb2-509" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb2-510"><a href="distribution.html#cb2-510" tabindex="-1"></a>    <span class="at">panel.grid =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb2-511"><a href="distribution.html#cb2-511" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">7.75</span>),</span>
+<span id="cb2-512"><a href="distribution.html#cb2-512" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb2-513"><a href="distribution.html#cb2-513" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-514"><a href="distribution.html#cb2-514" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Cumulative nutrient density score&quot;</span>, <span class="at">subtitle =</span> <span class="st">&quot;Gear type and nutrient density&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-515"><a href="distribution.html#cb2-515" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">guides</span>(</span>
+<span id="cb2-516"><a href="distribution.html#cb2-516" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb2-517"><a href="distribution.html#cb2-517" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb2-518"><a href="distribution.html#cb2-518" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">7</span>))</span>
+<span id="cb2-519"><a href="distribution.html#cb2-519" tabindex="-1"></a>  )</span>
+<span id="cb2-520"><a href="distribution.html#cb2-520" tabindex="-1"></a></span>
+<span id="cb2-521"><a href="distribution.html#cb2-521" tabindex="-1"></a></span>
+<span id="cb2-522"><a href="distribution.html#cb2-522" tabindex="-1"></a>second_row_plot <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb2-523"><a href="distribution.html#cb2-523" tabindex="-1"></a>  groups_plot, <span class="co">#+ theme(plot.margin = unit(c(0, 0, 0, +2.2), &quot;cm&quot;)),</span></span>
+<span id="cb2-524"><a href="distribution.html#cb2-524" tabindex="-1"></a>  revenue_plot,</span>
+<span id="cb2-525"><a href="distribution.html#cb2-525" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">1</span>,</span>
+<span id="cb2-526"><a href="distribution.html#cb2-526" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">&quot;hv&quot;</span>,</span>
+<span id="cb2-527"><a href="distribution.html#cb2-527" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>),</span>
+<span id="cb2-528"><a href="distribution.html#cb2-528" tabindex="-1"></a>  <span class="at">rel_heights =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="dv">1</span>)</span>
+<span id="cb2-529"><a href="distribution.html#cb2-529" tabindex="-1"></a>)</span>
+<span id="cb2-530"><a href="distribution.html#cb2-530" tabindex="-1"></a></span>
+<span id="cb2-531"><a href="distribution.html#cb2-531" tabindex="-1"></a>p1 <span class="ot">&lt;-</span></span>
+<span id="cb2-532"><a href="distribution.html#cb2-532" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb2-533"><a href="distribution.html#cb2-533" tabindex="-1"></a>    long_plot,</span>
+<span id="cb2-534"><a href="distribution.html#cb2-534" tabindex="-1"></a>    second_row_plot,</span>
+<span id="cb2-535"><a href="distribution.html#cb2-535" tabindex="-1"></a>    <span class="at">ncol =</span> <span class="dv">2</span>,</span>
+<span id="cb2-536"><a href="distribution.html#cb2-536" tabindex="-1"></a>    <span class="at">align =</span> <span class="st">&quot;hv&quot;</span>,</span>
+<span id="cb2-537"><a href="distribution.html#cb2-537" tabindex="-1"></a>    <span class="at">rel_widths =</span> <span class="fu">c</span>(<span class="fl">1.75</span>, <span class="dv">1</span>),</span>
+<span id="cb2-538"><a href="distribution.html#cb2-538" tabindex="-1"></a>    <span class="at">labels =</span> <span class="st">&quot;AUTO&quot;</span></span>
+<span id="cb2-539"><a href="distribution.html#cb2-539" tabindex="-1"></a>  )</span>
+<span id="cb2-540"><a href="distribution.html#cb2-540" tabindex="-1"></a></span>
+<span id="cb2-541"><a href="distribution.html#cb2-541" tabindex="-1"></a>bottom_row_plot <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb2-542"><a href="distribution.html#cb2-542" tabindex="-1"></a>  habitat_plot <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;&quot;</span>),</span>
+<span id="cb2-543"><a href="distribution.html#cb2-543" tabindex="-1"></a>  gear_nutrients <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;&quot;</span>),</span>
+<span id="cb2-544"><a href="distribution.html#cb2-544" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">2</span>,</span>
+<span id="cb2-545"><a href="distribution.html#cb2-545" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">&quot;hv&quot;</span>,</span>
+<span id="cb2-546"><a href="distribution.html#cb2-546" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>),</span>
+<span id="cb2-547"><a href="distribution.html#cb2-547" tabindex="-1"></a>  <span class="at">rel_heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb2-548"><a href="distribution.html#cb2-548" tabindex="-1"></a>)</span>
+<span id="cb2-549"><a href="distribution.html#cb2-549" tabindex="-1"></a></span>
+<span id="cb2-550"><a href="distribution.html#cb2-550" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb2-551"><a href="distribution.html#cb2-551" tabindex="-1"></a>  p1 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="st">&quot;cm&quot;</span>)),</span>
+<span id="cb2-552"><a href="distribution.html#cb2-552" tabindex="-1"></a>  bottom_row_plot <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="st">&quot;cm&quot;</span>)),</span>
+<span id="cb2-553"><a href="distribution.html#cb2-553" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">2</span>,</span>
+<span id="cb2-554"><a href="distribution.html#cb2-554" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
+<span id="cb2-555"><a href="distribution.html#cb2-555" tabindex="-1"></a>  <span class="at">rel_heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.25</span>),</span>
+<span id="cb2-556"><a href="distribution.html#cb2-556" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">&quot;v&quot;</span> <span class="co"># align vertically</span></span>
+<span id="cb2-557"><a href="distribution.html#cb2-557" tabindex="-1"></a>)</span>
+<span id="cb2-558"><a href="distribution.html#cb2-558" tabindex="-1"></a></span>
+<span id="cb2-559"><a href="distribution.html#cb2-559" tabindex="-1"></a>legends <span class="ot">&lt;-</span></span>
+<span id="cb2-560"><a href="distribution.html#cb2-560" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb2-561"><a href="distribution.html#cb2-561" tabindex="-1"></a>    long_legend, groups_leg</span>
+<span id="cb2-562"><a href="distribution.html#cb2-562" tabindex="-1"></a>  )</span>
+<span id="cb2-563"><a href="distribution.html#cb2-563" tabindex="-1"></a></span>
+<span id="cb2-564"><a href="distribution.html#cb2-564" tabindex="-1"></a>x_label <span class="ot">&lt;-</span> cowplot<span class="sc">::</span><span class="fu">draw_label</span>(<span class="st">&quot;Cumulative Nutrient Density Score (NDS)&quot;</span>, <span class="at">x =</span> <span class="fl">0.55</span>, <span class="at">y =</span> <span class="fl">0.0825</span>)</span>
+<span id="cb2-565"><a href="distribution.html#cb2-565" tabindex="-1"></a></span>
+<span id="cb2-566"><a href="distribution.html#cb2-566" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(</span>
+<span id="cb2-567"><a href="distribution.html#cb2-567" tabindex="-1"></a>  p2,</span>
+<span id="cb2-568"><a href="distribution.html#cb2-568" tabindex="-1"></a>  legends <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="fl">0.19</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>), <span class="st">&quot;cm&quot;</span>)),</span>
+<span id="cb2-569"><a href="distribution.html#cb2-569" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">2</span>,</span>
+<span id="cb2-570"><a href="distribution.html#cb2-570" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">&quot;h&quot;</span>,</span>
+<span id="cb2-571"><a href="distribution.html#cb2-571" tabindex="-1"></a>  <span class="at">rel_heights =</span> <span class="fu">c</span>(<span class="fl">1.3</span>, <span class="fl">0.1</span>)</span>
+<span id="cb2-572"><a href="distribution.html#cb2-572" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb2-573"><a href="distribution.html#cb2-573" tabindex="-1"></a>  x_label</span></code></pre></div>
+</details>
+<p><img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/unnamed-chunk-3-1.png" width="892.8" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="distribution.html#cb3-1" tabindex="-1"></a>parallel_plot <span class="ot">&lt;-</span></span>
+<span id="cb3-2"><a href="distribution.html#cb3-2" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>kobo_trips <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="distribution.html#cb3-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">habitat =</span> <span class="fu">ifelse</span>(habitat <span class="sc">==</span> <span class="st">&quot;Deep&quot;</span>, <span class="st">&quot;Pelagic&quot;</span>, habitat)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="distribution.html#cb3-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(habitat, gear_type, Selenium_mu<span class="sc">:</span>Vitamin_A_mu) <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="distribution.html#cb3-5" tabindex="-1"></a>  <span class="fu">rename_nutrients_mu</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="distribution.html#cb3-6" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(habitat, gear_type), <span class="at">names_to =</span> <span class="st">&quot;nutrient&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;concentration_g&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="distribution.html#cb3-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(habitat, gear_type, nutrient) <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="distribution.html#cb3-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">concentration_g =</span> <span class="fu">sum</span>(concentration_g, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-9"><a href="distribution.html#cb3-9" tabindex="-1"></a>  <span class="co"># get relative values</span></span>
+<span id="cb3-10"><a href="distribution.html#cb3-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(nutrient) <span class="sc">%&gt;%</span></span>
+<span id="cb3-11"><a href="distribution.html#cb3-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb3-12"><a href="distribution.html#cb3-12" tabindex="-1"></a>    <span class="at">nutrient_sum =</span> <span class="fu">sum</span>(concentration_g),</span>
+<span id="cb3-13"><a href="distribution.html#cb3-13" tabindex="-1"></a>    <span class="at">concentration_g =</span> concentration_g <span class="sc">/</span> nutrient_sum <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb3-14"><a href="distribution.html#cb3-14" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-15"><a href="distribution.html#cb3-15" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-16"><a href="distribution.html#cb3-16" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(dplyr<span class="sc">::</span><span class="fu">across</span>(habitat<span class="sc">:</span>nutrient, <span class="sc">~</span> <span class="fu">as.factor</span>(.x))) <span class="sc">%&gt;%</span></span>
+<span id="cb3-17"><a href="distribution.html#cb3-17" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb3-18"><a href="distribution.html#cb3-18" tabindex="-1"></a>    <span class="at">nutrient =</span> <span class="fu">as.factor</span>(nutrient)</span>
+<span id="cb3-19"><a href="distribution.html#cb3-19" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-20"><a href="distribution.html#cb3-20" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb3-21"><a href="distribution.html#cb3-21" tabindex="-1"></a>    <span class="at">nutrient =</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(nutrient),</span>
+<span id="cb3-22"><a href="distribution.html#cb3-22" tabindex="-1"></a>    <span class="at">nutrient =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb3-23"><a href="distribution.html#cb3-23" tabindex="-1"></a>      nutrient <span class="sc">==</span> <span class="st">&quot;Omega3&quot;</span> <span class="sc">~</span> <span class="st">&quot;Omega-3&quot;</span>,</span>
+<span id="cb3-24"><a href="distribution.html#cb3-24" tabindex="-1"></a>      nutrient <span class="sc">==</span> <span class="st">&quot;Vitamina&quot;</span> <span class="sc">~</span> <span class="st">&quot;Vitamin-A&quot;</span>,</span>
+<span id="cb3-25"><a href="distribution.html#cb3-25" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> nutrient</span>
+<span id="cb3-26"><a href="distribution.html#cb3-26" tabindex="-1"></a>    )</span>
+<span id="cb3-27"><a href="distribution.html#cb3-27" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-28"><a href="distribution.html#cb3-28" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(</span>
+<span id="cb3-29"><a href="distribution.html#cb3-29" tabindex="-1"></a>    <span class="st">&quot;Nutrient&quot;</span> <span class="ot">=</span> nutrient,</span>
+<span id="cb3-30"><a href="distribution.html#cb3-30" tabindex="-1"></a>    <span class="st">&quot;Habitat&quot;</span> <span class="ot">=</span> habitat,</span>
+<span id="cb3-31"><a href="distribution.html#cb3-31" tabindex="-1"></a>    <span class="st">&quot;Gear type&quot;</span> <span class="ot">=</span> gear_type</span>
+<span id="cb3-32"><a href="distribution.html#cb3-32" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-33"><a href="distribution.html#cb3-33" tabindex="-1"></a>  ggforce<span class="sc">::</span><span class="fu">gather_set_data</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb3-34"><a href="distribution.html#cb3-34" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="distribution.html#cb3-35" tabindex="-1"></a>parallel_plot<span class="sc">$</span>x <span class="ot">&lt;-</span> <span class="fu">factor</span>(parallel_plot<span class="sc">$</span>x,</span>
+<span id="cb3-36"><a href="distribution.html#cb3-36" tabindex="-1"></a>                          <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>),</span>
+<span id="cb3-37"><a href="distribution.html#cb3-37" tabindex="-1"></a>                          <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Nutrient&quot;</span>, <span class="st">&quot;Habitat&quot;</span>, <span class="st">&quot;Gear type&quot;</span>)</span>
+<span id="cb3-38"><a href="distribution.html#cb3-38" tabindex="-1"></a>)</span>
+<span id="cb3-39"><a href="distribution.html#cb3-39" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="distribution.html#cb3-40" tabindex="-1"></a>parallel_plot<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">factor</span>(parallel_plot<span class="sc">$</span>y, <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb3-41"><a href="distribution.html#cb3-41" tabindex="-1"></a>  <span class="st">&quot;Protein&quot;</span>, <span class="st">&quot;Omega-3&quot;</span>, <span class="st">&quot;Calcium&quot;</span>, <span class="st">&quot;Iron&quot;</span>, <span class="st">&quot;Vitamin-A&quot;</span>, <span class="st">&quot;Zinc&quot;</span>, <span class="st">&quot;Selenium&quot;</span>,</span>
+<span id="cb3-42"><a href="distribution.html#cb3-42" tabindex="-1"></a>  <span class="st">&quot;Reef&quot;</span>, <span class="st">&quot;Pelagic&quot;</span>, <span class="st">&quot;FAD&quot;</span>, <span class="st">&quot;Beach&quot;</span>, <span class="st">&quot;Traditional FAD&quot;</span>, <span class="st">&quot;Mangrove&quot;</span>, <span class="st">&quot;Seagrass&quot;</span>,</span>
+<span id="cb3-43"><a href="distribution.html#cb3-43" tabindex="-1"></a>  <span class="st">&quot;gill net&quot;</span>, <span class="st">&quot;seine net&quot;</span>, <span class="st">&quot;spear gun&quot;</span>, <span class="st">&quot;hand line&quot;</span>, <span class="st">&quot;long line&quot;</span>, <span class="st">&quot;manual collection&quot;</span>,</span>
+<span id="cb3-44"><a href="distribution.html#cb3-44" tabindex="-1"></a>  <span class="st">&quot;beach seine&quot;</span>, <span class="st">&quot;trap&quot;</span>, <span class="st">&quot;cast net&quot;</span></span>
+<span id="cb3-45"><a href="distribution.html#cb3-45" tabindex="-1"></a>))</span>
+<span id="cb3-46"><a href="distribution.html#cb3-46" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="distribution.html#cb3-47" tabindex="-1"></a>parallel_plot <span class="sc">%&gt;%</span></span>
+<span id="cb3-48"><a href="distribution.html#cb3-48" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>Nutrient <span class="sc">==</span> <span class="st">&quot;Selenium&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-49"><a href="distribution.html#cb3-49" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-50"><a href="distribution.html#cb3-50" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, <span class="at">id =</span> id, <span class="at">split =</span> y, <span class="at">value =</span> concentration_g)) <span class="sc">+</span></span>
+<span id="cb3-51"><a href="distribution.html#cb3-51" tabindex="-1"></a>  ggforce<span class="sc">::</span><span class="fu">geom_parallel_sets</span>(<span class="fu">aes</span>(<span class="at">fill =</span> Nutrient), <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">axis.width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb3-52"><a href="distribution.html#cb3-52" tabindex="-1"></a>  ggforce<span class="sc">::</span><span class="fu">geom_parallel_sets_axes</span>(<span class="at">axis.width =</span> <span class="fl">0.25</span>, <span class="at">fill =</span> <span class="st">&quot;grey95&quot;</span>) <span class="sc">+</span></span>
+<span id="cb3-53"><a href="distribution.html#cb3-53" tabindex="-1"></a>  ggforce<span class="sc">::</span><span class="fu">geom_parallel_sets_labels</span>(<span class="at">colour =</span> <span class="st">&quot;grey30&quot;</span>, <span class="at">angle =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb3-54"><a href="distribution.html#cb3-54" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">name =</span> <span class="cn">NULL</span>, <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.2</span>)) <span class="sc">+</span></span>
+<span id="cb3-55"><a href="distribution.html#cb3-55" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="cn">NULL</span>, <span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb3-56"><a href="distribution.html#cb3-56" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb3-57"><a href="distribution.html#cb3-57" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> timor.nutrients<span class="sc">::</span>palettes<span class="sc">$</span>nutrients_palette) <span class="sc">+</span></span>
+<span id="cb3-58"><a href="distribution.html#cb3-58" tabindex="-1"></a>  <span class="co"># scale_fill_manual(values = c(&quot;#508AA8&quot;, &quot;grey95&quot;, &quot;#BD9391&quot;)) +</span></span>
+<span id="cb3-59"><a href="distribution.html#cb3-59" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb3-60"><a href="distribution.html#cb3-60" tabindex="-1"></a>    <span class="at">axis.line =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-61"><a href="distribution.html#cb3-61" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-62"><a href="distribution.html#cb3-62" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb3-63"><a href="distribution.html#cb3-63" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-64"><a href="distribution.html#cb3-64" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb3-65"><a href="distribution.html#cb3-65" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-66"><a href="distribution.html#cb3-66" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+</details>
+<p><img src="Timor-nutrient-sensitive-fisheries-management_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 
-</div>
 </div>
             </section>
 

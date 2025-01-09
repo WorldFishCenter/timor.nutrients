@@ -1,6 +1,5 @@
-# Highlight statistics {#highlight}
+# Timor-Est nutritional maps {#highlight}
 
-## Timor-Est SSF nutritional scenario
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 library(ggplot2)
@@ -9,7 +8,7 @@ timor.nutrients::generate_summary_table(use_20 = TRUE)
 ```
 
 
-```{r echo=FALSE, fig.cap="To define", fig.width=10, message=FALSE, warning=FALSE}
+```{r echo=TRUE, fig.width=10, message=FALSE, warning=FALSE}
 bonds <- sf::st_as_sf(timor.nutrients::timor_bonds)
 
 region_nutr <-
