@@ -1,5 +1,11 @@
 # timor.nutrients
 
+<!-- badges: start -->
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14622832.svg)](https://doi.org/10.5281/zenodo.14622832)
+
+<!-- badges: end -->
+
 This repository contains the code and analyses for the paper **"Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management."** The study models nutrient yields from small-scale fisheries in Timor-Leste, providing insights for nutrition-sensitive and sustainable fisheries management.
 
 ## Overview
