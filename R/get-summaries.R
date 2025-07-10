@@ -9,12 +9,13 @@
 #'
 generate_summary_table <- function(use_20 = TRUE) {
   if (isTRUE(use_20)) {
-    rdi_table <- timor.nutrients::RDI_tab %>% dplyr::mutate(conv_factor = conv_factor * 0.20)
+    rdi_table <- timor.nutrients::RDI_tab %>%
+      dplyr::mutate(conv_factor = conv_factor * 0.20)
   } else {
     rdi_table <- timor.nutrients::RDI_tab
   }
   municipal_nut_month <-
-    timor.nutrients::region_stats %>%
+    timor.nutrients::region_stats_adj %>%
     dplyr::group_by(region, date_bin_start) %>%
     dplyr::summarise(dplyr::across(is.numeric, ~ sum(.))) %>%
     dplyr::mutate(year = lubridate::year(date_bin_start)) %>%
@@ -27,7 +28,11 @@ generate_summary_table <- function(use_20 = TRUE) {
     dplyr::filter(year == 2022) %>%
     dplyr::group_by(region, year) %>%
     dplyr::summarise(dplyr::across(dplyr::everything(), ~ sum(.))) %>%
-    tidyr::pivot_longer(-c(region, year), names_to = "nutrient", values_to = "kg") %>%
+    tidyr::pivot_longer(
+      -c(region, year),
+      names_to = "nutrient",
+      values_to = "kg"
+    ) %>%
     dplyr::ungroup()
 
   nut_all <-
@@ -41,7 +46,9 @@ generate_summary_table <- function(use_20 = TRUE) {
 
   tab <-
     nut_region %>%
-    dplyr::mutate(nutrient = ifelse(nutrient == "vitamina", "vitaminA", nutrient)) %>%
+    dplyr::mutate(
+      nutrient = ifelse(nutrient == "vitamina", "vitaminA", nutrient)
+    ) %>%
     dplyr::left_join(timor.nutrients::timor_population, by = "region") %>%
     dplyr::left_join(rdi_table, by = "nutrient") %>%
     dplyr::rename(
@@ -52,14 +59,22 @@ generate_summary_table <- function(use_20 = TRUE) {
     dplyr::mutate(
       rni = rni / 1000,
       people_supplied_daily = (annual_kg / rni) / 365,
-      percent_population_supplied = (people_supplied_daily / (region_population)) * 100,
+      percent_population_supplied = (people_supplied_daily /
+        (region_population)) *
+        100,
       annual_kg = round(annual_kg, 4),
       people_supplied_daily = round(people_supplied_daily, 3),
       percent_population_supplied = round(percent_population_supplied, 3),
       region_population = format(region_population, big.mark = ","),
       region = paste0(region, " (", region_population, ")")
     ) %>%
-    dplyr::select(region, nutrient, annual_kg, people_supplied_daily, percent_population_supplied)
+    dplyr::select(
+      region,
+      nutrient,
+      annual_kg,
+      people_supplied_daily,
+      percent_population_supplied
+    )
 
   color_pal <- c("#f5fcdf", "#f2fbd2", "#c9ecb4", "#93d3ab", "#35b0ab")
 
@@ -79,9 +94,18 @@ generate_summary_table <- function(use_20 = TRUE) {
     dplyr::summarise(dplyr::across(dplyr::where(is.numeric), ~ sum(.x))) %>%
     dplyr::mutate(nutrient = "all nutrients (except selenium)")
 
-  tab <-
+  tab_render <-
     tab %>%
-    dplyr::bind_rows(all_nutrients)
+    dplyr::bind_rows(all_nutrients) |>
+    dplyr::select(region, nutrient, percent_population_supplied) |>
+    tidyr::pivot_wider(
+      names_from = nutrient,
+      values_from = percent_population_supplied
+    ) |>
+    dplyr::select(-selenium) |>
+    dplyr::mutate(region = stringr::str_remove(region, "\\s*\\([^)]*\\)")) |>
+    dplyr::rename(total = `all nutrients (except selenium)`) |>
+    dplyr::left_join(timor_population, by = "region")
 
   reactable::reactable(
     tab,
@@ -113,7 +137,8 @@ generate_summary_table <- function(use_20 = TRUE) {
         name = "Annual supply (Kg)",
         format = reactable::colFormat(separators = TRUE),
         style = function(value) {
-          normalized <- (log(value + 1) - min(log(tab$annual_kg + 1))) / (max(log(tab$annual_kg + 1)) - min(log(tab$annual_kg + 1)))
+          normalized <- (log(value + 1) - min(log(tab$annual_kg + 1))) /
+            (max(log(tab$annual_kg + 1)) - min(log(tab$annual_kg + 1)))
           color <- good_color(normalized)
           list(background = color)
         }
@@ -122,7 +147,10 @@ generate_summary_table <- function(use_20 = TRUE) {
         name = "N. people supplied daily",
         format = reactable::colFormat(separators = TRUE),
         style = function(value) {
-          normalized <- (log(value + 1) - min(log(tab$people_supplied_daily + 1))) / (max(log(tab$people_supplied_daily + 1)) - min(log(tab$people_supplied_daily + 1)))
+          normalized <- (log(value + 1) -
+            min(log(tab$people_supplied_daily + 1))) /
+            (max(log(tab$people_supplied_daily + 1)) -
+              min(log(tab$people_supplied_daily + 1)))
           color <- good_color(normalized)
           list(background = color)
         },
@@ -132,7 +160,10 @@ generate_summary_table <- function(use_20 = TRUE) {
         format = reactable::colFormat(suffix = "%", separators = TRUE),
         html = TRUE,
         style = function(value) {
-          normalized <- (log(value + 1) - min(log(tab$percent_population_supplied + 1))) / (max(log(tab$percent_population_supplied + 1)) - min(log(tab$percent_population_supplied + 1)))
+          normalized <- (log(value + 1) -
+            min(log(tab$percent_population_supplied + 1))) /
+            (max(log(tab$percent_population_supplied + 1)) -
+              min(log(tab$percent_population_supplied + 1)))
           color <- good_color(normalized)
           list(background = color)
         },

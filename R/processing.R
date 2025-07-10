@@ -17,14 +17,26 @@ rename_nutrients_mu <- function(df = NULL, hyphen = FALSE) {
     df %>%
       dplyr::rename_with(~ tolower(.), dplyr::everything()) %>%
       dplyr::rename_with(~ gsub("_mu$", "", .), dplyr::everything()) %>%
-      dplyr::rename_with(~ gsub("omega_3", "omega3", .), dplyr::everything()) %>%
-      dplyr::rename_with(~ gsub("vitamin_a", "vitaminA", .), dplyr::everything())
+      dplyr::rename_with(
+        ~ gsub("omega_3", "omega3", .),
+        dplyr::everything()
+      ) %>%
+      dplyr::rename_with(
+        ~ gsub("vitamin_a", "vitaminA", .),
+        dplyr::everything()
+      )
   } else {
     df %>%
       dplyr::rename_with(~ tolower(.), dplyr::everything()) %>%
       dplyr::rename_with(~ gsub("_mu$", "", .), dplyr::everything()) %>%
-      dplyr::rename_with(~ gsub("omega_3", "omega-3", .), dplyr::everything()) %>%
-      dplyr::rename_with(~ gsub("vitamin_a", "vitamin-A", .), dplyr::everything())
+      dplyr::rename_with(
+        ~ gsub("omega_3", "omega-3", .),
+        dplyr::everything()
+      ) %>%
+      dplyr::rename_with(
+        ~ gsub("vitamin_a", "vitamin-A", .),
+        dplyr::everything()
+      )
   }
 }
 
@@ -66,18 +78,42 @@ get_model_data <- function() {
     dplyr::ungroup() %>%
     dplyr::select(-Selenium_mu) %>%
     rename_nutrients_mu() %>%
-    tidyr::pivot_longer(c(zinc:vitaminA), names_to = "nutrient", values_to = "kg") %>%
+    tidyr::pivot_longer(
+      c(zinc:vitaminA),
+      names_to = "nutrient",
+      values_to = "kg"
+    ) %>%
     dplyr::left_join(RDI_tab, by = "nutrient") %>%
     dplyr::mutate(
       nutrients_kg_per_kg = kg / weight, # standardize nutrients for 1 kg of catch
       nutrients_g_per_kg = nutrients_kg_per_kg * 1000, # convert stand nutrients in grams
       people_rni_kg = nutrients_g_per_kg / conv_factor
     ) %>%
-    dplyr::select(landing_id, landing_date, vessel_type, habitat, gear_type, mesh_size, nutrient, people_rni_kg) %>%
-    tidyr::pivot_wider(names_from = "nutrient", values_from = "people_rni_kg") %>%
+    dplyr::select(
+      landing_id,
+      landing_date,
+      vessel_type,
+      habitat,
+      gear_type,
+      mesh_size,
+      nutrient,
+      people_rni_kg
+    ) %>%
+    tidyr::pivot_wider(
+      names_from = "nutrient",
+      values_from = "people_rni_kg"
+    ) %>%
     dplyr::mutate(quarter = lubridate::quarter(landing_date)) %>%
     dplyr::select(landing_date, quarter, dplyr::everything()) %>%
-    dplyr::group_by(landing_id, landing_date, quarter, vessel_type, habitat, gear_type, mesh_size) %>%
+    dplyr::group_by(
+      landing_id,
+      landing_date,
+      quarter,
+      vessel_type,
+      habitat,
+      gear_type,
+      mesh_size
+    ) %>%
     dplyr::summarise(dplyr::across(is.numeric, ~ median(.x, na.rm = T))) %>%
     dplyr::ungroup() %>%
     na.omit()
@@ -99,11 +135,22 @@ get_model_data <- function() {
       df
     ) %>%
     dplyr::mutate(habitat_mesh = paste(habitat, mesh_size, sep = "_")) %>%
-    dplyr::select(quarter, habitat, habitat_mesh, mesh_size, vessel_type, cluster = clusters) %>%
-    dplyr::mutate(dplyr::across(.cols = c(quarter, habitat, habitat_mesh, vessel_type, cluster), ~ as.factor(.x)))
+    dplyr::select(
+      quarter,
+      habitat,
+      habitat_mesh,
+      mesh_size,
+      vessel_type,
+      cluster = clusters
+    ) %>%
+    dplyr::mutate(dplyr::across(
+      .cols = c(quarter, habitat, habitat_mesh, vessel_type, cluster),
+      ~ as.factor(.x)
+    ))
 
   profiles_plot_timor_GN <-
-    factoextra::fviz_cluster(k2,
+    factoextra::fviz_cluster(
+      k2,
       data = df[, 8:13],
       geom = c("point"),
       shape = 19,
@@ -111,8 +158,12 @@ get_model_data <- function() {
       pointsize = 1.5
     ) +
     ggplot2::theme_minimal() +
-    ggplot2::scale_fill_manual(values = timor.nutrients::palettes$clusters_palette) +
-    ggplot2::scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
+    ggplot2::scale_fill_manual(
+      values = timor.nutrients::palettes$clusters_palette
+    ) +
+    ggplot2::scale_color_manual(
+      values = timor.nutrients::palettes$clusters_palette
+    ) +
     ggplot2::labs(title = "") +
     ggplot2::theme(legend.position = "bottom")
 
@@ -122,18 +173,40 @@ get_model_data <- function() {
     dplyr::ungroup() %>%
     dplyr::select(-Selenium_mu) %>%
     rename_nutrients_mu() %>%
-    tidyr::pivot_longer(c(zinc:vitaminA), names_to = "nutrient", values_to = "kg") %>%
+    tidyr::pivot_longer(
+      c(zinc:vitaminA),
+      names_to = "nutrient",
+      values_to = "kg"
+    ) %>%
     dplyr::left_join(RDI_tab, by = "nutrient") %>%
     dplyr::mutate(
       nutrients_kg_per_kg = kg / weight, # standardize nutrients for 1 kg of catch
       nutrients_g_per_kg = nutrients_kg_per_kg * 1000, # convert stand nutrients in grams
       people_rni_kg = nutrients_g_per_kg / conv_factor
     ) %>%
-    dplyr::select(landing_id, landing_date, vessel_type, habitat, gear_type, nutrient, people_rni_kg) %>%
-    tidyr::pivot_wider(names_from = "nutrient", values_from = "people_rni_kg") %>%
+    dplyr::select(
+      landing_id,
+      landing_date,
+      vessel_type,
+      habitat,
+      gear_type,
+      nutrient,
+      people_rni_kg
+    ) %>%
+    tidyr::pivot_wider(
+      names_from = "nutrient",
+      values_from = "people_rni_kg"
+    ) %>%
     dplyr::mutate(quarter = lubridate::quarter(landing_date)) %>%
     dplyr::select(landing_date, quarter, dplyr::everything()) %>%
-    dplyr::group_by(landing_id, landing_date, quarter, vessel_type, habitat, gear_type) %>%
+    dplyr::group_by(
+      landing_id,
+      landing_date,
+      quarter,
+      vessel_type,
+      habitat,
+      gear_type
+    ) %>%
     dplyr::summarise(dplyr::across(is.numeric, ~ median(.x, na.rm = T))) %>%
     dplyr::ungroup() %>%
     na.omit()
@@ -154,11 +227,29 @@ get_model_data <- function() {
       df
     ) %>%
     dplyr::mutate(habitat_gear = paste(habitat, gear_type, sep = "_")) %>%
-    dplyr::select(quarter, habitat_gear, habitat, gear_type, vessel_type, cluster = clusters) %>%
-    dplyr::mutate(dplyr::across(.cols = c(quarter, habitat_gear, habitat, gear_type, vessel_type, cluster), ~ as.factor(.x)))
+    dplyr::select(
+      quarter,
+      habitat_gear,
+      habitat,
+      gear_type,
+      vessel_type,
+      cluster = clusters
+    ) %>%
+    dplyr::mutate(dplyr::across(
+      .cols = c(
+        quarter,
+        habitat_gear,
+        habitat,
+        gear_type,
+        vessel_type,
+        cluster
+      ),
+      ~ as.factor(.x)
+    ))
 
   profiles_plot_timor_AG <-
-    factoextra::fviz_cluster(k2,
+    factoextra::fviz_cluster(
+      k2,
       data = df[, 7:12],
       geom = c("point"),
       shape = 19,
@@ -166,8 +257,12 @@ get_model_data <- function() {
       pointsize = 1.5
     ) +
     ggplot2::theme_minimal() +
-    ggplot2::scale_fill_manual(values = timor.nutrients::palettes$clusters_palette) +
-    ggplot2::scale_color_manual(values = timor.nutrients::palettes$clusters_palette) +
+    ggplot2::scale_fill_manual(
+      values = timor.nutrients::palettes$clusters_palette
+    ) +
+    ggplot2::scale_color_manual(
+      values = timor.nutrients::palettes$clusters_palette
+    ) +
     ggplot2::labs(title = "") +
     ggplot2::theme(legend.position = "bottom")
 
@@ -179,8 +274,15 @@ get_model_data <- function() {
   )
 
   data_list_processed <- list(
-    timor_AG = list(dataframe = timor_AG, step_other = c("habitat_gear", "habitat", "gear_type")),
-    timor_GN = list(dataframe = timor_GN, step_other = "habitat", "habitat_mesh")
+    timor_AG = list(
+      dataframe = timor_AG,
+      step_other = c("habitat_gear", "habitat", "gear_type")
+    ),
+    timor_GN = list(
+      dataframe = timor_GN,
+      step_other = "habitat",
+      "habitat_mesh"
+    )
   )
 
   profiles_kmeans <- list(
@@ -223,7 +325,8 @@ run_permanova_clusters <- function(x, permutations = NULL, parallel = NULL) {
 
   dist_matrix <- vegan::vegdist(anov_dat[, -1], method = "euclidean")
   # Perform PERMANOVA using the adonis function
-  permanova_results <- vegan::adonis2(dist_matrix ~ clusters,
+  permanova_results <- vegan::adonis2(
+    dist_matrix ~ clusters,
     data = anov_dat,
     parallel = parallel,
     permutations = permutations,

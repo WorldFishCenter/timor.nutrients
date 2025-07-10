@@ -159,7 +159,7 @@ groups_palette <- c("#bc4749", "#2a9d8f", "#e9c46a", "#007ea7", "#264653", "#898
 
 
 groups_plot <-
-  timor.nutrients::region_stats %>%
+  timor.nutrients::region_stats_adj %>%
   dplyr::mutate(fish_group = dplyr::case_when(
     grouped_taxa %in% c("COZ") ~ "Molluscs",
     grouped_taxa %in% c("PEZ") ~ "Shrimps",

@@ -7,3 +7,6 @@ auth/*
 .Rhistory
 .RData
 .Ruserdata
+
+#data
+*.rds

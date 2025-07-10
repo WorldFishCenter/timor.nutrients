@@ -12,7 +12,7 @@ timor.nutrients::generate_summary_table(use_20 = TRUE)
 bonds <- sf::st_as_sf(timor.nutrients::timor_bonds)
 
 region_nutr <-
-  timor.nutrients::map_data %>%
+  timor.nutrients::map_data_adj %>%
   dplyr::rename(region = area) %>%
   dplyr::filter(!region == "National") %>%
   dplyr::mutate(region = ifelse(region == "Liquiça", "Liquica", region)) %>%
@@ -59,7 +59,7 @@ p2 <-
                  dplyr::filter(!region == "Atauro"), mapping = aes(label = region, geometry = geometry), size = 3, color = "grey50", fontface = "bold") +
   annotate(
     "text",
-    x = 126, y = -8.2, label = "Atauro 1,067.9%", size = 3, color = "firebrick", fontface = "bold"
+    x = 126, y = -8.2, label = "Atauro 747%", size = 3, color = "firebrick", fontface = "bold"
   ) +
   # annotate(
   #  "text", x = 125.8, y = -8.2, label = "1067.9%", size = 3, color = "firebrick", fontface = "bold"

@@ -63,8 +63,9 @@
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -74,7 +75,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -178,7 +179,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="highlight.html#cb1-1" tabindex="-1"></a>bonds <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_as_sf</span>(timor.nutrients<span class="sc">::</span>timor_bonds)</span>
 <span id="cb1-2"><a href="highlight.html#cb1-2" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="highlight.html#cb1-3" tabindex="-1"></a>region_nutr <span class="ot">&lt;-</span></span>
-<span id="cb1-4"><a href="highlight.html#cb1-4" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>map_data <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="highlight.html#cb1-4" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>map_data_adj <span class="sc">%&gt;%</span></span>
 <span id="cb1-5"><a href="highlight.html#cb1-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">region =</span> area) <span class="sc">%&gt;%</span></span>
 <span id="cb1-6"><a href="highlight.html#cb1-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>region <span class="sc">==</span> <span class="st">&quot;National&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb1-7"><a href="highlight.html#cb1-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">region =</span> <span class="fu">ifelse</span>(region <span class="sc">==</span> <span class="st">&quot;Liquiça&quot;</span>, <span class="st">&quot;Liquica&quot;</span>, region)) <span class="sc">%&gt;%</span></span>
@@ -225,7 +226,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-48"><a href="highlight.html#cb1-48" tabindex="-1"></a>                 dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>region <span class="sc">==</span> <span class="st">&quot;Atauro&quot;</span>), <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">label =</span> region, <span class="at">geometry =</span> geometry), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">&quot;grey50&quot;</span>, <span class="at">fontface =</span> <span class="st">&quot;bold&quot;</span>) <span class="sc">+</span></span>
 <span id="cb1-49"><a href="highlight.html#cb1-49" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
 <span id="cb1-50"><a href="highlight.html#cb1-50" tabindex="-1"></a>    <span class="st">&quot;text&quot;</span>,</span>
-<span id="cb1-51"><a href="highlight.html#cb1-51" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">126</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">8.2</span>, <span class="at">label =</span> <span class="st">&quot;Atauro 1,067.9%&quot;</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="at">fontface =</span> <span class="st">&quot;bold&quot;</span></span>
+<span id="cb1-51"><a href="highlight.html#cb1-51" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">126</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">8.2</span>, <span class="at">label =</span> <span class="st">&quot;Atauro 747%&quot;</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="at">fontface =</span> <span class="st">&quot;bold&quot;</span></span>
 <span id="cb1-52"><a href="highlight.html#cb1-52" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb1-53"><a href="highlight.html#cb1-53" tabindex="-1"></a>  <span class="co"># annotate(</span></span>
 <span id="cb1-54"><a href="highlight.html#cb1-54" tabindex="-1"></a>  <span class="co">#  &quot;text&quot;, x = 125.8, y = -8.2, label = &quot;1067.9%&quot;, size = 3, color = &quot;firebrick&quot;, fontface = &quot;bold&quot;</span></span>

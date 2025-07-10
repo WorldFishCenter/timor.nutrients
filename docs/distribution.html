@@ -63,8 +63,9 @@
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -74,7 +75,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -333,7 +334,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-156"><a href="distribution.html#cb2-156" tabindex="-1"></a></span>
 <span id="cb2-157"><a href="distribution.html#cb2-157" tabindex="-1"></a></span>
 <span id="cb2-158"><a href="distribution.html#cb2-158" tabindex="-1"></a>groups_plot <span class="ot">&lt;-</span></span>
-<span id="cb2-159"><a href="distribution.html#cb2-159" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>region_stats <span class="sc">%&gt;%</span></span>
+<span id="cb2-159"><a href="distribution.html#cb2-159" tabindex="-1"></a>  timor.nutrients<span class="sc">::</span>region_stats_adj <span class="sc">%&gt;%</span></span>
 <span id="cb2-160"><a href="distribution.html#cb2-160" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">fish_group =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb2-161"><a href="distribution.html#cb2-161" tabindex="-1"></a>    grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;COZ&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Molluscs&quot;</span>,</span>
 <span id="cb2-162"><a href="distribution.html#cb2-162" tabindex="-1"></a>    grouped_taxa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;PEZ&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Shrimps&quot;</span>,</span>
