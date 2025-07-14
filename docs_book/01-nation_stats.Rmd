@@ -11,16 +11,29 @@ timor.nutrients::generate_summary_table(use_20 = TRUE)
 ```{r echo=TRUE, fig.width=10, message=FALSE, warning=FALSE}
 bonds <- sf::st_as_sf(timor.nutrients::timor_bonds)
 
+tot_prod <- 
+  timor.nutrients::map_data |> 
+    dplyr::rename(region = area) |> 
+    dplyr::rename(annual_catch_tot = annual_catch) |> 
+    dplyr::rename(WRA_tot = WRA) |> 
+    dplyr::mutate(region = ifelse(region == "Liquiça", "Liquica", region))
+
+
 region_nutr <-
   timor.nutrients::map_data_adj %>%
   dplyr::rename(region = area) %>%
   dplyr::filter(!region == "National") %>%
   dplyr::mutate(region = ifelse(region == "Liquiça", "Liquica", region)) %>%
-  dplyr::right_join(bonds, by = c("region"))
+  dplyr::right_join(bonds, by = c("region")) |> 
+  dplyr::left_join(tot_prod, by = "region") |> 
+  dplyr::select(region, 
+  annual_catch_tot, 
+  WRA,
+  geometry)
 
 p1 <- 
   ggplot(data = region_nutr) +
-  geom_sf(aes(geometry = geometry, fill = annual_catch),
+  geom_sf(aes(geometry = geometry, fill = annual_catch_tot),
           color = "white", linewidth = 0.5
   ) +
   theme_void() +
