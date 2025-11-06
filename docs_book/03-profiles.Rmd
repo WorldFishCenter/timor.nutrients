@@ -517,7 +517,7 @@ p2 <-
   dplyr::filter(mesh_shap > 0) %>%
   dplyr::mutate(habitat_fact = dplyr::case_when(habitat_fact == "Deep" ~ "Pelagic", TRUE ~ habitat_fact)) %>%
   ggplot2::ggplot(ggplot2::aes(mesh_shap, mesh_fact, color = habitat_fact)) +
-  facet_grid(. ~ factor(profile, levels = c("FNP-3", "FNP-1", "FNP-2")), scales = "free") +
+  facet_grid(. ~ factor(profile, levels = c("FNP-1", "FNP-2", "FNP-3")), scales = "free") +
   ggplot2::geom_point(ggplot2::aes(alpha = sqrt(mesh_shap), size = mesh_shap)) +
   ggpubr::theme_pubr(border = TRUE) +
   ggplot2::scale_color_manual(values = c("#f28f3b", "#c27ba0", "#ffd5c2", "#588b8b", "#c8553d", "#2d3047", "#007ea7")) +
