@@ -93,7 +93,7 @@ base_plot <-
     ))
   )
 
-tons_label <- cowplot::draw_label("Mean annual\ncatch (tons)", x = 0.941, y = 0.98, size = 9)
+tons_label <- cowplot::draw_label("Mean annual\ncatch (tons)", x = 0.941, y = 0.98, size = 8)
 
 long_plot <-
 ggplot2::ggplot() +
@@ -568,7 +568,7 @@ x_label <- cowplot::draw_label("Cumulative Nutrient Density Score (NDS)", x = 0.
 
 cowplot::plot_grid(
   p2,
-  legends + theme(plot.margin = unit(c(0.19, 0, 0, -2), "cm")),
+  legends + theme(plot.margin = unit(c(0.19, 0.45, 0, -1.5), "cm")),
   nrow = 2,
   align = "h",
   rel_heights = c(1.3, 0.1)

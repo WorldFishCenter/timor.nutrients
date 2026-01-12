@@ -117,39 +117,39 @@ region_stats_adj <-
 #  get_merged_trips(pars) %>%
 #  dplyr::filter(!is.na(landing_id))
 
-kobo_trips <-
-  trips %>%
-  dplyr::mutate(
-    landing_period = lubridate::floor_date(landing_date, unit = "month"),
-    landing_id = as.character(landing_id),
-    n_fishers = fisher_number_man + fisher_number_woman + fisher_number_child
-  ) %>%
-  dplyr::filter(
-    landing_period >= "2018-01-01" & landing_period <= "2023-12-31",
-    reporting_region %in% c("Dili", "Atauro")
-  ) %>%
-  tidyr::unnest(.data$landing_catch) %>%
-  tidyr::unnest(.data$length_frequency) %>%
-  dplyr::filter(!is.na(.data$catch)) %>%
-  dplyr::group_by(.data$landing_id, .data$landing_period) %>%
-  dplyr::summarise(
-    landing_id = dplyr::first(landing_id),
-    reporting_region = dplyr::first(municipality),
-    landing_date = dplyr::first(landing_date),
-    trip_duration = dplyr::first(trip_length),
-    n_fishers = dplyr::first(n_fishers),
-    habitat = dplyr::first(habitat),
-    gear_type = dplyr::first(gear),
-    mesh_size = dplyr::first(mesh_size),
-    vessel_type = dplyr::first(propulsion_gear),
-    landing_value = dplyr::first(landing_catch_price),
-    dplyr::across(
-      c(.data$catch:.data$Vitamin_A_mu),
-      ~ sum(.x) / 1000
-    )
-  ) %>%
-  dplyr::ungroup() %>%
-  dplyr::mutate(habitat = ifelse(habitat == "Traditional FAD", "FAD", habitat))
+# kobo_trips <-
+#   trips %>%
+#   dplyr::mutate(
+#     landing_period = lubridate::floor_date(landing_date, unit = "month"),
+#     landing_id = as.character(landing_id),
+#     n_fishers = fisher_number_man + fisher_number_woman + fisher_number_child
+#   ) %>%
+#   dplyr::filter(
+#     landing_period >= "2018-01-01" & landing_period <= "2023-12-31",
+#     reporting_region %in% c("Dili", "Atauro")
+#   ) %>%
+#   tidyr::unnest(.data$landing_catch) %>%
+#   tidyr::unnest(.data$length_frequency) %>%
+#   dplyr::filter(!is.na(.data$catch)) %>%
+#   dplyr::group_by(.data$landing_id, .data$landing_period) %>%
+#   dplyr::summarise(
+#     landing_id = dplyr::first(landing_id),
+#     reporting_region = dplyr::first(municipality),
+#     landing_date = dplyr::first(landing_date),
+#     trip_duration = dplyr::first(trip_length),
+#     n_fishers = dplyr::first(n_fishers),
+#     habitat = dplyr::first(habitat),
+#     gear_type = dplyr::first(gear),
+#     mesh_size = dplyr::first(mesh_size),
+#     vessel_type = dplyr::first(propulsion_gear),
+#     landing_value = dplyr::first(landing_catch_price),
+#     dplyr::across(
+#       c(.data$catch:.data$Vitamin_A_mu),
+#       ~ sum(.x) / 1000
+#     )
+#   ) %>%
+#   dplyr::ungroup() %>%
+#   dplyr::mutate(habitat = ifelse(habitat == "Traditional FAD", "FAD", habitat))
 
 #catch_data <-
 #  trips %>%
@@ -250,11 +250,11 @@ data_clusters <-
   list(
     timor_GN_perm = dplyr::slice_sample(
       data_list$data_raw$timor_GN_raw,
-      prop = .75
+      prop = 1
     ),
     timor_AG_perm = dplyr::slice_sample(
       data_list$data_raw$timor_AG_raw,
-      prop = .75
+      prop = 1
     )
   )
 perm_results <- purrr::imap(

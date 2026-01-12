@@ -125,7 +125,7 @@
 
 \title{Fishery nutrient profiles provide a practical tool for nutrition-sensitive fisheries management}
 \author{Lorenzo Longobardi}
-\date{Last update: 2025-11-06}
+\date{Last update: 2026-01-12}
 
 \begin{document}
 \maketitle
@@ -341,7 +341,7 @@ All data and code to generate the analyses are in organised in this \href{https:
 \NormalTok{    ))}
 \NormalTok{  )}
 
-\NormalTok{tons\_label }\OtherTok{\textless{}{-}}\NormalTok{ cowplot}\SpecialCharTok{::}\FunctionTok{draw\_label}\NormalTok{(}\StringTok{"Mean annual}\SpecialCharTok{\textbackslash{}n}\StringTok{catch (tons)"}\NormalTok{, }\AttributeTok{x =} \FloatTok{0.941}\NormalTok{, }\AttributeTok{y =} \FloatTok{0.98}\NormalTok{, }\AttributeTok{size =} \DecValTok{9}\NormalTok{)}
+\NormalTok{tons\_label }\OtherTok{\textless{}{-}}\NormalTok{ cowplot}\SpecialCharTok{::}\FunctionTok{draw\_label}\NormalTok{(}\StringTok{"Mean annual}\SpecialCharTok{\textbackslash{}n}\StringTok{catch (tons)"}\NormalTok{, }\AttributeTok{x =} \FloatTok{0.941}\NormalTok{, }\AttributeTok{y =} \FloatTok{0.98}\NormalTok{, }\AttributeTok{size =} \DecValTok{8}\NormalTok{)}
 
 \NormalTok{long\_plot }\OtherTok{\textless{}{-}}
 \NormalTok{ggplot2}\SpecialCharTok{::}\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
@@ -816,7 +816,7 @@ All data and code to generate the analyses are in organised in this \href{https:
 
 \NormalTok{cowplot}\SpecialCharTok{::}\FunctionTok{plot\_grid}\NormalTok{(}
 \NormalTok{  p2,}
-\NormalTok{  legends }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.margin =} \FunctionTok{unit}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{0.19}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{), }\StringTok{"cm"}\NormalTok{)),}
+\NormalTok{  legends }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.margin =} \FunctionTok{unit}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{0.19}\NormalTok{, }\FloatTok{0.45}\NormalTok{, }\DecValTok{0}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{1.5}\NormalTok{), }\StringTok{"cm"}\NormalTok{)),}
   \AttributeTok{nrow =} \DecValTok{2}\NormalTok{,}
   \AttributeTok{align =} \StringTok{"h"}\NormalTok{,}
   \AttributeTok{rel\_heights =} \FunctionTok{c}\NormalTok{(}\FloatTok{1.3}\NormalTok{, }\FloatTok{0.1}\NormalTok{)}
